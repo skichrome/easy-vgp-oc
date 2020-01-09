@@ -60,7 +60,8 @@ RUN mkdir -p ${ANDROID_HOME} && cd ${ANDROID_HOME} && \
 VOLUME $ANDROID_HOME
 
 # jenkins:x:114:120:Jenkins
-RUN useradd --no-create-home --uid 114 --no-log-init jenkins
+RUN groupadd --gid 120 jenkins
+    useradd --no-create-home --uid 114 --gid jenkins --no-log-init jenkins
 # Expose adb ports
 EXPOSE 22
 EXPOSE 5037
