@@ -55,7 +55,10 @@ RUN mkdir -p ${ANDROID_HOME} && cd ${ANDROID_HOME} && \
     unzip *tools*linux*.zip && \
     rm *tools*linux*.zip && \
 	ln -s $ANDROID_HOME/platform-tools/adb /usr/bin/adb && \
-	ln -s $ANDROID_HOME/tools/bin/sdkmanager /usr/bin/sdkmanager 
+	ln -s $ANDROID_HOME/tools/bin/sdkmanager /usr/bin/sdkmanager
+
+RUN useradd --no-create-home --uid 1000 --no-log-init jenkins && \
+    chown -Rf jenkins:jenkins ${ANDROID_HOME}
 
 # Expose adb ports
 EXPOSE 5037
