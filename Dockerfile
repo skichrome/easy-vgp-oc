@@ -64,22 +64,6 @@ EXPOSE 5555
 
 #RUN git clone https://github.com/skichrome/android-emulator.git
 
-# SDK Update and Accept all android licences
-RUN $ANDROID_HOME/tools/bin/sdkmanager --update && \
-    yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses && \
-    $ANDROID_HOME/tools/bin/sdkmanager --update
-
-# Android SDK updates
-RUN $ANDROID_HOME/tools/bin/sdkmanager "platform-tools" \
-        "platforms;android-${ANDROID_BUILD_VERSION}" \
-        "build-tools;${ANDROID_BUILD_TOOLS_VERSION}" \
-        "emulator" \
-        "$SYSTEM_IMAGE"
-
-# Avd Creation, name is "emulateur-29", and List all avd available
-RUN cd $ANDROID_HOME/tools/bin/ && echo "no" | ./avdmanager create avd -n $EMULATOR_NAME -k $SYSTEM_IMAGE --force && \
-    ./avdmanager list avd
-
 VOLUME $ANDROID_HOME
 
 CMD ["/usr/sbin/sshd", "-D"]
