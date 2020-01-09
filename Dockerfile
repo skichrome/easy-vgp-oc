@@ -57,6 +57,8 @@ RUN mkdir -p ${ANDROID_HOME} && cd ${ANDROID_HOME} && \
 	ln -s $ANDROID_HOME/platform-tools/adb /usr/bin/adb && \
 	ln -s $ANDROID_HOME/tools/bin/sdkmanager /usr/bin/sdkmanager
 
+VOLUME $ANDROID_HOME
+
 RUN useradd --no-create-home --uid 1000 --no-log-init jenkins && \
     chown -Rf jenkins:jenkins ${ANDROID_HOME}
 
@@ -66,7 +68,5 @@ EXPOSE 5554
 EXPOSE 5555
 
 #RUN git clone https://github.com/skichrome/android-emulator.git
-
-VOLUME $ANDROID_HOME
 
 CMD ["/usr/sbin/sshd", "-D"]
