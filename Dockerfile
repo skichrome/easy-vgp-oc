@@ -54,19 +54,17 @@ RUN mkdir -p ${ANDROID_HOME} && cd ${ANDROID_HOME} && \
 	wget -q https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip && \
     unzip *tools*linux*.zip && \
     rm *tools*linux*.zip && \
-	ln -s $ANDROID_HOME/platform-tools/adb /usr/bin/adb && \
-	ln -s $ANDROID_HOME/tools/bin/sdkmanager /usr/bin/sdkmanager
+	ln -s ${ANDROID_HOME}/platform-tools/adb /usr/bin/adb && \
+	ln -s ${ANDROID_HOME}/tools/bin/sdkmanager /usr/bin/sdkmanager
 
 VOLUME $ANDROID_HOME
 
-RUN useradd --no-create-home --uid 1000 --no-log-init jenkins && \
-    chown -Rf jenkins:jenkins ${ANDROID_HOME}
-
+# jenkins:x:114:120:Jenkins
+RUN useradd --no-create-home --uid 114 --no-log-init jenkins
 # Expose adb ports
+EXPOSE 22
 EXPOSE 5037
 EXPOSE 5554
 EXPOSE 5555
-
-#RUN git clone https://github.com/skichrome/android-emulator.git
 
 CMD ["/usr/sbin/sshd", "-D"]
