@@ -1,9 +1,20 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/secondaryColor</item>
+    </style>
+
+    <!-- ToolBar style -->
+    <style name="ToolBarStyle" parent="AppTheme">
+        <item name="android:background">@color/primaryColor</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="colorControlNormal">@android:color/white</item>
+    </style>
+
+    <style name="buttonStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/primaryColor</item>
     </style>
 </resources>

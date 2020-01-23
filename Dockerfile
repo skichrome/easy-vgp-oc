@@ -52,5 +52,6 @@ VOLUME $ANDROID_HOME
 
 # Expose ssh port
 EXPOSE 22
+EXPOSE 5554
 
 CMD ["/usr/sbin/sshd", "-D"]

@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">Easy VGP - OC</string>
+    <string name="app_name">Easy VGP</string>
+
+    <!-- Home Fragment -->
+    <string name="frag_home_btn_new_vgp">Nouvelle VGP</string>
+
+    <!-- Menu items -->
+    <string name="menu_settings_title">settings</string>
 </resources>
