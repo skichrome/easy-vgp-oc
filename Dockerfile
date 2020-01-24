@@ -37,6 +37,7 @@ RUN dpkg --add-architecture i386 && \
 			nano \
 			git \
 			unzip \
+			net-tools \
 			openssh-server
 
 # SSH public Key and server Configuration

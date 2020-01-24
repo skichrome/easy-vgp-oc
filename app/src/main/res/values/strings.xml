@@ -2,8 +2,15 @@
     <string name="app_name">Easy VGP</string>
 
     <!-- Home Fragment -->
-    <string name="frag_home_btn_new_vgp">Nouvelle VGP</string>
+    <string name="frag_home_btn_new_vgp">New VGP</string>
+
+    <!-- Login Fragment -->
+    <string name="frag_login_btn">Log in</string>
+    <string name="frag_login_btn_retry">Retry</string>
+    <string name="frag_login_img_content_desc">Application logo</string>
+    <string name="frag_login_welcome_text">Please log in to your account to be able to use this app.</string>
 
     <!-- Menu items -->
+    <string name="menu_log_out_title">Log out</string>
     <string name="menu_settings_title">settings</string>
 </resources>
