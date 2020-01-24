@@ -13,13 +13,14 @@ import com.skichrome.oc.easyvgp.util.FRAGMENTS_INT_ARGUMENTS
 import com.skichrome.oc.easyvgp.util.RC_SIGN_IN_CODE
 import com.skichrome.oc.easyvgp.util.errorLog
 import com.skichrome.oc.easyvgp.util.toast
-import com.skichrome.oc.easyvgp.view.base.BaseFragment
+import com.skichrome.oc.easyvgp.view.base.FragmentNavigation
+import com.skichrome.oc.easyvgp.view.fragments.CustomerFragment
 import com.skichrome.oc.easyvgp.view.fragments.HomeFragment
 import com.skichrome.oc.easyvgp.view.fragments.LoginFragment
 import com.skichrome.oc.easyvgp.view.fragments.SettingsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity()
+class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentListener
 {
     // App icon credit : Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
 
@@ -27,8 +28,9 @@ class MainActivity : AppCompatActivity()
     //              Fields
     // =================================
 
-    private var loginFragment: BaseFragment? = null
-    private var homeFragment: BaseFragment? = null
+    private var loginFragment: LoginFragment? = null
+    private var homeFragment: HomeFragment? = null
+    private var customerFragment: CustomerFragment? = null
     private var settingsFragment: SettingsFragment? = null
 
     // =================================
@@ -46,10 +48,7 @@ class MainActivity : AppCompatActivity()
     override fun onResume()
     {
         super.onResume()
-        if (FirebaseAuth.getInstance().currentUser != null)
-            configureHomeFragment()
-        else
-            configureLoginFragment()
+        getStartDestinationAccordingToUserLoggedInOrNot()
     }
 
     override fun onBackPressed()
@@ -105,12 +104,44 @@ class MainActivity : AppCompatActivity()
 
     // --- Fragments --- //
 
-    private fun showFragment(fragment: Fragment) = supportFragmentManager.beginTransaction()
-        .replace(R.id.activityMainFrameLayout, fragment)
-        .addToBackStack("MainActivity")
-        .commit()
+    private fun showFragment(fragment: Fragment)
+    {
+        if (!fragment.isVisible)
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.activityMainFrameLayout, fragment)
+                .addToBackStack(null)
+                .commit()
+    }
 
     private fun configureLoginFragment() = showFragment(loginFragment ?: LoginFragment.newInstance().also { loginFragment = it })
     private fun configureHomeFragment() = showFragment(homeFragment ?: HomeFragment.newInstance().also { homeFragment = it })
+    private fun configureCustomerFragment() = showFragment(customerFragment ?: CustomerFragment.newInstance().also { customerFragment = it })
     private fun configureSettingFragment() = showFragment(settingsFragment ?: SettingsFragment.newInstance().also { settingsFragment = it })
+
+    private fun getFragmentDestination(destination: FragmentNavigation)
+    {
+        return when (destination)
+        {
+            FragmentNavigation.LOGIN -> configureLoginFragment()
+            FragmentNavigation.CUSTOMERS -> configureCustomerFragment()
+            FragmentNavigation.SETTINGS -> configureSettingFragment()
+            else -> getStartDestinationAccordingToUserLoggedInOrNot()
+        }
+    }
+
+    private fun getStartDestinationAccordingToUserLoggedInOrNot()
+    {
+        if (FirebaseAuth.getInstance().currentUser != null)
+        {
+            supportFragmentManager.popBackStack()
+            configureHomeFragment()
+        } else
+            configureLoginFragment()
+    }
+
+    // =================================
+    //            Callbacks
+    // =================================
+
+    override fun onNavigationRequested(destination: FragmentNavigation) = getFragmentDestination(destination)
 }

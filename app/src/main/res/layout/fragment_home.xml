@@ -11,14 +11,14 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.3" />
+        app:layout_constraintGuide_percent="0.25" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/fragHomeRightGuideline"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.7" />
+        app:layout_constraintGuide_percent="0.75" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/fragHomeBtnNewVGP"
@@ -27,6 +27,28 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/btn_bottom_margin"
         android:text="@string/frag_home_btn_new_vgp"
+        app:layout_constraintBottom_toTopOf="@+id/fragHomeBtnCustomers"
+        app:layout_constraintEnd_toEndOf="@id/fragHomeRightGuideline"
+        app:layout_constraintStart_toStartOf="@id/fragHomeLeftGuideline" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fragHomeBtnCustomers"
+        style="@style/buttonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/btn_bottom_margin"
+        android:text="@string/frag_home_btn_customers"
+        app:layout_constraintBottom_toTopOf="@+id/fragHomeBtnSeeVGP"
+        app:layout_constraintEnd_toEndOf="@id/fragHomeRightGuideline"
+        app:layout_constraintStart_toStartOf="@id/fragHomeLeftGuideline" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fragHomeBtnSeeVGP"
+        style="@style/buttonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/btn_bottom_margin"
+        android:text="@string/frag_home_btn_see_vgp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/fragHomeRightGuideline"
         app:layout_constraintStart_toStartOf="@id/fragHomeLeftGuideline" />
