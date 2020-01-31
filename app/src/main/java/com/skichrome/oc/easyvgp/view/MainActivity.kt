@@ -19,6 +19,7 @@ import com.skichrome.oc.easyvgp.view.fragments.HomeFragment
 import com.skichrome.oc.easyvgp.view.fragments.LoginFragment
 import com.skichrome.oc.easyvgp.view.fragments.SettingsFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.ref.WeakReference
 
 class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentListener
 {
@@ -28,10 +29,10 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentListener
     //              Fields
     // =================================
 
-    private var loginFragment: LoginFragment? = null
-    private var homeFragment: HomeFragment? = null
-    private var customerFragment: CustomerFragment? = null
-    private var settingsFragment: SettingsFragment? = null
+    private var loginFragment: WeakReference<LoginFragment>? = null
+    private var homeFragment: WeakReference<HomeFragment>? = null
+    private var customerFragment: WeakReference<CustomerFragment>? = null
+    private var settingsFragment: WeakReference<SettingsFragment>? = null
 
     // =================================
     //        Superclass Methods
@@ -72,7 +73,7 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentListener
             {
                 val response = IdpResponse.fromResultIntent(data)
                 errorLog("An error occurred when trying to login : ${response?.error?.message}")
-                loginFragment?.apply { arguments = Bundle().apply { putInt(FRAGMENTS_INT_ARGUMENTS, R.string.frag_login_btn_retry) } }
+                loginFragment?.get()?.apply { arguments = Bundle().apply { putInt(FRAGMENTS_INT_ARGUMENTS, R.string.frag_login_btn_retry) } }
                 configureLoginFragment()
             }
         }
@@ -113,10 +114,11 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentListener
                 .commit()
     }
 
-    private fun configureLoginFragment() = showFragment(loginFragment ?: LoginFragment.newInstance().also { loginFragment = it })
-    private fun configureHomeFragment() = showFragment(homeFragment ?: HomeFragment.newInstance().also { homeFragment = it })
-    private fun configureCustomerFragment() = showFragment(customerFragment ?: CustomerFragment.newInstance().also { customerFragment = it })
-    private fun configureSettingFragment() = showFragment(settingsFragment ?: SettingsFragment.newInstance().also { settingsFragment = it })
+    private fun configureSettingFragment() = showFragment(settingsFragment?.get() ?: SettingsFragment().also { settingsFragment = WeakReference(it) })
+    private fun configureLoginFragment() = showFragment(loginFragment?.get() ?: LoginFragment().also { loginFragment = WeakReference(it) })
+    private fun configureHomeFragment() = showFragment(homeFragment?.get() ?: HomeFragment().also { homeFragment = WeakReference(it) })
+    private fun configureCustomerFragment() =
+        showFragment(customerFragment?.get() ?: CustomerFragment().also { customerFragment = WeakReference(it) })
 
     private fun getFragmentDestination(destination: FragmentNavigation)
     {

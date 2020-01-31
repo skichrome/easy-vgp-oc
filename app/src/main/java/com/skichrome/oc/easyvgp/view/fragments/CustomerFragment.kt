@@ -8,16 +8,6 @@ import com.skichrome.oc.easyvgp.viewmodel.CustomerViewModel
 class CustomerFragment : BaseViewModelFragment<CustomerViewModel>()
 {
     // =================================
-    //              Fields
-    // =================================
-
-    companion object
-    {
-        @JvmStatic
-        fun newInstance(): CustomerFragment = CustomerFragment()
-    }
-
-    // =================================
     //        Superclass Methods
     // =================================
 

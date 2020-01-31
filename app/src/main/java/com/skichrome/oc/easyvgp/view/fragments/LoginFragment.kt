@@ -10,16 +10,6 @@ import kotlinx.android.synthetic.main.fragment_login.*
 class LoginFragment : BaseFragment()
 {
     // =================================
-    //              Fields
-    // =================================
-
-    companion object
-    {
-        @JvmStatic
-        fun newInstance(): LoginFragment = LoginFragment()
-    }
-
-    // =================================
     //        Superclass Methods
     // =================================
 

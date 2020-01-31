@@ -1,7 +1,6 @@
 package com.skichrome.oc.easyvgp.view.fragments
 
 import com.skichrome.oc.easyvgp.R
-import com.skichrome.oc.easyvgp.util.errorLog
 import com.skichrome.oc.easyvgp.view.base.BaseFragment
 import com.skichrome.oc.easyvgp.view.base.FragmentNavigation
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -13,12 +12,6 @@ class HomeFragment : BaseFragment()
     //              Fields
     // =================================
 
-    companion object
-    {
-        @JvmStatic
-        fun newInstance(): HomeFragment = HomeFragment()
-    }
-
     private lateinit var callback: WeakReference<HomeFragmentListener>
 
     // =================================
@@ -28,7 +21,7 @@ class HomeFragment : BaseFragment()
     override fun getFragmentLayout(): Int = R.layout.fragment_home
     override fun configureFragment()
     {
-        configureCallbackToParentActivity()
+        callback = WeakReference(configureCallbackToParentActivity())
         configureBtn()
     }
 
@@ -41,16 +34,8 @@ class HomeFragment : BaseFragment()
     //            Callbacks
     // =================================
 
-    private fun configureCallbackToParentActivity()
-    {
-        try
-        {
-            callback = WeakReference(activity as HomeFragmentListener)
-        } catch (e: ClassCastException)
-        {
-            errorLog("You must implement HomeFragmentListener into it's parent activity !!")
-        }
-    }
+    private fun configureCallbackToParentActivity() =
+        activity as? HomeFragmentListener ?: throw ClassCastException("You must implement HomeFragmentListener into it's parent activity !!")
 
     interface HomeFragmentListener
     {

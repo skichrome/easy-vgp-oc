@@ -7,16 +7,6 @@ import com.skichrome.oc.easyvgp.R
 class SettingsFragment : PreferenceFragmentCompat()
 {
     // =================================
-    //              Fields
-    // =================================
-
-    companion object
-    {
-        @JvmStatic
-        fun newInstance() = SettingsFragment()
-    }
-
-    // =================================
     //        Superclass Methods
     // =================================
 
