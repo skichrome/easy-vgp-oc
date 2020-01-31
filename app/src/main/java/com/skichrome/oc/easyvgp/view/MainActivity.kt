@@ -21,7 +21,7 @@ import com.skichrome.oc.easyvgp.view.fragments.SettingsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.ref.WeakReference
 
-class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentListener
+class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentListener, CustomerFragment.CustomerFragmentListeners
 {
     // App icon credit : Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
 
@@ -146,4 +146,6 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentListener
     // =================================
 
     override fun onNavigationRequested(destination: FragmentNavigation) = getFragmentDestination(destination)
+
+    override fun onNewCustomerFabClick() = Unit // Todo Navigate to new customer fragment
 }

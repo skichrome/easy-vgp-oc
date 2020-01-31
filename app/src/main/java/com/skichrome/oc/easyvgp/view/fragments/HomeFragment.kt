@@ -27,7 +27,7 @@ class HomeFragment : BaseFragment()
 
     private fun configureBtn()
     {
-        fragHomeBtnNewVGP.setOnClickListener { callback.get()?.onNavigationRequested(FragmentNavigation.CUSTOMERS) }
+        fragHomeBtnCustomers.setOnClickListener { callback.get()?.onNavigationRequested(FragmentNavigation.CUSTOMERS) }
     }
 
     // =================================

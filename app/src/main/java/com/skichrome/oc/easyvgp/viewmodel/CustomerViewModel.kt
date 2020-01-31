@@ -1,26 +1,36 @@
 package com.skichrome.oc.easyvgp.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.skichrome.oc.easyvgp.util.AppCoroutinesConfiguration
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
+import androidx.lifecycle.viewModelScope
+import com.skichrome.oc.easyvgp.model.DefaultCustomerRepository
+import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.local.database.Customers
+import com.skichrome.oc.easyvgp.util.uiJob
 
-class CustomerViewModel : ViewModel()
+class CustomerViewModel(private val customerRepository: DefaultCustomerRepository) : ViewModel()
 {
     // =================================
     //              Fields
     // =================================
 
-    private val viewModelJob = Job()
-    private val uiScope = CoroutineScope(AppCoroutinesConfiguration.uiDispatchers + viewModelJob)
+    private val _customers = MutableLiveData<List<Customers>>()
+    val customers: LiveData<List<Customers>> = _customers
 
     // =================================
-    //        Superclass Methods
+    //              Methods
     // =================================
 
-    override fun onCleared()
+    fun loadAllCustomers()
     {
-        super.onCleared()
-        viewModelJob.cancel()
+        viewModelScope.uiJob {
+            customerRepository.getAllCustomers().let { results ->
+                if (results is Success)
+                {
+                    _customers.value = results.data
+                }
+            }
+        }
     }
 }
