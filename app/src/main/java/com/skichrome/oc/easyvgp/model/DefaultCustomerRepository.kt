@@ -8,15 +8,15 @@ class DefaultCustomerRepository(
     private val netManager: NetManager,
     private val localCustomerRepo: CustomersDataSource,
     private val remoteCustomerRepo: CustomersDataSource
-)
+) : CustomerRepository
 {
-    suspend fun getAllCustomers(): Results<List<Customers>> =
+    override suspend fun getAllCustomers(): Results<List<Customers>> =
         if (netManager.isConnectedToInternet)
             remoteCustomerRepo.loadAllCustomers()
         else
             localCustomerRepo.loadAllCustomers()
 
-    suspend fun getCustomerById(id: Long): Results<Customers> =
+    override suspend fun getCustomerById(id: Long): Results<Customers> =
         if (netManager.isConnectedToInternet)
             remoteCustomerRepo.getCustomerById(id)
         else

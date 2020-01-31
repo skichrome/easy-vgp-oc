@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.skichrome.oc.easyvgp.model.DefaultCustomerRepository
+import com.skichrome.oc.easyvgp.model.CustomerRepository
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.local.database.Customers
 import com.skichrome.oc.easyvgp.util.uiJob
 
-class CustomerViewModel(private val customerRepository: DefaultCustomerRepository) : ViewModel()
+class CustomerViewModel(private val customerRepository: CustomerRepository) : ViewModel()
 {
     // =================================
     //              Fields

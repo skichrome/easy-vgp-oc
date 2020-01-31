@@ -6,7 +6,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.local.database.Customers
-import com.skichrome.oc.easyvgp.source.FakeCustomersDataSource
+import com.skichrome.oc.easyvgp.model.source.FakeCustomersDataSource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat

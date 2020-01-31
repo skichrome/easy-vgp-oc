@@ -1,4 +1,4 @@
-package com.skichrome.oc.easyvgp.source
+package com.skichrome.oc.easyvgp.model.source
 
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
@@ -19,7 +19,6 @@ class FakeCustomersDataSource(private var customers: MutableList<Customers>? = m
             it.forEach { customer ->
                 if (customer.id == id)
                 {
-                    println("Customer Item : ${customer.id}, id to match : $id")
                     foundCustomer = customer
                     return@forEach
                 }
