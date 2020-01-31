@@ -50,16 +50,6 @@ pipeline {
                 }
             }
         }
-        stage("Compilation de l'application Android") {
-            steps {
-                script {
-                    build(job: 'compil-android-gradle-project',
-                            parameters: [
-                                    string(name: 'PARENT_PIPELINE_WS', value: "${WORKSPACE}"),
-                            ])
-                }
-            }
-        }
         stage("Création du conteneur Docker") {
             steps {
                 script {
@@ -70,6 +60,16 @@ pipeline {
                                     string(name: 'EMULATOR_NAME', value: "${emulatorNamePipeline}"),
                                     string(name: 'APP_NAME', value: "${dockerAppName}"),
                                     string(name: 'DOCKER_NAME', value: "${dockerImageName}")
+                            ])
+                }
+            }
+        }
+        stage("Compilation de l'application Android") {
+            steps {
+                script {
+                    build(job: 'compil-android-gradle-project',
+                            parameters: [
+                                    string(name: 'PARENT_PIPELINE_WS', value: "${WORKSPACE}"),
                             ])
                 }
             }
