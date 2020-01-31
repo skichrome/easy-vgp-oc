@@ -43,10 +43,9 @@ pipeline {
         timeout(time: 20, unit: 'MINUTES')
     }
     stages {
-        stage("Récupération de l'application Android") {
+        stage("Mise à jour du statut du repository Github") {
             steps {
                 script {
-                    git branch: 'dev', url: "${getRepoURL()}"
                     updateGithubCommitStatus(currentBuild)
                 }
             }
