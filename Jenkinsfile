@@ -4,7 +4,7 @@ def emulatorNamePipeline = "emulator-pipeline"
 def dockerAppName = "android-emulator-debian"
 def dockerImageName = "skichrome/${dockerAppName}:1.1.0"
 
-def androidBuildVersion = '29'
+def androidBuildVersion = '28'
 def androidBuildToolsVersion = '29.0.2'
 
 def getRepoURL() {
