@@ -152,6 +152,18 @@ pipeline {
                     subject: " - Jenkins - ${env.JOB_NAME} - ${currentBuild.currentResult}",
                     to: 'campeoltoni@gmail.com',
                     attachLog: true
+            script {
+                step([
+                        $class           : 'JUnitResultArchiver',
+                        allowEmptyResults: true,
+                        testResults      : 'app/build/test-results/**/*.xml'
+                ])
+                step([
+                        $class           : 'JUnitResultArchiver',
+                        allowEmptyResults: true,
+                        testResults      : 'app/build/outputs/androidTest-results/connected/*.xml'
+                ])
+            }
         }
     }
 }
