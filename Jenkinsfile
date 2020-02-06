@@ -105,7 +105,7 @@ pipeline {
                             keepAll              : false,
                             reportDir            : 'app/build/reports',
                             reportFiles          : 'lint-results.html',
-                            reportName           : 'Tests report',
+                            reportName           : 'Lint report',
                             reportTitles         : 'Lint report'
                     ])
                 }
