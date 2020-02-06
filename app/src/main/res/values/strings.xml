@@ -13,6 +13,23 @@
     <!-- Add Edit Customer Fragment -->
     <string name="frag_add_edit_customer_name_title">Customer Name</string>
     <string name="frag_add_edit_customer_siret_title">Customer SIRET</string>
+    <string name="frag_add_edit_customer_contact_title">Contact information</string>
+    <string name="frag_add_edit_customer_location_title">Customer location</string>
+    <string name="frag_add_edit_customer_notes_title">Notes</string>
+
+    <string name="frag_add_edit_customer_city_hint">City</string>
+    <string name="frag_add_edit_customer_first_name_hint">first name</string>
+    <string name="frag_add_edit_customer_last_name_hint">last name</string>
+    <string name="frag_add_edit_customer_siret_hint">SIRET</string>
+    <string name="frag_add_edit_customer_email_hint">email</string>
+    <string name="frag_add_edit_customer_phone_hint">phone</string>
+    <string name="frag_add_edit_customer_mobile_phone_hint">mobile phone</string>
+    <string name="frag_add_edit_customer_address_hint">address</string>
+    <string name="frag_add_edit_customer_post_code_hint">post code</string>
+    <string name="frag_add_edit_customer_notes_hint">notes about your customer, that don\'t go into upside categories</string>
+
+    <string name="frag_add_edit_customer_success">You are successfully logged in !</string>
+    <string name="frag_add_edit_customer_error">We can\'t login you into the app, please retry</string>
 
     <!-- Menu items -->
     <string name="menu_log_out_title">Log out</string>

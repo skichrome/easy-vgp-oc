@@ -2,6 +2,8 @@ package com.skichrome.oc.easyvgp.view.fragments
 
 import android.widget.TextView
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.local.database.Customers
@@ -29,6 +31,7 @@ class AddEditCustomerFragment : BaseFragment()
     override fun configureFragment()
     {
         configureUI()
+        configureViewModel()
         configureFab()
     }
 
@@ -39,18 +42,36 @@ class AddEditCustomerFragment : BaseFragment()
     private fun configureUI()
     {
         inputList = listOf(
-            addEditCustomerFragName,
-            addEditCustomerFragSiretText
+            addEditCustomerFragFirstNameText,
+            addEditCustomerFragLastNameText,
+            addEditCustomerFragSiretText,
+            addEditCustomerFragAddressText,
+            addEditCustomerFragPostCodeText,
+            addEditCustomerFragCityText
         )
 
         if (args.customerId != -1L)
             viewModel.loadCustomerById(args.customerId)
     }
 
+    private fun configureViewModel()
+    {
+        viewModel.customersSaved.observe(this, Observer {
+            it?.let { isSaved ->
+                if (isSaved)
+                    findNavController().navigateUp()
+                else
+                    view?.snackBar(getString(R.string.frag_add_edit_customer_error))
+            }
+        })
+    }
+
     private fun configureFab()
     {
         addEditCustomerFragFab.setOnClickListener { getUserEnteredValues() }
     }
+
+    // --- Actions methods --- //
 
     private fun getUserEnteredValues()
     {
@@ -63,15 +84,26 @@ class AddEditCustomerFragment : BaseFragment()
                 canRegisterCustomer = false
                 textView.error = "Required field"
                 view?.snackBar("You must enter all required fields")
+                return@forEach
             }
         }
 
-        val customer = Customers(
-            name = addEditCustomerFragName.text.toString(),
-            siret = addEditCustomerFragSiretText.text.toString()
-        )
-
         if (canRegisterCustomer)
+        {
+            val customer = Customers(
+                firstName = addEditCustomerFragFirstNameText.text.toString(),
+                lastName = addEditCustomerFragLastNameText.text.toString(),
+                siret = addEditCustomerFragSiretText.text.toString().toLong(),
+                postCode = addEditCustomerFragPostCodeText.text.toString().toInt(),
+                address = addEditCustomerFragAddressText.text.toString(),
+                city = addEditCustomerFragCityText.text.toString(),
+                email = addEditCustomerFragEmailText.text.toString(),
+                mobilePhone = addEditCustomerFragMobilePhoneText.text.toString().toIntOrNull(),
+                notes = addEditCustomerFragNotesText.text.toString(),
+                phone = addEditCustomerFragPhoneText.text.toString().toIntOrNull()
+            )
+
             viewModel.saveCustomer(customer)
+        }
     }
 }

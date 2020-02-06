@@ -15,56 +15,289 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/addEditCustomerFragNameTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/tv_input_margin"
-            android:layout_marginTop="@dimen/tv_input_margin"
-            android:labelFor="@+id/addEditCustomerFragName"
-            android:text="@string/frag_add_edit_customer_name_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/addEditCustomerFragName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/tv_input_margin"
-            android:layout_marginTop="@dimen/tv_input_margin"
-            android:layout_marginEnd="@dimen/tv_input_margin"
-            android:ems="10"
-            android:importantForAutofill="no"
-            android:inputType="textPersonName"
-            android:text="@{viewModel.customer.name}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragNameTitle" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/addEditCustomerFragSiretTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/tv_input_margin"
-            android:layout_marginTop="@dimen/tv_input_margin"
-            android:labelFor="@+id/addEditCustomerFragSiretText"
-            android:text="@string/frag_add_edit_customer_siret_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragName" />
+                <TextView
+                    android:id="@+id/addEditCustomerFragNameTitle"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tv_input_margin"
+                    android:layout_marginTop="@dimen/tv_input_margin"
+                    android:text="@string/frag_add_edit_customer_name_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/addEditCustomerFragSiretText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/tv_input_margin"
-            android:layout_marginTop="@dimen/tv_input_margin"
-            android:layout_marginEnd="@dimen/tv_input_margin"
-            android:importantForAutofill="no"
-            android:inputType="numberSigned"
-            android:text="@{viewModel.customer.siret}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragSiretTitle" />
+                <EditText
+                    android:id="@+id/addEditCustomerFragFirstNameText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tv_input_margin"
+                    android:layout_marginTop="@dimen/tv_input_margin"
+                    android:layout_marginEnd="8dp"
+                    android:ems="10"
+                    android:hint="@string/frag_add_edit_customer_first_name_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    android:text="@{viewModel.customer.firstName}"
+                    app:layout_constraintEnd_toStartOf="@+id/addEditCustomerFragLastNameText"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragNameTitle" />
+
+                <EditText
+                    android:id="@+id/addEditCustomerFragLastNameText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="@dimen/tv_input_margin"
+                    android:layout_marginEnd="@dimen/tv_input_margin"
+                    android:hint="@string/frag_add_edit_customer_last_name_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    android:text="@{viewModel.customer.lastName}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/addEditCustomerFragFirstNameText"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragNameTitle" />
+
+                <TextView
+                    android:id="@+id/addEditCustomerFragSiretTitle"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tv_input_margin"
+                    android:layout_marginTop="@dimen/tv_input_margin"
+                    android:text="@string/frag_add_edit_customer_siret_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragFirstNameText" />
+
+                <EditText
+                    android:id="@+id/addEditCustomerFragSiretText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tv_input_margin"
+                    android:layout_marginTop="@dimen/tv_input_margin"
+                    android:layout_marginEnd="@dimen/tv_input_margin"
+                    android:drawableStart="@drawable/ic_work_24dp"
+                    android:drawablePadding="@dimen/edit_text_drawable_padding"
+                    android:hint="@string/frag_add_edit_customer_siret_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:text="@{String.valueOf(viewModel.customer.siret)}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragSiretTitle" />
+
+                <View
+                    android:id="@+id/addEditCustomerFragDivider1"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="@dimen/divider_horizontal_margin"
+                    android:layout_marginTop="@dimen/divider_top_margin"
+                    android:layout_marginEnd="@dimen/divider_horizontal_margin"
+                    android:background="@color/secondaryColor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addEditCustomerFragSiretText" />
+
+                <TextView
+                    android:id="@+id/addEditCustomerFragContactTitle"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tv_input_margin"
+                    android:layout_marginTop="@dimen/tv_input_margin"
+                    android:text="@string/frag_add_edit_customer_contact_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragDivider1" />
+
+                <EditText
+                    android:id="@+id/addEditCustomerFragEmailText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tv_input_margin"
+                    android:layout_marginTop="@dimen/tv_input_margin"
+                    android:layout_marginEnd="@dimen/tv_input_margin"
+                    android:drawableStart="@drawable/ic_email_24dp"
+                    android:drawablePadding="@dimen/edit_text_drawable_padding"
+                    android:hint="@string/frag_add_edit_customer_email_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="textEmailAddress"
+                    android:text="@{viewModel.customer.email}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragContactTitle" />
+
+                <EditText
+                    android:id="@+id/addEditCustomerFragPhoneText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tv_input_margin"
+                    android:layout_marginTop="@dimen/tv_input_margin"
+                    android:layout_marginEnd="@dimen/tv_input_margin"
+                    android:drawableStart="@drawable/ic_call_24dp"
+                    android:drawablePadding="@dimen/edit_text_drawable_padding"
+                    android:hint="@string/frag_add_edit_customer_phone_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="phone|number"
+                    android:text="@{viewModel.customer.phone}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragEmailText" />
+
+                <EditText
+                    android:id="@+id/addEditCustomerFragMobilePhoneText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tv_input_margin"
+                    android:layout_marginTop="@dimen/tv_input_margin"
+                    android:layout_marginEnd="@dimen/tv_input_margin"
+                    android:drawableStart="@drawable/ic_smartphone_24dp"
+                    android:drawablePadding="@dimen/edit_text_drawable_padding"
+                    android:hint="@string/frag_add_edit_customer_mobile_phone_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="phone|number"
+                    android:text="@{viewModel.customer.mobilePhone}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragPhoneText" />
+
+                <View
+                    android:id="@+id/addEditCustomerFragDivider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="@dimen/divider_horizontal_margin"
+                    android:layout_marginTop="@dimen/divider_top_margin"
+                    android:layout_marginEnd="@dimen/divider_horizontal_margin"
+                    android:background="@color/secondaryColor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addEditCustomerFragMobilePhoneText" />
+
+                <TextView
+                    android:id="@+id/addEditCustomerFragLocationTitle"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tv_input_margin"
+                    android:layout_marginTop="@dimen/tv_input_margin"
+                    android:text="@string/frag_add_edit_customer_location_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragDivider2" />
+
+                <EditText
+                    android:id="@+id/addEditCustomerFragAddressText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tv_input_margin"
+                    android:layout_marginTop="@dimen/tv_input_margin"
+                    android:layout_marginEnd="@dimen/tv_input_margin"
+                    android:drawableStart="@drawable/ic_location_on_24dp"
+                    android:drawablePadding="@dimen/edit_text_drawable_padding"
+                    android:hint="@string/frag_add_edit_customer_address_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="textPostalAddress"
+                    android:text="@{viewModel.customer.address}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragLocationTitle" />
+
+                <EditText
+                    android:id="@+id/addEditCustomerFragPostCodeText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tv_input_margin"
+                    android:layout_marginTop="@dimen/tv_input_margin"
+                    android:layout_marginEnd="8dp"
+                    android:drawablePadding="@dimen/edit_text_drawable_padding"
+                    android:hint="@string/frag_add_edit_customer_post_code_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:text="@{viewModel.customer.postCode}"
+                    app:layout_constraintEnd_toStartOf="@+id/addEditCustomerFragCityText"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragAddressText" />
+
+                <EditText
+                    android:id="@+id/addEditCustomerFragCityText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="@dimen/tv_input_margin"
+                    android:layout_marginEnd="@dimen/tv_input_margin"
+                    android:drawablePadding="@dimen/edit_text_drawable_padding"
+                    android:hint="@string/frag_add_edit_customer_city_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:text="@{viewModel.customer.city}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/addEditCustomerFragPostCodeText"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragAddressText" />
+
+                <View
+                    android:id="@+id/addEditCustomerFragDivider3"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="@dimen/divider_horizontal_margin"
+                    android:layout_marginTop="@dimen/divider_top_margin"
+                    android:layout_marginEnd="@dimen/divider_horizontal_margin"
+                    android:background="@color/secondaryColor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addEditCustomerFragCityText" />
+
+                <TextView
+                    android:id="@+id/addEditCustomerFragOtherTitle"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tv_input_margin"
+                    android:layout_marginTop="@dimen/tv_input_margin"
+                    android:text="@string/frag_add_edit_customer_notes_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragDivider3" />
+
+                <EditText
+                    android:id="@+id/addEditCustomerFragNotesText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tv_input_margin"
+                    android:layout_marginTop="@dimen/tv_input_margin"
+                    android:layout_marginEnd="@dimen/tv_input_margin"
+                    android:drawableStart="@drawable/ic_note_24dp"
+                    android:drawablePadding="@dimen/edit_text_drawable_padding"
+                    android:hint="@string/frag_add_edit_customer_notes_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="textMultiLine"
+                    android:text="@{viewModel.customer.notes}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragOtherTitle" />
+
+                <View
+                    android:id="@+id/addEditCustomerFragBottomSpaceView"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragNotesText" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addEditCustomerFragFab"

@@ -7,4 +7,7 @@
 
     <!-- Input fields -->
     <dimen name="tv_input_margin">16dp</dimen>
+    <dimen name="edit_text_drawable_padding">16dp</dimen>
+    <dimen name="divider_top_margin">16dp</dimen>
+    <dimen name="divider_horizontal_margin">64dp</dimen>
 </resources>

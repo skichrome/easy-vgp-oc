@@ -24,11 +24,8 @@ class CustomerViewModel(private val customerRepository: CustomerRepository) : Vi
 
     // --- Events --- //
 
-    private val _customersSaved = MutableLiveData<Boolean>(false)
+    private val _customersSaved = MutableLiveData<Boolean>()
     val customersSaved: LiveData<Boolean> = _customersSaved
-
-    private val _message = MutableLiveData<String>()
-    val message: LiveData<String> = _message
 
     // =================================
     //              Methods
@@ -52,13 +49,16 @@ class CustomerViewModel(private val customerRepository: CustomerRepository) : Vi
                 when (savedCustomerId)
                 {
                     is Success -> true
-                    is Error ->
-                    {
-                        _message.value = savedCustomerId.exception.localizedMessage
-                        false
-                    }
+                    is Error -> false
                     else -> false
                 }
+            _customersSaved.value = null
         }
+    }
+
+    // --- Events --- //
+
+    fun onClickCustomer(customerId: Long)
+    {
     }
 }
