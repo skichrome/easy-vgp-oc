@@ -11,13 +11,13 @@ class DefaultCustomerRepository(
 ) : CustomerRepository
 {
     override suspend fun getAllCustomers(): Results<List<Customers>> =
-        if (netManager.isConnectedToInternet)
+        if (netManager.isConnectedToInternet())
             remoteCustomerRepo.loadAllCustomers()
         else
             localCustomerRepo.loadAllCustomers()
 
     override suspend fun getCustomerById(id: Long): Results<Customers> =
-        if (netManager.isConnectedToInternet)
+        if (netManager.isConnectedToInternet())
             remoteCustomerRepo.getCustomerById(id)
         else
             localCustomerRepo.getCustomerById(id)

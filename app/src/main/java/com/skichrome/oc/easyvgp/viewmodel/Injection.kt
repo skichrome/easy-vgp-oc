@@ -2,7 +2,7 @@ package com.skichrome.oc.easyvgp.viewmodel
 
 import android.app.Application
 import android.content.Context
-import com.skichrome.oc.easyvgp.androidmanagers.NetManager
+import com.skichrome.oc.easyvgp.androidmanagers.DefaultNetManager
 import com.skichrome.oc.easyvgp.model.DefaultCustomerRepository
 import com.skichrome.oc.easyvgp.model.local.CustomerLocalRepository
 import com.skichrome.oc.easyvgp.model.local.database.AppDatabase
@@ -14,7 +14,7 @@ object Injection
 {
     // --- Android Manager --- //
 
-    private fun provideNetworkManager(context: Context) = NetManager(context)
+    private fun provideNetworkManager(context: Context) = DefaultNetManager(context)
 
     // --- Application Database --- //
 
@@ -30,7 +30,7 @@ object Injection
     private fun provideCustomerRemoteRepository() = CustomerRemoteRepository()
 
     private fun provideDefaultCustomerRepository(
-        netManager: NetManager,
+        netManager: DefaultNetManager,
         localRepo: CustomerLocalRepository,
         remoteRepository: CustomerRemoteRepository
     ) = DefaultCustomerRepository(netManager, localRepo, remoteRepository)
