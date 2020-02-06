@@ -4,35 +4,23 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.onNavDestinationSelected
+import androidx.navigation.ui.setupWithNavController
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.skichrome.oc.easyvgp.R
-import com.skichrome.oc.easyvgp.util.FRAGMENTS_INT_ARGUMENTS
 import com.skichrome.oc.easyvgp.util.RC_SIGN_IN_CODE
 import com.skichrome.oc.easyvgp.util.errorLog
-import com.skichrome.oc.easyvgp.util.toast
-import com.skichrome.oc.easyvgp.view.base.FragmentNavigation
-import com.skichrome.oc.easyvgp.view.fragments.CustomerFragment
-import com.skichrome.oc.easyvgp.view.fragments.HomeFragment
-import com.skichrome.oc.easyvgp.view.fragments.LoginFragment
-import com.skichrome.oc.easyvgp.view.fragments.SettingsFragment
+import com.skichrome.oc.easyvgp.util.snackBar
 import kotlinx.android.synthetic.main.activity_main.*
-import java.lang.ref.WeakReference
 
-class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentListener, CustomerFragment.CustomerFragmentListeners
+class MainActivity : AppCompatActivity()
 {
     // App icon credit : Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
-
-    // =================================
-    //              Fields
-    // =================================
-
-    private var loginFragment: WeakReference<LoginFragment>? = null
-    private var homeFragment: WeakReference<HomeFragment>? = null
-    private var customerFragment: WeakReference<CustomerFragment>? = null
-    private var settingsFragment: WeakReference<SettingsFragment>? = null
 
     // =================================
     //        Superclass Methods
@@ -43,20 +31,9 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentListener, Cus
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        configureToolbar()
-    }
-
-    override fun onResume()
-    {
-        super.onResume()
-        getStartDestinationAccordingToUserLoggedInOrNot()
-    }
-
-    override fun onBackPressed()
-    {
-        super.onBackPressed()
-        if (supportFragmentManager.backStackEntryCount == 0)
-            finish()
+        val navController = getNavController()
+        configureToolbar(navController)
+        checkIfUserIsAlreadyLoggedIn(navController)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
@@ -67,14 +44,14 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentListener, Cus
         {
             if (resultCode == Activity.RESULT_OK)
             {
-                toast("Successfully logged in")
-                configureHomeFragment()
+                activityMainConstraintLayout.rootView?.snackBar(getString(R.string.frag_login_success))
+                checkIfUserIsAlreadyLoggedIn(getNavController())
             } else
             {
                 val response = IdpResponse.fromResultIntent(data)
-                errorLog("An error occurred when trying to login : ${response?.error?.message}")
-                loginFragment?.get()?.apply { arguments = Bundle().apply { putInt(FRAGMENTS_INT_ARGUMENTS, R.string.frag_login_btn_retry) } }
-                configureLoginFragment()
+                errorLog("An error occurred when trying to login : ${response?.error?.cause?.localizedMessage}")
+                activityMainConstraintLayout.rootView?.snackBar(getString(R.string.frag_login_error))
+                finish()
             }
         }
     }
@@ -83,69 +60,53 @@ class MainActivity : AppCompatActivity(), HomeFragment.HomeFragmentListener, Cus
     //              Methods
     // =================================
 
+    private fun getNavController(): NavController = findNavController(R.id.activityMainHostFragment)
+
     // --- UI --- //
 
-    private fun configureToolbar() = toolbar?.let {
-        it.setTitle(R.string.app_name)
+    private fun configureToolbar(navController: NavController) = toolbar?.let {
+
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment))
+        it.setupWithNavController(navController, appBarConfiguration)
 
         it.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId)
             {
-                R.id.settingsFragment -> configureSettingFragment()
+                R.id.settingsFragment -> navController.navigate(R.id.action_global_settingsFragment)
                 R.id.logoutItem ->
                 {
                     AuthUI.getInstance().signOut(this)
                     finish()
                 }
-                else -> return@setOnMenuItemClickListener super.onOptionsItemSelected(menuItem)
+                else -> return@setOnMenuItemClickListener menuItem.onNavDestinationSelected(navController) || super.onOptionsItemSelected(menuItem)
             }
             return@setOnMenuItemClickListener true
         }
     } ?: Unit
 
-    // --- Fragments --- //
+    // --- Login configuration --- //
 
-    private fun showFragment(fragment: Fragment)
-    {
-        if (!fragment.isVisible)
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.activityMainFrameLayout, fragment)
-                .addToBackStack(null)
-                .commit()
-    }
-
-    private fun configureSettingFragment() = showFragment(settingsFragment?.get() ?: SettingsFragment().also { settingsFragment = WeakReference(it) })
-    private fun configureLoginFragment() = showFragment(loginFragment?.get() ?: LoginFragment().also { loginFragment = WeakReference(it) })
-    private fun configureHomeFragment() = showFragment(homeFragment?.get() ?: HomeFragment().also { homeFragment = WeakReference(it) })
-    private fun configureCustomerFragment() =
-        showFragment(customerFragment?.get() ?: CustomerFragment().also { customerFragment = WeakReference(it) })
-
-    private fun getFragmentDestination(destination: FragmentNavigation)
-    {
-        return when (destination)
-        {
-            FragmentNavigation.LOGIN -> configureLoginFragment()
-            FragmentNavigation.CUSTOMERS -> configureCustomerFragment()
-            FragmentNavigation.SETTINGS -> configureSettingFragment()
-            else -> getStartDestinationAccordingToUserLoggedInOrNot()
-        }
-    }
-
-    private fun getStartDestinationAccordingToUserLoggedInOrNot()
+    private fun checkIfUserIsAlreadyLoggedIn(navController: NavController)
     {
         if (FirebaseAuth.getInstance().currentUser != null)
         {
-            supportFragmentManager.popBackStack()
-            configureHomeFragment()
+            navController.popBackStack(R.id.homeFragment, true)
+            navController.navigate(R.id.homeFragment)
         } else
-            configureLoginFragment()
+            configureAppLogin()
     }
 
-    // =================================
-    //            Callbacks
-    // =================================
-
-    override fun onNavigationRequested(destination: FragmentNavigation) = getFragmentDestination(destination)
-
-    override fun onNewCustomerFabClick() = Unit // Todo Navigate to new customer fragment
+    private fun configureAppLogin()
+    {
+        val loginProviders = listOf(AuthUI.IdpConfig.EmailBuilder().build())
+        startActivityForResult(
+            AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setTheme(R.style.LoginTheme)
+                .setAvailableProviders(loginProviders)
+                .setIsSmartLockEnabled(false)
+                .build(),
+            RC_SIGN_IN_CODE
+        )
+    }
 }

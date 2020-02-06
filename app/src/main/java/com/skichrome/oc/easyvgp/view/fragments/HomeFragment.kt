@@ -1,19 +1,12 @@
 package com.skichrome.oc.easyvgp.view.fragments
 
+import androidx.navigation.fragment.findNavController
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.view.base.BaseFragment
-import com.skichrome.oc.easyvgp.view.base.FragmentNavigation
 import kotlinx.android.synthetic.main.fragment_home.*
-import java.lang.ref.WeakReference
 
 class HomeFragment : BaseFragment()
 {
-    // =================================
-    //              Fields
-    // =================================
-
-    private lateinit var callback: WeakReference<HomeFragmentListener>
-
     // =================================
     //        Superclass Methods
     // =================================
@@ -21,24 +14,21 @@ class HomeFragment : BaseFragment()
     override fun getFragmentLayout(): Int = R.layout.fragment_home
     override fun configureFragment()
     {
-        callback = WeakReference(configureCallbackToParentActivity())
         configureBtn()
     }
 
     private fun configureBtn()
     {
-        fragHomeBtnCustomers.setOnClickListener { callback.get()?.onNavigationRequested(FragmentNavigation.CUSTOMERS) }
+        fragHomeBtnNewVGP.setOnClickListener { navigateToNewVGPFragment(true) }
+        fragHomeBtnCustomers.setOnClickListener { navigateToNewVGPFragment() }
+        fragHomeBtnSeeVGP.setOnClickListener { }
     }
 
-    // =================================
-    //            Callbacks
-    // =================================
+    // --- Navigation --- //
 
-    private fun configureCallbackToParentActivity() =
-        activity as? HomeFragmentListener ?: throw ClassCastException("You must implement HomeFragmentListener into it's parent activity !!")
-
-    interface HomeFragmentListener
+    private fun navigateToNewVGPFragment(isNewVGPAction: Boolean = false)
     {
-        fun onNavigationRequested(destination: FragmentNavigation)
+        val opt = HomeFragmentDirections.actionHomeFragmentToCustomerFragment(isNewVGPAction)
+        findNavController().navigate(opt)
     }
 }

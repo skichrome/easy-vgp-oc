@@ -1,17 +1,15 @@
 package com.skichrome.oc.easyvgp.view.fragments
 
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.skichrome.oc.easyvgp.R
-import com.skichrome.oc.easyvgp.model.local.database.Customers
 import com.skichrome.oc.easyvgp.util.AutoClearedValue
-import com.skichrome.oc.easyvgp.util.toast
 import com.skichrome.oc.easyvgp.view.base.BaseFragment
 import com.skichrome.oc.easyvgp.view.fragments.adapters.CustomersFragmentAdapter
 import com.skichrome.oc.easyvgp.viewmodel.CustomerViewModel
 import com.skichrome.oc.easyvgp.viewmodel.Injection
 import kotlinx.android.synthetic.main.fragment_customer.*
-import java.lang.ref.WeakReference
 
 class CustomerFragment : BaseFragment()
 {
@@ -19,9 +17,9 @@ class CustomerFragment : BaseFragment()
     //              Fields
     // =================================
 
+    private val args: CustomerFragmentArgs by navArgs()
     private val viewModel by viewModels<CustomerViewModel> { Injection.provideCustomerViewModelFactory(requireActivity().application) }
     private var adapter by AutoClearedValue<CustomersFragmentAdapter>()
-    private lateinit var callback: WeakReference<CustomerFragmentListeners>
 
     // =================================
     //        Superclass Methods
@@ -31,10 +29,9 @@ class CustomerFragment : BaseFragment()
 
     override fun configureFragment()
     {
-        callback = WeakReference(configureCallbackToParentActivity())
         configureFab()
-        configureRecyclerView()
         configureViewModel()
+        configureRecyclerView()
     }
 
     // =================================
@@ -43,36 +40,25 @@ class CustomerFragment : BaseFragment()
 
     private fun configureFab()
     {
-        fragCustomerFab?.setOnClickListener { callback.get()?.onNewCustomerFabClick() }
+        fragCustomerFab?.setOnClickListener { navigateToAddEditCustomerFragment() }
     }
 
     private fun configureRecyclerView()
     {
-        adapter = CustomersFragmentAdapter()
+        adapter = CustomersFragmentAdapter(viewModel)
         fragCustomerRecyclerView.adapter = adapter
     }
 
     private fun configureViewModel()
     {
         viewModel.loadAllCustomers()
-
-        viewModel.customers.observe(this, Observer {
-            it?.let { list: List<Customers> ->
-                toast("Customers : ${list.size}")
-                adapter.replaceList(list)
-            }
-        })
     }
 
-    // =================================
-    //            Callbacks
-    // =================================
+    // --- Navigation --- //
 
-    private fun configureCallbackToParentActivity() =
-        activity as? CustomerFragmentListeners ?: throw ClassCastException("Parent activity must implement callback !")
-
-    interface CustomerFragmentListeners
+    private fun navigateToAddEditCustomerFragment(customerId: Long = -1L)
     {
-        fun onNewCustomerFabClick()
+        val opt = CustomerFragmentDirections.actionCustomerFragmentToAddEditCustomerFragment(customerId)
+        findNavController().navigate(opt)
     }
 }

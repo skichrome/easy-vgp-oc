@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.skichrome.oc.easyvgp.view.fragments.HomeFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_customerFragment"
+            app:destination="@id/customerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/customerFragment"
+        android:name="com.skichrome.oc.easyvgp.view.fragments.CustomerFragment"
+        android:label="CustomerFragment"
+        tools:layout="@layout/fragment_customer">
+        <action
+            android:id="@+id/action_customerFragment_to_addEditCustomerFragment"
+            app:destination="@id/addEditCustomerFragment" />
+        <argument
+            android:name="isNewVGPAction"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditCustomerFragment"
+        android:name="com.skichrome.oc.easyvgp.view.fragments.AddEditCustomerFragment"
+        android:label="AddEditCustomerFragment"
+        tools:layout="@layout/fragment_add_edit_customer">
+        <argument
+            android:name="customerId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.skichrome.oc.easyvgp.view.fragments.SettingsFragment"
+        android:label="SettingsFragment" />
+    <action
+        android:id="@+id/action_global_settingsFragment"
+        app:destination="@id/settingsFragment" />
+</navigation>

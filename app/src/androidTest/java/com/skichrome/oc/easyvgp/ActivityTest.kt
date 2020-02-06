@@ -23,6 +23,6 @@ class ActivityTest
     {
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
         onView(withId(R.id.settingsFragment)).perform(click())
-        onView(withId(R.id.activityMainFrameLayout)).check(matches(isDisplayed()))
+        onView(withId(R.id.activityMainHostFragment)).check(matches(isDisplayed()))
     }
 }

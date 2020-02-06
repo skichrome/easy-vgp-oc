@@ -28,6 +28,7 @@ class DefaultNetManager(context: Context) : NetManager
             } else
             {
                 connManager.run {
+                    @Suppress("DEPRECATION") // Deprecated in Api level 29, but only way to easily detect internet connection below Api level 23
                     activeNetworkInfo?.run {
                         isConnected
                     }
