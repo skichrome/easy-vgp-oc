@@ -3,9 +3,9 @@ package com.skichrome.oc.easyvgp.model
 import androidx.lifecycle.LiveData
 import com.skichrome.oc.easyvgp.model.local.database.Customers
 
-interface CustomerRepository
+interface CustomersDataSource
 {
-    fun getAllCustomers(): LiveData<List<Customers>>
+    fun loadAllCustomers(): LiveData<List<Customers>>
 
     suspend fun getCustomerById(id: Long): Results<Customers>
 

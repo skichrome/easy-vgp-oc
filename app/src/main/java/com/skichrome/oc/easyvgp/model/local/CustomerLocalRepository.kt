@@ -1,5 +1,7 @@
 package com.skichrome.oc.easyvgp.model.local
 
+import androidx.lifecycle.LiveData
+import com.skichrome.oc.easyvgp.model.CustomersDataSource
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
@@ -12,15 +14,7 @@ import kotlinx.coroutines.withContext
 class CustomerLocalRepository(private val customersDao: CustomersDao, private val dispatcher: CoroutineDispatcher = Dispatchers.IO) :
     CustomersDataSource
 {
-    override suspend fun loadAllCustomers(): Results<List<Customers>> = withContext(dispatcher) {
-        return@withContext try
-        {
-            Success(customersDao.getAllCustomers())
-        } catch (e: Exception)
-        {
-            Error(e)
-        }
-    }
+    override fun loadAllCustomers(): LiveData<List<Customers>> = customersDao.observeCustomers()
 
     override suspend fun getCustomerById(id: Long): Results<Customers> = withContext(dispatcher) {
         return@withContext try
@@ -30,5 +24,15 @@ class CustomerLocalRepository(private val customersDao: CustomersDao, private va
         {
             Error(e)
         }
+    }
+
+    override suspend fun saveCustomers(customers: Array<Customers>): Results<List<Long>> = withContext(dispatcher) {
+        val ids = customersDao.insertIgnore(*customers)
+        return@withContext Success(ids)
+    }
+
+    override suspend fun saveCustomers(customer: Customers): Results<Long> = withContext(dispatcher) {
+        val id = customersDao.insertIgnore(customer)
+        return@withContext Success(id)
     }
 }

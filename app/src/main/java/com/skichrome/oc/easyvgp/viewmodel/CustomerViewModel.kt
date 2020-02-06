@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.skichrome.oc.easyvgp.model.CustomerRepository
+import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.local.database.Customers
 import com.skichrome.oc.easyvgp.util.uiJob
@@ -15,22 +16,49 @@ class CustomerViewModel(private val customerRepository: CustomerRepository) : Vi
     //              Fields
     // =================================
 
-    private val _customers = MutableLiveData<List<Customers>>()
+    private val _customers: LiveData<List<Customers>> = customerRepository.getAllCustomers()
     val customers: LiveData<List<Customers>> = _customers
+
+    private val _customer = MutableLiveData<Customers>()
+    val customer: LiveData<Customers> = _customer
+
+    // --- Events --- //
+
+    private val _customersSaved = MutableLiveData<Boolean>(false)
+    val customersSaved: LiveData<Boolean> = _customersSaved
+
+    private val _message = MutableLiveData<String>()
+    val message: LiveData<String> = _message
 
     // =================================
     //              Methods
     // =================================
 
-    fun loadAllCustomers()
+    fun loadCustomerById(customerId: Long)
     {
         viewModelScope.uiJob {
-            customerRepository.getAllCustomers().let { results ->
+            customerRepository.getCustomerById(customerId).let { results ->
                 if (results is Success)
-                {
-                    _customers.value = results.data
-                }
+                    _customer.value = results.data
             }
+        }
+    }
+
+    fun saveCustomer(customer: Customers)
+    {
+        viewModelScope.uiJob {
+            val savedCustomerId = customerRepository.saveCustomers(customer)
+            _customersSaved.value =
+                when (savedCustomerId)
+                {
+                    is Success -> true
+                    is Error ->
+                    {
+                        _message.value = savedCustomerId.exception.localizedMessage
+                        false
+                    }
+                    else -> false
+                }
         }
     }
 }

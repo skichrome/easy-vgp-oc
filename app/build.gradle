@@ -90,8 +90,10 @@ dependencies {
 
     // Lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.fragment:fragment-ktx:$fragmentKtxVersion"
+    kapt "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
     // Database
     implementation "androidx.room:room-runtime:$room_version"

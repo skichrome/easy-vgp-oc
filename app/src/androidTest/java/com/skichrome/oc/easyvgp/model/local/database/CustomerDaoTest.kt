@@ -4,7 +4,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
@@ -20,11 +20,11 @@ class CustomerDaoTest
     //              Fields
     // =================================
 
-    private val customer1 = Customers(id = 0, name = "toto", siret = "sdergdrgirfhq7")
-    private val customer2 = Customers(id = 1, name = "titi", siret = "gfsfg4g6rsg4rg")
-    private val customer3 = Customers(id = 2, name = "tata", siret = "efef4efe5fefef")
+    private val customer1 = Customers(id = 1, name = "toto", siret = "sdergdrgirfhq7")
+    private val customer2 = Customers(id = 2, name = "titi", siret = "gfsfg4g6rsg4rg")
+    private val customer3 = Customers(id = 3, name = "tata", siret = "efef4efe5fefef")
 
-    private val customer1Edit = Customers(id = 0, name = "toto - edited", siret = "sdergdrgirfhq7-notthesame")
+    private val customer1Edit = Customers(id = 1, name = "toto - edited", siret = "sdergdrgirfhq7-notthesame")
 
     private val customerList = arrayOf(customer1, customer2, customer3)
     private val customerListEdited = arrayOf(customer1Edit, customer2, customer3)
@@ -53,7 +53,7 @@ class CustomerDaoTest
 
     @Test
     @Throws(Exception::class)
-    fun insertIgnoreCustomer_ReturnSameCustomer() = runBlockingTest {
+    fun insertIgnoreCustomer_ReturnSameCustomer() = runBlocking {
         customerDao.insertIgnore(customer1)
 
         val customers = customerDao.getAllCustomers()
@@ -62,7 +62,7 @@ class CustomerDaoTest
 
     @Test
     @Throws(Exception::class)
-    fun insertIgnoreCustomerList_ReturnSameCustomerList() = runBlockingTest {
+    fun insertIgnoreCustomerList_ReturnSameCustomerList() = runBlocking {
         customerDao.insertIgnore(*customerList)
 
         val customers = customerDao.getAllCustomers()
@@ -71,7 +71,7 @@ class CustomerDaoTest
 
     @Test
     @Throws(Exception::class)
-    fun insertIgnoreTwoTimesSameCustomer_ReturnNotModifiedCustomer() = runBlockingTest {
+    fun insertIgnoreTwoTimesSameCustomer_ReturnNotModifiedCustomer() = runBlocking {
         customerDao.insertIgnore(customer1)
         customerDao.insertIgnore(customer1Edit)
 
@@ -81,7 +81,7 @@ class CustomerDaoTest
 
     @Test
     @Throws(Exception::class)
-    fun insertReplaceCustomer_ReturnSameCustomer() = runBlockingTest {
+    fun insertReplaceCustomer_ReturnSameCustomer() = runBlocking {
         customerDao.insertReplace(customer1)
 
         val customers = customerDao.getAllCustomers()
@@ -90,7 +90,7 @@ class CustomerDaoTest
 
     @Test
     @Throws(Exception::class)
-    fun insertReplaceCustomerList_ReturnSameCustomerList() = runBlockingTest {
+    fun insertReplaceCustomerList_ReturnSameCustomerList() = runBlocking {
         customerDao.insertReplace(*customerList)
 
         val customers = customerDao.getAllCustomers()
@@ -99,7 +99,7 @@ class CustomerDaoTest
 
     @Test
     @Throws(Exception::class)
-    fun insertReplaceTwoTimesSameCustomer_ReturnModifiedCustomer() = runBlockingTest {
+    fun insertReplaceTwoTimesSameCustomer_ReturnModifiedCustomer() = runBlocking {
         customerDao.insertReplace(customer1)
         customerDao.insertReplace(customer1Edit)
 
@@ -111,7 +111,7 @@ class CustomerDaoTest
 
     @Test
     @Throws(Exception::class)
-    fun updateCustomer_ReturnModifiedCustomer() = runBlockingTest {
+    fun updateCustomer_ReturnModifiedCustomer() = runBlocking {
         customerDao.insertIgnore(customer1)
         customerDao.update(customer1Edit)
 
@@ -121,7 +121,7 @@ class CustomerDaoTest
 
     @Test
     @Throws(Exception::class)
-    fun updateCustomerList_ReturnUpdatedCustomerList() = runBlockingTest {
+    fun updateCustomerList_ReturnUpdatedCustomerList() = runBlocking {
         customerDao.insertIgnore(*customerList)
         customerDao.update(*customerListEdited)
 
@@ -133,7 +133,7 @@ class CustomerDaoTest
 
     @Test
     @Throws(Exception::class)
-    fun insertCustomersList_SelectOneByID() = runBlockingTest {
+    fun insertCustomersList_SelectOneByID() = runBlocking {
         customerDao.insertIgnore(*customerList)
 
         val customer = customerDao.getCustomerById(customer1.id)
@@ -142,7 +142,7 @@ class CustomerDaoTest
 
     @Test
     @Throws(Exception::class)
-    fun insertCustomerListAndRetriveAll() = runBlockingTest {
+    fun insertCustomerListAndRetriveAll() = runBlocking {
         customerDao.insertIgnore(*customerListEdited)
 
         val customers = customerDao.getAllCustomers()
@@ -153,7 +153,7 @@ class CustomerDaoTest
 
     @Test
     @Throws(Exception::class)
-    fun insertCustomerList_deleteOne_AssertCustomerIsDeleted() = runBlockingTest {
+    fun insertCustomerList_deleteOne_AssertCustomerIsDeleted() = runBlocking {
         customerDao.insertIgnore(*customerList)
         customerDao.delete(customer1)
 
@@ -163,7 +163,7 @@ class CustomerDaoTest
 
     @Test
     @Throws(Exception::class)
-    fun insertCustomerList_deleteTwoCustomers_AssertCustomersAreDeleted() = runBlockingTest {
+    fun insertCustomerList_deleteTwoCustomers_AssertCustomersAreDeleted() = runBlocking {
         customerDao.insertIgnore(*customerList)
         customerDao.delete(customer1, customer2)
 

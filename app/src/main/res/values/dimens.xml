@@ -4,4 +4,7 @@
     <dimen name="btn_bottom_margin">24dp</dimen>
     <dimen name="tv_top_margin">64dp</dimen>
     <dimen name="fab_margin">24dp</dimen>
+
+    <!-- Input fields -->
+    <dimen name="tv_input_margin">16dp</dimen>
 </resources>

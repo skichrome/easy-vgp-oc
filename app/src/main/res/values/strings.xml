@@ -6,13 +6,13 @@
     <string name="frag_home_btn_customers">See my customers</string>
     <string name="frag_home_btn_see_vgp">See all VGP</string>
 
-    <!-- Login Fragment -->
-    <string name="frag_login_btn">Log in</string>
-    <string name="frag_login_btn_retry">Retry</string>
+    <!-- MainActivity -->
     <string name="frag_login_success">You are successfully logged in !</string>
     <string name="frag_login_error">We can\'t login you into the app, please retry</string>
-    <string name="frag_login_img_content_desc">Application logo</string>
-    <string name="frag_login_welcome_text">Please log in to your account to be able to use this app.</string>
+
+    <!-- Add Edit Customer Fragment -->
+    <string name="frag_add_edit_customer_name_title">Customer Name</string>
+    <string name="frag_add_edit_customer_siret_title">Customer SIRET</string>
 
     <!-- Menu items -->
     <string name="menu_log_out_title">Log out</string>

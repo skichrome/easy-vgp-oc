@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -10,25 +12,62 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/addEditCustomerFragNameTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/tv_input_margin"
+            android:layout_marginTop="@dimen/tv_input_margin"
+            android:labelFor="@+id/addEditCustomerFragName"
+            android:text="@string/frag_add_edit_customer_name_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/addEditCustomerFragName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="@dimen/tv_input_margin"
+            android:layout_marginTop="@dimen/tv_input_margin"
+            android:layout_marginEnd="@dimen/tv_input_margin"
             android:ems="10"
+            android:importantForAutofill="no"
             android:inputType="textPersonName"
-            android:text=""
+            android:text="@{viewModel.customer.name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragNameTitle" />
+
+        <TextView
+            android:id="@+id/addEditCustomerFragSiretTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/tv_input_margin"
+            android:layout_marginTop="@dimen/tv_input_margin"
+            android:labelFor="@+id/addEditCustomerFragSiretText"
+            android:text="@string/frag_add_edit_customer_siret_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragName" />
+
+        <EditText
+            android:id="@+id/addEditCustomerFragSiretText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/tv_input_margin"
+            android:layout_marginTop="@dimen/tv_input_margin"
+            android:layout_marginEnd="@dimen/tv_input_margin"
+            android:importantForAutofill="no"
+            android:inputType="numberSigned"
+            android:text="@{viewModel.customer.siret}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragSiretTitle" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addEditCustomerFragFab"
             style="@style/Widget.MaterialComponents.FloatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

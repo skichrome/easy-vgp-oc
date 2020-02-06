@@ -1,7 +1,7 @@
 package com.skichrome.oc.easyvgp.model
 
+import androidx.lifecycle.LiveData
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager
-import com.skichrome.oc.easyvgp.model.local.CustomersDataSource
 import com.skichrome.oc.easyvgp.model.local.database.Customers
 
 class DefaultCustomerRepository(
@@ -10,15 +10,11 @@ class DefaultCustomerRepository(
     private val remoteCustomerRepo: CustomersDataSource
 ) : CustomerRepository
 {
-    override suspend fun getAllCustomers(): Results<List<Customers>> =
-        if (netManager.isConnectedToInternet())
-            remoteCustomerRepo.loadAllCustomers()
-        else
-            localCustomerRepo.loadAllCustomers()
+    override fun getAllCustomers(): LiveData<List<Customers>> = localCustomerRepo.loadAllCustomers()
 
-    override suspend fun getCustomerById(id: Long): Results<Customers> =
-        if (netManager.isConnectedToInternet())
-            remoteCustomerRepo.getCustomerById(id)
-        else
-            localCustomerRepo.getCustomerById(id)
+    override suspend fun getCustomerById(id: Long): Results<Customers> = localCustomerRepo.getCustomerById(id)
+
+    override suspend fun saveCustomers(customer: Customers): Results<Long> = localCustomerRepo.saveCustomers(customer)
+
+    override suspend fun saveCustomers(customers: Array<Customers>): Results<List<Long>> = localCustomerRepo.saveCustomers(customers)
 }
