@@ -58,7 +58,14 @@ class CustomerFragment : BaseBindingFragment<FragmentCustomerBinding>()
 
     private fun configureFab()
     {
-        fragCustomerFab?.setOnClickListener { navigateToAddEditCustomerFragment() }
+        if (args.isNewVGPAction)
+        {
+            fragCustomerFab.hide()
+        } else
+        {
+            fragCustomerFab.show()
+            fragCustomerFab?.setOnClickListener { navigateToAddEditCustomerFragment() }
+        }
     }
 
     private fun configureRecyclerView()
