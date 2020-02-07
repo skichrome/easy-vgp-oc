@@ -8,7 +8,7 @@ import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.local.database.Customers
 
-class FakeCustomersDataSource(private var customers: MutableList<Customers>? = mutableListOf()) :
+class FakeCustomersDataSource(private var customersServiceData: LinkedHashMap<Long, Customers> = LinkedHashMap()) :
     CustomersDataSource
 {
     // =================================
@@ -20,32 +20,34 @@ class FakeCustomersDataSource(private var customers: MutableList<Customers>? = m
     override fun loadAllCustomers(): LiveData<List<Customers>> = observableData
 
     override suspend fun getCustomerById(id: Long): Results<Customers> =
-        customers?.let {
-            var foundCustomer: Customers? = null
-
-            it.forEach { customer ->
-                if (customer.id == id)
-                {
-                    foundCustomer = customer
-                    return@forEach
-                }
-            }
+        customersServiceData.let {
+            val foundCustomer: Customers? = it[id]
 
             foundCustomer?.let { foundCustomerNotNull -> Success(foundCustomerNotNull) }
                 ?: Error(Exception("Customer not found"))
-
-        } ?: Error(Exception("List empty, customer not Found"))
+        }
 
     override suspend fun saveCustomers(customers: Array<Customers>): Results<List<Long>>
     {
-        this.customers = customers.toMutableList()
+        customers.forEach { customersServiceData[it.id] = it }
         return Success(listOf(customers.size.toLong()))
     }
 
     override suspend fun saveCustomers(customer: Customers): Results<Long>
     {
-        this.customers = mutableListOf(customer)
+        this.customersServiceData[customer.id] = customer
         return Success(customer.id)
+    }
+
+    override suspend fun updateCustomers(customer: Customers): Results<Int>
+    {
+        val customerToUpdate = customersServiceData[customer.id]
+        return if (customerToUpdate != null)
+        {
+            customersServiceData[customer.id] = customer
+            Success(1)
+        } else
+            Error(java.lang.Exception("Customer to update not found"))
     }
 
     // =================================
@@ -54,6 +56,6 @@ class FakeCustomersDataSource(private var customers: MutableList<Customers>? = m
 
     fun refresh()
     {
-        observableData.value = customers
+        observableData.value = customersServiceData.values.toList().sortedBy { it.id }
     }
 }

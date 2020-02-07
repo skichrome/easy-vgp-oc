@@ -9,9 +9,13 @@ interface CustomersDataSource
 
     suspend fun getCustomerById(id: Long): Results<Customers>
 
-    // --- Save --- /
+    // --- Save --- //
 
     suspend fun saveCustomers(customer: Customers): Results<Long>
 
     suspend fun saveCustomers(customers: Array<Customers>): Results<List<Long>>
+
+    // --- Update --- //
+
+    suspend fun updateCustomers(customer: Customers): Results<Int>
 }

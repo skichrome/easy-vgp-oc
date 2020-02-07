@@ -35,4 +35,9 @@ class CustomerLocalRepository(private val customersDao: CustomersDao, private va
         val id = customersDao.insertIgnore(customer)
         return@withContext Success(id)
     }
+
+    override suspend fun updateCustomers(customer: Customers): Results<Int> = withContext(dispatcher) {
+        val id = customersDao.update(customer)
+        return@withContext Success(id)
+    }
 }

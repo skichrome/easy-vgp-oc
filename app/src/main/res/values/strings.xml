@@ -28,8 +28,9 @@
     <string name="frag_add_edit_customer_post_code_hint">post code</string>
     <string name="frag_add_edit_customer_notes_hint">notes about your customer, that don\'t go into upside categories</string>
 
-    <string name="frag_add_edit_customer_success">You are successfully logged in !</string>
-    <string name="frag_add_edit_customer_error">We can\'t login you into the app, please retry</string>
+    <string name="frag_add_edit_customer_error">Something went wrong when trying to add or update this customer</string>
+    <string name="frag_add_edit_customer_error_input_snack_bar_msg">You must enter all required fields</string>
+    <string name="frag_add_edit_customer_error_input">Required field</string>
 
     <!-- Menu items -->
     <string name="menu_log_out_title">Log out</string>

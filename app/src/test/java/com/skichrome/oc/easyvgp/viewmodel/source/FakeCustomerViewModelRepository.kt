@@ -38,16 +38,23 @@ class FakeCustomerViewModelRepository : CustomerRepository
         return Success(customer.id)
     }
 
+    override suspend fun updateCustomers(customer: Customers): Results<Int>
+    {
+        val customerToUpdate = customerServiceData[customer.id]
+        return if (customerToUpdate != null)
+        {
+            customerServiceData[customer.id] = customer
+            Success(1)
+        } else
+            Results.Error(java.lang.Exception("Customer to update not found"))
+    }
+
     // =================================
     //              Methods
     // =================================
 
     fun refreshLiveData()
     {
-        val newList = mutableListOf<Customers>()
-        customerServiceData.forEach {
-            newList.add(it.component2())
-        }
-        observableData.value = newList
+        observableData.value = customerServiceData.values.toList().sortedBy { it.id }
     }
 }

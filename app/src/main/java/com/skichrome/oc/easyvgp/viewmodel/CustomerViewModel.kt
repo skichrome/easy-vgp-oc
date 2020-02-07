@@ -8,6 +8,7 @@ import com.skichrome.oc.easyvgp.model.CustomerRepository
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.local.database.Customers
+import com.skichrome.oc.easyvgp.util.Event
 import com.skichrome.oc.easyvgp.util.uiJob
 
 class CustomerViewModel(private val customerRepository: CustomerRepository) : ViewModel()
@@ -24,8 +25,11 @@ class CustomerViewModel(private val customerRepository: CustomerRepository) : Vi
 
     // --- Events --- //
 
-    private val _customersSaved = MutableLiveData<Boolean>()
-    val customersSaved: LiveData<Boolean> = _customersSaved
+    private val _customersSaved = MutableLiveData<Event<Boolean>>()
+    val customersSaved: LiveData<Event<Boolean>> = _customersSaved
+
+    private val _customerClick = MutableLiveData<Event<Long>>()
+    val customerClick: LiveData<Event<Long>> = _customerClick
 
     // =================================
     //              Methods
@@ -48,11 +52,23 @@ class CustomerViewModel(private val customerRepository: CustomerRepository) : Vi
             _customersSaved.value =
                 when (savedCustomerId)
                 {
-                    is Success -> true
-                    is Error -> false
-                    else -> false
+                    is Success -> Event(true)
+                    is Error -> Event(false)
+                    else -> Event(false)
                 }
-            _customersSaved.value = null
+        }
+    }
+
+    fun updateCustomer(customer: Customers)
+    {
+        viewModelScope.uiJob {
+            val updatedCustomerId = customerRepository.updateCustomers(customer)
+            _customersSaved.value = when (updatedCustomerId)
+            {
+                is Success -> Event(true)
+                is Error -> Event(false)
+                else -> Event(false)
+            }
         }
     }
 
@@ -60,5 +76,6 @@ class CustomerViewModel(private val customerRepository: CustomerRepository) : Vi
 
     fun onClickCustomer(customerId: Long)
     {
+        _customerClick.value = Event(customerId)
     }
 }

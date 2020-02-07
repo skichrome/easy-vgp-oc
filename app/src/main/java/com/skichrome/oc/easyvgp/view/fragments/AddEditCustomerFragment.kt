@@ -6,14 +6,15 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.skichrome.oc.easyvgp.R
+import com.skichrome.oc.easyvgp.databinding.FragmentAddEditCustomerBinding
 import com.skichrome.oc.easyvgp.model.local.database.Customers
 import com.skichrome.oc.easyvgp.util.snackBar
-import com.skichrome.oc.easyvgp.view.base.BaseFragment
+import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.viewmodel.CustomerViewModel
 import com.skichrome.oc.easyvgp.viewmodel.Injection
 import kotlinx.android.synthetic.main.fragment_add_edit_customer.*
 
-class AddEditCustomerFragment : BaseFragment()
+class AddEditCustomerFragment : BaseBindingFragment<FragmentAddEditCustomerBinding>()
 {
     // =================================
     //              Fields
@@ -50,6 +51,8 @@ class AddEditCustomerFragment : BaseFragment()
             addEditCustomerFragCityText
         )
 
+        binding.viewModel = viewModel
+
         if (args.customerId != -1L)
             viewModel.loadCustomerById(args.customerId)
     }
@@ -57,12 +60,10 @@ class AddEditCustomerFragment : BaseFragment()
     private fun configureViewModel()
     {
         viewModel.customersSaved.observe(this, Observer {
-            it?.let { isSaved ->
-                if (isSaved)
-                    findNavController().navigateUp()
-                else
-                    view?.snackBar(getString(R.string.frag_add_edit_customer_error))
-            }
+            if (it.getContentIfNotHandled() == true)
+                findNavController().navigateUp()
+            else
+                view?.snackBar(getString(R.string.frag_add_edit_customer_error))
         })
     }
 
@@ -82,8 +83,8 @@ class AddEditCustomerFragment : BaseFragment()
             if (textView.text.toString() == "")
             {
                 canRegisterCustomer = false
-                textView.error = "Required field"
-                view?.snackBar("You must enter all required fields")
+                textView.error = getString(R.string.frag_add_edit_customer_error_input)
+                view?.snackBar(getString(R.string.frag_add_edit_customer_error_input_snack_bar_msg))
                 return@forEach
             }
         }
@@ -91,6 +92,7 @@ class AddEditCustomerFragment : BaseFragment()
         if (canRegisterCustomer)
         {
             val customer = Customers(
+                id = if (args.customerId != -1L) args.customerId else 0,
                 firstName = addEditCustomerFragFirstNameText.text.toString(),
                 lastName = addEditCustomerFragLastNameText.text.toString(),
                 siret = addEditCustomerFragSiretText.text.toString().toLong(),
@@ -103,7 +105,10 @@ class AddEditCustomerFragment : BaseFragment()
                 phone = addEditCustomerFragPhoneText.text.toString().toIntOrNull()
             )
 
-            viewModel.saveCustomer(customer)
+            if (args.customerId != -1L)
+                viewModel.updateCustomer(customer)
+            else
+                viewModel.saveCustomer(customer)
         }
     }
 }

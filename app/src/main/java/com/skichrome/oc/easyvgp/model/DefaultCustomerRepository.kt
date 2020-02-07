@@ -17,4 +17,6 @@ class DefaultCustomerRepository(
     override suspend fun saveCustomers(customer: Customers): Results<Long> = localCustomerRepo.saveCustomers(customer)
 
     override suspend fun saveCustomers(customers: Array<Customers>): Results<List<Long>> = localCustomerRepo.saveCustomers(customers)
+
+    override suspend fun updateCustomers(customer: Customers): Results<Int> = localCustomerRepo.updateCustomers(customer)
 }

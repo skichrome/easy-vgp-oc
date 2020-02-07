@@ -6,6 +6,7 @@ import androidx.navigation.fragment.navArgs
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentCustomerBinding
 import com.skichrome.oc.easyvgp.util.AutoClearedValue
+import com.skichrome.oc.easyvgp.util.EventObserver
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.view.fragments.adapters.CustomersFragmentAdapter
 import com.skichrome.oc.easyvgp.viewmodel.CustomerViewModel
@@ -42,6 +43,13 @@ class CustomerFragment : BaseBindingFragment<FragmentCustomerBinding>()
     private fun configureUI()
     {
         binding.viewModel = viewModel
+        viewModel.customerClick.observe(this, EventObserver {
+            if (args.isNewVGPAction)
+            {
+                // Todo Navigate to New VGP Fragment
+            } else
+                navigateToAddEditCustomerFragment(it)
+        })
     }
 
     private fun configureFab()
