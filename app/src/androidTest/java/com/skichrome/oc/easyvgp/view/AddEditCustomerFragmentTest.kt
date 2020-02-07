@@ -2,7 +2,8 @@ package com.skichrome.oc.easyvgp.view
 
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -118,7 +119,7 @@ class AddEditCustomerFragmentTest
         onView(withId(R.id.addEditCustomerFragEmailText)).check(matches(withText("")))
 
         // Scroll up to display bottom fields
-        onView(withId(R.id.addEditCustomerFragScrollView)).perform(swipeUp())
+        onView(withId(R.id.addEditCustomerFragNotesText)).perform(scrollTo())
 
         onView(withId(R.id.addEditCustomerFragPhoneText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragPhoneText)).check(matches(withText("")))
@@ -154,6 +155,9 @@ class AddEditCustomerFragmentTest
         onView(withId(R.id.addEditCustomerFragAddressText)).check(matches(hasErrorText(context.getString(R.string.test))))
         onView(withId(R.id.addEditCustomerFragPostCodeText)).check(matches(hasErrorText(context.getString(R.string.test))))
         onView(withId(R.id.addEditCustomerFragCityText)).check(matches(hasErrorText(context.getString(R.string.test))))
+
+        // Scroll up to display bottom fields
+        onView(withId(R.id.addEditCustomerFragNotesText)).perform(scrollTo())
 
         onView(withId(R.id.addEditCustomerFragEmailText)).check(matches(not(hasErrorText(context.getString(R.string.test)))))
         onView(withId(R.id.addEditCustomerFragPhoneText)).check(matches(not(hasErrorText(context.getString(R.string.test)))))
