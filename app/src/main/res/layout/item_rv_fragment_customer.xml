@@ -50,6 +50,16 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="X" />
 
+            <View
+                android:id="@+id/rvItemCustomerSeparation"
+                android:layout_width="2dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/tv_input_margin"
+                android:background="@color/darkThemeSeparatorColor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/rvItemCustomerFirstLetter"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/rvItemCustomerName"
                 style="@style/TextAppearance.AppCompat.Body1"
@@ -58,7 +68,7 @@
                 android:layout_marginStart="@dimen/tv_input_margin"
                 android:text='@{customer.lastName + " " + customer.firstName}'
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/rvItemCustomerFirstLetter"
+                app:layout_constraintStart_toEndOf="@+id/rvItemCustomerSeparation"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="customer_name" />
         </androidx.constraintlayout.widget.ConstraintLayout>

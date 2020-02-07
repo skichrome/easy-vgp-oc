@@ -49,9 +49,8 @@ class CustomerFragment : BaseBindingFragment<FragmentCustomerBinding>()
         binding.viewModel = viewModel
         viewModel.customerClick.observe(this, EventObserver {
             if (args.isNewVGPAction)
-            {
-                // Todo Navigate to New VGP Fragment
-            } else
+                navigateToVgpFragment(it)
+            else
                 navigateToAddEditCustomerFragment(it)
         })
     }
@@ -79,6 +78,12 @@ class CustomerFragment : BaseBindingFragment<FragmentCustomerBinding>()
     private fun navigateToAddEditCustomerFragment(customerId: Long = -1L)
     {
         val opt = CustomerFragmentDirections.actionCustomerFragmentToAddEditCustomerFragment(customerId)
+        findNavController().navigate(opt)
+    }
+
+    private fun navigateToVgpFragment(customerId: Long)
+    {
+        val opt = CustomerFragmentDirections.actionCustomerFragmentToVgpFragment(customerId)
         findNavController().navigate(opt)
     }
 }

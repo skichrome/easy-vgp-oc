@@ -9,4 +9,6 @@
     <color name="secondaryDarkColor">#007ac1</color>
     <color name="primaryTextColor">#000000</color>
     <color name="secondaryTextColor">#E1FFFFFF</color>
+
+    <color name="darkThemeSeparatorColor">#E15C5C5C</color>
 </resources>

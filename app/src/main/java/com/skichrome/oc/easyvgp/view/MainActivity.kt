@@ -31,9 +31,9 @@ class MainActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        checkIfUserIsAlreadyLoggedIn()
         val navController = getNavController()
         configureToolbar(navController)
-        checkIfUserIsAlreadyLoggedIn(navController)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity()
             if (resultCode == Activity.RESULT_OK)
             {
                 activityMainConstraintLayout.rootView?.snackBar(getString(R.string.frag_login_success))
-                checkIfUserIsAlreadyLoggedIn(getNavController())
+                checkIfUserIsAlreadyLoggedIn()
             } else
             {
                 val response = IdpResponse.fromResultIntent(data)
@@ -86,13 +86,9 @@ class MainActivity : AppCompatActivity()
 
     // --- Login configuration --- //
 
-    private fun checkIfUserIsAlreadyLoggedIn(navController: NavController)
+    private fun checkIfUserIsAlreadyLoggedIn()
     {
-        if (FirebaseAuth.getInstance().currentUser != null)
-        {
-            navController.popBackStack(R.id.homeFragment, true)
-            navController.navigate(R.id.homeFragment)
-        } else
+        if (FirebaseAuth.getInstance().currentUser == null)
             configureAppLogin()
     }
 
