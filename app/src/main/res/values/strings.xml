@@ -35,4 +35,5 @@
     <!-- Menu items -->
     <string name="menu_log_out_title">Log out</string>
     <string name="menu_settings_title">settings</string>
+    <string name="test">Required field</string>
 </resources>

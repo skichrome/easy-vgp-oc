@@ -2,12 +2,14 @@ package com.skichrome.oc.easyvgp.viewmodel.source
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.skichrome.oc.easyvgp.model.CustomerRepository
+import com.skichrome.oc.easyvgp.model.CustomersRepository
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.local.database.Customers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 
-class FakeCustomerViewModelRepository : CustomerRepository
+class FakeAndroidTestCustomersRepository : CustomersRepository
 {
     // =================================
     //              Fields
@@ -53,8 +55,7 @@ class FakeCustomerViewModelRepository : CustomerRepository
     //              Methods
     // =================================
 
-    fun refreshLiveData()
-    {
+    fun refreshLiveData() = runBlocking(Dispatchers.Main) {
         observableData.value = customerServiceData.values.toList().sortedBy { it.id }
     }
 }

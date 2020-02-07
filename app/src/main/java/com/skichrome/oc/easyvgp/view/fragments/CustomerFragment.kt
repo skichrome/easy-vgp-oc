@@ -3,6 +3,7 @@ package com.skichrome.oc.easyvgp.view.fragments
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentCustomerBinding
 import com.skichrome.oc.easyvgp.util.AutoClearedValue
@@ -10,7 +11,7 @@ import com.skichrome.oc.easyvgp.util.EventObserver
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.view.fragments.adapters.CustomersFragmentAdapter
 import com.skichrome.oc.easyvgp.viewmodel.CustomerViewModel
-import com.skichrome.oc.easyvgp.viewmodel.Injection
+import com.skichrome.oc.easyvgp.viewmodel.vmfactory.CustomerViewModelFactory
 import kotlinx.android.synthetic.main.fragment_customer.*
 
 class CustomerFragment : BaseBindingFragment<FragmentCustomerBinding>()
@@ -20,7 +21,10 @@ class CustomerFragment : BaseBindingFragment<FragmentCustomerBinding>()
     // =================================
 
     private val args: CustomerFragmentArgs by navArgs()
-    private val viewModel by viewModels<CustomerViewModel> { Injection.provideCustomerViewModelFactory(requireActivity().application) }
+    private val viewModel by viewModels<CustomerViewModel> {
+        CustomerViewModelFactory((requireActivity().application as EasyVGPApplication).customersRepository)
+    }
+
     private var adapter by AutoClearedValue<CustomersFragmentAdapter>()
 
     // =================================

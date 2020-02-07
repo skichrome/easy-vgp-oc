@@ -3,7 +3,7 @@ package com.skichrome.oc.easyvgp.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.skichrome.oc.easyvgp.getOrAwaitValue
 import com.skichrome.oc.easyvgp.model.source.CustomerDataProvider
-import com.skichrome.oc.easyvgp.viewmodel.source.FakeCustomerViewModelRepository
+import com.skichrome.oc.easyvgp.viewmodel.source.FakeCustomersRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -26,7 +26,7 @@ class CustomerViewModelTest
     var instantExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var customerViewModel: CustomerViewModel
-    private lateinit var customerRepository: FakeCustomerViewModelRepository
+    private lateinit var customerRepository: FakeCustomersRepository
 
     // =================================
     //              Methods
@@ -34,7 +34,7 @@ class CustomerViewModelTest
 
     @Before
     fun initTests() = runBlockingTest {
-        customerRepository = FakeCustomerViewModelRepository()
+        customerRepository = FakeCustomersRepository()
         customerRepository.saveCustomers(CustomerDataProvider.localCustomers.toTypedArray())
         customerRepository.refreshLiveData()
         customerViewModel = CustomerViewModel(customerRepository)

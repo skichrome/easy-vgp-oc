@@ -4,20 +4,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.skichrome.oc.easyvgp.model.CustomerRepository
+import com.skichrome.oc.easyvgp.model.CustomersRepository
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.local.database.Customers
 import com.skichrome.oc.easyvgp.util.Event
 import com.skichrome.oc.easyvgp.util.uiJob
 
-class CustomerViewModel(private val customerRepository: CustomerRepository) : ViewModel()
+class CustomerViewModel(private val customersRepository: CustomersRepository) : ViewModel()
 {
     // =================================
     //              Fields
     // =================================
 
-    private val _customers: LiveData<List<Customers>> = customerRepository.getAllCustomers()
+    private val _customers: LiveData<List<Customers>> = customersRepository.getAllCustomers()
     val customers: LiveData<List<Customers>> = _customers
 
     private val _customer = MutableLiveData<Customers>()
@@ -38,7 +38,7 @@ class CustomerViewModel(private val customerRepository: CustomerRepository) : Vi
     fun loadCustomerById(customerId: Long)
     {
         viewModelScope.uiJob {
-            customerRepository.getCustomerById(customerId).let { results ->
+            customersRepository.getCustomerById(customerId).let { results ->
                 if (results is Success)
                     _customer.value = results.data
             }
@@ -48,7 +48,7 @@ class CustomerViewModel(private val customerRepository: CustomerRepository) : Vi
     fun saveCustomer(customer: Customers)
     {
         viewModelScope.uiJob {
-            val savedCustomerId = customerRepository.saveCustomers(customer)
+            val savedCustomerId = customersRepository.saveCustomers(customer)
             _customersSaved.value =
                 when (savedCustomerId)
                 {
@@ -62,7 +62,7 @@ class CustomerViewModel(private val customerRepository: CustomerRepository) : Vi
     fun updateCustomer(customer: Customers)
     {
         viewModelScope.uiJob {
-            val updatedCustomerId = customerRepository.updateCustomers(customer)
+            val updatedCustomerId = customersRepository.updateCustomers(customer)
             _customersSaved.value = when (updatedCustomerId)
             {
                 is Success -> Event(true)

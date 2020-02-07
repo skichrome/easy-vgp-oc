@@ -5,13 +5,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentAddEditCustomerBinding
 import com.skichrome.oc.easyvgp.model.local.database.Customers
 import com.skichrome.oc.easyvgp.util.snackBar
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.viewmodel.CustomerViewModel
-import com.skichrome.oc.easyvgp.viewmodel.Injection
+import com.skichrome.oc.easyvgp.viewmodel.vmfactory.CustomerViewModelFactory
 import kotlinx.android.synthetic.main.fragment_add_edit_customer.*
 
 class AddEditCustomerFragment : BaseBindingFragment<FragmentAddEditCustomerBinding>()
@@ -21,7 +22,10 @@ class AddEditCustomerFragment : BaseBindingFragment<FragmentAddEditCustomerBindi
     // =================================
 
     private val args: AddEditCustomerFragmentArgs by navArgs()
-    private val viewModel by viewModels<CustomerViewModel> { Injection.provideCustomerViewModelFactory(requireActivity().application) }
+    private val viewModel by viewModels<CustomerViewModel> {
+        CustomerViewModelFactory((requireActivity().application as EasyVGPApplication).customersRepository)
+    }
+
     private lateinit var inputList: List<TextView>
 
     // =================================

@@ -24,7 +24,7 @@ import org.robolectric.annotation.Config
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 @Config(sdk = [Build.VERSION_CODES.O_MR1])
-class DefaultCustomerRepositoryTest
+class DefaultCustomersRepositoryTest
 {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
@@ -33,7 +33,7 @@ class DefaultCustomerRepositoryTest
     private lateinit var customersRemoteDataSource: FakeCustomersDataSource
     private lateinit var netManager: FakeNetManager
 
-    private lateinit var customerRepository: DefaultCustomerRepository
+    private lateinit var customerRepository: DefaultCustomersRepository
 
     @Before
     fun initRepo()
@@ -47,7 +47,7 @@ class DefaultCustomerRepositoryTest
         customersLocalDataSource.refresh()
         customersRemoteDataSource.refresh()
 
-        customerRepository = DefaultCustomerRepository(netManager, customersLocalDataSource, customersRemoteDataSource)
+        customerRepository = DefaultCustomersRepository(netManager, customersLocalDataSource, customersRemoteDataSource)
     }
 
     @Test
