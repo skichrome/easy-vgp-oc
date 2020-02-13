@@ -9,7 +9,7 @@ import com.skichrome.oc.easyvgp.databinding.FragmentCustomerBinding
 import com.skichrome.oc.easyvgp.util.AutoClearedValue
 import com.skichrome.oc.easyvgp.util.EventObserver
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
-import com.skichrome.oc.easyvgp.view.fragments.adapters.CustomersFragmentAdapter
+import com.skichrome.oc.easyvgp.view.fragments.adapters.CustomerFragmentAdapter
 import com.skichrome.oc.easyvgp.viewmodel.CustomerViewModel
 import com.skichrome.oc.easyvgp.viewmodel.vmfactory.CustomerViewModelFactory
 import kotlinx.android.synthetic.main.fragment_customer.*
@@ -22,10 +22,10 @@ class CustomerFragment : BaseBindingFragment<FragmentCustomerBinding>()
 
     private val args: CustomerFragmentArgs by navArgs()
     private val viewModel by viewModels<CustomerViewModel> {
-        CustomerViewModelFactory((requireActivity().application as EasyVGPApplication).customersRepository)
+        CustomerViewModelFactory((requireActivity().application as EasyVGPApplication).customerRepository)
     }
 
-    private var adapter by AutoClearedValue<CustomersFragmentAdapter>()
+    private var adapter by AutoClearedValue<CustomerFragmentAdapter>()
 
     // =================================
     //        Superclass Methods
@@ -69,7 +69,7 @@ class CustomerFragment : BaseBindingFragment<FragmentCustomerBinding>()
 
     private fun configureRecyclerView()
     {
-        adapter = CustomersFragmentAdapter(viewModel)
+        adapter = CustomerFragmentAdapter(viewModel)
         fragCustomerRecyclerView.adapter = adapter
     }
 
@@ -83,7 +83,7 @@ class CustomerFragment : BaseBindingFragment<FragmentCustomerBinding>()
 
     private fun navigateToVgpFragment(customerId: Long)
     {
-        val opt = CustomerFragmentDirections.actionCustomerFragmentToVgpFragment(customerId)
+        val opt = CustomerFragmentDirections.actionCustomerFragmentToMachineFragment(customerId)
         findNavController().navigate(opt)
     }
 }

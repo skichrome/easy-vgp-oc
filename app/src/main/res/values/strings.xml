@@ -36,4 +36,11 @@
     <string name="menu_log_out_title">Log out</string>
     <string name="menu_settings_title">settings</string>
     <string name="test">Required field</string>
+
+    <!-- Machine ViewModel -->
+    <string name="view_model_machine_machines_list">An error occurred when fetching all machines</string>
+    <string name="view_model_machine_machines_type_list">An error occurred when fetching all machines types</string>
+
+    <!-- Machine RecyclerView Item -->
+    <string name="rv_item_machines_card_logo">machine card logo</string>
 </resources>

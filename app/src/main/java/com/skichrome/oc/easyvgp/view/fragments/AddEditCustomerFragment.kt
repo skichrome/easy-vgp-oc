@@ -23,7 +23,7 @@ class AddEditCustomerFragment : BaseBindingFragment<FragmentAddEditCustomerBindi
 
     private val args: AddEditCustomerFragmentArgs by navArgs()
     private val viewModel by viewModels<CustomerViewModel> {
-        CustomerViewModelFactory((requireActivity().application as EasyVGPApplication).customersRepository)
+        CustomerViewModelFactory((requireActivity().application as EasyVGPApplication).customerRepository)
     }
 
     private lateinit var inputList: List<TextView>

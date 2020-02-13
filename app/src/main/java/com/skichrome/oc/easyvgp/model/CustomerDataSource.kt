@@ -3,7 +3,7 @@ package com.skichrome.oc.easyvgp.model
 import androidx.lifecycle.LiveData
 import com.skichrome.oc.easyvgp.model.local.database.Customers
 
-interface CustomersDataSource
+interface CustomerDataSource
 {
     fun loadAllCustomers(): LiveData<List<Customers>>
 

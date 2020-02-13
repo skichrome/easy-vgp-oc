@@ -9,8 +9,8 @@ import com.skichrome.oc.easyvgp.databinding.ItemRvFragmentCustomerBinding
 import com.skichrome.oc.easyvgp.model.local.database.Customers
 import com.skichrome.oc.easyvgp.viewmodel.CustomerViewModel
 
-class CustomersFragmentAdapter(private val viewModel: CustomerViewModel) :
-    ListAdapter<Customers, CustomersFragmentAdapter.CustomersFragmentViewHolder>(CustomerDiffCallback())
+class CustomerFragmentAdapter(private val viewModel: CustomerViewModel) :
+    ListAdapter<Customers, CustomerFragmentAdapter.CustomersFragmentViewHolder>(CustomerDiffCallback())
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomersFragmentViewHolder
     {

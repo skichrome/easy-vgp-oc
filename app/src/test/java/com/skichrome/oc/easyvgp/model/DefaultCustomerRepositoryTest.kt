@@ -6,7 +6,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.skichrome.oc.easyvgp.getOrAwaitValue
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.source.CustomerDataProvider
-import com.skichrome.oc.easyvgp.model.source.FakeCustomersDataSource
+import com.skichrome.oc.easyvgp.model.source.FakeCustomerDataSource
 import com.skichrome.oc.easyvgp.model.source.FakeNetManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -24,30 +24,30 @@ import org.robolectric.annotation.Config
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 @Config(sdk = [Build.VERSION_CODES.O_MR1])
-class DefaultCustomersRepositoryTest
+class DefaultCustomerRepositoryTest
 {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var customersLocalDataSource: FakeCustomersDataSource
-    private lateinit var customersRemoteDataSource: FakeCustomersDataSource
+    private lateinit var customersLocalDataSource: FakeCustomerDataSource
+    private lateinit var customersRemoteDataSource: FakeCustomerDataSource
     private lateinit var netManager: FakeNetManager
 
-    private lateinit var customerRepository: DefaultCustomersRepository
+    private lateinit var customerRepository: DefaultCustomerRepository
 
     @Before
     fun initRepo()
     {
         netManager = FakeNetManager(isFakeConnected = false)
 
-        customersLocalDataSource = FakeCustomersDataSource(CustomerDataProvider.localCustomersMap)
+        customersLocalDataSource = FakeCustomerDataSource(CustomerDataProvider.localCustomersMap)
 
-        customersRemoteDataSource = FakeCustomersDataSource(CustomerDataProvider.remoteCustomersMap)
+        customersRemoteDataSource = FakeCustomerDataSource(CustomerDataProvider.remoteCustomersMap)
 
         customersLocalDataSource.refresh()
         customersRemoteDataSource.refresh()
 
-        customerRepository = DefaultCustomersRepository(netManager, customersLocalDataSource, customersRemoteDataSource)
+        customerRepository = DefaultCustomerRepository(netManager, customersLocalDataSource, customersRemoteDataSource)
     }
 
     @Test

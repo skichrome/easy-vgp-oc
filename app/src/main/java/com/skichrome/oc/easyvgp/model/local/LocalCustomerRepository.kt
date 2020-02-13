@@ -1,7 +1,7 @@
 package com.skichrome.oc.easyvgp.model.local
 
 import androidx.lifecycle.LiveData
-import com.skichrome.oc.easyvgp.model.CustomersDataSource
+import com.skichrome.oc.easyvgp.model.CustomerDataSource
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
@@ -11,8 +11,8 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class CustomerLocalRepository(private val customersDao: CustomersDao, private val dispatcher: CoroutineDispatcher = Dispatchers.IO) :
-    CustomersDataSource
+class LocalCustomerRepository(private val customersDao: CustomersDao, private val dispatcher: CoroutineDispatcher = Dispatchers.IO) :
+    CustomerDataSource
 {
     override fun loadAllCustomers(): LiveData<List<Customers>> = customersDao.observeCustomers()
 

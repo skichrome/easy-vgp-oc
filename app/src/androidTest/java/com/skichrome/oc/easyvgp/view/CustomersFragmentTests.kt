@@ -11,7 +11,7 @@ import com.skichrome.oc.easyvgp.model.source.FakeAndroidTestNetManager
 import com.skichrome.oc.easyvgp.view.fragments.CustomerFragment
 import com.skichrome.oc.easyvgp.view.fragments.CustomerFragmentArgs
 import com.skichrome.oc.easyvgp.viewmodel.ServiceLocator
-import com.skichrome.oc.easyvgp.viewmodel.source.FakeAndroidTestCustomersRepository
+import com.skichrome.oc.easyvgp.viewmodel.source.FakeAndroidTestCustomerRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.`is`
@@ -29,7 +29,7 @@ class CustomersFragmentTests
     //              Fields
     // =================================
 
-    private lateinit var customerRepo: FakeAndroidTestCustomersRepository
+    private lateinit var customerRepo: FakeAndroidTestCustomerRepository
     private lateinit var netManager: FakeAndroidTestNetManager
 
     // =================================
@@ -41,8 +41,8 @@ class CustomersFragmentTests
     @Before
     fun initRepoAndNetManager()
     {
-        customerRepo = FakeAndroidTestCustomersRepository()
-        ServiceLocator.customersRepository = customerRepo
+        customerRepo = FakeAndroidTestCustomerRepository()
+        ServiceLocator.customerRepository = customerRepo
 
         netManager = FakeAndroidTestNetManager(false)
         ServiceLocator.netManager = netManager

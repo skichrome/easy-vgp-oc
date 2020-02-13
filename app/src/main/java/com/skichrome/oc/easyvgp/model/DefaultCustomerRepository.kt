@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager
 import com.skichrome.oc.easyvgp.model.local.database.Customers
 
-class DefaultCustomersRepository(
+class DefaultCustomerRepository(
     private val netManager: NetManager,
-    private val localCustomerRepo: CustomersDataSource,
-    private val remoteCustomerRepo: CustomersDataSource
-) : CustomersRepository
+    private val localCustomerRepo: CustomerDataSource,
+    private val remoteCustomerRepo: CustomerDataSource
+) : CustomerRepository
 {
     override fun getAllCustomers(): LiveData<List<Customers>> = localCustomerRepo.loadAllCustomers()
 

@@ -22,7 +22,7 @@ class VgpFragment : BaseBindingFragment<FragmentVgpBinding>()
 
     override fun configureFragment()
     {
-        toast("Customer id : ${args.customerId}")
+        toast("Customer id : ${args.machineId}")
     }
 
     // =================================

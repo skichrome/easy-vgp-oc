@@ -6,10 +6,9 @@ import androidx.annotation.VisibleForTesting
 import androidx.room.Room
 import com.skichrome.oc.easyvgp.androidmanagers.DefaultNetManager
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager
-import com.skichrome.oc.easyvgp.model.CustomersDataSource
-import com.skichrome.oc.easyvgp.model.CustomersRepository
-import com.skichrome.oc.easyvgp.model.DefaultCustomersRepository
-import com.skichrome.oc.easyvgp.model.local.CustomerLocalRepository
+import com.skichrome.oc.easyvgp.model.*
+import com.skichrome.oc.easyvgp.model.local.LocalCustomerRepository
+import com.skichrome.oc.easyvgp.model.local.LocalMachineSource
 import com.skichrome.oc.easyvgp.model.local.database.AppDatabase
 import com.skichrome.oc.easyvgp.model.remote.CustomerRemoteRepository
 
@@ -26,7 +25,11 @@ object ServiceLocator
         @VisibleForTesting set
 
     @Volatile
-    var customersRepository: CustomersRepository? = null
+    var customerRepository: CustomerRepository? = null
+        @VisibleForTesting set
+
+    @Volatile
+    var machineRepository: MachineRepository? = null
         @VisibleForTesting set
 
     // =================================
@@ -46,29 +49,55 @@ object ServiceLocator
     private fun buildDatabase(app: Application): AppDatabase =
         Room.databaseBuilder(app.applicationContext, AppDatabase::class.java, "easy-vgp-database.db").build()
 
-    // --- Customers injection --- //
+    // --- Data Source --- //
 
-    private fun provideCustomerLocalRepository(app: Application): CustomersDataSource
+    // --- Customers
+
+    private fun provideLocalCustomerSource(app: Application): CustomerDataSource
     {
         val db = getDatabaseInstance(app)
         val customerDao = db.customersDao()
-        return CustomerLocalRepository(customerDao)
+        return LocalCustomerRepository(customerDao)
     }
 
-    private fun provideCustomerRemoteRepository() = CustomerRemoteRepository()
+    private fun provideRemoteCustomerSource() = CustomerRemoteRepository()
 
-    private fun configureDefaultCustomerRepository(app: Application): CustomersRepository
+    // --- Machine
+
+    private fun provideLocalMachineSource(app: Application): MachineSource
     {
-        val localRepo = provideCustomerLocalRepository(app)
-        val remoteRepo = provideCustomerRemoteRepository()
-        val netManager = provideNetworkManager(app.applicationContext)
-        return DefaultCustomersRepository(netManager, localRepo, remoteRepo)
+        val db = getDatabaseInstance(app)
+        val machinesDao = db.machinesDao()
+        val machineTypeDao = db.machinesTypeDao()
+        return LocalMachineSource(machinesDao, machineTypeDao)
     }
 
-    // --- Provide Repository to Application --- //
+    // --- Data Repository --- //
 
-    fun provideCustomerRepository(app: Application): CustomersRepository = customersRepository ?: synchronized(this) {
-        customersRepository ?: configureDefaultCustomerRepository(app).also { customersRepository = it }
+    // --- Customers
+
+    fun provideCustomerRepository(app: Application): CustomerRepository = customerRepository ?: synchronized(this) {
+        customerRepository ?: configureDefaultCustomerRepository(app).also { customerRepository = it }
+    }
+
+    private fun configureDefaultCustomerRepository(app: Application): CustomerRepository
+    {
+        val localSource = provideLocalCustomerSource(app)
+        val remoteSource = provideRemoteCustomerSource()
+        val netManager = provideNetworkManager(app.applicationContext)
+        return DefaultCustomerRepository(netManager, localSource, remoteSource)
+    }
+
+    // --- Machine
+
+    fun provideMachineRepository(app: Application) = machineRepository ?: synchronized(this) {
+        machineRepository ?: configureMachinesRepository(app).also { machineRepository = it }
+    }
+
+    private fun configureMachinesRepository(app: Application): MachineRepository
+    {
+        val localSource = provideLocalMachineSource(app)
+        return DefaultMachineRepository(localSource)
     }
 
     // --- Testing purposes --- //

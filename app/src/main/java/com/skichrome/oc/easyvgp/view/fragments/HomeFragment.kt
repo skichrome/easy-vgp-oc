@@ -32,5 +32,5 @@ class HomeFragment : BaseFragment()
         findNavController().navigate(opt)
     }
 
-    private fun navigateToNewVGPFragment() = findNavController().navigate(R.id.action_homeFragment_to_vgpFragment)
+    private fun navigateToNewVGPFragment() = findNavController().navigate(R.id.action_homeFragment_to_machineFragment)
 }
