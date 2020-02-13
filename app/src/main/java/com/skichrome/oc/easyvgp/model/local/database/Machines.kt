@@ -29,4 +29,7 @@ interface MachinesDao : BaseDao<Machines>
 {
     @Query("SELECT * FROM Machines")
     fun observeMachines(): LiveData<List<Machines>>
+
+    @Query("SELECT * FROM Machines WHERE machine_id = :machineId")
+    suspend fun getMachineById(machineId: Long): Machines
 }

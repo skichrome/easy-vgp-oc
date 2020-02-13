@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.CustomerRepository
-import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.local.database.Customers
 import com.skichrome.oc.easyvgp.util.Event
@@ -31,9 +31,17 @@ class CustomerViewModel(private val repository: CustomerRepository) : ViewModel(
     private val _customerClick = MutableLiveData<Event<Long>>()
     val customerClick: LiveData<Event<Long>> = _customerClick
 
+    private val _errorMessage = MutableLiveData<Event<Int>>()
+    val errorMessage: LiveData<Event<Int>> = _errorMessage
+
     // =================================
     //              Methods
     // =================================
+
+    private fun showMessage(msg: Int)
+    {
+        _errorMessage.value = Event(msg)
+    }
 
     fun loadCustomerById(customerId: Long)
     {
@@ -41,6 +49,8 @@ class CustomerViewModel(private val repository: CustomerRepository) : ViewModel(
             repository.getCustomerById(customerId).let { results ->
                 if (results is Success)
                     _customer.value = results.data
+                else
+                    showMessage(R.string.view_model_customer_get_by_id)
             }
         }
     }
@@ -48,27 +58,22 @@ class CustomerViewModel(private val repository: CustomerRepository) : ViewModel(
     fun saveCustomer(customer: Customers)
     {
         viewModelScope.uiJob {
-            val savedCustomerId = repository.saveCustomers(customer)
-            _customersSaved.value =
-                when (savedCustomerId)
-                {
-                    is Success -> Event(true)
-                    is Error -> Event(false)
-                    else -> Event(false)
-                }
+            val result = repository.saveCustomers(customer)
+            if (result is Success)
+                _customersSaved.value = Event(true)
+            else
+                showMessage(R.string.view_model_customer_insert_error)
         }
     }
 
     fun updateCustomer(customer: Customers)
     {
         viewModelScope.uiJob {
-            val updatedCustomerId = repository.updateCustomers(customer)
-            _customersSaved.value = when (updatedCustomerId)
-            {
-                is Success -> Event(true)
-                is Error -> Event(false)
-                else -> Event(false)
-            }
+            val result = repository.updateCustomers(customer)
+            if (result is Success)
+                _customersSaved.value = Event(true)
+            else
+                showMessage(R.string.view_model_customer_update_error)
         }
     }
 

@@ -32,6 +32,11 @@
     <string name="frag_add_edit_customer_error_input_snack_bar_msg">You must enter all required fields</string>
     <string name="frag_add_edit_customer_error_input">Required field</string>
 
+    <!-- Customer ViewModel -->
+    <string name="view_model_customer_get_by_id">An error occurred when we have tried to load this machine</string>
+    <string name="view_model_customer_insert_error">An error occurred when we have tried to save this machine</string>
+    <string name="view_model_customer_update_error">An error occurred when we have tried to update this machine</string>
+
     <!-- Menu items -->
     <string name="menu_log_out_title">Log out</string>
     <string name="menu_settings_title">settings</string>
@@ -40,7 +45,17 @@
     <!-- Machine ViewModel -->
     <string name="view_model_machine_machines_list">An error occurred when fetching all machines</string>
     <string name="view_model_machine_machines_type_list">An error occurred when fetching all machines types</string>
+    <string name="view_model_machine_machine_by_id_error">An error occurred when we have tried to load this machine</string>
+    <string name="view_model_machine_insert_error">An error occurred when we have tried to save this machine</string>
+    <string name="view_model_machine_update_error">An error occurred when we have tried to update this machine</string>
 
     <!-- Machine RecyclerView Item -->
     <string name="rv_item_machines_card_logo">machine card logo</string>
+
+    <!-- Add Edit Machine Fragment -->
+    <string name="add_edit_machine_frag_title">Enter the characteristics of the machine</string>
+    <string name="add_edit_machine_frag_machine_type_title">Define the type of machine</string>
+    <string name="add_edit_machine_frag_hint_name">machine name</string>
+    <string name="add_edit_machine_frag_hint_brand">machine brand</string>
+    <string name="add_edit_machine_frag_hint_serial">machine serial</string>
 </resources>

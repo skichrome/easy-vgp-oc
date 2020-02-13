@@ -4,11 +4,12 @@ import androidx.lifecycle.*
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.MachineRepository
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.local.database.MachineType
 import com.skichrome.oc.easyvgp.model.local.database.Machines
 import com.skichrome.oc.easyvgp.util.Event
 import kotlinx.coroutines.launch
 
-class MachineViewModel(repository: MachineRepository) : ViewModel()
+class MachineViewModel(private val repository: MachineRepository) : ViewModel()
 {
     // =================================
     //              Fields
@@ -27,6 +28,23 @@ class MachineViewModel(repository: MachineRepository) : ViewModel()
         }
     }
     val machines: LiveData<List<Machines>> = _machines
+
+    private val _machinesTypes: LiveData<List<MachineType>> = repository.observeMachineTypes().map { machineTypeList ->
+        if (machineTypeList is Success)
+            return@map machineTypeList.data
+        else
+        {
+            showMessage(R.string.view_model_machine_machines_type_list)
+            return@map emptyList<MachineType>()
+        }
+    }
+    val machineTypes: LiveData<List<MachineType>> = _machinesTypes
+
+    private val _machine = MutableLiveData<Machines>()
+    val machine: LiveData<Machines> = _machine
+
+    private val _machineSaved = MutableLiveData<Event<Boolean>>()
+    val machineSaved: LiveData<Event<Boolean>> = _machineSaved
 
     private val _machineClicked = MutableLiveData<Event<Long>>()
     val machineClicked: LiveData<Event<Long>> = _machineClicked
@@ -66,5 +84,40 @@ class MachineViewModel(repository: MachineRepository) : ViewModel()
         }
 
         return machinesFiltered
+    }
+
+    // --- Data
+
+    fun loadMachineToEdit(machineId: Long)
+    {
+        viewModelScope.launch {
+            val result = repository.getMachineById(machineId)
+            if (result is Success)
+                _machine.value = result.data
+            else
+                showMessage(R.string.view_model_machine_machine_by_id_error)
+        }
+    }
+
+    fun saveMachine(machines: Machines)
+    {
+        viewModelScope.launch {
+            val result = repository.insertNewMachine(machines)
+            if (result is Success)
+                _machineSaved.value = Event(true)
+            else
+                showMessage(R.string.view_model_machine_insert_error)
+        }
+    }
+
+    fun updateMachine(machines: Machines)
+    {
+        viewModelScope.launch {
+            val result = repository.updateMachine(machines)
+            if (result is Success)
+                _machineSaved.value = Event(true)
+            else
+                showMessage(R.string.view_model_machine_update_error)
+        }
     }
 }

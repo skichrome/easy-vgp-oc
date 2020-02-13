@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Context
 import androidx.annotation.VisibleForTesting
 import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.skichrome.oc.easyvgp.androidmanagers.DefaultNetManager
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager
 import com.skichrome.oc.easyvgp.model.*
@@ -47,7 +49,16 @@ object ServiceLocator
     }
 
     private fun buildDatabase(app: Application): AppDatabase =
-        Room.databaseBuilder(app.applicationContext, AppDatabase::class.java, "easy-vgp-database.db").build()
+        Room.databaseBuilder(app.applicationContext, AppDatabase::class.java, "easy-vgp-database.db")
+            .addCallback(object : RoomDatabase.Callback()
+            {
+                override fun onCreate(db: SupportSQLiteDatabase)
+                {
+                    super.onCreate(db)
+                    DatabaseDataDebug.prePopulateDatabase(db)
+                }
+            })
+            .build()
 
     // --- Data Source --- //
 

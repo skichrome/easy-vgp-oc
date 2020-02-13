@@ -83,7 +83,18 @@
             app:argType="long" />
         <action
             android:id="@+id/action_machineFragment_to_vgpFragment"
-            app:destination="@id/vgpFragment" />
+            app:destination="@id/vgpFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_machineFragment_to_addEditMachineFragment"
+            app:destination="@id/addEditMachineFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/vgpFragment"
@@ -92,6 +103,20 @@
         tools:layout="@layout/fragment_vgp">
         <argument
             android:name="machineId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditMachineFragment"
+        android:name="com.skichrome.oc.easyvgp.view.fragments.AddEditMachineFragment"
+        android:label="AddEditMachineFragment"
+        tools:layout="@layout/fragment_add_edit_machine">
+        <argument
+            android:name="machineId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <argument
+            android:name="customerId"
             android:defaultValue="-1L"
             app:argType="long" />
     </fragment>

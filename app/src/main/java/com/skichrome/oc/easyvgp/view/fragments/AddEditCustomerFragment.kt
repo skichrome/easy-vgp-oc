@@ -2,13 +2,13 @@ package com.skichrome.oc.easyvgp.view.fragments
 
 import android.widget.TextView
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentAddEditCustomerBinding
 import com.skichrome.oc.easyvgp.model.local.database.Customers
+import com.skichrome.oc.easyvgp.util.EventObserver
 import com.skichrome.oc.easyvgp.util.snackBar
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.viewmodel.CustomerViewModel
@@ -61,14 +61,9 @@ class AddEditCustomerFragment : BaseBindingFragment<FragmentAddEditCustomerBindi
             viewModel.loadCustomerById(args.customerId)
     }
 
-    private fun configureViewModel()
-    {
-        viewModel.customersSaved.observe(this, Observer {
-            if (it.getContentIfNotHandled() == true)
-                findNavController().navigateUp()
-            else
-                view?.snackBar(getString(R.string.frag_add_edit_customer_error))
-        })
+    private fun configureViewModel() = viewModel.apply {
+        errorMessage.observe(this@AddEditCustomerFragment, EventObserver { binding.root.snackBar(getString(it)) })
+        customersSaved.observe(this@AddEditCustomerFragment, EventObserver { findNavController().navigateUp() })
     }
 
     private fun configureFab()
@@ -99,7 +94,7 @@ class AddEditCustomerFragment : BaseBindingFragment<FragmentAddEditCustomerBindi
                 id = if (args.customerId != -1L) args.customerId else 0,
                 firstName = addEditCustomerFragFirstNameText.text.toString(),
                 lastName = addEditCustomerFragLastNameText.text.toString(),
-                siret = addEditCustomerFragSiretText.text.toString().toLong(),
+                siret = addEditCustomerFragSiretText.text.toString(),
                 postCode = addEditCustomerFragPostCodeText.text.toString().toInt(),
                 address = addEditCustomerFragAddressText.text.toString(),
                 city = addEditCustomerFragCityText.text.toString(),

@@ -8,7 +8,7 @@ data class Customers(
     @ColumnInfo(name = "customer_id") @PrimaryKey(autoGenerate = true) val id: Long = 0L,
     @ColumnInfo(name = "first_name") val firstName: String,
     @ColumnInfo(name = "last_name") val lastName: String,
-    @ColumnInfo(name = "siret") val siret: Long,
+    @ColumnInfo(name = "siret") val siret: String,
     @ColumnInfo(name = "email") val email: String?,
     @ColumnInfo(name = "phone") val phone: Int?,
     @ColumnInfo(name = "mobile_phone") val mobilePhone: Int?,

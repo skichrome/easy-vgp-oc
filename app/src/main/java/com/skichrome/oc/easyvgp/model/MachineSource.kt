@@ -8,4 +8,9 @@ interface MachineSource
 {
     fun observeMachines(): LiveData<Results<List<Machines>>>
     fun observeMachineTypes(): LiveData<Results<List<MachineType>>>
+
+    suspend fun getMachineById(machineId: Long): Results<Machines>
+
+    suspend fun insertNewMachine(machines: Machines): Results<Long>
+    suspend fun updateMachine(machines: Machines): Results<Int>
 }
