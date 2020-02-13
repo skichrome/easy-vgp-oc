@@ -86,7 +86,7 @@ object DatabaseDataDebug
         contentValues.put("customer_ref", 1)
         contentValues.put("machine_type_ref", 1)
 
-        db.insert("MachineType", OnConflictStrategy.IGNORE, contentValues)
+        db.insert("Machines", OnConflictStrategy.IGNORE, contentValues)
         contentValues.clear()
 
         contentValues.put("machine_id", 2)
@@ -96,7 +96,7 @@ object DatabaseDataDebug
         contentValues.put("customer_ref", 1)
         contentValues.put("machine_type_ref", 1)
 
-        db.insert("MachineType", OnConflictStrategy.IGNORE, contentValues)
+        db.insert("Machines", OnConflictStrategy.IGNORE, contentValues)
         contentValues.clear()
 
         contentValues.put("machine_id", 3)
@@ -106,7 +106,7 @@ object DatabaseDataDebug
         contentValues.put("customer_ref", 2)
         contentValues.put("machine_type_ref", 4)
 
-        db.insert("MachineType", OnConflictStrategy.IGNORE, contentValues)
+        db.insert("Machines", OnConflictStrategy.IGNORE, contentValues)
         contentValues.clear()
 
         contentValues.put("machine_id", 4)
@@ -116,7 +116,7 @@ object DatabaseDataDebug
         contentValues.put("customer_ref", 3)
         contentValues.put("machine_type_ref", 4)
 
-        db.insert("MachineType", OnConflictStrategy.IGNORE, contentValues)
+        db.insert("Machines", OnConflictStrategy.IGNORE, contentValues)
         contentValues.clear()
 
         contentValues.put("machine_id", 5)
@@ -126,7 +126,7 @@ object DatabaseDataDebug
         contentValues.put("customer_ref", 3)
         contentValues.put("machine_type_ref", 3)
 
-        db.insert("MachineType", OnConflictStrategy.IGNORE, contentValues)
+        db.insert("Machines", OnConflictStrategy.IGNORE, contentValues)
         contentValues.clear()
     }
 }
