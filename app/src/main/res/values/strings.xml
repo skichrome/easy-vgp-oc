@@ -6,6 +6,13 @@
     <string name="frag_home_btn_customers">See my customers</string>
     <string name="frag_home_btn_see_vgp">See all VGP</string>
 
+    <!-- Home ViewModel -->
+    <string name="view_model_home_user_list_error">An error occurred when fetching all users</string>
+    <string name="view_model_home_user_insert">New user has been successfully created</string>
+    <string name="view_model_home_user_insert_error">An error occurred when creating new user</string>
+    <string name="view_model_home_user_update">New user has been successfully updated</string>
+    <string name="view_model_home_user_update_error">An error occurred when updating new user</string>
+
     <!-- MainActivity -->
     <string name="frag_login_success">You are successfully logged in !</string>
     <string name="frag_login_error">We can\'t login you into the app, please retry</string>

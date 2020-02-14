@@ -40,9 +40,9 @@ class DefaultCustomerRepositoryTest
     {
         netManager = FakeNetManager(isFakeConnected = false)
 
-        customersLocalDataSource = FakeCustomerDataSource(DataProvider.localCustomersMap)
+        customersLocalDataSource = FakeCustomerDataSource(DataProvider.localCustomerMap)
 
-        customersRemoteDataSource = FakeCustomerDataSource(DataProvider.remoteCustomersMap)
+        customersRemoteDataSource = FakeCustomerDataSource(DataProvider.remoteCustomerMap)
 
         customersLocalDataSource.refresh()
         customersRemoteDataSource.refresh()

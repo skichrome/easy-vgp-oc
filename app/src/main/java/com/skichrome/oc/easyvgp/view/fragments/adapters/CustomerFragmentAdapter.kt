@@ -6,11 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.skichrome.oc.easyvgp.databinding.ItemRvFragmentCustomerBinding
-import com.skichrome.oc.easyvgp.model.local.database.Customers
+import com.skichrome.oc.easyvgp.model.local.database.Customer
 import com.skichrome.oc.easyvgp.viewmodel.CustomerViewModel
 
 class CustomerFragmentAdapter(private val viewModel: CustomerViewModel) :
-    ListAdapter<Customers, CustomerFragmentAdapter.CustomersFragmentViewHolder>(CustomerDiffCallback())
+    ListAdapter<Customer, CustomerFragmentAdapter.CustomersFragmentViewHolder>(CustomerDiffCallback())
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomersFragmentViewHolder
     {
@@ -22,7 +22,7 @@ class CustomerFragmentAdapter(private val viewModel: CustomerViewModel) :
 
     class CustomersFragmentViewHolder(private val binding: ItemRvFragmentCustomerBinding) : RecyclerView.ViewHolder(binding.root)
     {
-        fun bind(viewModel: CustomerViewModel, customer: Customers)
+        fun bind(viewModel: CustomerViewModel, customer: Customer)
         {
             binding.customer = customer
             binding.viewModel = viewModel
@@ -33,14 +33,14 @@ class CustomerFragmentAdapter(private val viewModel: CustomerViewModel) :
         }
     }
 
-    class CustomerDiffCallback : DiffUtil.ItemCallback<Customers>()
+    class CustomerDiffCallback : DiffUtil.ItemCallback<Customer>()
     {
-        override fun areItemsTheSame(oldItem: Customers, newItem: Customers): Boolean
+        override fun areItemsTheSame(oldItem: Customer, newItem: Customer): Boolean
         {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Customers, newItem: Customers): Boolean
+        override fun areContentsTheSame(oldItem: Customer, newItem: Customer): Boolean
         {
             return oldItem == newItem
         }

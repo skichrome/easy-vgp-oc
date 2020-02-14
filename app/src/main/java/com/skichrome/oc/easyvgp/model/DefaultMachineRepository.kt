@@ -1,16 +1,16 @@
 package com.skichrome.oc.easyvgp.model
 
 import androidx.lifecycle.LiveData
+import com.skichrome.oc.easyvgp.model.local.database.Machine
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
-import com.skichrome.oc.easyvgp.model.local.database.Machines
 
 class DefaultMachineRepository(private val localSource: MachineSource) : MachineRepository
 {
-    override fun observeMachines(): LiveData<Results<List<Machines>>> = localSource.observeMachines()
+    override fun observeMachines(): LiveData<Results<List<Machine>>> = localSource.observeMachines()
     override fun observeMachineTypes(): LiveData<Results<List<MachineType>>> = localSource.observeMachineTypes()
 
-    override suspend fun getMachineById(machineId: Long): Results<Machines> = localSource.getMachineById(machineId)
+    override suspend fun getMachineById(machineId: Long): Results<Machine> = localSource.getMachineById(machineId)
 
-    override suspend fun insertNewMachine(machines: Machines): Results<Long> = localSource.insertNewMachine(machines)
-    override suspend fun updateMachine(machines: Machines): Results<Int> = localSource.updateMachine(machines)
+    override suspend fun insertNewMachine(machine: Machine): Results<Long> = localSource.insertNewMachine(machine)
+    override suspend fun updateMachine(machine: Machine): Results<Int> = localSource.updateMachine(machine)
 }

@@ -10,6 +10,7 @@ import com.skichrome.oc.easyvgp.androidmanagers.DefaultNetManager
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager
 import com.skichrome.oc.easyvgp.model.*
 import com.skichrome.oc.easyvgp.model.local.LocalCustomerRepository
+import com.skichrome.oc.easyvgp.model.local.LocalHomeSource
 import com.skichrome.oc.easyvgp.model.local.LocalMachineSource
 import com.skichrome.oc.easyvgp.model.local.database.AppDatabase
 import com.skichrome.oc.easyvgp.model.remote.CustomerRemoteRepository
@@ -24,6 +25,10 @@ object ServiceLocator
     private var database: AppDatabase? = null
 
     var netManager: NetManager? = null
+        @VisibleForTesting set
+
+    @Volatile
+    var homeRepository: HomeRepository? = null
         @VisibleForTesting set
 
     @Volatile
@@ -62,6 +67,16 @@ object ServiceLocator
 
     // --- Data Source --- //
 
+    // --- Home
+
+    private fun provideLocalHomeSource(app: Application): HomeSource
+    {
+        val db = getDatabaseInstance(app)
+        val companyDao = db.companiesDao()
+        val userDao = db.usersDao()
+        return LocalHomeSource(companyDao, userDao)
+    }
+
     // --- Customers
 
     private fun provideLocalCustomerSource(app: Application): CustomerDataSource
@@ -84,6 +99,18 @@ object ServiceLocator
     }
 
     // --- Data Repository --- //
+
+    // --- Home
+
+    fun provideHomeRepository(app: Application) = homeRepository ?: synchronized(this) {
+        homeRepository ?: configureDefaultHomeRepository(app).also { homeRepository = it }
+    }
+
+    private fun configureDefaultHomeRepository(app: Application): HomeRepository
+    {
+        val localSource = provideLocalHomeSource(app)
+        return DefaultHomeRepository(localSource)
+    }
 
     // --- Customers
 

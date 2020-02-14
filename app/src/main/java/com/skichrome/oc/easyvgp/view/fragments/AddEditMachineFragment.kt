@@ -11,8 +11,8 @@ import androidx.navigation.fragment.navArgs
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentAddEditMachineBinding
+import com.skichrome.oc.easyvgp.model.local.database.Machine
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
-import com.skichrome.oc.easyvgp.model.local.database.Machines
 import com.skichrome.oc.easyvgp.util.EventObserver
 import com.skichrome.oc.easyvgp.util.snackBar
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
@@ -127,7 +127,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
 
         if (canRegisterCustomer)
         {
-            val machine = Machines(
+            val machine = Machine(
                 machineId = if (args.machineId != -1L) args.machineId else 0,
                 type = machineType!!,
                 serial = addEditMachineFragmentSerial.text.toString(),

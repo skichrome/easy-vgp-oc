@@ -3,24 +3,32 @@ package com.skichrome.oc.easyvgp.view
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
+import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
-import com.skichrome.oc.easyvgp.util.RC_SIGN_IN_CODE
-import com.skichrome.oc.easyvgp.util.errorLog
-import com.skichrome.oc.easyvgp.util.snackBar
+import com.skichrome.oc.easyvgp.model.local.database.User
+import com.skichrome.oc.easyvgp.util.*
+import com.skichrome.oc.easyvgp.viewmodel.HomeViewModel
+import com.skichrome.oc.easyvgp.viewmodel.vmfactory.HomeViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity()
 {
     // App icon credit : Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+
+    private val viewModel by viewModels<HomeViewModel> {
+        HomeViewModelFactory((application as EasyVGPApplication).homeRepository)
+    }
 
     // =================================
     //        Superclass Methods
@@ -89,7 +97,34 @@ class MainActivity : AppCompatActivity()
     private fun checkIfUserIsAlreadyLoggedIn()
     {
         if (FirebaseAuth.getInstance().currentUser == null)
+        {
             configureAppLogin()
+        } else
+        {
+            val userUid = FirebaseAuth.getInstance().currentUser!!.uid
+            viewModel.getCurrentFirebaseUser(userUid)
+
+            viewModel.currentUserId.observe(this, EventObserver {
+                val userName = FirebaseAuth.getInstance().currentUser?.displayName
+                val userEmail = FirebaseAuth.getInstance().currentUser?.email
+
+                if (userName != null && userEmail != null)
+                {
+                    if (it == -1L)
+                    {
+                        val user = User(id = 0L, firebaseUid = userUid, name = userName, email = userEmail)
+                        viewModel.saveNewUser(user)
+                    } else
+                    {
+                        PreferenceManager.getDefaultSharedPreferences(this)
+                            .edit()
+                            .putLong(CURRENT_LOCAL_PROFILE, it)
+                            .apply()
+                    }
+                }
+            })
+            viewModel.message.observe(this, EventObserver { toast(getString(it)) })
+        }
     }
 
     private fun configureAppLogin()

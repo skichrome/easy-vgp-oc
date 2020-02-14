@@ -1,45 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/fragHomeLeftGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.25" />
+    <data>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/fragHomeRightGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.75" />
+        <variable
+            name="viewModel"
+            type="com.skichrome.oc.easyvgp.viewmodel.HomeViewModel" />
+    </data>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/fragHomeBtnNewVGP"
-        style="@style/buttonStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/btn_bottom_margin"
-        android:text="@string/frag_home_btn_new_vgp"
-        app:layout_constraintBottom_toTopOf="@+id/fragHomeBtnSeeVGP"
-        app:layout_constraintEnd_toEndOf="@id/fragHomeRightGuideline"
-        app:layout_constraintStart_toStartOf="@id/fragHomeLeftGuideline" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/fragHomeBtnSeeVGP"
-        style="@style/buttonStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/btn_bottom_margin"
-        android:text="@string/frag_home_btn_see_vgp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/fragHomeRightGuideline"
-        app:layout_constraintStart_toStartOf="@id/fragHomeLeftGuideline" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/fragHomeLeftGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.25" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/fragHomeRightGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.75" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fragHomeBtnNewVGP"
+            style="@style/buttonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/btn_bottom_margin"
+            android:text="@string/frag_home_btn_new_vgp"
+            app:layout_constraintBottom_toTopOf="@+id/fragHomeBtnSeeVGP"
+            app:layout_constraintEnd_toEndOf="@id/fragHomeRightGuideline"
+            app:layout_constraintStart_toStartOf="@id/fragHomeLeftGuideline" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fragHomeBtnSeeVGP"
+            style="@style/buttonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/btn_bottom_margin"
+            android:text="@string/frag_home_btn_see_vgp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/fragHomeRightGuideline"
+            app:layout_constraintStart_toStartOf="@id/fragHomeLeftGuideline" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

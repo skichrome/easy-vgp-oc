@@ -21,7 +21,7 @@ class CustomerDaoTest
     // =================================
 
     private val customer1Id = 1L
-    private val customer1 = Customers(
+    private val customer1 = Customer(
         id = customer1Id,
         firstName = "first name $customer1Id",
         lastName = "last name $customer1Id",
@@ -34,7 +34,7 @@ class CustomerDaoTest
         notes = "This is a note $customer1Id",
         phone = ("0404040404").toInt()
     )
-    private val customer1Edit = Customers(
+    private val customer1Edit = Customer(
         id = customer1Id,
         firstName = "first edited name $customer1Id",
         lastName = "last edited name $customer1Id",
@@ -49,7 +49,7 @@ class CustomerDaoTest
     )
 
     private val customer2Id = 2L
-    private val customer2 = Customers(
+    private val customer2 = Customer(
         id = customer2Id,
         firstName = "first name $customer2Id",
         lastName = "last name $customer2Id",
@@ -64,7 +64,7 @@ class CustomerDaoTest
     )
 
     private val customer3Id = 3L
-    private val customer3 = Customers(
+    private val customer3 = Customer(
         id = customer3Id,
         firstName = "first name $customer3Id",
         lastName = "last name $customer3Id",

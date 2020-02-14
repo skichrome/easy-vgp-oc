@@ -6,11 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.skichrome.oc.easyvgp.databinding.ItemRvFragmentMachineBinding
-import com.skichrome.oc.easyvgp.model.local.database.Machines
+import com.skichrome.oc.easyvgp.model.local.database.Machine
 import com.skichrome.oc.easyvgp.viewmodel.MachineViewModel
 
 class MachineFragmentAdapter(private val viewModel: MachineViewModel) :
-    ListAdapter<Machines, MachineFragmentAdapter.CustomersFragmentViewHolder>(MachineDiffCallback())
+    ListAdapter<Machine, MachineFragmentAdapter.CustomersFragmentViewHolder>(MachineDiffCallback())
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomersFragmentViewHolder
     {
@@ -22,7 +22,7 @@ class MachineFragmentAdapter(private val viewModel: MachineViewModel) :
 
     class CustomersFragmentViewHolder(private val binding: ItemRvFragmentMachineBinding) : RecyclerView.ViewHolder(binding.root)
     {
-        fun bind(viewModel: MachineViewModel, machine: Machines)
+        fun bind(viewModel: MachineViewModel, machine: Machine)
         {
             binding.machine = machine
             binding.viewModel = viewModel
@@ -33,14 +33,14 @@ class MachineFragmentAdapter(private val viewModel: MachineViewModel) :
         }
     }
 
-    class MachineDiffCallback : DiffUtil.ItemCallback<Machines>()
+    class MachineDiffCallback : DiffUtil.ItemCallback<Machine>()
     {
-        override fun areItemsTheSame(oldItem: Machines, newItem: Machines): Boolean
+        override fun areItemsTheSame(oldItem: Machine, newItem: Machine): Boolean
         {
             return oldItem.machineId == newItem.machineId
         }
 
-        override fun areContentsTheSame(oldItem: Machines, newItem: Machines): Boolean
+        override fun areContentsTheSame(oldItem: Machine, newItem: Machine): Boolean
         {
             return oldItem == newItem
         }

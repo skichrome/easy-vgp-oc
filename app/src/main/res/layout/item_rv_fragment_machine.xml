@@ -2,14 +2,13 @@
 
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="machine"
-            type="com.skichrome.oc.easyvgp.model.local.database.Machines" />
+            type="com.skichrome.oc.easyvgp.model.local.database.Machine" />
 
         <variable
             name="viewModel"
@@ -19,15 +18,9 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/rvItemMachineCardView"
         android:layout_width="match_parent"
+        style="@style/cardStyle"
         android:layout_height="140dp"
-        android:layout_margin="8dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:onClick="@{() -> viewModel.onClickMachine(machine.machineId)}"
-        app:cardBackgroundColor="@color/secondaryColor"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="6dp">
+        android:onClick="@{() -> viewModel.onClickMachine(machine.machineId)}">
 
         <ImageView
             android:layout_width="48dp"

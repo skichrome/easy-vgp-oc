@@ -60,10 +60,9 @@
 
         <EditText
             android:id="@+id/addEditMachineFragmentSerial"
+            style="@style/editTextStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/tv_input_margin"
-            android:layout_marginTop="@dimen/tv_input_margin"
             android:layout_marginEnd="@dimen/tv_input_margin"
             android:hint="@string/add_edit_machine_frag_hint_serial"
             android:importantForAutofill="no"
@@ -98,13 +97,8 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addEditCustomerFragFab"
-            style="@style/Widget.MaterialComponents.FloatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/fab_margin"
-            android:layout_marginBottom="@dimen/fab_margin"
+            style="@style/fabStyle"
             android:src="@drawable/ic_save_24dp"
-            app:backgroundTint="@color/secondaryColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

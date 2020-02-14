@@ -1,9 +1,9 @@
 package com.skichrome.oc.easyvgp.model.source
 
 import androidx.annotation.VisibleForTesting
-import com.skichrome.oc.easyvgp.model.local.database.Customers
+import com.skichrome.oc.easyvgp.model.local.database.Customer
+import com.skichrome.oc.easyvgp.model.local.database.Machine
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
-import com.skichrome.oc.easyvgp.model.local.database.Machines
 
 @Suppress("MemberVisibilityCanBePrivate")
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -12,7 +12,7 @@ object DataProvider
     // --- Customers --- //
 
     const val customer1Id = 1L
-    val customer1 = Customers(
+    val customer1 = Customer(
         id = customer1Id,
         firstName = "first name $customer1Id",
         lastName = "last name $customer1Id",
@@ -25,7 +25,7 @@ object DataProvider
         notes = "This is a note $customer1Id",
         phone = ("0404040404").toInt()
     )
-    val customer1Edit = Customers(
+    val customer1Edit = Customer(
         id = customer1Id,
         firstName = "first edited name $customer1Id",
         lastName = "last edited name $customer1Id",
@@ -40,7 +40,7 @@ object DataProvider
     )
 
     const val customer2Id = 2L
-    val customer2 = Customers(
+    val customer2 = Customer(
         id = customer2Id,
         firstName = "first name $customer2Id",
         lastName = "last name $customer2Id",
@@ -55,7 +55,7 @@ object DataProvider
     )
 
     const val customer3Id = 3L
-    val customer3 = Customers(
+    val customer3 = Customer(
         id = customer3Id,
         firstName = "first name $customer3Id",
         lastName = "last name $customer3Id",
@@ -72,18 +72,18 @@ object DataProvider
     val remoteCustomers = listOf(customer1, customer2).sortedBy { it.id }
     val localCustomers = listOf(customer1, customer3).sortedBy { it.id }
 
-    val remoteCustomersMap: LinkedHashMap<Long, Customers>
+    val remoteCustomerMap: LinkedHashMap<Long, Customer>
         get()
         {
-            val tempHashMap = LinkedHashMap<Long, Customers>()
+            val tempHashMap = LinkedHashMap<Long, Customer>()
             remoteCustomers.forEach { tempHashMap[it.id] = it }
             return tempHashMap
         }
 
-    val localCustomersMap: LinkedHashMap<Long, Customers>
+    val localCustomerMap: LinkedHashMap<Long, Customer>
         get()
         {
-            val tempHashMap = LinkedHashMap<Long, Customers>()
+            val tempHashMap = LinkedHashMap<Long, Customer>()
             localCustomers.forEach { tempHashMap[it.id] = it }
             return tempHashMap
         }
@@ -104,7 +104,7 @@ object DataProvider
     )
 
     const val machine1Id = 1L
-    val machine1 = Machines(
+    val machine1 = Machine(
         machineId = machine1Id,
         name = "Mach1",
         brand = "brand1",
@@ -114,7 +114,7 @@ object DataProvider
     )
 
     const val machine2Id = 2L
-    val machine2 = Machines(
+    val machine2 = Machine(
         machineId = machine2Id,
         name = "Mach1",
         brand = "brand1",

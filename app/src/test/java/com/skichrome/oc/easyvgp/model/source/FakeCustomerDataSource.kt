@@ -6,45 +6,45 @@ import com.skichrome.oc.easyvgp.model.CustomerDataSource
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.local.database.Customers
+import com.skichrome.oc.easyvgp.model.local.database.Customer
 
-class FakeCustomerDataSource(private var customersServiceData: LinkedHashMap<Long, Customers> = LinkedHashMap()) :
+class FakeCustomerDataSource(private var customerServiceData: LinkedHashMap<Long, Customer> = LinkedHashMap()) :
     CustomerDataSource
 {
     // =================================
     //              Fields
     // =================================
 
-    private var observableData = MutableLiveData<List<Customers>>()
+    private var observableData = MutableLiveData<List<Customer>>()
 
-    override fun loadAllCustomers(): LiveData<List<Customers>> = observableData
+    override fun loadAllCustomers(): LiveData<List<Customer>> = observableData
 
-    override suspend fun getCustomerById(id: Long): Results<Customers> =
-        customersServiceData.let {
-            val foundCustomer: Customers? = it[id]
+    override suspend fun getCustomerById(id: Long): Results<Customer> =
+        customerServiceData.let {
+            val foundCustomer: Customer? = it[id]
 
             foundCustomer?.let { foundCustomerNotNull -> Success(foundCustomerNotNull) }
                 ?: Error(Exception("Customer not found"))
         }
 
-    override suspend fun saveCustomers(customers: Array<Customers>): Results<List<Long>>
+    override suspend fun saveCustomers(customers: Array<Customer>): Results<List<Long>>
     {
-        customers.forEach { customersServiceData[it.id] = it }
+        customers.forEach { customerServiceData[it.id] = it }
         return Success(listOf(customers.size.toLong()))
     }
 
-    override suspend fun saveCustomers(customer: Customers): Results<Long>
+    override suspend fun saveCustomers(customer: Customer): Results<Long>
     {
-        this.customersServiceData[customer.id] = customer
+        this.customerServiceData[customer.id] = customer
         return Success(customer.id)
     }
 
-    override suspend fun updateCustomers(customer: Customers): Results<Int>
+    override suspend fun updateCustomers(customer: Customer): Results<Int>
     {
-        val customerToUpdate = customersServiceData[customer.id]
+        val customerToUpdate = customerServiceData[customer.id]
         return if (customerToUpdate != null)
         {
-            customersServiceData[customer.id] = customer
+            customerServiceData[customer.id] = customer
             Success(1)
         } else
             Error(java.lang.Exception("Customer to update not found"))
@@ -56,6 +56,6 @@ class FakeCustomerDataSource(private var customersServiceData: LinkedHashMap<Lon
 
     fun refresh()
     {
-        observableData.value = customersServiceData.values.toList().sortedBy { it.id }
+        observableData.value = customerServiceData.values.toList().sortedBy { it.id }
     }
 }

@@ -9,7 +9,7 @@
 
         <variable
             name="customer"
-            type="com.skichrome.oc.easyvgp.model.local.database.Customers" />
+            type="com.skichrome.oc.easyvgp.model.local.database.Customer" />
 
         <variable
             name="viewModel"
@@ -18,16 +18,10 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/rvItemCustomerCardView"
+        style="@style/cardStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:onClick="@{() -> viewModel.onClickCustomer(customer.id)}"
-        app:cardCornerRadius="6dp"
-        app:cardElevation="8dp"
-        app:cardPreventCornerOverlap="true"
-        app:cardUseCompatPadding="true">
+        android:onClick="@{() -> viewModel.onClickCustomer(customer.id)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

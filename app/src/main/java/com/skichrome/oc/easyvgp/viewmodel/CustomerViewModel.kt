@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.CustomerRepository
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.local.database.Customers
+import com.skichrome.oc.easyvgp.model.local.database.Customer
 import com.skichrome.oc.easyvgp.util.Event
 import com.skichrome.oc.easyvgp.util.uiJob
 
@@ -17,11 +17,11 @@ class CustomerViewModel(private val repository: CustomerRepository) : ViewModel(
     //              Fields
     // =================================
 
-    private val _customers: LiveData<List<Customers>> = repository.getAllCustomers()
-    val customers: LiveData<List<Customers>> = _customers
+    private val _customers: LiveData<List<Customer>> = repository.getAllCustomers()
+    val customers: LiveData<List<Customer>> = _customers
 
-    private val _customer = MutableLiveData<Customers>()
-    val customer: LiveData<Customers> = _customer
+    private val _customer = MutableLiveData<Customer>()
+    val customer: LiveData<Customer> = _customer
 
     // --- Events --- //
 
@@ -58,7 +58,7 @@ class CustomerViewModel(private val repository: CustomerRepository) : ViewModel(
         }
     }
 
-    fun saveCustomer(customer: Customers)
+    fun saveCustomer(customer: Customer)
     {
         viewModelScope.uiJob {
             val result = repository.saveCustomers(customer)
@@ -69,7 +69,7 @@ class CustomerViewModel(private val repository: CustomerRepository) : ViewModel(
         }
     }
 
-    fun updateCustomer(customer: Customers)
+    fun updateCustomer(customer: Customer)
     {
         viewModelScope.uiJob {
             val result = repository.updateCustomers(customer)

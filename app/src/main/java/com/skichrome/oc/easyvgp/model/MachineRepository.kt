@@ -1,16 +1,16 @@
 package com.skichrome.oc.easyvgp.model
 
 import androidx.lifecycle.LiveData
+import com.skichrome.oc.easyvgp.model.local.database.Machine
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
-import com.skichrome.oc.easyvgp.model.local.database.Machines
 
 interface MachineRepository
 {
-    fun observeMachines(): LiveData<Results<List<Machines>>>
+    fun observeMachines(): LiveData<Results<List<Machine>>>
     fun observeMachineTypes(): LiveData<Results<List<MachineType>>>
 
-    suspend fun getMachineById(machineId: Long): Results<Machines>
+    suspend fun getMachineById(machineId: Long): Results<Machine>
 
-    suspend fun insertNewMachine(machines: Machines): Results<Long>
-    suspend fun updateMachine(machines: Machines): Results<Int>
+    suspend fun insertNewMachine(machine: Machine): Results<Long>
+    suspend fun updateMachine(machine: Machine): Results<Int>
 }

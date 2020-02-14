@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.local.database.Machine
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
-import com.skichrome.oc.easyvgp.model.local.database.Machines
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 
@@ -16,8 +16,8 @@ class FakeAndroidTestMachineRepository : MachineRepository
     //              Fields
     // =================================
 
-    private val machinesServiceData: LinkedHashMap<Long, Machines> = LinkedHashMap()
-    private val observableMachinesData = MutableLiveData<List<Machines>>()
+    private val machineServiceData: LinkedHashMap<Long, Machine> = LinkedHashMap()
+    private val observableMachinesData = MutableLiveData<List<Machine>>()
 
     private val machineTypeServiceData: LinkedHashMap<Long, MachineType> = LinkedHashMap()
     private val observableMachineTypeData = MutableLiveData<List<MachineType>>()
@@ -26,30 +26,30 @@ class FakeAndroidTestMachineRepository : MachineRepository
     //        Superclass Methods
     // =================================
 
-    override fun observeMachines(): LiveData<Results<List<Machines>>> = observableMachinesData.map { Success(it) }
+    override fun observeMachines(): LiveData<Results<List<Machine>>> = observableMachinesData.map { Success(it) }
 
     override fun observeMachineTypes(): LiveData<Results<List<MachineType>>> = observableMachineTypeData.map { Success(it) }
 
-    override suspend fun getMachineById(machineId: Long): Results<Machines>
+    override suspend fun getMachineById(machineId: Long): Results<Machine>
     {
-        val result = machinesServiceData[machineId]
+        val result = machineServiceData[machineId]
         return if (result == null)
             Error(Exception("Not found"))
         else
             Success(result)
     }
 
-    override suspend fun insertNewMachine(machines: Machines): Results<Long>
+    override suspend fun insertNewMachine(machine: Machine): Results<Long>
     {
-        machinesServiceData[machines.machineId] = machines
-        return Success(machines.machineId)
+        machineServiceData[machine.machineId] = machine
+        return Success(machine.machineId)
     }
 
-    override suspend fun updateMachine(machines: Machines): Results<Int>
+    override suspend fun updateMachine(machine: Machine): Results<Int>
     {
-        val machineToUpdate = machinesServiceData[machines.machineId]
+        val machineToUpdate = machineServiceData[machine.machineId]
         return machineToUpdate?.let {
-            machinesServiceData[machines.machineId] = machines
+            machineServiceData[machine.machineId] = machine
             Success(1)
         } ?: Error(Exception("Machine not found"))
     }
@@ -61,7 +61,7 @@ class FakeAndroidTestMachineRepository : MachineRepository
     fun insertMachineTypes(machineTypes: List<MachineType>) = machineTypes.forEach { machineTypeServiceData[it.id] = it }
 
     fun refresh() = runBlocking(Dispatchers.Main) {
-        observableMachinesData.value = machinesServiceData.values.toList().sortedBy { it.machineId }
+        observableMachinesData.value = machineServiceData.values.toList().sortedBy { it.machineId }
         observableMachineTypeData.value = machineTypeServiceData.values.toList().sortedBy { it.id }
     }
 }

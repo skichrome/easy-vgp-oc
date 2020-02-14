@@ -4,18 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Entity(
+    tableName = "Machines",
     foreignKeys = [ForeignKey(
         entity = MachineType::class,
         parentColumns = ["machine_type_id"],
         childColumns = ["machine_type_ref"]
     ),
         ForeignKey(
-            entity = Customers::class,
+            entity = Customer::class,
             parentColumns = ["customer_id"],
             childColumns = ["customer_ref"]
         )]
 )
-data class Machines(
+data class Machine(
     @ColumnInfo(name = "machine_id") @PrimaryKey(autoGenerate = true) val machineId: Long,
     @ColumnInfo(name = "machine_name") val name: String,
     @ColumnInfo(name = "machine_serial") val serial: String,
@@ -25,11 +26,11 @@ data class Machines(
 )
 
 @Dao
-interface MachinesDao : BaseDao<Machines>
+interface MachinesDao : BaseDao<Machine>
 {
     @Query("SELECT * FROM Machines")
-    fun observeMachines(): LiveData<List<Machines>>
+    fun observeMachines(): LiveData<List<Machine>>
 
     @Query("SELECT * FROM Machines WHERE machine_id = :machineId")
-    suspend fun getMachineById(machineId: Long): Machines
+    suspend fun getMachineById(machineId: Long): Machine
 }

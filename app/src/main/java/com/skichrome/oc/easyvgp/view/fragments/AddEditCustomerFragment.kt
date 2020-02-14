@@ -7,7 +7,7 @@ import androidx.navigation.fragment.navArgs
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentAddEditCustomerBinding
-import com.skichrome.oc.easyvgp.model.local.database.Customers
+import com.skichrome.oc.easyvgp.model.local.database.Customer
 import com.skichrome.oc.easyvgp.util.EventObserver
 import com.skichrome.oc.easyvgp.util.snackBar
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
@@ -90,7 +90,7 @@ class AddEditCustomerFragment : BaseBindingFragment<FragmentAddEditCustomerBindi
 
         if (canRegisterCustomer)
         {
-            val customer = Customers(
+            val customer = Customer(
                 id = if (args.customerId != -1L) args.customerId else 0,
                 firstName = addEditCustomerFragFirstNameText.text.toString(),
                 lastName = addEditCustomerFragLastNameText.text.toString(),

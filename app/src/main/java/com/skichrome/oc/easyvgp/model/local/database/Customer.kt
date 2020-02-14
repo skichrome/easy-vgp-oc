@@ -3,8 +3,8 @@ package com.skichrome.oc.easyvgp.model.local.database
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
-@Entity
-data class Customers(
+@Entity(tableName = "Customers")
+data class Customer(
     @ColumnInfo(name = "customer_id") @PrimaryKey(autoGenerate = true) val id: Long = 0L,
     @ColumnInfo(name = "first_name") val firstName: String,
     @ColumnInfo(name = "last_name") val lastName: String,
@@ -19,14 +19,14 @@ data class Customers(
 )
 
 @Dao
-interface CustomersDao : BaseDao<Customers>
+interface CustomersDao : BaseDao<Customer>
 {
     @Query("SELECT * FROM Customers")
-    fun observeCustomers(): LiveData<List<Customers>>
+    fun observeCustomers(): LiveData<List<Customer>>
 
     @Query("SELECT * FROM Customers")
-    suspend fun getAllCustomers(): List<Customers>
+    suspend fun getAllCustomers(): List<Customer>
 
     @Query("SELECT * FROM Customers WHERE customer_id == :customerId")
-    suspend fun getCustomerById(customerId: Long): Customers
+    suspend fun getCustomerById(customerId: Long): Customer
 }

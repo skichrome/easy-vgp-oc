@@ -81,13 +81,11 @@
 
                 <EditText
                     android:id="@+id/addEditCustomerFragSiretText"
+                    style="@style/editTextStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/tv_input_margin"
-                    android:layout_marginTop="@dimen/tv_input_margin"
                     android:layout_marginEnd="@dimen/tv_input_margin"
                     android:drawableStart="@drawable/ic_work_24dp"
-                    android:drawablePadding="@dimen/edit_text_drawable_padding"
                     android:hint="@string/frag_add_edit_customer_siret_hint"
                     android:importantForAutofill="no"
                     android:inputType="text"
@@ -122,13 +120,11 @@
 
                 <EditText
                     android:id="@+id/addEditCustomerFragEmailText"
+                    style="@style/editTextStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/tv_input_margin"
-                    android:layout_marginTop="@dimen/tv_input_margin"
                     android:layout_marginEnd="@dimen/tv_input_margin"
                     android:drawableStart="@drawable/ic_email_24dp"
-                    android:drawablePadding="@dimen/edit_text_drawable_padding"
                     android:hint="@string/frag_add_edit_customer_email_hint"
                     android:importantForAutofill="no"
                     android:inputType="textEmailAddress"
@@ -140,13 +136,11 @@
 
                 <EditText
                     android:id="@+id/addEditCustomerFragPhoneText"
+                    style="@style/editTextStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/tv_input_margin"
-                    android:layout_marginTop="@dimen/tv_input_margin"
                     android:layout_marginEnd="@dimen/tv_input_margin"
                     android:drawableStart="@drawable/ic_call_24dp"
-                    android:drawablePadding="@dimen/edit_text_drawable_padding"
                     android:hint="@string/frag_add_edit_customer_phone_hint"
                     android:importantForAutofill="no"
                     android:inputType="phone|number"
@@ -158,13 +152,11 @@
 
                 <EditText
                     android:id="@+id/addEditCustomerFragMobilePhoneText"
+                    style="@style/editTextStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/tv_input_margin"
-                    android:layout_marginTop="@dimen/tv_input_margin"
                     android:layout_marginEnd="@dimen/tv_input_margin"
                     android:drawableStart="@drawable/ic_smartphone_24dp"
-                    android:drawablePadding="@dimen/edit_text_drawable_padding"
                     android:hint="@string/frag_add_edit_customer_mobile_phone_hint"
                     android:importantForAutofill="no"
                     android:inputType="phone|number"
@@ -199,13 +191,11 @@
 
                 <EditText
                     android:id="@+id/addEditCustomerFragAddressText"
+                    style="@style/editTextStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/tv_input_margin"
-                    android:layout_marginTop="@dimen/tv_input_margin"
                     android:layout_marginEnd="@dimen/tv_input_margin"
                     android:drawableStart="@drawable/ic_location_on_24dp"
-                    android:drawablePadding="@dimen/edit_text_drawable_padding"
                     android:hint="@string/frag_add_edit_customer_address_hint"
                     android:importantForAutofill="no"
                     android:inputType="textPostalAddress"
@@ -274,13 +264,11 @@
 
                 <EditText
                     android:id="@+id/addEditCustomerFragNotesText"
+                    style="@style/editTextStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/tv_input_margin"
-                    android:layout_marginTop="@dimen/tv_input_margin"
                     android:layout_marginEnd="@dimen/tv_input_margin"
                     android:drawableStart="@drawable/ic_note_24dp"
-                    android:drawablePadding="@dimen/edit_text_drawable_padding"
                     android:hint="@string/frag_add_edit_customer_notes_hint"
                     android:importantForAutofill="no"
                     android:inputType="textMultiLine"
@@ -302,13 +290,8 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addEditCustomerFragFab"
-            style="@style/Widget.MaterialComponents.FloatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/fab_margin"
-            android:layout_marginBottom="@dimen/fab_margin"
+            style="@style/fabStyle"
             android:src="@drawable/ic_save_24dp"
-            app:backgroundTint="@color/secondaryColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

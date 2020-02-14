@@ -2,7 +2,7 @@ package com.skichrome.oc.easyvgp.model
 
 import androidx.lifecycle.LiveData
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager
-import com.skichrome.oc.easyvgp.model.local.database.Customers
+import com.skichrome.oc.easyvgp.model.local.database.Customer
 
 class DefaultCustomerRepository(
     private val netManager: NetManager,
@@ -10,13 +10,13 @@ class DefaultCustomerRepository(
     private val remoteCustomerRepo: CustomerDataSource
 ) : CustomerRepository
 {
-    override fun getAllCustomers(): LiveData<List<Customers>> = localCustomerRepo.loadAllCustomers()
+    override fun getAllCustomers(): LiveData<List<Customer>> = localCustomerRepo.loadAllCustomers()
 
-    override suspend fun getCustomerById(id: Long): Results<Customers> = localCustomerRepo.getCustomerById(id)
+    override suspend fun getCustomerById(id: Long): Results<Customer> = localCustomerRepo.getCustomerById(id)
 
-    override suspend fun saveCustomers(customer: Customers): Results<Long> = localCustomerRepo.saveCustomers(customer)
+    override suspend fun saveCustomers(customer: Customer): Results<Long> = localCustomerRepo.saveCustomers(customer)
 
-    override suspend fun saveCustomers(customers: Array<Customers>): Results<List<Long>> = localCustomerRepo.saveCustomers(customers)
+    override suspend fun saveCustomers(customers: Array<Customer>): Results<List<Long>> = localCustomerRepo.saveCustomers(customers)
 
-    override suspend fun updateCustomers(customer: Customers): Results<Int> = localCustomerRepo.updateCustomers(customer)
+    override suspend fun updateCustomers(customer: Customer): Results<Int> = localCustomerRepo.updateCustomers(customer)
 }

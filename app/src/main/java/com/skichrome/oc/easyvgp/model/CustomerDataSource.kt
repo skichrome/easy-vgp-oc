@@ -1,21 +1,21 @@
 package com.skichrome.oc.easyvgp.model
 
 import androidx.lifecycle.LiveData
-import com.skichrome.oc.easyvgp.model.local.database.Customers
+import com.skichrome.oc.easyvgp.model.local.database.Customer
 
 interface CustomerDataSource
 {
-    fun loadAllCustomers(): LiveData<List<Customers>>
+    fun loadAllCustomers(): LiveData<List<Customer>>
 
-    suspend fun getCustomerById(id: Long): Results<Customers>
+    suspend fun getCustomerById(id: Long): Results<Customer>
 
     // --- Save --- //
 
-    suspend fun saveCustomers(customer: Customers): Results<Long>
+    suspend fun saveCustomers(customer: Customer): Results<Long>
 
-    suspend fun saveCustomers(customers: Array<Customers>): Results<List<Long>>
+    suspend fun saveCustomers(customers: Array<Customer>): Results<List<Long>>
 
     // --- Update --- //
 
-    suspend fun updateCustomers(customer: Customers): Results<Int>
+    suspend fun updateCustomers(customer: Customer): Results<Int>
 }
