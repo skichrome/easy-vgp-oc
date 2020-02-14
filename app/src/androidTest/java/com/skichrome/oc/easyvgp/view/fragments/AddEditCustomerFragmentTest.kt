@@ -147,19 +147,19 @@ class AddEditCustomerFragmentTest
 
         val context = InstrumentationRegistry.getInstrumentation().targetContext
 
-        onView(withId(R.id.addEditCustomerFragFirstNameText)).check(matches(hasErrorText(context.getString(R.string.test))))
-        onView(withId(R.id.addEditCustomerFragLastNameText)).check(matches(hasErrorText(context.getString(R.string.test))))
-        onView(withId(R.id.addEditCustomerFragSiretText)).check(matches(hasErrorText(context.getString(R.string.test))))
-        onView(withId(R.id.addEditCustomerFragAddressText)).check(matches(hasErrorText(context.getString(R.string.test))))
-        onView(withId(R.id.addEditCustomerFragPostCodeText)).check(matches(hasErrorText(context.getString(R.string.test))))
-        onView(withId(R.id.addEditCustomerFragCityText)).check(matches(hasErrorText(context.getString(R.string.test))))
+        onView(withId(R.id.addEditCustomerFragFirstNameText)).check(matches(hasErrorText(context.getString(R.string.frag_add_edit_customer_error_input))))
+        onView(withId(R.id.addEditCustomerFragLastNameText)).check(matches(hasErrorText(context.getString(R.string.frag_add_edit_customer_error_input))))
+        onView(withId(R.id.addEditCustomerFragSiretText)).check(matches(hasErrorText(context.getString(R.string.frag_add_edit_customer_error_input))))
+        onView(withId(R.id.addEditCustomerFragAddressText)).check(matches(hasErrorText(context.getString(R.string.frag_add_edit_customer_error_input))))
+        onView(withId(R.id.addEditCustomerFragPostCodeText)).check(matches(hasErrorText(context.getString(R.string.frag_add_edit_customer_error_input))))
+        onView(withId(R.id.addEditCustomerFragCityText)).check(matches(hasErrorText(context.getString(R.string.frag_add_edit_customer_error_input))))
 
         // Scroll up to display bottom fields
         onView(withId(R.id.addEditCustomerFragNotesText)).perform(scrollTo())
 
-        onView(withId(R.id.addEditCustomerFragEmailText)).check(matches(not(hasErrorText(context.getString(R.string.test)))))
-        onView(withId(R.id.addEditCustomerFragPhoneText)).check(matches(not(hasErrorText(context.getString(R.string.test)))))
-        onView(withId(R.id.addEditCustomerFragMobilePhoneText)).check(matches(not(hasErrorText(context.getString(R.string.test)))))
-        onView(withId(R.id.addEditCustomerFragNotesText)).check(matches(not(hasErrorText(context.getString(R.string.test)))))
+        onView(withId(R.id.addEditCustomerFragEmailText)).check(matches(not(hasErrorText(context.getString(R.string.frag_add_edit_customer_error_input)))))
+        onView(withId(R.id.addEditCustomerFragPhoneText)).check(matches(not(hasErrorText(context.getString(R.string.frag_add_edit_customer_error_input)))))
+        onView(withId(R.id.addEditCustomerFragMobilePhoneText)).check(matches(not(hasErrorText(context.getString(R.string.frag_add_edit_customer_error_input)))))
+        onView(withId(R.id.addEditCustomerFragNotesText)).check(matches(not(hasErrorText(context.getString(R.string.frag_add_edit_customer_error_input)))))
     }
 }

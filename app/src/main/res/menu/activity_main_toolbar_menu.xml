@@ -10,6 +10,11 @@
         android:title="@string/menu_log_out_title"
         app:showAsAction="never" />
     <item
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/ic_account_circle_24dp"
+        android:title="@string/menu_settings_profile"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_settings_24dp"
         android:title="@string/menu_settings_title"

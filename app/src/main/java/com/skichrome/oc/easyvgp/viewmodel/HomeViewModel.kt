@@ -17,6 +17,9 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel()
 
     // --- Events
 
+    private val _currentUser = MutableLiveData<User>()
+    val currentUser: LiveData<User> = _currentUser
+
     private val _currentUserId = MutableLiveData<Event<Long>>()
     val currentUserId: LiveData<Event<Long>> = _currentUserId
 
@@ -61,7 +64,10 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel()
         viewModelScope.launch {
             val knownUser = repository.getUserByFirebaseUid(uid)
             if (knownUser is Success)
+            {
+                _currentUser.value = knownUser.data
                 _currentUserId.value = Event(knownUser.data.id)
+            }
             else
                 _currentUserId.value = Event(-1L)
         }

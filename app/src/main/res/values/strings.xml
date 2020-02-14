@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Easy VGP</string>
 
+    <!-- MainActivity -->
+    <string name="frag_login_success">You are successfully logged in !</string>
+    <string name="frag_login_error">We can\'t login you into the app, please retry</string>
+
     <!-- Home Fragment -->
     <string name="frag_home_btn_new_vgp">New VGP</string>
     <string name="frag_home_btn_customers">See my customers</string>
@@ -13,9 +17,8 @@
     <string name="view_model_home_user_update">New user has been successfully updated</string>
     <string name="view_model_home_user_update_error">An error occurred when updating new user</string>
 
-    <!-- MainActivity -->
-    <string name="frag_login_success">You are successfully logged in !</string>
-    <string name="frag_login_error">We can\'t login you into the app, please retry</string>
+    <!-- Settings Fragment -->
+    <string name="setting_fragment_account_img_content_desc">Account image profile</string>
 
     <!-- Add Edit Customer Fragment -->
     <string name="frag_add_edit_customer_name_title">Customer Name</string>
@@ -49,7 +52,7 @@
     <!-- Menu items -->
     <string name="menu_log_out_title">Log out</string>
     <string name="menu_settings_title">settings</string>
-    <string name="test">Required field</string>
+    <string name="menu_settings_profile">Profile</string>
 
     <!-- Machine ViewModel -->
     <string name="view_model_machine_machines_list">An error occurred when fetching all machines</string>
