@@ -27,17 +27,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/btn_bottom_margin"
         android:text="@string/frag_home_btn_new_vgp"
-        app:layout_constraintBottom_toTopOf="@+id/fragHomeBtnCustomers"
-        app:layout_constraintEnd_toEndOf="@id/fragHomeRightGuideline"
-        app:layout_constraintStart_toStartOf="@id/fragHomeLeftGuideline" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/fragHomeBtnCustomers"
-        style="@style/buttonStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/btn_bottom_margin"
-        android:text="@string/frag_home_btn_customers"
         app:layout_constraintBottom_toTopOf="@+id/fragHomeBtnSeeVGP"
         app:layout_constraintEnd_toEndOf="@id/fragHomeRightGuideline"
         app:layout_constraintStart_toStartOf="@id/fragHomeLeftGuideline" />

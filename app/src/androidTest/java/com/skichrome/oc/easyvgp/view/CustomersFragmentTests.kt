@@ -9,13 +9,11 @@ import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.CustomerAndroidDataProvider
 import com.skichrome.oc.easyvgp.model.source.FakeAndroidTestNetManager
 import com.skichrome.oc.easyvgp.view.fragments.CustomerFragment
-import com.skichrome.oc.easyvgp.view.fragments.CustomerFragmentArgs
 import com.skichrome.oc.easyvgp.viewmodel.ServiceLocator
 import com.skichrome.oc.easyvgp.viewmodel.source.FakeAndroidTestCustomerRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.not
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -62,8 +60,7 @@ class CustomersFragmentTests
         customerRepo.saveCustomers(customerToAdd)
         customerRepo.refreshLiveData()
 
-        val bundle = CustomerFragmentArgs(false).toBundle()
-        launchFragmentInContainer<CustomerFragment>(bundle, R.style.AppTheme)
+        launchFragmentInContainer<CustomerFragment>(null, R.style.AppTheme)
 
         onView(withId(R.id.rvItemCustomerCardView)).check(matches(isDisplayed()))
         onView(withId(R.id.rvItemCustomerCardView)).check(matches(isClickable()))
@@ -71,22 +68,13 @@ class CustomersFragmentTests
 
         onView(withId(R.id.rvItemCustomerFirstLetter)).check(matches(isDisplayed()))
         onView(withId(R.id.rvItemCustomerName)).check(matches(withText(`is`("${customerToAdd.lastName} ${customerToAdd.firstName}"))))
+        onView(withId(R.id.rvItemCustomerCity)).check(matches(withText(`is`(customerToAdd.city))))
     }
 
     @Test
-    fun customersFab_IfArgsIsTrue_FabIsHidden()
+    fun customersFab_FabIsShown()
     {
-        val bundle = CustomerFragmentArgs(true).toBundle()
-        launchFragmentInContainer<CustomerFragment>(bundle, R.style.AppTheme)
-
-        onView(withId(R.id.fragCustomerFab)).check(matches(not(isDisplayed())))
-    }
-
-    @Test
-    fun customersFab_IfArgsIsFalse_FabIsShown()
-    {
-        val bundle = CustomerFragmentArgs(false).toBundle()
-        launchFragmentInContainer<CustomerFragment>(bundle, R.style.AppTheme)
+        launchFragmentInContainer<CustomerFragment>(null, R.style.AppTheme)
 
         onView(withId(R.id.fragCustomerFab)).check(matches(isDisplayed()))
     }

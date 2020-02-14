@@ -22,10 +22,14 @@ class MachineFragmentAdapter(private val viewModel: MachineViewModel) :
 
     class CustomersFragmentViewHolder(private val binding: ItemRvFragmentMachineBinding) : RecyclerView.ViewHolder(binding.root)
     {
-        fun bind(viewModel: MachineViewModel, customer: Machines)
+        fun bind(viewModel: MachineViewModel, machine: Machines)
         {
-            binding.machine = customer
+            binding.machine = machine
             binding.viewModel = viewModel
+            binding.rvItemMachineCardView.setOnLongClickListener {
+                viewModel.onLongClickMachine(machine.machineId)
+                return@setOnLongClickListener true
+            }
         }
     }
 

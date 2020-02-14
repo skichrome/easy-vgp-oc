@@ -19,18 +19,13 @@ class HomeFragment : BaseFragment()
 
     private fun configureBtn()
     {
-        fragHomeBtnNewVGP.setOnClickListener { navigateToCustomersFragment(true) }
-        fragHomeBtnCustomers.setOnClickListener { navigateToCustomersFragment() }
+        fragHomeBtnNewVGP.setOnClickListener { navigateToCustomersFragment() }
         fragHomeBtnSeeVGP.setOnClickListener { navigateToNewVGPFragment() }
     }
 
     // --- Navigation --- //
 
-    private fun navigateToCustomersFragment(isNewVGPAction: Boolean = false)
-    {
-        val opt = HomeFragmentDirections.actionHomeFragmentToCustomerFragment(isNewVGPAction)
-        findNavController().navigate(opt)
-    }
+    private fun navigateToCustomersFragment() = findNavController().navigate(R.id.action_homeFragment_to_customerFragment)
 
-    private fun navigateToNewVGPFragment() = findNavController().navigate(R.id.action_homeFragment_to_machineFragment)
+    private fun navigateToNewVGPFragment() = findNavController().navigate(R.id.action_homeFragment_to_vgpFragment)
 }

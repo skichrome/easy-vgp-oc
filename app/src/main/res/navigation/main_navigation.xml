@@ -20,8 +20,8 @@
             app:popEnterAnim="@anim/fragment_close_enter"
             app:popExitAnim="@anim/fragment_close_exit" />
         <action
-            android:id="@+id/action_homeFragment_to_machineFragment"
-            app:destination="@id/machineFragment"
+            android:id="@+id/action_homeFragment_to_vgpFragment"
+            app:destination="@id/vgpFragment"
             app:enterAnim="@anim/fragment_open_enter"
             app:exitAnim="@anim/fragment_open_exit"
             app:popEnterAnim="@anim/fragment_close_enter"
@@ -39,10 +39,6 @@
             app:exitAnim="@anim/fragment_open_exit"
             app:popEnterAnim="@anim/fragment_close_enter"
             app:popExitAnim="@anim/fragment_close_exit" />
-        <argument
-            android:name="isNewVGPAction"
-            android:defaultValue="false"
-            app:argType="boolean" />
         <action
             android:id="@+id/action_customerFragment_to_machineFragment"
             app:destination="@id/machineFragment"
@@ -103,6 +99,10 @@
         tools:layout="@layout/fragment_vgp">
         <argument
             android:name="machineId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <argument
+            android:name="customerId"
             android:defaultValue="-1L"
             app:argType="long" />
     </fragment>

@@ -49,6 +49,9 @@ class MachineViewModel(private val repository: MachineRepository) : ViewModel()
     private val _machineClicked = MutableLiveData<Event<Long>>()
     val machineClicked: LiveData<Event<Long>> = _machineClicked
 
+    private val _machineLongClicked = MutableLiveData<Event<Long>>()
+    val machineLongClicked: LiveData<Event<Long>> = _machineLongClicked
+
     private val _errorMessage = MutableLiveData<Event<Int>>()
     val errorMessage: LiveData<Event<Int>> = _errorMessage
 
@@ -61,6 +64,11 @@ class MachineViewModel(private val repository: MachineRepository) : ViewModel()
     fun onClickMachine(machineId: Long)
     {
         _machineClicked.value = Event(machineId)
+    }
+
+    fun onLongClickMachine(machineId: Long)
+    {
+        _machineLongClicked.value = Event(machineId)
     }
 
     private fun showMessage(msg: Int)

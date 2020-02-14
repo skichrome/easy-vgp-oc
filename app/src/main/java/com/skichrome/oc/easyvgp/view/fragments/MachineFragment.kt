@@ -48,7 +48,8 @@ class MachineFragment : BaseBindingFragment<FragmentMachineBinding>()
 
     private fun configureViewModel() = viewModel.apply {
         changeCustomerId(args.customerId)
-        machineClicked.observe(this@MachineFragment, EventObserver { goToAddEditMachineFragment(it) })
+        machineLongClicked.observe(this@MachineFragment, EventObserver { goToAddEditMachineFragment(it) })
+        machineClicked.observe(this@MachineFragment, EventObserver { goToVgpFragment(it) })
         errorMessage.observe(this@MachineFragment, EventObserver { binding.root.snackBar(getString(it)) })
     }
 
@@ -74,6 +75,12 @@ class MachineFragment : BaseBindingFragment<FragmentMachineBinding>()
     private fun goToAddEditMachineFragment(machineId: Long = -1L)
     {
         val opt = MachineFragmentDirections.actionMachineFragmentToAddEditMachineFragment(machineId = machineId, customerId = args.customerId)
+        findNavController().navigate(opt)
+    }
+
+    private fun goToVgpFragment(machineId: Long = -1L)
+    {
+        val opt = MachineFragmentDirections.actionMachineFragmentToVgpFragment(machineId = machineId, customerId = args.customerId)
         findNavController().navigate(opt)
     }
 }

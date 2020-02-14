@@ -2,12 +2,12 @@ package com.skichrome.oc.easyvgp.view.fragments
 
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentCustomerBinding
 import com.skichrome.oc.easyvgp.util.AutoClearedValue
 import com.skichrome.oc.easyvgp.util.EventObserver
+import com.skichrome.oc.easyvgp.util.snackBar
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.view.fragments.adapters.CustomerFragmentAdapter
 import com.skichrome.oc.easyvgp.viewmodel.CustomerViewModel
@@ -20,7 +20,6 @@ class CustomerFragment : BaseBindingFragment<FragmentCustomerBinding>()
     //              Fields
     // =================================
 
-    private val args: CustomerFragmentArgs by navArgs()
     private val viewModel by viewModels<CustomerViewModel> {
         CustomerViewModelFactory((requireActivity().application as EasyVGPApplication).customerRepository)
     }
@@ -35,6 +34,7 @@ class CustomerFragment : BaseBindingFragment<FragmentCustomerBinding>()
 
     override fun configureFragment()
     {
+        configureViewModel()
         configureUI()
         configureFab()
         configureRecyclerView()
@@ -44,27 +44,20 @@ class CustomerFragment : BaseBindingFragment<FragmentCustomerBinding>()
     //              Methods
     // =================================
 
+    private fun configureViewModel() = viewModel.apply {
+        customerLongClick.observe(this@CustomerFragment, EventObserver { navigateToAddEditCustomerFragment(it) })
+        errorMessage.observe(this@CustomerFragment, EventObserver { binding.root.snackBar(getString(it)) })
+        customerClick.observe(this@CustomerFragment, EventObserver { navigateToVgpFragment(it) })
+    }
+
     private fun configureUI()
     {
         binding.viewModel = viewModel
-        viewModel.customerClick.observe(this, EventObserver {
-            if (args.isNewVGPAction)
-                navigateToVgpFragment(it)
-            else
-                navigateToAddEditCustomerFragment(it)
-        })
     }
 
     private fun configureFab()
     {
-        if (args.isNewVGPAction)
-        {
-            fragCustomerFab.hide()
-        } else
-        {
-            fragCustomerFab.show()
-            fragCustomerFab?.setOnClickListener { navigateToAddEditCustomerFragment() }
-        }
+        fragCustomerFab?.setOnClickListener { navigateToAddEditCustomerFragment() }
     }
 
     private fun configureRecyclerView()

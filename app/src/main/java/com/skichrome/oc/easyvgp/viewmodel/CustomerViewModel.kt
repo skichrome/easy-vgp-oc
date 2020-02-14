@@ -31,6 +31,9 @@ class CustomerViewModel(private val repository: CustomerRepository) : ViewModel(
     private val _customerClick = MutableLiveData<Event<Long>>()
     val customerClick: LiveData<Event<Long>> = _customerClick
 
+    private val _customerLongClick = MutableLiveData<Event<Long>>()
+    val customerLongClick: LiveData<Event<Long>> = _customerLongClick
+
     private val _errorMessage = MutableLiveData<Event<Int>>()
     val errorMessage: LiveData<Event<Int>> = _errorMessage
 
@@ -82,5 +85,10 @@ class CustomerViewModel(private val repository: CustomerRepository) : ViewModel(
     fun onClickCustomer(customerId: Long)
     {
         _customerClick.value = Event(customerId)
+    }
+
+    fun onLongClickCustomer(customerId: Long)
+    {
+        _customerLongClick.value = Event(customerId)
     }
 }

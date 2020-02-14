@@ -26,6 +26,10 @@ class CustomerFragmentAdapter(private val viewModel: CustomerViewModel) :
         {
             binding.customer = customer
             binding.viewModel = viewModel
+            binding.rvItemCustomerCardView.setOnLongClickListener {
+                viewModel.onLongClickCustomer(customer.id)
+                return@setOnLongClickListener true
+            }
         }
     }
 
