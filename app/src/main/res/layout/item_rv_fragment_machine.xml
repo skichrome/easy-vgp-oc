@@ -49,6 +49,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/rvItemMachineName"
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,6 +60,7 @@
                 tool:text="lorem ipsum dolor sit amet" />
 
             <TextView
+                android:id="@+id/rvItemMachineBrand"
                 style="@style/TextAppearance.AppCompat.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,6 +71,7 @@
                 tool:text="Brand" />
 
             <TextView
+                android:id="@+id/rvItemMachineSerial"
                 style="@style/TextAppearance.AppCompat.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

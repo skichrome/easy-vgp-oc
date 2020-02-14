@@ -1,4 +1,4 @@
-package com.skichrome.oc.easyvgp.model.source
+package com.skichrome.oc.easyvgp.model
 
 import android.net.ConnectivityManager
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager

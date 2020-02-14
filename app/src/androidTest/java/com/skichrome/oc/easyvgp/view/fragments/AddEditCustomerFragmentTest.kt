@@ -1,4 +1,4 @@
-package com.skichrome.oc.easyvgp.view
+package com.skichrome.oc.easyvgp.view.fragments
 
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
@@ -10,12 +10,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import androidx.test.platform.app.InstrumentationRegistry
 import com.skichrome.oc.easyvgp.R
-import com.skichrome.oc.easyvgp.model.CustomerAndroidDataProvider
-import com.skichrome.oc.easyvgp.model.source.FakeAndroidTestNetManager
-import com.skichrome.oc.easyvgp.view.fragments.AddEditCustomerFragment
-import com.skichrome.oc.easyvgp.view.fragments.AddEditCustomerFragmentArgs
+import com.skichrome.oc.easyvgp.model.AndroidDataProvider
+import com.skichrome.oc.easyvgp.model.FakeAndroidTestCustomerRepository
+import com.skichrome.oc.easyvgp.model.FakeAndroidTestNetManager
 import com.skichrome.oc.easyvgp.viewmodel.ServiceLocator
-import com.skichrome.oc.easyvgp.viewmodel.source.FakeAndroidTestCustomerRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.not
@@ -61,7 +59,7 @@ class AddEditCustomerFragmentTest
 
     @Test
     fun customerEdit_dataDisplayedInUI() = runBlockingTest {
-        val customerToAdd = CustomerAndroidDataProvider.customer2
+        val customerToAdd = AndroidDataProvider.customer2
         customerRepo.saveCustomers(customerToAdd)
 
         val bundle = AddEditCustomerFragmentArgs(customerId = customerToAdd.id).toBundle()
@@ -74,7 +72,7 @@ class AddEditCustomerFragmentTest
         onView(withId(R.id.addEditCustomerFragLastNameText)).check(matches(withText(customerToAdd.lastName)))
 
         onView(withId(R.id.addEditCustomerFragSiretText)).check(matches(isDisplayed()))
-        onView(withId(R.id.addEditCustomerFragSiretText)).check(matches(withText(customerToAdd.siret.toString())))
+        onView(withId(R.id.addEditCustomerFragSiretText)).check(matches(withText(customerToAdd.siret)))
 
         onView(withId(R.id.addEditCustomerFragEmailText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragEmailText)).check(matches(withText(customerToAdd.email)))

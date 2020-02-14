@@ -2,7 +2,7 @@ package com.skichrome.oc.easyvgp.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.skichrome.oc.easyvgp.getOrAwaitValue
-import com.skichrome.oc.easyvgp.model.source.CustomerDataProvider
+import com.skichrome.oc.easyvgp.model.source.DataProvider
 import com.skichrome.oc.easyvgp.viewmodel.source.FakeCustomerRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -35,7 +35,7 @@ class CustomerViewModelTest
     @Before
     fun initTests() = runBlockingTest {
         customerRepository = FakeCustomerRepository()
-        customerRepository.saveCustomers(CustomerDataProvider.localCustomers.toTypedArray())
+        customerRepository.saveCustomers(DataProvider.localCustomers.toTypedArray())
         customerRepository.refreshLiveData()
         customerViewModel = CustomerViewModel(customerRepository)
 
@@ -57,13 +57,13 @@ class CustomerViewModelTest
     fun loadAllCustomers()
     {
         val value = customerViewModel.customers.getOrAwaitValue()
-        assertThat(value, `is`(CustomerDataProvider.localCustomers))
+        assertThat(value, `is`(DataProvider.localCustomers))
     }
 
     @Test
     fun loadCustomerById()
     {
-        customerViewModel.saveCustomer(CustomerDataProvider.customer1)
+        customerViewModel.saveCustomer(DataProvider.customer1)
 
         val event = customerViewModel.customersSaved.getOrAwaitValue()
         assertThat(event, IsNot(nullValue()))
@@ -73,7 +73,7 @@ class CustomerViewModelTest
     @Test
     fun saveCustomer()
     {
-        customerViewModel.saveCustomer(CustomerDataProvider.customer1)
+        customerViewModel.saveCustomer(DataProvider.customer1)
 
         val event = customerViewModel.customersSaved.getOrAwaitValue()
         assertThat(event, IsNot(nullValue()))
@@ -83,7 +83,7 @@ class CustomerViewModelTest
     @Test
     fun updateCustomer()
     {
-        customerViewModel.updateCustomer(CustomerDataProvider.customer1)
+        customerViewModel.updateCustomer(DataProvider.customer1)
 
         val event = customerViewModel.customersSaved.getOrAwaitValue()
         assertThat(event, IsNot(nullValue()))

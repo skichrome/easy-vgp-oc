@@ -1,9 +1,16 @@
-package com.skichrome.oc.easyvgp.model.source
+package com.skichrome.oc.easyvgp.model
 
+import androidx.annotation.VisibleForTesting
 import com.skichrome.oc.easyvgp.model.local.database.Customers
+import com.skichrome.oc.easyvgp.model.local.database.MachineType
+import com.skichrome.oc.easyvgp.model.local.database.Machines
 
-object CustomerDataProvider
+@Suppress("MemberVisibilityCanBePrivate")
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+object AndroidDataProvider
 {
+    // --- Customers --- //
+
     const val customer1Id = 1L
     val customer1 = Customers(
         id = customer1Id,
@@ -80,4 +87,41 @@ object CustomerDataProvider
             localCustomers.forEach { tempHashMap[it.id] = it }
             return tempHashMap
         }
+
+
+    // --- MachineType & Machines --- //
+
+    const val machineType1Id = 1L
+    val machineType1 = MachineType(
+        id = machineType1Id,
+        name = "type1"
+    )
+
+    const val machineType2Id = 2L
+    val machineType2 = MachineType(
+        id = machineType2Id,
+        name = "type1"
+    )
+
+    val machineTypesList = listOf(machineType1, machineType2)
+
+    const val machine1Id = 1L
+    val machine1 = Machines(
+        machineId = machine1Id,
+        name = "Mach1",
+        brand = "brand1",
+        customer = customer1Id,
+        serial = "DFG123AER13333",
+        type = machineType1Id
+    )
+
+    const val machine2Id = 2L
+    val machine2 = Machines(
+        machineId = machine2Id,
+        name = "Mach2",
+        brand = "brand2",
+        customer = customer2Id,
+        serial = "DFG1245DFFFZ33",
+        type = machineType2Id
+    )
 }

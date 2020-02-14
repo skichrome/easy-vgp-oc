@@ -5,7 +5,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.skichrome.oc.easyvgp.getOrAwaitValue
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.source.CustomerDataProvider
+import com.skichrome.oc.easyvgp.model.source.DataProvider
 import com.skichrome.oc.easyvgp.model.source.FakeCustomerDataSource
 import com.skichrome.oc.easyvgp.model.source.FakeNetManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -40,9 +40,9 @@ class DefaultCustomerRepositoryTest
     {
         netManager = FakeNetManager(isFakeConnected = false)
 
-        customersLocalDataSource = FakeCustomerDataSource(CustomerDataProvider.localCustomersMap)
+        customersLocalDataSource = FakeCustomerDataSource(DataProvider.localCustomersMap)
 
-        customersRemoteDataSource = FakeCustomerDataSource(CustomerDataProvider.remoteCustomersMap)
+        customersRemoteDataSource = FakeCustomerDataSource(DataProvider.remoteCustomersMap)
 
         customersLocalDataSource.refresh()
         customersRemoteDataSource.refresh()
@@ -55,7 +55,7 @@ class DefaultCustomerRepositoryTest
         netManager.setIsFakeConnected(false)
 
         val customers = customerRepository.getAllCustomers().getOrAwaitValue()
-        assertThat(customers, IsEqual(CustomerDataProvider.localCustomers))
+        assertThat(customers, IsEqual(DataProvider.localCustomers))
     }
 
     @Test
@@ -63,22 +63,22 @@ class DefaultCustomerRepositoryTest
         netManager.setIsFakeConnected(true)
 
         val customers = customerRepository.getAllCustomers().getOrAwaitValue()
-        assertThat(customers, IsEqual(CustomerDataProvider.localCustomers))
+        assertThat(customers, IsEqual(DataProvider.localCustomers))
     }
 
     @Test
     fun getCustomerById_returnCustomerFromItsId() = runBlockingTest {
         netManager.setIsFakeConnected(false)
 
-        val customers = customerRepository.getCustomerById(CustomerDataProvider.customer3Id) as Success
-        assertThat(customers.data, IsEqual(CustomerDataProvider.customer3))
+        val customers = customerRepository.getCustomerById(DataProvider.customer3Id) as Success
+        assertThat(customers.data, IsEqual(DataProvider.customer3))
     }
 
     @Test
     fun updateCustomers_InsertCustomerAndUpdateIt_ShouldReturnUpdatedCustomer() = runBlockingTest {
         netManager.setIsFakeConnected(false)
 
-        val result = customerRepository.updateCustomers(CustomerDataProvider.customer1Edit) as Success
+        val result = customerRepository.updateCustomers(DataProvider.customer1Edit) as Success
 
         assertThat(result.data, IsNot(nullValue()))
         assertThat(result.data, `is`(1))
