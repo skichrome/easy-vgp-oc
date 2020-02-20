@@ -43,14 +43,35 @@
         <item name="cardCornerRadius">6dp</item>
     </style>
 
-    <!-- TextView style -->
+    <!-- EditText style -->
     <style name="editTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/tv_input_margin</item>
         <item name="android:layout_marginStart">@dimen/tv_input_margin</item>
         <item name="android:drawablePadding">@dimen/edit_text_drawable_padding</item>
     </style>
 
-    <!-- TextView style -->
+    <!-- Title TextView style -->
+    <style name="tvTitleStyle" parent="TextAppearance.AppCompat.Title">
+        <item name="android:layout_marginTop">@dimen/tv_input_margin</item>
+        <item name="android:layout_marginStart">@dimen/tv_input_margin</item>
+        <item name="android:layout_marginEnd">@dimen/tv_input_margin</item>
+        <item name="android:drawablePadding">@dimen/edit_text_drawable_padding</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <!-- Title TextView style -->
+    <style name="tvBody1Style" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:layout_marginTop">@dimen/tv_input_margin</item>
+        <item name="android:layout_marginStart">@dimen/tv_input_margin</item>
+        <item name="android:layout_marginEnd">@dimen/tv_input_margin</item>
+        <item name="android:drawablePadding">@dimen/edit_text_drawable_padding</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <!-- Separator style -->
     <style name="separatorStyle" parent="AppTheme">
         <item name="android:background">@color/secondaryColor</item>
         <item name="android:layout_marginStart">@dimen/divider_horizontal_margin</item>

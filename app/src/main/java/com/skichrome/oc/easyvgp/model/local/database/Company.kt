@@ -1,7 +1,9 @@
 package com.skichrome.oc.easyvgp.model.local.database
 
-import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Dao
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "Companies")
 data class Company(
@@ -12,7 +14,3 @@ data class Company(
 
 @Dao
 interface CompanyDao : BaseDao<Company>
-{
-    @Query("SELECT * FROM Companies")
-    fun observeCompanies(): LiveData<List<Company>>
-}

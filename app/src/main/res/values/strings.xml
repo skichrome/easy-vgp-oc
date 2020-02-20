@@ -11,14 +11,17 @@
     <string name="frag_home_btn_see_vgp">See all VGP</string>
 
     <!-- Home ViewModel -->
-    <string name="view_model_home_user_list_error">An error occurred when fetching all users</string>
-    <string name="view_model_home_user_insert">New user has been successfully created</string>
-    <string name="view_model_home_user_insert_error">An error occurred when creating new user</string>
-    <string name="view_model_home_user_update">New user has been successfully updated</string>
-    <string name="view_model_home_user_update_error">An error occurred when updating new user</string>
+    <string name="view_model_home_user_filter_error">An error occurred when trying to get your current user profile</string>
+    <string name="view_model_home_user_insert">Your profile has been successfully created</string>
+    <string name="view_model_home_user_insert_error">An error occurred when creating your profile</string>
+    <string name="view_model_home_user_update">Your profile has been successfully updated</string>
+    <string name="view_model_home_user_update_error">An error occurred when updating your profile</string>
 
     <!-- Settings Fragment -->
     <string name="setting_fragment_account_img_content_desc">Account image profile</string>
+    <string name="profile_fragment_approval_hint">Approval number</string>
+    <string name="profile_fragment_vat_hint">VAT number</string>
+    <string name="profile_fragment_company_title">Your company</string>
 
     <!-- Add Edit Customer Fragment -->
     <string name="frag_add_edit_customer_name_title">Customer Name</string>
@@ -70,4 +73,6 @@
     <string name="add_edit_machine_frag_hint_name">machine name</string>
     <string name="add_edit_machine_frag_hint_brand">machine brand</string>
     <string name="add_edit_machine_frag_hint_serial">machine serial</string>
+    <string name="profile_fragment_company_name_hint">Your company name</string>
+    <string name="profile_fragment_company_siret_hint">Your company Siret</string>
 </resources>

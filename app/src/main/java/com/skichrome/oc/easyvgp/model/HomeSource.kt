@@ -1,16 +1,10 @@
 package com.skichrome.oc.easyvgp.model
 
-import androidx.lifecycle.LiveData
-import com.skichrome.oc.easyvgp.model.local.database.Company
-import com.skichrome.oc.easyvgp.model.local.database.User
+import com.skichrome.oc.easyvgp.model.local.database.UserAndCompany
 
 interface HomeSource
 {
-    fun observeUsers(): LiveData<Results<List<User>>>
-    fun observeCompanies(): LiveData<Results<List<Company>>>
-
-    suspend fun getUserByFirebaseUid(uid: String): Results<User>
-
-    suspend fun insertNewUser(user: User): Results<Long>
-    suspend fun updateUser(user: User): Results<Int>
+    suspend fun getAllUserAndCompany(): Results<List<UserAndCompany>>
+    suspend fun insertNewUserAndCompany(userAndCompany: UserAndCompany): Results<Long>
+    suspend fun updateNewUserAndCompany(userAndCompany: UserAndCompany): Results<Int>
 }

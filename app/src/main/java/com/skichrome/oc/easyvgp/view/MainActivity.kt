@@ -16,7 +16,9 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
+import com.skichrome.oc.easyvgp.model.local.database.Company
 import com.skichrome.oc.easyvgp.model.local.database.User
+import com.skichrome.oc.easyvgp.model.local.database.UserAndCompany
 import com.skichrome.oc.easyvgp.util.*
 import com.skichrome.oc.easyvgp.viewmodel.HomeViewModel
 import com.skichrome.oc.easyvgp.viewmodel.vmfactory.HomeViewModelFactory
@@ -112,8 +114,17 @@ class MainActivity : AppCompatActivity()
                 {
                     if (it == -1L)
                     {
-                        val user = User(id = 0L, firebaseUid = userUid, name = userName, email = userEmail)
-                        viewModel.saveNewUser(user)
+                        val company = Company(id = 0L, name = "Change me", siret = "change me")
+                        val user = User(
+                            id = 0L,
+                            firebaseUid = userUid,
+                            name = userName,
+                            email = userEmail,
+                            approval = null,
+                            vatNumber = null,
+                            companyId = company.id
+                        )
+                        viewModel.saveNewUserAndCompany(UserAndCompany(company = company, user = user))
                     } else
                     {
                         PreferenceManager.getDefaultSharedPreferences(this)
