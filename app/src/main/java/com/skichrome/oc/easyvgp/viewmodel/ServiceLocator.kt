@@ -9,7 +9,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.skichrome.oc.easyvgp.androidmanagers.DefaultNetManager
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager
 import com.skichrome.oc.easyvgp.model.*
-import com.skichrome.oc.easyvgp.model.local.LocalCustomerRepository
+import com.skichrome.oc.easyvgp.model.local.LocalCustomerSource
 import com.skichrome.oc.easyvgp.model.local.LocalHomeSource
 import com.skichrome.oc.easyvgp.model.local.LocalMachineSource
 import com.skichrome.oc.easyvgp.model.local.database.AppDatabase
@@ -79,11 +79,11 @@ object ServiceLocator
 
     // --- Customers
 
-    private fun provideLocalCustomerSource(app: Application): CustomerDataSource
+    private fun provideLocalCustomerSource(app: Application): CustomerSource
     {
         val db = getDatabaseInstance(app)
         val customerDao = db.customersDao()
-        return LocalCustomerRepository(customerDao)
+        return LocalCustomerSource(customerDao)
     }
 
     private fun provideRemoteCustomerSource() = CustomerRemoteRepository()

@@ -6,7 +6,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.skichrome.oc.easyvgp.getOrAwaitValue
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.source.DataProvider
-import com.skichrome.oc.easyvgp.model.source.FakeCustomerDataSource
+import com.skichrome.oc.easyvgp.model.source.FakeCustomerSource
 import com.skichrome.oc.easyvgp.model.source.FakeNetManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -29,8 +29,8 @@ class DefaultCustomerRepositoryTest
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var customersLocalDataSource: FakeCustomerDataSource
-    private lateinit var customersRemoteDataSource: FakeCustomerDataSource
+    private lateinit var customersLocalDataSource: FakeCustomerSource
+    private lateinit var customersRemoteDataSource: FakeCustomerSource
     private lateinit var netManager: FakeNetManager
 
     private lateinit var customerRepository: DefaultCustomerRepository
@@ -40,9 +40,9 @@ class DefaultCustomerRepositoryTest
     {
         netManager = FakeNetManager(isFakeConnected = false)
 
-        customersLocalDataSource = FakeCustomerDataSource(DataProvider.localCustomerMap)
+        customersLocalDataSource = FakeCustomerSource(DataProvider.localCustomerMap)
 
-        customersRemoteDataSource = FakeCustomerDataSource(DataProvider.remoteCustomerMap)
+        customersRemoteDataSource = FakeCustomerSource(DataProvider.remoteCustomerMap)
 
         customersLocalDataSource.refresh()
         customersRemoteDataSource.refresh()

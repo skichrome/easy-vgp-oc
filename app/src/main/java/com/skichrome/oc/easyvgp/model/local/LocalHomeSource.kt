@@ -39,7 +39,7 @@ class LocalHomeSource(
         }
     }
 
-    override suspend fun updateNewUserAndCompany(userAndCompany: UserAndCompany): Results<Int> = withContext(dispatchers) {
+    override suspend fun updateUserAndCompany(userAndCompany: UserAndCompany): Results<Int> = withContext(dispatchers) {
         return@withContext try
         {
             companyDao.update(userAndCompany.company)

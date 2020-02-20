@@ -6,5 +6,5 @@ class DefaultHomeRepository(private val localSource: HomeSource) : HomeRepositor
 {
     override suspend fun getAllUserAndCompany(): Results<List<UserAndCompany>> = localSource.getAllUserAndCompany()
     override suspend fun insertNewUserAndCompany(userAndCompany: UserAndCompany): Results<Long> = localSource.insertNewUserAndCompany(userAndCompany)
-    override suspend fun updateNewUserAndCompany(userAndCompany: UserAndCompany): Results<Int> = localSource.updateNewUserAndCompany(userAndCompany)
+    override suspend fun updateNewUserAndCompany(userAndCompany: UserAndCompany): Results<Int> = localSource.updateUserAndCompany(userAndCompany)
 }

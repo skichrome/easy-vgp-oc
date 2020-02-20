@@ -1,7 +1,7 @@
 package com.skichrome.oc.easyvgp.model.remote
 
 import androidx.lifecycle.LiveData
-import com.skichrome.oc.easyvgp.model.CustomerDataSource
+import com.skichrome.oc.easyvgp.model.CustomerSource
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.local.database.Customer
@@ -9,7 +9,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class CustomerRemoteRepository(private val dispatcher: CoroutineDispatcher = Dispatchers.IO) : CustomerDataSource
+class CustomerRemoteRepository(private val dispatcher: CoroutineDispatcher = Dispatchers.IO) : CustomerSource
 {
     override suspend fun saveCustomers(customers: Array<Customer>): Results<List<Long>> = withContext(dispatcher) {
         return@withContext Results.Success(listOf(customers.size.toLong()))

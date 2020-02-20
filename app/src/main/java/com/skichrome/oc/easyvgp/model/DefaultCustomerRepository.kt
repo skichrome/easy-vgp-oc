@@ -6,8 +6,8 @@ import com.skichrome.oc.easyvgp.model.local.database.Customer
 
 class DefaultCustomerRepository(
     private val netManager: NetManager,
-    private val localCustomerRepo: CustomerDataSource,
-    private val remoteCustomerRepo: CustomerDataSource
+    private val localCustomerRepo: CustomerSource,
+    private val remoteCustomerRepo: CustomerSource
 ) : CustomerRepository
 {
     override fun getAllCustomers(): LiveData<List<Customer>> = localCustomerRepo.loadAllCustomers()
