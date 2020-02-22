@@ -52,7 +52,7 @@ class MachineFragmentTest
         // Provide data to repository and refresh liveData
         machineRepo.insertNewMachine(AndroidDataProvider.machine1)
         machineRepo.insertNewMachine(AndroidDataProvider.machine2)
-        machineRepo.insertMachineTypes(AndroidDataProvider.machineTypesList)
+        machineRepo.insertMachineTypes(AndroidDataProvider.machineTypeList)
         machineRepo.refresh()
 
         // Launch MachineFragment in test container

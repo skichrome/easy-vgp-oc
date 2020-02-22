@@ -69,7 +69,7 @@ class AddEditMachineFragmentTest
         // Provide data to repository and refresh liveData
         machineRepo.insertNewMachine(AndroidDataProvider.machine1)
         machineRepo.insertNewMachine(AndroidDataProvider.machine2)
-        machineRepo.insertMachineTypes(AndroidDataProvider.machineTypesList)
+        machineRepo.insertMachineTypes(AndroidDataProvider.machineTypeList)
         machineRepo.refresh()
 
         // Launch MachineFragment in test container
@@ -93,7 +93,7 @@ class AddEditMachineFragmentTest
         // Provide data to repository and refresh liveData
         machineRepo.insertNewMachine(AndroidDataProvider.machine1)
         machineRepo.insertNewMachine(AndroidDataProvider.machine2)
-        machineRepo.insertMachineTypes(AndroidDataProvider.machineTypesList)
+        machineRepo.insertMachineTypes(AndroidDataProvider.machineTypeList)
         machineRepo.refresh()
 
         // Launch MachineFragment in test container
@@ -104,7 +104,7 @@ class AddEditMachineFragmentTest
         launchFragmentInContainer<AddEditMachineFragment>(bundle, R.style.AppTheme)
 
         // get the type of machine of the machine1 object
-        val machineType = AndroidDataProvider.machineTypesList.filter { it.id == AndroidDataProvider.machine1Id }
+        val machineType = AndroidDataProvider.machineTypeList.filter { it.id == AndroidDataProvider.machine1Id }
 
         // Assert that the spinner contains the value stored in machine object, not the default value
         onView(withId(R.id.addEditMachineFragmentMachineTypeSpinner)).check(matches(withSpinnerText(containsString(machineType.first().name))))
