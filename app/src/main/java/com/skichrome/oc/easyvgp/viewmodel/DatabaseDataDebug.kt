@@ -54,25 +54,33 @@ object DatabaseDataDebug
         // --- MachineType --- //
 
         contentValues.put("machine_type_id", 1)
-        contentValues.put("machine_type_name", "R383M")
+        contentValues.put("machine_type_remote_id", "123eggezge")
+        contentValues.put("machine_legal_name", "R383M")
+        contentValues.put("machine_type_name", "Grue mobile")
 
         db.insert("MachineType", OnConflictStrategy.IGNORE, contentValues)
         contentValues.clear()
 
         contentValues.put("machine_type_id", 2)
-        contentValues.put("machine_type_name", "R390")
+        contentValues.put("machine_type_remote_id", "123eggefze445zge")
+        contentValues.put("machine_legal_name", "R390")
+        contentValues.put("machine_type_name", "Grue auxiliaire")
 
         db.insert("MachineType", OnConflictStrategy.IGNORE, contentValues)
         contentValues.clear()
 
         contentValues.put("machine_type_id", 3)
-        contentValues.put("machine_type_name", "R377M")
+        contentValues.put("machine_type_remote_id", "123e5585zfzffz656ggezge")
+        contentValues.put("machine_legal_name", "R377M")
+        contentValues.put("machine_type_name", "Grue à tour")
 
         db.insert("MachineType", OnConflictStrategy.IGNORE, contentValues)
         contentValues.clear()
 
         contentValues.put("machine_type_id", 4)
-        contentValues.put("machine_type_name", "R389")
+        contentValues.put("machine_type_remote_id", "123eggezg455454sfsse")
+        contentValues.put("machine_legal_name", "R389")
+        contentValues.put("machine_type_name", "Chariot")
 
         db.insert("MachineType", OnConflictStrategy.IGNORE, contentValues)
         contentValues.clear()

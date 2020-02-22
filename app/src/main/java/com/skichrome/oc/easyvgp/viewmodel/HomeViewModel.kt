@@ -65,7 +65,6 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel()
                 {
                     1 ->
                     {
-
                         _currentUser.value = result.first()
                         _currentUserId.value = Event(result.first().user.id)
                     }
@@ -99,8 +98,7 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel()
             {
                 _onSaveSuccessEvent.value = Event(true)
                 showMessage(R.string.view_model_home_user_update)
-            }
-            else
+            } else
                 showMessage(R.string.view_model_home_user_update_error)
         }
     }

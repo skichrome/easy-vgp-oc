@@ -56,6 +56,7 @@
     <string name="menu_log_out_title">Log out</string>
     <string name="menu_settings_title">settings</string>
     <string name="menu_settings_profile">Profile</string>
+    <string name="menu_admin_title">Administration</string>
 
     <!-- Machine ViewModel -->
     <string name="view_model_machine_machines_list">An error occurred when fetching all machines</string>
@@ -75,4 +76,24 @@
     <string name="add_edit_machine_frag_hint_serial">machine serial</string>
     <string name="profile_fragment_company_name_hint">Your company name</string>
     <string name="profile_fragment_company_siret_hint">Your company Siret</string>
+
+    <!-- Admin ViewModel -->
+    <string name="admin_view_model_machine_type_insert_success">Successfully saved new machine type</string>
+    <string name="admin_view_model_machine_type_update_success">Successfully updated new machine type</string>
+    <string name="admin_view_model_machine_type_list_error">An error occurred when fetching all types</string>
+    <string name="admin_view_model_machine_type_list_refresh_error">Error when updating with remote server</string>
+    <string name="admin_view_model_machine_type_list_refresh_success">Update successful</string>
+    <string name="admin_view_model_machine_type_network_error">An internet connexion is required. Please check it</string>
+    <string name="admin_view_model_machine_type_remote_repo_error">An error occurred with remote database</string>
+    <string name="admin_view_model_machine_type_insert_error">An error occurred when inserting new machine type</string>
+    <string name="admin_view_model_machine_type_update_error">An error occurred when updating new machine type</string>
+
+    <!-- Admin Fragment Dialog -->
+    <string name="admin_fragment_dialog_ok">OK</string>
+    <string name="admin_fragment_dialog_cancel">Cancel</string>
+    <string name="admin_fragment_dialog_input_name_hint">Common name</string>
+    <string name="admin_fragment_dialog_input_legal_name_hint">Legal name</string>
+    <string name="admin_fragment_dialog_layout_title_new">New machine type</string>
+    <string name="admin_fragment_dialog_layout_title_update">Edit this machine type</string>
+    <string name="admin_fragment_dialog_error_required_fields">Please provide all fields</string>
 </resources>

@@ -6,14 +6,17 @@ import androidx.annotation.VisibleForTesting
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 import com.skichrome.oc.easyvgp.androidmanagers.DefaultNetManager
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager
 import com.skichrome.oc.easyvgp.model.*
+import com.skichrome.oc.easyvgp.model.local.LocalAdminSource
 import com.skichrome.oc.easyvgp.model.local.LocalCustomerSource
 import com.skichrome.oc.easyvgp.model.local.LocalHomeSource
 import com.skichrome.oc.easyvgp.model.local.LocalMachineSource
 import com.skichrome.oc.easyvgp.model.local.database.AppDatabase
 import com.skichrome.oc.easyvgp.model.remote.CustomerRemoteRepository
+import com.skichrome.oc.easyvgp.model.remote.RemoteAdminSource
 
 object ServiceLocator
 {
@@ -22,7 +25,10 @@ object ServiceLocator
     // =================================
 
     @Volatile
-    private var database: AppDatabase? = null
+    private var localDatabase: AppDatabase? = null
+
+    @Volatile
+    private var remoteDatabase: FirebaseFirestore? = null
 
     var netManager: NetManager? = null
         @VisibleForTesting set
@@ -39,6 +45,10 @@ object ServiceLocator
     var machineRepository: MachineRepository? = null
         @VisibleForTesting set
 
+    @Volatile
+    var adminRepository: AdminRepository? = null
+        @VisibleForTesting set
+
     // =================================
     //              Methods
     // =================================
@@ -49,11 +59,11 @@ object ServiceLocator
 
     // --- Application Database --- //
 
-    private fun getDatabaseInstance(app: Application) = database ?: synchronized(this) {
-        database ?: buildDatabase(app).also { database = it }
+    private fun getLocalDatabaseInstance(app: Application) = localDatabase ?: synchronized(this) {
+        localDatabase ?: buildLocalDatabase(app).also { localDatabase = it }
     }
 
-    private fun buildDatabase(app: Application): AppDatabase =
+    private fun buildLocalDatabase(app: Application): AppDatabase =
         Room.databaseBuilder(app.applicationContext, AppDatabase::class.java, "easy-vgp-database.db")
             .addCallback(object : RoomDatabase.Callback()
             {
@@ -65,13 +75,19 @@ object ServiceLocator
             })
             .build()
 
+    // --- Cloud Firestore Database --- //
+
+    private fun getRemoteDatabaseInstance(): FirebaseFirestore = remoteDatabase ?: synchronized(this) {
+        remoteDatabase ?: FirebaseFirestore.getInstance().also { remoteDatabase = it }
+    }
+
     // --- Data Source --- //
 
     // --- Home
 
     private fun provideLocalHomeSource(app: Application): HomeSource
     {
-        val db = getDatabaseInstance(app)
+        val db = getLocalDatabaseInstance(app)
         val companyDao = db.companiesDao()
         val userDao = db.usersDao()
         return LocalHomeSource(companyDao, userDao)
@@ -81,7 +97,7 @@ object ServiceLocator
 
     private fun provideLocalCustomerSource(app: Application): CustomerSource
     {
-        val db = getDatabaseInstance(app)
+        val db = getLocalDatabaseInstance(app)
         val customerDao = db.customersDao()
         return LocalCustomerSource(customerDao)
     }
@@ -92,10 +108,25 @@ object ServiceLocator
 
     private fun provideLocalMachineSource(app: Application): MachineSource
     {
-        val db = getDatabaseInstance(app)
+        val db = getLocalDatabaseInstance(app)
         val machinesDao = db.machinesDao()
         val machineTypeDao = db.machinesTypeDao()
         return LocalMachineSource(machinesDao, machineTypeDao)
+    }
+
+    // --- Admin
+
+    private fun configureLocalAdminRepository(app: Application): AdminSource
+    {
+        val db = getLocalDatabaseInstance(app)
+        val machineTypeDao = db.machinesTypeDao()
+        return LocalAdminSource(machineTypeDao = machineTypeDao)
+    }
+
+    private fun configureRemoteAdminRepository(): AdminSource
+    {
+        val db = getRemoteDatabaseInstance()
+        return RemoteAdminSource(db)
     }
 
     // --- Data Repository --- //
@@ -138,13 +169,27 @@ object ServiceLocator
         return DefaultMachineRepository(localSource)
     }
 
+    // --- Admin
+
+    fun provideAdminRepository(app: Application) = adminRepository ?: synchronized(this) {
+        adminRepository ?: configureAdminRepository(app).also { adminRepository = it }
+    }
+
+    private fun configureAdminRepository(app: Application): AdminRepository
+    {
+        val netManager = provideNetworkManager(app.applicationContext)
+        val localSource = configureLocalAdminRepository(app)
+        val remoteSource = configureRemoteAdminRepository()
+        return DefaultAdminRepository(netManager = netManager, localSource = localSource, remoteSource = remoteSource)
+    }
+
     // --- Testing purposes --- //
 
     @VisibleForTesting
     fun resetRepository()
     {
         synchronized(this) {
-            database?.apply {
+            localDatabase?.apply {
                 clearAllTables()
                 close()
             }

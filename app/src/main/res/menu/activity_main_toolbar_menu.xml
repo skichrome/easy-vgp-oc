@@ -15,8 +15,13 @@
         android:title="@string/menu_settings_profile"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/adminFragment"
+        android:icon="@drawable/ic_gear_24dp"
+        android:title="@string/menu_admin_title"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_settings_24dp"
         android:title="@string/menu_settings_title"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 </menu>

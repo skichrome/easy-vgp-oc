@@ -35,14 +35,7 @@ class MachineFragmentAdapter(private val viewModel: MachineViewModel) :
 
     class MachineDiffCallback : DiffUtil.ItemCallback<Machine>()
     {
-        override fun areItemsTheSame(oldItem: Machine, newItem: Machine): Boolean
-        {
-            return oldItem.machineId == newItem.machineId
-        }
-
-        override fun areContentsTheSame(oldItem: Machine, newItem: Machine): Boolean
-        {
-            return oldItem == newItem
-        }
+        override fun areItemsTheSame(oldItem: Machine, newItem: Machine): Boolean = oldItem.machineId == newItem.machineId
+        override fun areContentsTheSame(oldItem: Machine, newItem: Machine): Boolean = oldItem == newItem
     }
 }

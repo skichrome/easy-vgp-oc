@@ -125,4 +125,9 @@
         android:name="com.skichrome.oc.easyvgp.view.fragments.ProfileFragment"
         android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/adminFragment"
+        android:name="com.skichrome.oc.easyvgp.view.fragments.AdminFragment"
+        android:label="AdminFragment"
+        tools:layout="@layout/fragment_admin" />
 </navigation>

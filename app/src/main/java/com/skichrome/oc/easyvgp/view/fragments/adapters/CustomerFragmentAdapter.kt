@@ -35,14 +35,7 @@ class CustomerFragmentAdapter(private val viewModel: CustomerViewModel) :
 
     class CustomerDiffCallback : DiffUtil.ItemCallback<Customer>()
     {
-        override fun areItemsTheSame(oldItem: Customer, newItem: Customer): Boolean
-        {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: Customer, newItem: Customer): Boolean
-        {
-            return oldItem == newItem
-        }
+        override fun areItemsTheSame(oldItem: Customer, newItem: Customer): Boolean = oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: Customer, newItem: Customer): Boolean = oldItem == newItem
     }
 }
