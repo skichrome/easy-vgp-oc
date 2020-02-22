@@ -127,20 +127,20 @@ object DataProvider
     const val machine2Id = 2L
     val machine2 = Machine(
         machineId = machine2Id,
-        name = "Mach1",
-        brand = "brand1",
+        name = "Mach2",
+        brand = "brand2",
         customer = customer2Id,
-        serial = "DFG123AER13333",
+        serial = "DFG12ddd3AER13333",
         type = machineType2Id
     )
 
     const val machineToInsertId = 3L
     val machineToInsert = Machine(
         machineId = machine2Id,
-        name = "Mach1",
-        brand = "brand1",
+        name = "Mach3",
+        brand = "brand3",
         customer = customer2Id,
-        serial = "DFG123AER13333",
+        serial = "DFG12dsdz3AER13333",
         type = machineType2Id
     )
 
