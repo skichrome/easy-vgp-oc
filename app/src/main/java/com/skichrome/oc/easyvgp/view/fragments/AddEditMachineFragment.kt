@@ -55,14 +55,14 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
 
         machineSaved.observe(this@AddEditMachineFragment, EventObserver { findNavController().navigateUp() })
         errorMessage.observe(this@AddEditMachineFragment, EventObserver { binding.root.snackBar(getString(it)) })
-        machineTypes.observe(this@AddEditMachineFragment, Observer {
-            it?.let { machinesTypes ->
-                configureOrUpdateSpinner(machinesTypes)
+        machineTypes.observe(this@AddEditMachineFragment, Observer { machineTypes ->
+            machineTypes?.let {
+                configureOrUpdateSpinner(machineTypes)
 
                 if (args.machineId != -1L)
                 {
-                    machine.observe(this@AddEditMachineFragment, Observer {
-                        it?.let { machine ->
+                    machine.observe(this@AddEditMachineFragment, Observer { machine ->
+                        machine?.let {
                             binding.addEditMachineFragmentMachineTypeSpinner.setSelection((machine.type - 1).toInt())
                         }
                     })
@@ -74,7 +74,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
     private fun configureOrUpdateSpinner(machines: List<MachineType>)
     {
         val machinesTypeArray = machines.map { it.name }.toTypedArray()
-        val arrayAdapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, machinesTypeArray)
+        val arrayAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, machinesTypeArray)
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
 
         binding.addEditMachineFragmentMachineTypeSpinner.adapter = arrayAdapter
