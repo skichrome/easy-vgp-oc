@@ -2,6 +2,7 @@ package com.skichrome.oc.easyvgp.model.remote
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.FirebaseFirestore
+import com.skichrome.oc.easyvgp.BuildConfig
 import com.skichrome.oc.easyvgp.model.AdminSource
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
@@ -24,7 +25,7 @@ class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatche
 
     companion object
     {
-        const val REMOTE_ADMIN_COLLECTION = "admin"
+        val REMOTE_ADMIN_COLLECTION = if (BuildConfig.DEBUG) "admin_debug" else "admin"
         const val REMOTE_MACHINE_TYPE_DOCUMENT = "machine_type"
         const val REMOTE_MACHINE_TYPE_CONTROL_POINT_DOCUMENT = "machine_type_control_points"
         const val REMOTE_CONTROL_POINT_DOCUMENT = "control_points"
