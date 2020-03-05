@@ -7,7 +7,6 @@
 
     <!-- Home Fragment -->
     <string name="frag_home_btn_new_vgp">New VGP</string>
-    <string name="frag_home_btn_customers">See my customers</string>
     <string name="frag_home_btn_see_vgp">See all VGP</string>
 
     <!-- Home ViewModel -->
@@ -41,9 +40,6 @@
     <string name="frag_add_edit_customer_post_code_hint">post code</string>
     <string name="frag_add_edit_customer_notes_hint">notes about your customer, that don\'t go into upside categories</string>
 
-    <string name="frag_add_edit_customer_edit_img_content_desc">Edit this customer</string>
-
-    <string name="frag_add_edit_customer_error">Something went wrong when trying to add or update this customer</string>
     <string name="frag_add_edit_customer_error_input_snack_bar_msg">You must enter all required fields</string>
     <string name="frag_add_edit_customer_error_input">Required field</string>
 
@@ -82,21 +78,16 @@
     <string name="admin_view_model_machine_type_update_success">Successfully updated new machine type</string>
     <string name="admin_view_model_machine_type_list_error">An error occurred when fetching all types</string>
     <string name="admin_view_model_machine_type_list_refresh_error">Error when updating with remote server</string>
-    <string name="admin_view_model_machine_type_list_refresh_success">Machine type list successfully updated</string>
     <string name="admin_view_model_network_error">An internet connexion is required. Please check it</string>
     <string name="admin_view_model_remote_repo_error">An error occurred with remote database</string>
     <string name="admin_view_model_machine_type_insert_error">An error occurred when inserting new machine type</string>
     <string name="admin_view_model_machine_type_update_error">An error occurred when updating new machine type</string>
-    <string name="admin_view_model_machine_type_ctrl_point_list_error">An error occurred when fetching all control points from this machine type</string>
     <string name="admin_view_model_ctrl_point_list_refresh_error">Error when updating control points with remote server</string>
-    <string name="admin_view_model_ctrl_point_list_error">An error occurred when fetching all control points</string>
     <string name="admin_view_model_ctrl_point_insert_success">Successfully saved new control point</string>
     <string name="admin_view_model_ctrl_point_update_success">Successfully updated new control point</string>
     <string name="admin_view_model_ctrl_point_insert_error">An error occurred when inserting new control point</string>
     <string name="admin_view_model_ctrl_point_update_error">An error occurred when updating new control point</string>
     <string name="admin_view_model_machine_ctrl_point_insert_error">An error occurred when uploading your changes</string>
-
-    <string name="admin_view_model_ctrl_point_filter_item_not_found">Data doesn\'t exist on remote source</string>
 
     <!-- Admin Fragment -->
     <string name="admin_fragment_machine_type_title">All Machine Types</string>

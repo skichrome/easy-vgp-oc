@@ -127,6 +127,13 @@ pipeline {
                 }
             }
         }
+        stage("Archivage des APK") {
+            steps {
+                script {
+                    archiveArtifacts artifacts: 'app/build/outputs/apk/release/*.apk'
+                }
+            }
+        }
     }
     post {
         always {

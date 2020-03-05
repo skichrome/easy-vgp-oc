@@ -139,8 +139,12 @@ class AdminFragment : BaseBindingFragment<FragmentAdminBinding>()
                                 name = newName.toString()
                             )
                         machineType?.let { viewModel.updateMachineType(newMachine) } ?: viewModel.insertMachineType(newMachine)
-                        isFabOpen = !isFabOpen
-                        changeFabState(isFabOpen)
+
+                        if (isFabOpen)
+                        {
+                            isFabOpen = !isFabOpen
+                            changeFabState(isFabOpen)
+                        }
                     } else
                         toast(getString(R.string.admin_fragment_dialog_error_required_fields))
                 }
@@ -177,8 +181,12 @@ class AdminFragment : BaseBindingFragment<FragmentAdminBinding>()
                                 name = newName.toString()
                             )
                         ctrlPoint?.let { viewModel.updateControlPoint(newControlPoint) } ?: viewModel.insertControlPoint(newControlPoint)
-                        isFabOpen = !isFabOpen
-                        changeFabState(isFabOpen)
+
+                        if (isFabOpen)
+                        {
+                            isFabOpen = !isFabOpen
+                            changeFabState(isFabOpen)
+                        }
                     } else
                         toast(getString(R.string.admin_fragment_dialog_error_required_fields))
                 }

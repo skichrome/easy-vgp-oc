@@ -45,9 +45,7 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel()
         if (refresh)
             viewModelScope.uiJob {
                 val result = repository.getAllMachineType()
-                if (result is Success)
-                    showMessage(R.string.admin_view_model_machine_type_list_refresh_success)
-                else
+                if (result !is Success)
                     showMessage(R.string.admin_view_model_machine_type_list_refresh_error)
                 _forceRefresh.value = false
             }
@@ -177,7 +175,7 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel()
         viewModelScope.uiJob {
             val result = repository.updateControlPoint(controlPoint)
             if (result is Success)
-                showMessage(R.string.admin_view_model_machine_type_update_success)
+                showMessage(R.string.admin_view_model_ctrl_point_update_success)
             else
                 when ((result as? Error)?.exception)
                 {
@@ -226,9 +224,7 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel()
     {
         viewModelScope.uiJob {
             val result = repository.insertNewMachineTypeControlPoint(machineTypeWithControlPoints)
-            if (result is Success)
-            {
-            } else
+            if (result !is Success)
                 when ((result as? Error)?.exception)
                 {
                     is NetworkException -> showMessage(R.string.admin_view_model_network_error)
