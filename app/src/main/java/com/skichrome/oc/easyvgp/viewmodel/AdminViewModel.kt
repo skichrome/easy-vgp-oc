@@ -1,14 +1,20 @@
 package com.skichrome.oc.easyvgp.viewmodel
 
+import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.*
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.AdminRepository
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.local.MachineTypeCtrlPtMultiChoiceItems
 import com.skichrome.oc.easyvgp.model.local.database.ControlPoint
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
-import com.skichrome.oc.easyvgp.util.*
+import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints
+import com.skichrome.oc.easyvgp.util.Event
+import com.skichrome.oc.easyvgp.util.NetworkException
+import com.skichrome.oc.easyvgp.util.RemoteRepositoryException
+import com.skichrome.oc.easyvgp.util.uiJob
 import kotlinx.coroutines.launch
 
 class AdminViewModel(private val repository: AdminRepository) : ViewModel()
@@ -76,8 +82,8 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel()
 
     val allControlPoints: LiveData<List<ControlPoint>> = _allControlPoints
 
-    private val _controlPointsFromMachineType = MutableLiveData<LinkedHashMap<ControlPoint, Boolean>>()
-    val controlPointsFromMachineType: LiveData<LinkedHashMap<ControlPoint, Boolean>> = _controlPointsFromMachineType
+    private val _controlPointsFromMachineType = MutableLiveData<List<MachineTypeCtrlPtMultiChoiceItems>>()
+    val controlPointsFromMachineType: LiveData<List<MachineTypeCtrlPtMultiChoiceItems>> = _controlPointsFromMachineType
 
     // =================================
     //              Methods
@@ -95,9 +101,9 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel()
         _message.value = Event(msgRef)
     }
 
-    fun onClickMachineType(machineTypeId: Long)
+    fun onClickMachineType(machineType: MachineType)
     {
-        loadControlPointsByMachineType(machineTypeId)
+        loadControlPointsByMachineType(machineType)
     }
 
     fun onClickControlPoint(ctrlPoint: ControlPoint)
@@ -182,33 +188,53 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel()
         }
     }
 
-    private fun loadControlPointsByMachineType(machineTypeId: Long)
+    private fun loadControlPointsByMachineType(machineType: MachineType)
     {
         viewModelScope.uiJob {
             isLoading.set(true)
 
+            val resultList = LinkedHashMap<Long, MachineTypeCtrlPtMultiChoiceItems>()
+
             val allCtrlPoints = repository.getAllControlPoints()
             if (allCtrlPoints is Success)
             {
-                val result = LinkedHashMap<ControlPoint, Boolean>()
-                allCtrlPoints.data.forEach { ctrlPoint -> result[ctrlPoint] = false }
-                when (val ctrlPointsByMachineId = repository.getControlPointsFromMachineTypeId(machineTypeId))
+                allCtrlPoints.data.forEach { ctrlPoints ->
+                    resultList[ctrlPoints.id] = MachineTypeCtrlPtMultiChoiceItems(
+                        machineType = machineType,
+                        ctrlPoint = ctrlPoints,
+                        isChecked = false
+                    )
+                }
+                when (val ctrlPointsByMachineId = repository.getControlPointsFromMachineTypeId(machineType.id))
                 {
                     is Success ->
                     {
-                        ctrlPointsByMachineId.data.controlPoints.forEach { ctrlPoint -> result[ctrlPoint] = true }
-                    }
-                    is Error ->
-                    {
-                        when (ctrlPointsByMachineId.exception)
-                        {
-                            is ItemNotFoundException -> showMessage(R.string.admin_view_model_ctrl_point_filter_item_not_found)
+                        ctrlPointsByMachineId.data.controlPoints.forEach { ctrlPoints ->
+                            resultList[ctrlPoints.id]?.isChecked = true
                         }
                     }
+                    is Error ->
+                        Log.e("AdmVM", "data : ${ctrlPointsByMachineId.exception.localizedMessage}", ctrlPointsByMachineId.exception)
                 }
-                _controlPointsFromMachineType.value = result
+                _controlPointsFromMachineType.value = resultList.values.toList()
             }
             isLoading.set(false)
+        }
+    }
+
+    fun insertOrUpdateMachineTypeWithControlPoints(machineTypeWithControlPoints: MachineTypeWithControlPoints)
+    {
+        viewModelScope.uiJob {
+            val result = repository.insertNewMachineTypeControlPoint(machineTypeWithControlPoints)
+            if (result is Success)
+            {
+            } else
+                when ((result as? Error)?.exception)
+                {
+                    is NetworkException -> showMessage(R.string.admin_view_model_network_error)
+                    is RemoteRepositoryException -> showMessage(R.string.admin_view_model_remote_repo_error)
+                    else -> showMessage(R.string.admin_view_model_machine_ctrl_point_insert_error)
+                }
         }
     }
 }

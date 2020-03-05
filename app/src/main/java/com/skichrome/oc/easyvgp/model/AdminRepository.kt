@@ -12,11 +12,12 @@ interface AdminRepository
     suspend fun getAllMachineType(): Results<List<MachineType>>
     suspend fun getAllControlPoints(): Results<List<ControlPoint>>
 
-    suspend fun getControlPointsFromMachineTypeId(id: Long): Results<MachineTypeWithControlPoints>
-
     suspend fun insertNewMachineType(machineType: MachineType): Results<Long>
     suspend fun updateMachineType(machineType: MachineType): Results<Int>
 
     suspend fun insertNewControlPoint(controlPoint: ControlPoint): Results<Long>
     suspend fun updateControlPoint(controlPoint: ControlPoint): Results<Int>
+
+    suspend fun getControlPointsFromMachineTypeId(id: Long): Results<MachineTypeWithControlPoints>
+    suspend fun insertNewMachineTypeControlPoint(machineTypeWithControlPoints: MachineTypeWithControlPoints): Results<List<Long>>
 }

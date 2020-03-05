@@ -121,7 +121,12 @@ object ServiceLocator
         val db = getLocalDatabaseInstance(app)
         val machineTypeDao = db.machinesTypeDao()
         val controlPointDao = db.controlPointDao()
-        return LocalAdminSource(machineTypeDao = machineTypeDao, controlPointDao = controlPointDao)
+        val machineTypeControlPointDao = db.machineTypeControlPointCrossRefDao()
+        return LocalAdminSource(
+            machineTypeDao = machineTypeDao,
+            controlPointDao = controlPointDao,
+            machineTypeControlPointDao = machineTypeControlPointDao
+        )
     }
 
     private fun configureRemoteAdminRepository(): AdminSource

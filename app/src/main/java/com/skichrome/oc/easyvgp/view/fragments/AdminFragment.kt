@@ -11,8 +11,10 @@ import com.google.android.material.textfield.TextInputEditText
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentAdminBinding
+import com.skichrome.oc.easyvgp.model.local.MachineTypeCtrlPtMultiChoiceItems
 import com.skichrome.oc.easyvgp.model.local.database.ControlPoint
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
+import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints
 import com.skichrome.oc.easyvgp.util.AutoClearedValue
 import com.skichrome.oc.easyvgp.util.EventObserver
 import com.skichrome.oc.easyvgp.util.snackBar
@@ -137,6 +139,8 @@ class AdminFragment : BaseBindingFragment<FragmentAdminBinding>()
                                 name = newName.toString()
                             )
                         machineType?.let { viewModel.updateMachineType(newMachine) } ?: viewModel.insertMachineType(newMachine)
+                        isFabOpen = !isFabOpen
+                        changeFabState(isFabOpen)
                     } else
                         toast(getString(R.string.admin_fragment_dialog_error_required_fields))
                 }
@@ -173,6 +177,8 @@ class AdminFragment : BaseBindingFragment<FragmentAdminBinding>()
                                 name = newName.toString()
                             )
                         ctrlPoint?.let { viewModel.updateControlPoint(newControlPoint) } ?: viewModel.insertControlPoint(newControlPoint)
+                        isFabOpen = !isFabOpen
+                        changeFabState(isFabOpen)
                     } else
                         toast(getString(R.string.admin_fragment_dialog_error_required_fields))
                 }
@@ -182,23 +188,34 @@ class AdminFragment : BaseBindingFragment<FragmentAdminBinding>()
         dialog?.show()
     }
 
-    private fun showMachineTypeCtrlPointAlertDialog(controlPoints: LinkedHashMap<ControlPoint, Boolean>) = controlPoints.let {
+    private fun showMachineTypeCtrlPointAlertDialog(controlPoints: List<MachineTypeCtrlPtMultiChoiceItems>) = controlPoints.let {
         val dialog = activity?.let {
             val builder = AlertDialog.Builder(it)
             builder.apply {
 
-                val controlPointsList = controlPoints.keys.map { controlPoint -> controlPoint.name }
-
                 setMultiChoiceItems(
-                    controlPointsList.toTypedArray(),
-                    controlPoints.values.toBooleanArray()
+                    controlPoints.map { controlPoint -> controlPoint.ctrlPoint.name }.toTypedArray(),
+                    controlPoints.map { ctrlPoint -> ctrlPoint.isChecked }.toBooleanArray()
                 ) { _, which, isChecked ->
-                    val itemClicked = controlPointsList[which]
-                    toast("Item checked : $isChecked, $which, $itemClicked")
+                    val itemClicked = controlPoints[which]
+                    toast("Item checked : $isChecked, $which, ${itemClicked.ctrlPoint.name}")
+                    controlPoints[which].isChecked = isChecked
                 }
 
-                setTitle("Select all points linked to this machine type")
+                setTitle(R.string.admin_fragment_dialog_layout_title_machine_type_ctrl_point_list)
                 setPositiveButton(R.string.admin_fragment_dialog_ok) { _, _ ->
+                    val ctrlPointList = mutableListOf<ControlPoint>()
+                    controlPoints.forEach { machTypeCtrlPtItem ->
+                        if (machTypeCtrlPtItem.isChecked)
+                            ctrlPointList.add(machTypeCtrlPtItem.ctrlPoint)
+                    }
+                    if (controlPoints.isNotEmpty())
+                        viewModel.insertOrUpdateMachineTypeWithControlPoints(
+                            MachineTypeWithControlPoints(
+                                machineType = controlPoints.first().machineType,
+                                controlPoints = ctrlPointList
+                            )
+                        )
                 }
                 setNegativeButton(R.string.admin_fragment_dialog_cancel, null)
             }
@@ -208,6 +225,9 @@ class AdminFragment : BaseBindingFragment<FragmentAdminBinding>()
 
     private fun changeFabState(openFab: Boolean)
     {
+        adminFragmentFabNewMachineType.isClickable = openFab
+        adminFragmentFabNewCtrlPoint.isClickable = openFab
+
         when (openFab)
         {
             true ->

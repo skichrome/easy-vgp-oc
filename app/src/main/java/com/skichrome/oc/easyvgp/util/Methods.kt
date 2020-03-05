@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
@@ -25,11 +26,24 @@ fun View.snackBar(msg: String)
 }
 
 @Suppress("UNCHECKED_CAST")
-suspend fun <T> Task<T>.await(): T = suspendCoroutine { continuation ->
+suspend fun <T> Task<T>.awaitQuery(): T = suspendCoroutine { continuation ->
     addOnCompleteListener { task ->
         when
         {
             (task.result as QuerySnapshot).metadata.isFromCache -> continuation.resumeWithException(Exception("without internet"))
+            task.isSuccessful -> continuation.resume(value = task.result as T)
+            else -> continuation.resumeWithException(task.exception!!)
+        }
+    }
+    addOnFailureListener { continuation.resumeWithException(it) }
+}
+
+@Suppress("UNCHECKED_CAST")
+suspend fun <T> Task<T>.awaitDocument(): T = suspendCoroutine { continuation ->
+    addOnCompleteListener { task ->
+        when
+        {
+            (task.result as DocumentSnapshot).metadata.isFromCache -> continuation.resumeWithException(Exception("without internet"))
             task.isSuccessful -> continuation.resume(value = task.result as T)
             else -> continuation.resumeWithException(task.exception!!)
         }

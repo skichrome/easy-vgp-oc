@@ -18,4 +18,6 @@ abstract class AppDatabase : RoomDatabase()
 
     abstract fun machinesTypeDao(): MachineTypeDao
     abstract fun controlPointDao(): ControlPointDao
+
+    abstract fun machineTypeControlPointCrossRefDao(): MachineTypeControlPointCrossRefDao
 }

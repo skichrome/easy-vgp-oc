@@ -2,6 +2,7 @@ package com.skichrome.oc.easyvgp.model.remote
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import com.skichrome.oc.easyvgp.BuildConfig
 import com.skichrome.oc.easyvgp.model.AdminSource
 import com.skichrome.oc.easyvgp.model.Results
@@ -11,7 +12,8 @@ import com.skichrome.oc.easyvgp.model.local.database.ControlPoint
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
 import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints
 import com.skichrome.oc.easyvgp.util.ItemNotFoundException
-import com.skichrome.oc.easyvgp.util.await
+import com.skichrome.oc.easyvgp.util.awaitDocument
+import com.skichrome.oc.easyvgp.util.awaitQuery
 import com.skichrome.oc.easyvgp.util.awaitUpload
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -40,7 +42,7 @@ class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatche
         return@withContext try
         {
             val result = getMachineTypesCollection().get()
-                .await()
+                .awaitQuery()
                 ?.toObjects(RemoteMachineType::class.java)?.toList()
                 ?.map { MachineType(id = it.id, legalName = it.legalName, name = it.name) }
             return@withContext Success(result)
@@ -54,39 +56,10 @@ class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatche
         return@withContext try
         {
             val results = getControlPointCollection().get()
-                .await()
+                .awaitQuery()
                 ?.toObjects(RemoteControlPoint::class.java)?.toList()
                 ?.map { ControlPoint(id = it.id, name = it.name, code = it.code) }
             return@withContext Success(results)
-        } catch (e: Exception)
-        {
-            Error(e)
-        }
-    }
-
-    override suspend fun getControlPointsFromMachineTypeId(id: Long): Results<MachineTypeWithControlPoints> = withContext(dispatchers) {
-        return@withContext try
-        {
-            val results = getMachineTypesControlPointCollection().get()
-                .await()
-                ?.toObjects(RemoteMachineTypeWithControlPoints::class.java)?.toList()
-                ?.filter { it.remoteMachineType.id == id }
-                ?.map {
-                    MachineTypeWithControlPoints(
-                        machineType = MachineType(
-                            id = it.remoteMachineType.id,
-                            name = it.remoteMachineType.name,
-                            legalName = it.remoteMachineType.legalName
-                        ),
-                        controlPoints = it.controlPoints
-                    )
-                }
-            when (results?.size)
-            {
-                1 -> Success(results.first())
-                0 -> Error(ItemNotFoundException("Item doesn't exist on remote database"))
-                else -> Error(Exception("Database doesn't have unique ID for Machine Type"))
-            }
         } catch (e: Exception)
         {
             Error(e)
@@ -121,15 +94,58 @@ class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatche
         }
     }
 
-    override suspend fun insertNewMachineTypeControlPoint(machineTypeWithControlPoints: MachineTypeWithControlPoints): Results<Long> =
+    override suspend fun getControlPointsFromMachineTypeId(id: Long): Results<MachineTypeWithControlPoints> = withContext(dispatchers) {
+        return@withContext try
+        {
+            val results = getMachineTypesControlPointCollection()
+                .document("$id")
+                .get()
+                .awaitDocument()
+                .toObject<RemoteMachineTypeWithControlPoints>()
+                ?.let {
+                    MachineTypeWithControlPoints(
+                        machineType = MachineType(
+                            id = it.remoteMachineType.id,
+                            name = it.remoteMachineType.name,
+                            legalName = it.remoteMachineType.legalName
+                        ),
+                        controlPoints = it.controlPoints.map { remoteCtrlPt ->
+                            ControlPoint(
+                                id = remoteCtrlPt.id,
+                                code = remoteCtrlPt.code,
+                                name = remoteCtrlPt.name
+                            )
+                        }
+                    )
+                }
+
+            if (results != null)
+                Success(results)
+            else
+                Error(ItemNotFoundException("Item doesn't exist on remote database"))
+        }
+        catch (e: Exception)
+        {
+            Error(e)
+        }
+    }
+
+    override suspend fun insertNewMachineTypeControlPoint(machineTypeWithControlPoints: MachineTypeWithControlPoints): Results<List<Long>> =
         withContext(dispatchers) {
             return@withContext try
             {
                 getMachineTypesControlPointCollection()
                     .document("${machineTypeWithControlPoints.machineType.id}")
+                    .delete()
+                    .awaitUpload()
+
+                getMachineTypesControlPointCollection()
+                    .document("${machineTypeWithControlPoints.machineType.id}")
                     .set(machineTypeWithControlPoints)
                     .awaitUpload()
-                Success(machineTypeWithControlPoints.machineType.id)
+
+                val idList = machineTypeWithControlPoints.controlPoints.map { it.id }
+                Success(idList)
             } catch (e: Exception)
             {
                 Error(e)

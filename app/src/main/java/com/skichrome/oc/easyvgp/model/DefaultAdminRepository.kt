@@ -7,6 +7,7 @@ import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.local.database.ControlPoint
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
 import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints
+import com.skichrome.oc.easyvgp.util.ItemNotFoundException
 import com.skichrome.oc.easyvgp.util.NetworkException
 import com.skichrome.oc.easyvgp.util.RemoteRepositoryException
 
@@ -49,21 +50,6 @@ class DefaultAdminRepository(
             Error(NetworkException("Network isn't available"))
     }
 
-    override suspend fun getControlPointsFromMachineTypeId(id: Long): Results<MachineTypeWithControlPoints>
-    {
-        return if (netManager.isConnectedToInternet())
-        {
-            val results = remoteSource.getControlPointsFromMachineTypeId(id)
-            if (results is Success)
-            {
-                localSource.insertNewMachineTypeControlPoint(results.data)
-                Success(results.data)
-            } else
-                Error(RemoteRepositoryException("An error occurred when trying to fetch remote control points"))
-        } else
-            Error(NetworkException("Network isn't available"))
-    }
-
     override suspend fun insertNewMachineType(machineType: MachineType): Results<Long>
     {
         return if (netManager.isConnectedToInternet())
@@ -96,11 +82,11 @@ class DefaultAdminRepository(
     {
         return if (netManager.isConnectedToInternet())
         {
-            val result = remoteSource.insertNewControlPoint(controlPoint)
-            if (result is Success)
+            val results = remoteSource.insertNewControlPoint(controlPoint)
+            if (results is Success)
             {
                 getAllControlPoints()
-                result
+                results
             } else
                 Error(RemoteRepositoryException("An error occurred when trying to insert new remote control point"))
         } else
@@ -116,6 +102,41 @@ class DefaultAdminRepository(
                 localSource.updateControlPoint(controlPoint)
             else
                 Error(RemoteRepositoryException("An error occurred when trying to update new remote machine types"))
+        } else
+            Error(NetworkException("Network isn't available"))
+    }
+
+    override suspend fun getControlPointsFromMachineTypeId(id: Long): Results<MachineTypeWithControlPoints>
+    {
+        return if (netManager.isConnectedToInternet())
+        {
+            val results = remoteSource.getControlPointsFromMachineTypeId(id)
+            if (results is Success)
+            {
+                localSource.insertNewMachineTypeControlPoint(results.data)
+                Success(results.data)
+            } else
+                when ((results as? Error)?.exception)
+                {
+                    is ItemNotFoundException -> results
+                    else -> Error(RemoteRepositoryException("An error occurred when trying to fetch remote control points"))
+                }
+        } else
+            Error(NetworkException("Network isn't available"))
+    }
+
+    override suspend fun insertNewMachineTypeControlPoint(machineTypeWithControlPoints: MachineTypeWithControlPoints): Results<List<Long>>
+    {
+        return if (netManager.isConnectedToInternet())
+        {
+            val results = remoteSource.insertNewMachineTypeControlPoint(machineTypeWithControlPoints)
+            if (results is Success)
+            {
+                localSource.insertNewMachineTypeControlPoint(machineTypeWithControlPoints)
+                results
+            } else
+                Error(RemoteRepositoryException("An error occurred when trying to insert machineTypeWithControlPoint"))
+
         } else
             Error(NetworkException("Network isn't available"))
     }

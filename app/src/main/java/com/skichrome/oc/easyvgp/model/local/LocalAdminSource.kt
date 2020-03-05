@@ -14,6 +14,7 @@ import kotlinx.coroutines.withContext
 class LocalAdminSource(
     private val machineTypeDao: MachineTypeDao,
     private val controlPointDao: ControlPointDao,
+    private val machineTypeControlPointDao: MachineTypeControlPointCrossRefDao,
     private val dispatchers: CoroutineDispatcher = Dispatchers.IO
 ) : AdminSource
 {
@@ -70,13 +71,23 @@ class LocalAdminSource(
         }
     }
 
-    override suspend fun insertNewMachineTypeControlPoint(machineTypeWithControlPoints: MachineTypeWithControlPoints): Results<Long> =
+    override suspend fun insertNewMachineTypeControlPoint(machineTypeWithControlPoints: MachineTypeWithControlPoints): Results<List<Long>> =
         withContext(dispatchers) {
             return@withContext try
             {
-                val results = machineTypeDao.insertReplace(machineTypeWithControlPoints.machineType)
-                controlPointDao.insertReplace(*machineTypeWithControlPoints.controlPoints.toTypedArray())
-                Success(results)
+                machineTypeControlPointDao.deleteMatchMachineTypeId(machineTypeWithControlPoints.machineType.id)
+
+                val idList = mutableListOf<Long>()
+                machineTypeWithControlPoints.controlPoints.forEach {
+                    val result = machineTypeControlPointDao.insertReplace(
+                        MachineTypeControlPointCrossRef(
+                            ctrlPointId = it.id,
+                            machineId = machineTypeWithControlPoints.machineType.id
+                        )
+                    )
+                    idList.add(result)
+                }
+                Success(idList)
             } catch (e: Exception)
             {
                 Error(e)
