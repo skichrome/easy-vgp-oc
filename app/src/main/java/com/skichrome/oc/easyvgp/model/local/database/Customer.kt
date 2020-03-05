@@ -19,7 +19,7 @@ data class Customer(
 )
 
 @Dao
-interface CustomersDao : BaseDao<Customer>
+interface CustomerDao : BaseDao<Customer>
 {
     @Query("SELECT * FROM Customers")
     fun observeCustomers(): LiveData<List<Customer>>

@@ -26,7 +26,7 @@ data class Machine(
 )
 
 @Dao
-interface MachinesDao : BaseDao<Machine>
+interface MachineDao : BaseDao<Machine>
 {
     @Query("SELECT * FROM Machines")
     fun observeMachines(): LiveData<List<Machine>>

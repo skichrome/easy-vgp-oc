@@ -82,7 +82,7 @@ class CustomerDaoTest
     private val customerListEdited = arrayOf(customer1Edit, customer2, customer3)
 
     private lateinit var db: AppDatabase
-    private lateinit var customerDao: CustomersDao
+    private lateinit var customerDao: CustomerDao
 
     // =================================
     //              Methods

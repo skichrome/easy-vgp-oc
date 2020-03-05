@@ -1,15 +1,15 @@
 package com.skichrome.oc.easyvgp.viewmodel
 
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.*
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.AdminRepository
-import com.skichrome.oc.easyvgp.model.Results
+import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.local.database.ControlPoint
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
-import com.skichrome.oc.easyvgp.util.Event
-import com.skichrome.oc.easyvgp.util.NetworkException
-import com.skichrome.oc.easyvgp.util.RemoteRepositoryException
-import com.skichrome.oc.easyvgp.util.uiJob
+import com.skichrome.oc.easyvgp.util.*
+import kotlinx.coroutines.launch
 
 class AdminViewModel(private val repository: AdminRepository) : ViewModel()
 {
@@ -22,17 +22,20 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel()
     private val _message = MutableLiveData<Event<Int>>()
     val message: LiveData<Event<Int>> = _message
 
-    private val _onClickMachineType = MutableLiveData<Event<Long>>()
-    val onClickMachineType: LiveData<Event<Long>> = _onClickMachineType
-
     private val _onLongClickMachineType = MutableLiveData<Event<MachineType>>()
     val onLongClickMachineType: LiveData<Event<MachineType>> = _onLongClickMachineType
 
+    private val _onClickControlPoint = MutableLiveData<Event<ControlPoint>>()
+    val onClickControlPoint: LiveData<Event<ControlPoint>> = _onClickControlPoint
+
     private val _forceRefresh = MutableLiveData<Boolean>()
+
+    val isLoading = ObservableBoolean(false)
 
     // --- Data
 
     private val _machineTypes: LiveData<List<MachineType>> = _forceRefresh.switchMap { refresh ->
+        isLoading.set(true)
         if (refresh)
             viewModelScope.uiJob {
                 val result = repository.getAllMachineType()
@@ -52,9 +55,29 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel()
                 showMessage(R.string.admin_view_model_machine_type_list_error)
                 return@map emptyList<MachineType>()
             }
-        }
+        }.also { isLoading.set(false) }
     }
     val machineTypes: LiveData<List<MachineType>> = _machineTypes
+
+    private val _allControlPoints: LiveData<List<ControlPoint>> = _forceRefresh.switchMap { refresh ->
+        if (refresh)
+            viewModelScope.launch {
+                val result = repository.getAllControlPoints()
+                if (result is Error)
+                    showMessage(R.string.admin_view_model_ctrl_point_list_refresh_error)
+            }
+        repository.observeControlPoints().map {
+            if (it is Success)
+                return@map it.data
+            else
+                return@map emptyList<ControlPoint>()
+        }
+    }
+
+    val allControlPoints: LiveData<List<ControlPoint>> = _allControlPoints
+
+    private val _controlPointsFromMachineType = MutableLiveData<LinkedHashMap<ControlPoint, Boolean>>()
+    val controlPointsFromMachineType: LiveData<LinkedHashMap<ControlPoint, Boolean>> = _controlPointsFromMachineType
 
     // =================================
     //              Methods
@@ -74,7 +97,12 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel()
 
     fun onClickMachineType(machineTypeId: Long)
     {
-        _onClickMachineType.value = Event(machineTypeId)
+        loadControlPointsByMachineType(machineTypeId)
+    }
+
+    fun onClickControlPoint(ctrlPoint: ControlPoint)
+    {
+        _onClickControlPoint.value = Event(ctrlPoint)
     }
 
     fun onLongClickMachineType(machineType: MachineType)
@@ -97,10 +125,10 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel()
             if (result is Success)
                 showMessage(R.string.admin_view_model_machine_type_insert_success)
             else
-                when ((result as? Results.Error)?.exception)
+                when ((result as? Error)?.exception)
                 {
-                    is NetworkException -> showMessage(R.string.admin_view_model_machine_type_network_error)
-                    is RemoteRepositoryException -> showMessage(R.string.admin_view_model_machine_type_remote_repo_error)
+                    is NetworkException -> showMessage(R.string.admin_view_model_network_error)
+                    is RemoteRepositoryException -> showMessage(R.string.admin_view_model_remote_repo_error)
                     else -> showMessage(R.string.admin_view_model_machine_type_insert_error)
                 }
         }
@@ -113,12 +141,74 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel()
             if (result is Success)
                 showMessage(R.string.admin_view_model_machine_type_update_success)
             else
-                when ((result as? Results.Error)?.exception)
+                when ((result as? Error)?.exception)
                 {
-                    is NetworkException -> showMessage(R.string.admin_view_model_machine_type_network_error)
-                    is RemoteRepositoryException -> showMessage(R.string.admin_view_model_machine_type_remote_repo_error)
+                    is NetworkException -> showMessage(R.string.admin_view_model_network_error)
+                    is RemoteRepositoryException -> showMessage(R.string.admin_view_model_remote_repo_error)
                     else -> showMessage(R.string.admin_view_model_machine_type_update_error)
                 }
+        }
+    }
+
+    fun insertControlPoint(controlPoint: ControlPoint)
+    {
+        viewModelScope.uiJob {
+            val result = repository.insertNewControlPoint(controlPoint)
+            if (result is Success)
+                showMessage(R.string.admin_view_model_ctrl_point_insert_success)
+            else
+                when ((result as? Error)?.exception)
+                {
+                    is NetworkException -> showMessage(R.string.admin_view_model_network_error)
+                    is RemoteRepositoryException -> showMessage(R.string.admin_view_model_remote_repo_error)
+                    else -> showMessage(R.string.admin_view_model_ctrl_point_insert_error)
+                }
+        }
+    }
+
+    fun updateControlPoint(controlPoint: ControlPoint)
+    {
+        viewModelScope.uiJob {
+            val result = repository.updateControlPoint(controlPoint)
+            if (result is Success)
+                showMessage(R.string.admin_view_model_machine_type_update_success)
+            else
+                when ((result as? Error)?.exception)
+                {
+                    is NetworkException -> showMessage(R.string.admin_view_model_network_error)
+                    is RemoteRepositoryException -> showMessage(R.string.admin_view_model_remote_repo_error)
+                    else -> showMessage(R.string.admin_view_model_ctrl_point_update_error)
+                }
+        }
+    }
+
+    private fun loadControlPointsByMachineType(machineTypeId: Long)
+    {
+        viewModelScope.uiJob {
+            isLoading.set(true)
+
+            val allCtrlPoints = repository.getAllControlPoints()
+            if (allCtrlPoints is Success)
+            {
+                val result = LinkedHashMap<ControlPoint, Boolean>()
+                allCtrlPoints.data.forEach { ctrlPoint -> result[ctrlPoint] = false }
+                when (val ctrlPointsByMachineId = repository.getControlPointsFromMachineTypeId(machineTypeId))
+                {
+                    is Success ->
+                    {
+                        ctrlPointsByMachineId.data.controlPoints.forEach { ctrlPoint -> result[ctrlPoint] = true }
+                    }
+                    is Error ->
+                    {
+                        when (ctrlPointsByMachineId.exception)
+                        {
+                            is ItemNotFoundException -> showMessage(R.string.admin_view_model_ctrl_point_filter_item_not_found)
+                        }
+                    }
+                }
+                _controlPointsFromMachineType.value = result
+            }
+            isLoading.set(false)
         }
     }
 }

@@ -4,8 +4,8 @@ import com.skichrome.oc.easyvgp.model.HomeSource
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.local.database.ItemNotFoundException
 import com.skichrome.oc.easyvgp.model.local.database.UserAndCompany
+import com.skichrome.oc.easyvgp.util.ItemNotFoundException
 
 class FakeHomeDataSource(private val userAndCompanyDataService: LinkedHashMap<Long, UserAndCompany> = LinkedHashMap()) : HomeSource
 {

@@ -9,7 +9,7 @@ import com.skichrome.oc.easyvgp.getOrAwaitValue
 import com.skichrome.oc.easyvgp.model.CustomerSource
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.local.database.AppDatabase
-import com.skichrome.oc.easyvgp.model.local.database.CustomersDao
+import com.skichrome.oc.easyvgp.model.local.database.CustomerDao
 import com.skichrome.oc.easyvgp.model.source.DataProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -37,7 +37,7 @@ class LocalCustomerSourceTest
     var instantExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var database: AppDatabase
-    private lateinit var customersDao: CustomersDao
+    private lateinit var customerDao: CustomerDao
     private lateinit var customerSource: CustomerSource
 
     // =================================
@@ -56,8 +56,8 @@ class LocalCustomerSourceTest
             .allowMainThreadQueries()
             .build()
 
-        customersDao = database.customersDao()
-        customerSource = LocalCustomerSource(customersDao = customersDao, dispatchers = Dispatchers.Main)
+        customerDao = database.customersDao()
+        customerSource = LocalCustomerSource(customerDao = customerDao, dispatchers = Dispatchers.Main)
     }
 
     @After
@@ -69,7 +69,7 @@ class LocalCustomerSourceTest
     fun loadAllCustomers() = runBlocking {
         // Insert data with database DAO
         val customers = DataProvider.localCustomers
-        customersDao.insertReplace(*customers.toTypedArray())
+        customerDao.insertReplace(*customers.toTypedArray())
 
         // Observe results from db with source
         val result = customerSource.loadAllCustomers().getOrAwaitValue()
@@ -84,7 +84,7 @@ class LocalCustomerSourceTest
     fun getCustomerById() = runBlocking {
         // Insert data with database DAO
         val customer = DataProvider.customer1
-        customersDao.insertReplace(customer)
+        customerDao.insertReplace(customer)
 
         // Get customer with source
         val result = customerSource.getCustomerById(customer.id)
@@ -102,7 +102,7 @@ class LocalCustomerSourceTest
         customerSource.saveCustomers(customers.toTypedArray())
 
         // Get customer with database DAO
-        val result = customersDao.getAllCustomers()
+        val result = customerDao.getAllCustomers()
 
         // Output must be equal to input
         assertThat(result, IsNot(nullValue()))
@@ -117,7 +117,7 @@ class LocalCustomerSourceTest
         customerSource.saveCustomers(customers.first())
 
         // Get customer with database DAO
-        val result = customersDao.getAllCustomers()
+        val result = customerDao.getAllCustomers()
 
         // Output must be equal to input
         assertThat(result, IsNot(nullValue()))
@@ -128,14 +128,14 @@ class LocalCustomerSourceTest
     @Test
     fun updateCustomers() = runBlocking {
         // Insert data with database DAO
-        customersDao.insertReplace(DataProvider.customer1)
+        customerDao.insertReplace(DataProvider.customer1)
 
         // Update data with source
         val customerToUpdate = DataProvider.customer1Edit
         customerSource.updateCustomers(customerToUpdate)
 
         // Get customer with database DAO
-        val result = customersDao.getCustomerById(customerToUpdate.id)
+        val result = customerDao.getCustomerById(customerToUpdate.id)
 
         // Output must be equal to input
         assertThat(result, IsNot(nullValue()))

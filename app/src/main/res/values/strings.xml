@@ -82,18 +82,38 @@
     <string name="admin_view_model_machine_type_update_success">Successfully updated new machine type</string>
     <string name="admin_view_model_machine_type_list_error">An error occurred when fetching all types</string>
     <string name="admin_view_model_machine_type_list_refresh_error">Error when updating with remote server</string>
-    <string name="admin_view_model_machine_type_list_refresh_success">Update successful</string>
-    <string name="admin_view_model_machine_type_network_error">An internet connexion is required. Please check it</string>
-    <string name="admin_view_model_machine_type_remote_repo_error">An error occurred with remote database</string>
+    <string name="admin_view_model_machine_type_list_refresh_success">Machine type list successfully updated</string>
+    <string name="admin_view_model_network_error">An internet connexion is required. Please check it</string>
+    <string name="admin_view_model_remote_repo_error">An error occurred with remote database</string>
     <string name="admin_view_model_machine_type_insert_error">An error occurred when inserting new machine type</string>
     <string name="admin_view_model_machine_type_update_error">An error occurred when updating new machine type</string>
+    <string name="admin_view_model_machine_type_ctrl_point_list_error">An error occurred when fetching all control points from this machine type</string>
+    <string name="admin_view_model_machine_ctrl_point_refresh_success">Control point list successfully updated</string>
+    <string name="admin_view_model_ctrl_point_list_refresh_error">Error when updating control points with remote server</string>
+    <string name="admin_view_model_ctrl_point_list_error">An error occurred when fetching all control points</string>
+    <string name="admin_view_model_ctrl_point_insert_success">Successfully saved new control point</string>
+    <string name="admin_view_model_ctrl_point_update_success">Successfully updated new control point</string>
+    <string name="admin_view_model_ctrl_point_insert_error">An error occurred when inserting new control point</string>
+    <string name="admin_view_model_ctrl_point_update_error">An error occurred when updating new control point</string>
 
-    <!-- Admin Fragment Dialog -->
-    <string name="admin_fragment_dialog_ok">OK</string>
+    <string name="admin_view_model_ctrl_point_filter_item_not_found">Data doesn\'t exist on remote source</string>
+
+    <!-- Admin Fragment -->
+    <string name="admin_fragment_machine_type_title">All Machine Types</string>
+    <string name="admin_fragment_ctrl_points_title">All Control Points</string>
+    <string name="admin_fragment_new_machine_type_text_fab">New Machine type</string>
+    <string name="admin_fragment_new_ctrl_point_text_fab">New Control Point</string>
+
+    <!-- Admin Fragment Dialogs -->
+    <string name="admin_fragment_dialog_ok">save</string>
     <string name="admin_fragment_dialog_cancel">Cancel</string>
     <string name="admin_fragment_dialog_input_name_hint">Common name</string>
     <string name="admin_fragment_dialog_input_legal_name_hint">Legal name</string>
-    <string name="admin_fragment_dialog_layout_title_new">New machine type</string>
-    <string name="admin_fragment_dialog_layout_title_update">Edit this machine type</string>
+    <string name="admin_fragment_dialog_layout_title_new_machine_type">New machine type</string>
+    <string name="admin_fragment_dialog_layout_title_new_ctrl_point">New Control Point</string>
+    <string name="admin_fragment_dialog_layout_title_update_machine_type">Edit this machine type</string>
+    <string name="admin_fragment_dialog_layout_title_update_ctrl_point">Edit this control point</string>
     <string name="admin_fragment_dialog_error_required_fields">Please provide all fields</string>
+    <string name="dialog_ctrl_point_code">Control point code</string>
+    <string name="dialog_ctrl_point_name">control point name</string>
 </resources>

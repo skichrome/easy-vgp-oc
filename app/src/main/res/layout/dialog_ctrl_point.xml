@@ -12,11 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="@string/admin_fragment_dialog_input_legal_name_hint"
+        android:hint="@string/dialog_ctrl_point_code"
         app:endIconMode="clear_text">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/dialogInputLegalName"
+            android:id="@+id/dialogCtrlPointCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text" />
@@ -27,11 +27,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="@string/admin_fragment_dialog_input_name_hint"
+        android:hint="@string/dialog_ctrl_point_name"
         app:endIconMode="clear_text">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/dialogInputName"
+            android:id="@+id/dialogCtrlPointName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text" />

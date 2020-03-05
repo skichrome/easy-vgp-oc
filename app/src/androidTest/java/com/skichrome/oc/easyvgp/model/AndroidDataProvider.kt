@@ -93,7 +93,6 @@ object AndroidDataProvider
     const val machineType1Id = 1L
     val machineType1 = MachineType(
         id = machineType1Id,
-        remoteId = "dfghtge5454",
         legalName = "testy name 1",
         name = "type1"
     )
@@ -101,7 +100,6 @@ object AndroidDataProvider
     const val machineType2Id = 2L
     val machineType2 = MachineType(
         id = machineType2Id,
-        remoteId = "dfghtge5454",
         legalName = "testy name 2",
         name = "type1"
     )
