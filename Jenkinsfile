@@ -40,6 +40,7 @@ def updateGithubCommitStatus(build) {
 pipeline {
     agent any
     options {
+        disableConcurrentBuilds()
         timeout(time: 30, unit: 'MINUTES')
     }
     stages {
@@ -51,6 +52,9 @@ pipeline {
             }
         }
         stage("Création du conteneur Docker") {
+            when {
+                branch 'dev'
+            }
             steps {
                 script {
                     build(job: 'create-android-emulator-in-docker-container',
@@ -60,21 +64,44 @@ pipeline {
                                     string(name: 'EMULATOR_NAME', value: "${emulatorNamePipeline}"),
                                     string(name: 'APP_NAME', value: "${dockerAppName}"),
                                     string(name: 'DOCKER_NAME', value: "${dockerImageName}")
-                            ])
+                            ]
+                    )
                 }
             }
         }
         stage("Compilation de l'application Android") {
             steps {
-                script {
-                    build(job: 'compil-android-gradle-project',
-                            parameters: [
-                                    string(name: 'PARENT_PIPELINE_WS', value: "${WORKSPACE}"),
-                            ])
+                withCredentials(
+                        [
+                                file(credentialsId: 'keystore-android', variable: 'STORE_FILE'),
+                                string(credentialsId: 'keystore-password', variable: 'STORE_PASS'),
+                                string(credentialsId: 'keystore-android-alias', variable: 'KEY_ALIAS'),
+                                string(credentialsId: 'keystore-key-password', variable: 'KEY_PASS'),
+                                file(credentialsId: 'acces-admin-firebase-app-distribution-file', variable: 'FIREBASE_APP_DISTRIBUTION_FILE')
+                        ]
+                ) {
+                    sh '''
+                    set +x
+                    ./gradlew clean build 
+                    '''
                 }
             }
         }
+        stage("Préparation de l'application pour les tests") {
+            when {
+                branch 'dev'
+            }
+            steps {
+                sh '''
+                    set +x
+                    ./gradlew assembleAndroidTest
+                    '''
+            }
+        }
         stage("Lancement de l'émulateur dans le conteneur Docker") {
+            when {
+                branch 'dev'
+            }
             steps {
                 script {
                     build(job: 'launch-android-emulator-in-docker-container',
@@ -82,17 +109,22 @@ pipeline {
                                     string(name: 'EMULATOR_NAME', value: "${emulatorNamePipeline}"),
                                     string(name: 'APP_NAME', value: "${dockerAppName}"),
                                     string(name: 'DOCKER_NAME', value: "${dockerImageName}")
-                            ])
+                            ]
+                    )
                 }
             }
         }
         stage("Exécution des tests unitaires et des tests instrumentalisés") {
+            when {
+                branch 'dev'
+            }
             steps {
                 script {
                     build(job: 'execute-android-tests-with-gradle',
                             parameters: [
                                     string(name: 'PARENT_PIPELINE_WS', value: "${WORKSPACE}")
-                            ])
+                            ]
+                    )
                 }
             }
         }
@@ -112,6 +144,9 @@ pipeline {
             }
         }
         stage("Publication des rapports XML") {
+            when {
+                branch 'dev'
+            }
             steps {
                 script {
                     step([
@@ -144,18 +179,15 @@ pipeline {
                     // Avoid keystore.jks not found, because temp directory has changed at this stage
                     sh '''
                     set +x
-                    
-                    echo "STORE_FILE=${STORE_FILE}" > ${WORKSPACE}/keystore.properties
-                    echo "STORE_PASS=${STORE_PASS}" >> ${WORKSPACE}/keystore.properties
-                    echo "KEY_ALIAS=${KEY_ALIAS}" >> ${WORKSPACE}/keystore.properties
-                    echo "KEY_PASS=${KEY_PASS}" >> ${WORKSPACE}/keystore.properties
-                    
-                    ./gradlew appDistributionUploadRelease
+                    ./gradlew assembleRelease appDistributionUploadRelease
                     '''
                 }
             }
         }
         stage("Archivage des APK") {
+            when {
+                branch 'test'
+            }
             steps {
                 script {
                     archiveArtifacts artifacts: 'app/build/outputs/apk/release/*.apk'
@@ -169,10 +201,13 @@ pipeline {
         }
         cleanup {
             script {
-                build(job: 'stop-android-emulator-docker-container',
-                        parameters: [
-                                string(name: 'APP_NAME', value: "${dockerAppName}")
-                        ])
+                if (env.BRANCH_NAME == 'dev') {
+                    build(job: 'stop-android-emulator-docker-container',
+                            parameters: [
+                                    string(name: 'APP_NAME', value: "${dockerAppName}")
+                            ]
+                    )
+                }
             }
         }
         failure {
@@ -184,7 +219,7 @@ pipeline {
                     from: '',
                     mimeType: 'text/html',
                     replyTo: '',
-                    subject: " - Jenkins - ${env.JOB_NAME} - ${currentBuild.currentResult}",
+                    subject: " - Jenkins - ${env.JOB_NAME} - branch ${env.BRANCH_NAME} - ${currentBuild.currentResult}",
                     to: 'campeoltoni@gmail.com',
                     attachLog: true
             script {

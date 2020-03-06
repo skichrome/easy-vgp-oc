@@ -23,13 +23,19 @@ android {
     signingConfigs {
         release {
             def keystore = rootProject.file("keystore.properties")
-            def keyProp = new Properties()
-            keyProp.load(new FileInputStream(keystore))
-
-            storeFile file(keyProp["STORE_FILE"])
-            storePassword keyProp["STORE_PASS"]
-            keyAlias keyProp["KEY_ALIAS"]
-            keyPassword keyProp["KEY_PASS"]
+            if (keystore.exists()) {
+                def keyProp = new Properties()
+                keyProp.load(new FileInputStream(keystore))
+                storeFile file(keyProp["STORE_FILE"])
+                storePassword keyProp["STORE_PASS"]
+                keyAlias keyProp["KEY_ALIAS"]
+                keyPassword keyProp["KEY_PASS"]
+            } else {
+                storeFile file(System.getenv("STORE_FILE"))
+                storePassword System.getenv("STORE_PASS")
+                keyAlias System.getenv("KEY_ALIAS")
+                keyPassword System.getenv("KEY_PASS")
+            }
         }
     }
     buildTypes {
@@ -41,7 +47,7 @@ android {
             firebaseAppDistribution {
                 serviceCredentialsFile = System.getenv("FIREBASE_APP_DISTRIBUTION_FILE")
                 releaseNotesFile "app/release_notes.md"
-                testers="campeoltoni@gmail.com"
+                testers = "campeoltoni@gmail.com"
                 apkPath "app/build/outputs/apk/release/app-release.apk"
             }
         }
