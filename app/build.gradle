@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.appdistribution'
 
 android {
     compileSdkVersion 29
@@ -36,6 +37,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+
+            firebaseAppDistribution {
+                releaseNotesFile "app/release_notes.md"
+                testers="campeoltoni@gmail.com"
+                apkPath "app/build/outputs/apk/release/app-release.apk"
+            }
         }
     }
 
@@ -121,9 +128,7 @@ dependencies {
 
     // Firebase dependencies
     implementation 'com.google.firebase:firebase-core:17.2.3'
-//    implementation 'com.google.firebase:firebase-firestore:21.4.0'
     implementation 'com.google.firebase:firebase-firestore-ktx:21.4.1'
 
     implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
-//    implementation 'com.firebaseui:firebase-ui-firestore:6.2.0'
 }
