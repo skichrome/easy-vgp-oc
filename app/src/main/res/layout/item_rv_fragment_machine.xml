@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="machine"
+            type="com.skichrome.oc.easyvgp.model.local.database.Machine" />
+
+        <variable
+            name="viewModel"
+            type="com.skichrome.oc.easyvgp.viewmodel.MachineViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/rvItemMachineCardView"
+        android:layout_width="match_parent"
+        style="@style/cardStyle"
+        android:layout_height="140dp"
+        android:onClick="@{() -> viewModel.onClickMachine(machine.machineId)}">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="start|top"
+            android:layout_margin="12dp"
+            android:background="@drawable/rounded_drawable_white"
+            android:contentDescription="@string/rv_item_machines_card_logo"
+            android:padding="8dp"
+            android:src="@drawable/ic_check_circle_24dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/rvItemMachineName"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{machine.name}"
+                android:textAlignment="textEnd"
+                tool:text="lorem ipsum dolor sit amet" />
+
+            <TextView
+                android:id="@+id/rvItemMachineBrand"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{machine.brand}"
+                android:textAlignment="textEnd"
+                tool:text="Brand" />
+
+            <TextView
+                android:id="@+id/rvItemMachineSerial"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{machine.serial}"
+                android:textAlignment="textEnd"
+                tool:text="123456789" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

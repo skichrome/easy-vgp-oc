@@ -1,18 +1,111 @@
 <resources>
     <string name="app_name">Easy VGP</string>
 
+    <!-- MainActivity -->
+    <string name="frag_login_success">You are successfully logged in !</string>
+    <string name="frag_login_error">We can\'t login you into the app, please retry</string>
+
     <!-- Home Fragment -->
     <string name="frag_home_btn_new_vgp">New VGP</string>
-    <string name="frag_home_btn_customers">See my customers</string>
     <string name="frag_home_btn_see_vgp">See all VGP</string>
 
-    <!-- Login Fragment -->
-    <string name="frag_login_btn">Log in</string>
-    <string name="frag_login_btn_retry">Retry</string>
-    <string name="frag_login_img_content_desc">Application logo</string>
-    <string name="frag_login_welcome_text">Please log in to your account to be able to use this app.</string>
+    <!-- Home ViewModel -->
+    <string name="view_model_home_user_filter_error">An error occurred when trying to get your current user profile</string>
+    <string name="view_model_home_user_insert">Your profile has been successfully created</string>
+    <string name="view_model_home_user_insert_error">An error occurred when creating your profile</string>
+    <string name="view_model_home_user_update">Your profile has been successfully updated</string>
+    <string name="view_model_home_user_update_error">An error occurred when updating your profile</string>
+
+    <!-- Settings Fragment -->
+    <string name="setting_fragment_account_img_content_desc">Account image profile</string>
+    <string name="profile_fragment_approval_hint">Approval number</string>
+    <string name="profile_fragment_vat_hint">VAT number</string>
+    <string name="profile_fragment_company_title">Your company</string>
+
+    <!-- Add Edit Customer Fragment -->
+    <string name="frag_add_edit_customer_name_title">Customer Name</string>
+    <string name="frag_add_edit_customer_siret_title">Customer SIRET</string>
+    <string name="frag_add_edit_customer_contact_title">Contact information</string>
+    <string name="frag_add_edit_customer_location_title">Customer location</string>
+    <string name="frag_add_edit_customer_notes_title">Notes</string>
+
+    <string name="frag_add_edit_customer_city_hint">City</string>
+    <string name="frag_add_edit_customer_first_name_hint">first name</string>
+    <string name="frag_add_edit_customer_last_name_hint">last name</string>
+    <string name="frag_add_edit_customer_siret_hint">SIRET</string>
+    <string name="frag_add_edit_customer_email_hint">email</string>
+    <string name="frag_add_edit_customer_phone_hint">phone</string>
+    <string name="frag_add_edit_customer_mobile_phone_hint">mobile phone</string>
+    <string name="frag_add_edit_customer_address_hint">address</string>
+    <string name="frag_add_edit_customer_post_code_hint">post code</string>
+    <string name="frag_add_edit_customer_notes_hint">notes about your customer, that don\'t go into upside categories</string>
+
+    <string name="frag_add_edit_customer_error_input_snack_bar_msg">You must enter all required fields</string>
+    <string name="frag_add_edit_customer_error_input">Required field</string>
+
+    <!-- Customer ViewModel -->
+    <string name="view_model_customer_get_by_id">An error occurred when we have tried to load this machine</string>
+    <string name="view_model_customer_insert_error">An error occurred when we have tried to save this machine</string>
+    <string name="view_model_customer_update_error">An error occurred when we have tried to update this machine</string>
 
     <!-- Menu items -->
     <string name="menu_log_out_title">Log out</string>
     <string name="menu_settings_title">settings</string>
+    <string name="menu_settings_profile">Profile</string>
+    <string name="menu_admin_title">Administration</string>
+
+    <!-- Machine ViewModel -->
+    <string name="view_model_machine_machines_list">An error occurred when fetching all machines</string>
+    <string name="view_model_machine_machines_type_list">An error occurred when fetching all machines types</string>
+    <string name="view_model_machine_machine_by_id_error">An error occurred when we have tried to load this machine</string>
+    <string name="view_model_machine_insert_error">An error occurred when we have tried to save this machine</string>
+    <string name="view_model_machine_update_error">An error occurred when we have tried to update this machine</string>
+
+    <!-- Machine RecyclerView Item -->
+    <string name="rv_item_machines_card_logo">machine card logo</string>
+
+    <!-- Add Edit Machine Fragment -->
+    <string name="add_edit_machine_frag_title">Enter the characteristics of the machine</string>
+    <string name="add_edit_machine_frag_machine_type_title">Define the type of machine</string>
+    <string name="add_edit_machine_frag_hint_name">machine name</string>
+    <string name="add_edit_machine_frag_hint_brand">machine brand</string>
+    <string name="add_edit_machine_frag_hint_serial">machine serial</string>
+    <string name="profile_fragment_company_name_hint">Your company name</string>
+    <string name="profile_fragment_company_siret_hint">Your company Siret</string>
+
+    <!-- Admin ViewModel -->
+    <string name="admin_view_model_machine_type_insert_success">Successfully saved new machine type</string>
+    <string name="admin_view_model_machine_type_update_success">Successfully updated new machine type</string>
+    <string name="admin_view_model_machine_type_list_error">An error occurred when fetching all types</string>
+    <string name="admin_view_model_machine_type_list_refresh_error">Error when updating with remote server</string>
+    <string name="admin_view_model_network_error">An internet connexion is required. Please check it</string>
+    <string name="admin_view_model_remote_repo_error">An error occurred with remote database</string>
+    <string name="admin_view_model_machine_type_insert_error">An error occurred when inserting new machine type</string>
+    <string name="admin_view_model_machine_type_update_error">An error occurred when updating new machine type</string>
+    <string name="admin_view_model_ctrl_point_list_refresh_error">Error when updating control points with remote server</string>
+    <string name="admin_view_model_ctrl_point_insert_success">Successfully saved new control point</string>
+    <string name="admin_view_model_ctrl_point_update_success">Successfully updated new control point</string>
+    <string name="admin_view_model_ctrl_point_insert_error">An error occurred when inserting new control point</string>
+    <string name="admin_view_model_ctrl_point_update_error">An error occurred when updating new control point</string>
+    <string name="admin_view_model_machine_ctrl_point_insert_error">An error occurred when uploading your changes</string>
+
+    <!-- Admin Fragment -->
+    <string name="admin_fragment_machine_type_title">All Machine Types</string>
+    <string name="admin_fragment_ctrl_points_title">All Control Points</string>
+    <string name="admin_fragment_new_machine_type_text_fab">New Machine type</string>
+    <string name="admin_fragment_new_ctrl_point_text_fab">New Control Point</string>
+
+    <!-- Admin Fragment Dialogs -->
+    <string name="admin_fragment_dialog_ok">save</string>
+    <string name="admin_fragment_dialog_cancel">Cancel</string>
+    <string name="admin_fragment_dialog_input_name_hint">Common name</string>
+    <string name="admin_fragment_dialog_input_legal_name_hint">Legal name</string>
+    <string name="admin_fragment_dialog_layout_title_new_machine_type">New machine type</string>
+    <string name="admin_fragment_dialog_layout_title_new_ctrl_point">New Control Point</string>
+    <string name="admin_fragment_dialog_layout_title_update_machine_type">Edit this machine type</string>
+    <string name="admin_fragment_dialog_layout_title_update_ctrl_point">Edit this control point</string>
+    <string name="admin_fragment_dialog_layout_title_machine_type_ctrl_point_list">Select all points linked to this machine type</string>
+    <string name="admin_fragment_dialog_error_required_fields">Please provide all fields</string>
+    <string name="dialog_ctrl_point_code">Control point code</string>
+    <string name="dialog_ctrl_point_name">control point name</string>
 </resources>

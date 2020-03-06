@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="customer"
+            type="com.skichrome.oc.easyvgp.model.local.database.Customer" />
+
+        <variable
+            name="viewModel"
+            type="com.skichrome.oc.easyvgp.viewmodel.CustomerViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/rvItemCustomerCardView"
+        style="@style/cardStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> viewModel.onClickCustomer(customer.id)}">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:minHeight="50dp">
+
+            <TextView
+                android:id="@+id/rvItemCustomerFirstLetter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_drawable"
+                android:gravity="center"
+                android:text="@{String.valueOf(customer.firstName.charAt(0)).toUpperCase()}"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="X" />
+
+            <View
+                android:id="@+id/rvItemCustomerSeparation"
+                android:layout_width="2dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/tv_input_margin"
+                android:background="@color/darkThemeSeparatorColor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/rvItemCustomerFirstLetter"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/rvItemCustomerName"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tv_input_margin"
+                android:text='@{customer.lastName + " " + customer.firstName}'
+                app:layout_constraintStart_toEndOf="@+id/rvItemCustomerSeparation"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="customer_name" />
+
+            <TextView
+                android:id="@+id/rvItemCustomerCity"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tv_input_margin"
+                android:layout_marginTop="8dp"
+                android:text="@{customer.city}"
+                app:layout_constraintStart_toEndOf="@id/rvItemCustomerSeparation"
+                app:layout_constraintTop_toBottomOf="@+id/rvItemCustomerName"
+                tools:text="customer_city" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

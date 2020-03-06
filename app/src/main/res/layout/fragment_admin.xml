@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.skichrome.oc.easyvgp.viewmodel.AdminViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/adminFragmentProgress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="@{viewModel.isLoading() ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/adminFragmentFabNewMachineTypeTitle"
+            style="@style/tvTitleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/admin_fragment_machine_type_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/admin_fragment_machine_type_recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            app:items_machine_types="@{viewModel.machineTypes}"
+            app:layout_constraintBottom_toTopOf="@+id/adminFragmentGuideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/adminFragmentFabNewMachineTypeTitle"
+            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:listitem="@layout/item_rv_machine_type"
+            tools:spanCount="3" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/adminFragmentGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <TextView
+            android:id="@+id/adminFragmentFabNewControlPointTitle"
+            style="@style/tvTitleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/admin_fragment_ctrl_points_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/adminFragmentGuideline" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/adminFragmentControlPointsRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            app:items_ctrl_points="@{viewModel.allControlPoints}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/adminFragmentFabNewControlPointTitle"
+            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:listitem="@layout/item_rv_machine_type"
+            tools:spanCount="3" />
+
+        <TextView
+            android:id="@+id/adminFragmentFabNewMachineTypeText"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/admin_fragment_new_machine_type_text_fab"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/adminFragmentFabNewMachineType"
+            app:layout_constraintEnd_toStartOf="@id/adminFragmentFabNewMachineType"
+            app:layout_constraintTop_toTopOf="@id/adminFragmentFabNewMachineType"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/adminFragmentFabNewCtrlPointText"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/admin_fragment_new_ctrl_point_text_fab"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/adminFragmentFabNewCtrlPoint"
+            app:layout_constraintEnd_toStartOf="@id/adminFragmentFabNewCtrlPoint"
+            app:layout_constraintTop_toTopOf="@id/adminFragmentFabNewCtrlPoint"
+            tools:visibility="visible" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/adminFragmentFabNewMachineType"
+            style="@style/secondaryFabStyle"
+            android:src="@drawable/ic_gear_24dp"
+            app:layout_constraintBottom_toTopOf="@id/adminFragmentFabNewCtrlPoint"
+            app:layout_constraintEnd_toEndOf="@id/adminFragmentFabMain"
+            app:layout_constraintStart_toStartOf="@id/adminFragmentFabMain"
+            tools:visibility="visible" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/adminFragmentFabNewCtrlPoint"
+            style="@style/secondaryFabStyle"
+            android:src="@drawable/ic_check_box_24dp"
+            app:layout_constraintBottom_toTopOf="@id/adminFragmentFabMain"
+            app:layout_constraintEnd_toEndOf="@id/adminFragmentFabMain"
+            app:layout_constraintStart_toStartOf="@id/adminFragmentFabMain"
+            tools:visibility="visible" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/adminFragmentFabMain"
+            style="@style/fabStyle"
+            android:src="@drawable/ic_add_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

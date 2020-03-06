@@ -4,4 +4,10 @@
     <dimen name="btn_bottom_margin">24dp</dimen>
     <dimen name="tv_top_margin">64dp</dimen>
     <dimen name="fab_margin">24dp</dimen>
+
+    <!-- Input fields -->
+    <dimen name="tv_input_margin">16dp</dimen>
+    <dimen name="edit_text_drawable_padding">16dp</dimen>
+    <dimen name="divider_top_margin">16dp</dimen>
+    <dimen name="divider_horizontal_margin">64dp</dimen>
 </resources>
