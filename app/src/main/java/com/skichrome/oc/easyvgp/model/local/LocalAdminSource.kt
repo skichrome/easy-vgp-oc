@@ -7,6 +7,7 @@ import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.local.database.*
+import com.skichrome.oc.easyvgp.util.NotImplementedException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -25,7 +26,8 @@ class LocalAdminSource(
         return@withContext try
         {
             Success(machineTypeDao.getMachineTypeWithControlPointsFromMachineTypeId(id))
-        } catch (e: Exception)
+        }
+        catch (e: Exception)
         {
             Error(e)
         }
@@ -35,7 +37,8 @@ class LocalAdminSource(
         return@withContext try
         {
             Success(machineTypeDao.update(machineType))
-        } catch (e: Exception)
+        }
+        catch (e: Exception)
         {
             Error(e)
         }
@@ -45,7 +48,8 @@ class LocalAdminSource(
         return@withContext try
         {
             Success(controlPointDao.insertReplace(controlPoint))
-        } catch (e: Exception)
+        }
+        catch (e: Exception)
         {
             Error(e)
         }
@@ -55,7 +59,8 @@ class LocalAdminSource(
         return@withContext try
         {
             Success(machineTypeDao.insertReplace(machineType))
-        } catch (e: Exception)
+        }
+        catch (e: Exception)
         {
             Error(e)
         }
@@ -65,7 +70,8 @@ class LocalAdminSource(
         return@withContext try
         {
             Success(controlPointDao.update(controlPoint))
-        } catch (e: Exception)
+        }
+        catch (e: Exception)
         {
             Error(e)
         }
@@ -79,24 +85,25 @@ class LocalAdminSource(
 
                 val idList = mutableListOf<Long>()
                 machineTypeWithControlPoints.controlPoints.forEach {
-                    val result = machineTypeControlPointDao.insertReplace(
+                    machineTypeControlPointDao.insertReplace(
                         MachineTypeControlPointCrossRef(
                             ctrlPointId = it.id,
-                            machineId = machineTypeWithControlPoints.machineType.id
+                            machineTypeId = machineTypeWithControlPoints.machineType.id
                         )
                     )
-                    idList.add(result)
+                    idList.add(it.id)
                 }
                 Success(idList)
-            } catch (e: Exception)
+            }
+            catch (e: Exception)
             {
                 Error(e)
             }
         }
 
     override suspend fun getAllMachineType(): Results<List<MachineType>> =
-        throw NotImplementedError("Not implemented for local source. Use observeMachineType() method instead")
+        Error(NotImplementedException("Not implemented for local source. Use observeMachineType() method instead"))
 
     override suspend fun getAllControlPoints(): Results<List<ControlPoint>> =
-        throw NotImplementedError("Not implemented for local source. Use observeMachineType() method instead")
+        Error(NotImplementedException("Not implemented for local source. Use observeControlPoints() method instead"))
 }

@@ -96,12 +96,30 @@ object DataProvider
         legalName = "testy name 1",
         name = "type1"
     )
+    val machineType1Edit = MachineType(
+        id = machineType1Id,
+        legalName = "testy name 1 edited",
+        name = "type1 edited"
+    )
+    const val machineTypeInsertId = 400L
+    val machineTypeInsert = MachineType(
+        id = machineTypeInsertId,
+        legalName = "test name 400L to insert",
+        name = "type 400L to insert"
+    )
 
-    const val machineType2Id = 2L
+    const val machineType2Id = machineType1Id + 1L
     val machineType2 = MachineType(
         id = machineType2Id,
         legalName = "testy name 2",
-        name = "type1"
+        name = "type2"
+    )
+
+    const val machineType3Id = machineType2Id + 1L
+    val machineType3 = MachineType(
+        id = machineType3Id,
+        legalName = "testy name 3",
+        name = "type3"
     )
 
     const val machine1Id = 1L
@@ -281,5 +299,105 @@ object DataProvider
             val tempHashMap = LinkedHashMap<Long, UserAndCompany>()
             userCompanyList.forEach { tempHashMap[it.company.id] = it }
             return tempHashMap
+        }
+
+    // --- Control Points --- //
+
+    const val ctrlPoint1Id = 1L
+    val ctrlPoint1 = ControlPoint(
+        id = ctrlPoint1Id,
+        name = "ctrl pt 1",
+        code = "c1"
+    )
+
+    val ctrlPoint1Edit = ControlPoint(
+        id = ctrlPoint1Id,
+        name = "ctrl pt 1 edited",
+        code = "c1 edited"
+    )
+
+    const val ctrlPointInsertId = 400L
+    val ctrlPointInsert = ControlPoint(
+        id = ctrlPointInsertId,
+        name = "ctrl pt 1 to insert in database",
+        code = "c1 to insert"
+    )
+
+    const val ctrlPoint2Id = ctrlPoint1Id + 1L
+    val ctrlPoint2 = ControlPoint(
+        id = ctrlPoint2Id,
+        name = "ctrl pt 2",
+        code = "c2"
+    )
+
+    const val ctrlPoint3Id = ctrlPoint2Id + 1L
+    val ctrlPoint3 = ControlPoint(
+        id = ctrlPoint3Id,
+        name = "ctrl pt 3",
+        code = "c3"
+    )
+
+    val ctrlPointList = listOf(ctrlPoint1, ctrlPoint2, ctrlPoint3)
+    val ctrlPointHashMap: LinkedHashMap<Long, ControlPoint>
+        get()
+        {
+            val tempHashMap = LinkedHashMap<Long, ControlPoint>()
+            ctrlPointList.forEach { tempHashMap[it.id] = it }
+            return tempHashMap
+        }
+
+    // --- MachineType and Control Point cross ref --- //
+
+    val machineTypeCtrlPointCrossRef1 = MachineTypeControlPointCrossRef(
+        machineTypeId = machineType1Id,
+        ctrlPointId = ctrlPoint1Id
+    )
+
+    val machineTypeCtrlPointCrossRef2 = MachineTypeControlPointCrossRef(
+        machineTypeId = machineType1Id,
+        ctrlPointId = ctrlPoint2Id
+    )
+
+    val machineTypeCtrlPointCrossRef3 = MachineTypeControlPointCrossRef(
+        machineTypeId = machineType2Id,
+        ctrlPointId = ctrlPoint1Id
+    )
+
+    val machineTypeCtrlPointCrossRef4 = MachineTypeControlPointCrossRef(
+        machineTypeId = machineType2Id,
+        ctrlPointId = ctrlPoint3Id
+    )
+
+    val machineTypeCtrlPointCrossRefList =
+        listOf(machineTypeCtrlPointCrossRef1, machineTypeCtrlPointCrossRef2, machineTypeCtrlPointCrossRef3, machineTypeCtrlPointCrossRef4)
+
+    val machineTypeWithControlPoint1 = MachineTypeWithControlPoints(
+        machineType = machineType1,
+        controlPoints = listOf(ctrlPoint1, ctrlPoint2)
+    )
+
+    val machineTypeWithControlPointEdit = MachineTypeWithControlPoints(
+        machineType = machineType1,
+        controlPoints = listOf(ctrlPoint1, ctrlPoint3)
+    )
+
+    val machineTypeWithControlPointInsert = MachineTypeWithControlPoints(
+        machineType = machineType3,
+        controlPoints = listOf(ctrlPoint2, ctrlPoint3)
+    )
+
+    val machineTypeWithControlPoint2 = MachineTypeWithControlPoints(
+        machineType = machineType2,
+        controlPoints = listOf(ctrlPoint1, ctrlPoint2)
+    )
+
+    val machineTypeUpdateWithControlPointList = listOf(machineTypeWithControlPoint1, machineTypeWithControlPoint2)
+    val machineTypeUpdateWithControlPointMap: LinkedHashMap<Long, MachineTypeWithControlPoints>
+        get()
+        {
+            val tempMap = LinkedHashMap<Long, MachineTypeWithControlPoints>()
+            tempMap[machineTypeWithControlPoint1.machineType.id] = machineTypeWithControlPoint1
+            tempMap[machineTypeWithControlPoint2.machineType.id] = machineTypeWithControlPoint2
+            return tempMap
         }
 }

@@ -46,7 +46,8 @@ class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatche
                 ?.toObjects(RemoteMachineType::class.java)?.toList()
                 ?.map { MachineType(id = it.id, legalName = it.legalName, name = it.name) }
             return@withContext Success(result)
-        } catch (e: Exception)
+        }
+        catch (e: Exception)
         {
             Error(e)
         }
@@ -60,7 +61,8 @@ class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatche
                 ?.toObjects(RemoteControlPoint::class.java)?.toList()
                 ?.map { ControlPoint(id = it.id, name = it.name, code = it.code) }
             return@withContext Success(results)
-        } catch (e: Exception)
+        }
+        catch (e: Exception)
         {
             Error(e)
         }
@@ -74,7 +76,8 @@ class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatche
                 .set(machineType)
                 .awaitUpload()
             Success(machineType.id)
-        } catch (e: Exception)
+        }
+        catch (e: Exception)
         {
             Error(e)
         }
@@ -88,7 +91,8 @@ class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatche
                 .set(controlPoint)
                 .awaitUpload()
             Success(controlPoint.id)
-        } catch (e: Exception)
+        }
+        catch (e: Exception)
         {
             Error(e)
         }
@@ -146,7 +150,8 @@ class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatche
 
                 val idList = machineTypeWithControlPoints.controlPoints.map { it.id }
                 Success(idList)
-            } catch (e: Exception)
+            }
+            catch (e: Exception)
             {
                 Error(e)
             }
