@@ -112,7 +112,7 @@ object DatabaseDataDebug
         contentValues.put("machine_serial", "45DFZ44ED")
         contentValues.put("machine_brand", "Fennwick")
         contentValues.put("customer_ref", 2)
-        contentValues.put("machine_type_ref", 1004)
+        contentValues.put("machine_type_ref", 1003)
 
         db.insert("Machines", OnConflictStrategy.IGNORE, contentValues)
         contentValues.clear()
@@ -122,7 +122,7 @@ object DatabaseDataDebug
         contentValues.put("machine_serial", "45DFZ44ETYE")
         contentValues.put("machine_brand", "Fennwick")
         contentValues.put("customer_ref", 3)
-        contentValues.put("machine_type_ref", 1004)
+        contentValues.put("machine_type_ref", 1003)
 
         db.insert("Machines", OnConflictStrategy.IGNORE, contentValues)
         contentValues.clear()
@@ -132,7 +132,7 @@ object DatabaseDataDebug
         contentValues.put("machine_serial", "45DFDD1454Z44ED")
         contentValues.put("machine_brand", "Potain")
         contentValues.put("customer_ref", 3)
-        contentValues.put("machine_type_ref", 1003)
+        contentValues.put("machine_type_ref", 1002)
 
         db.insert("Machines", OnConflictStrategy.IGNORE, contentValues)
         contentValues.clear()

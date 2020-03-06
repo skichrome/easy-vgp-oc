@@ -62,8 +62,9 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
                 if (args.machineId != -1L)
                 {
                     machine.observe(this@AddEditMachineFragment, Observer { machine ->
-                        machine?.let {
-                            binding.addEditMachineFragmentMachineTypeSpinner.setSelection((machine.type - 1).toInt())
+                        machine?.let { machineNotNull ->
+                            val type = it.firstOrNull { it.id == machineNotNull.type }
+                            type?.let { typeExist -> binding.addEditMachineFragmentMachineTypeSpinner.setSelection((it.indexOf(typeExist))) }
                         }
                     })
                 }
@@ -83,7 +84,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
             override fun onNothingSelected(adapter: AdapterView<*>?) = Unit
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, itemId: Long)
             {
-                machineType = (position + 1).toLong()
+                machineType = machines[position].id
             }
         }
     }
