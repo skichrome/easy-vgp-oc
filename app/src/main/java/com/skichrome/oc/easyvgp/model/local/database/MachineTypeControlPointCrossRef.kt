@@ -4,7 +4,7 @@ import androidx.room.*
 
 @Entity(tableName = "machine_type_control_point_cross_ref", primaryKeys = ["machine_type_id", "control_point_id"])
 data class MachineTypeControlPointCrossRef(
-    @ColumnInfo(name = "machine_type_id") val machineId: Long,
+    @ColumnInfo(name = "machine_type_id") val machineTypeId: Long,
     @ColumnInfo(name = "control_point_id", index = true) val ctrlPointId: Long
 )
 
