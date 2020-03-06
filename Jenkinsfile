@@ -4,7 +4,7 @@ def emulatorNamePipeline = "emulator-pipeline"
 def dockerAppName = "android-emulator-debian"
 def dockerImageName = "skichrome/${dockerAppName}:1.1.0"
 
-def androidBuildVersion = '29'
+def androidBuildVersion = '28'
 def androidBuildToolsVersion = '29.0.2'
 
 def getRepoURL() {
@@ -40,28 +40,21 @@ def updateGithubCommitStatus(build) {
 pipeline {
     agent any
     options {
-        timeout(time: 20, unit: 'MINUTES')
+        disableConcurrentBuilds()
+        timeout(time: 30, unit: 'MINUTES')
     }
     stages {
-        stage("Récupération de l'application Android") {
+        stage("Mise à jour du statut du repository Github") {
             steps {
                 script {
-                    git branch: 'dev', url: "${getRepoURL()}"
                     updateGithubCommitStatus(currentBuild)
                 }
             }
         }
-        stage("Compilation de l'application Android") {
-            steps {
-                script {
-                    build(job: 'compil-android-gradle-project',
-                            parameters: [
-                                    string(name: 'PARENT_PIPELINE_WS', value: "${WORKSPACE}"),
-                            ])
-                }
-            }
-        }
         stage("Création du conteneur Docker") {
+            when {
+                branch 'dev'
+            }
             steps {
                 script {
                     build(job: 'create-android-emulator-in-docker-container',
@@ -71,11 +64,44 @@ pipeline {
                                     string(name: 'EMULATOR_NAME', value: "${emulatorNamePipeline}"),
                                     string(name: 'APP_NAME', value: "${dockerAppName}"),
                                     string(name: 'DOCKER_NAME', value: "${dockerImageName}")
-                            ])
+                            ]
+                    )
                 }
             }
         }
+        stage("Compilation de l'application Android") {
+            steps {
+                withCredentials(
+                        [
+                                file(credentialsId: 'keystore-android', variable: 'STORE_FILE'),
+                                string(credentialsId: 'keystore-password', variable: 'STORE_PASS'),
+                                string(credentialsId: 'keystore-android-alias', variable: 'KEY_ALIAS'),
+                                string(credentialsId: 'keystore-key-password', variable: 'KEY_PASS'),
+                                file(credentialsId: 'acces-admin-firebase-app-distribution-file', variable: 'FIREBASE_APP_DISTRIBUTION_FILE')
+                        ]
+                ) {
+                    sh '''
+                    set +x
+                    ./gradlew clean build 
+                    '''
+                }
+            }
+        }
+        stage("Préparation de l'application pour les tests") {
+            when {
+                branch 'dev'
+            }
+            steps {
+                sh '''
+                    set +x
+                    ./gradlew assembleAndroidTest
+                    '''
+            }
+        }
         stage("Lancement de l'émulateur dans le conteneur Docker") {
+            when {
+                branch 'dev'
+            }
             steps {
                 script {
                     build(job: 'launch-android-emulator-in-docker-container',
@@ -83,17 +109,22 @@ pipeline {
                                     string(name: 'EMULATOR_NAME', value: "${emulatorNamePipeline}"),
                                     string(name: 'APP_NAME', value: "${dockerAppName}"),
                                     string(name: 'DOCKER_NAME', value: "${dockerImageName}")
-                            ])
+                            ]
+                    )
                 }
             }
         }
         stage("Exécution des tests unitaires et des tests instrumentalisés") {
+            when {
+                branch 'dev'
+            }
             steps {
                 script {
                     build(job: 'execute-android-tests-with-gradle',
                             parameters: [
                                     string(name: 'PARENT_PIPELINE_WS', value: "${WORKSPACE}")
-                            ])
+                            ]
+                    )
                 }
             }
         }
@@ -106,13 +137,16 @@ pipeline {
                             keepAll              : false,
                             reportDir            : 'app/build/reports',
                             reportFiles          : 'lint-results.html',
-                            reportName           : 'Tests report',
+                            reportName           : 'Lint report',
                             reportTitles         : 'Lint report'
                     ])
                 }
             }
         }
         stage("Publication des rapports XML") {
+            when {
+                branch 'dev'
+            }
             steps {
                 script {
                     step([
@@ -128,6 +162,38 @@ pipeline {
                 }
             }
         }
+        stage("Déploiement de la version de test") {
+            when {
+                branch 'test'
+            }
+            steps {
+                withCredentials(
+                        [
+                                file(credentialsId: 'keystore-android', variable: 'STORE_FILE'),
+                                string(credentialsId: 'keystore-password', variable: 'STORE_PASS'),
+                                string(credentialsId: 'keystore-android-alias', variable: 'KEY_ALIAS'),
+                                string(credentialsId: 'keystore-key-password', variable: 'KEY_PASS'),
+                                file(credentialsId: 'acces-admin-firebase-app-distribution-file', variable: 'FIREBASE_APP_DISTRIBUTION_FILE')
+                        ]
+                ) {
+                    // Avoid keystore.jks not found, because temp directory has changed at this stage
+                    sh '''
+                    set +x
+                    ./gradlew assembleRelease appDistributionUploadRelease
+                    '''
+                }
+            }
+        }
+        stage("Archivage des APK") {
+            when {
+                branch 'test'
+            }
+            steps {
+                script {
+                    archiveArtifacts artifacts: 'app/build/outputs/apk/release/*.apk'
+                }
+            }
+        }
     }
     post {
         always {
@@ -135,10 +201,13 @@ pipeline {
         }
         cleanup {
             script {
-                build(job: 'stop-android-emulator-docker-container',
-                        parameters: [
-                                string(name: 'APP_NAME', value: "${dockerAppName}")
-                        ])
+                if (env.BRANCH_NAME == 'dev') {
+                    build(job: 'stop-android-emulator-docker-container',
+                            parameters: [
+                                    string(name: 'APP_NAME', value: "${dockerAppName}")
+                            ]
+                    )
+                }
             }
         }
         failure {
@@ -150,9 +219,21 @@ pipeline {
                     from: '',
                     mimeType: 'text/html',
                     replyTo: '',
-                    subject: " - Jenkins - ${env.JOB_NAME} - ${currentBuild.currentResult}",
+                    subject: " - Jenkins - ${env.JOB_NAME} - branch ${env.BRANCH_NAME} - ${currentBuild.currentResult}",
                     to: 'campeoltoni@gmail.com',
                     attachLog: true
+            script {
+                step([
+                        $class           : 'JUnitResultArchiver',
+                        allowEmptyResults: true,
+                        testResults      : 'app/build/test-results/**/*.xml'
+                ])
+                step([
+                        $class           : 'JUnitResultArchiver',
+                        allowEmptyResults: true,
+                        testResults      : 'app/build/outputs/androidTest-results/connected/*.xml'
+                ])
+            }
         }
     }
 }
