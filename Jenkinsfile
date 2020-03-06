@@ -127,6 +127,34 @@ pipeline {
                 }
             }
         }
+        stage("Déploiement de la version de test") {
+            when {
+                branch 'test'
+            }
+            steps {
+                withCredentials(
+                        [
+                                file(credentialsId: 'keystore-android', variable: 'STORE_FILE'),
+                                string(credentialsId: 'keystore-password', variable: 'STORE_PASS'),
+                                string(credentialsId: 'keystore-android-alias', variable: 'KEY_ALIAS'),
+                                string(credentialsId: 'keystore-key-password', variable: 'KEY_PASS'),
+                                file(credentialsId: 'acces-admin-firebase-app-distribution-file', variable: 'FIREBASE_APP_DISTRIBUTION_FILE')
+                        ]
+                ) {
+                    // Avoid keystore.jks not found, because temp directory has changed at this stage
+                    sh '''
+                    set +x
+                    
+                    echo "STORE_FILE=${STORE_FILE}" > ${WORKSPACE}/keystore.properties
+                    echo "STORE_PASS=${STORE_PASS}" >> ${WORKSPACE}/keystore.properties
+                    echo "KEY_ALIAS=${KEY_ALIAS}" >> ${WORKSPACE}/keystore.properties
+                    echo "KEY_PASS=${KEY_PASS}" >> ${WORKSPACE}/keystore.properties
+                    
+                    ./gradlew appDistributionUploadRelease
+                    '''
+                }
+            }
+        }
         stage("Archivage des APK") {
             steps {
                 script {
