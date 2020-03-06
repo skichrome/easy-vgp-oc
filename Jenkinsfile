@@ -92,10 +92,20 @@ pipeline {
                 branch 'dev'
             }
             steps {
-                sh '''
+                withCredentials(
+                        [
+                                file(credentialsId: 'keystore-android', variable: 'STORE_FILE'),
+                                string(credentialsId: 'keystore-password', variable: 'STORE_PASS'),
+                                string(credentialsId: 'keystore-android-alias', variable: 'KEY_ALIAS'),
+                                string(credentialsId: 'keystore-key-password', variable: 'KEY_PASS'),
+                                file(credentialsId: 'acces-admin-firebase-app-distribution-file', variable: 'FIREBASE_APP_DISTRIBUTION_FILE')
+                        ]
+                ) {
+                    sh '''
                     set +x
                     ./gradlew assembleAndroidTest
                     '''
+                }
             }
         }
         stage("Lancement de l'émulateur dans le conteneur Docker") {
