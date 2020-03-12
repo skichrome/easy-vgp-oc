@@ -125,7 +125,7 @@
     <string name="frag_vgp_dialog_cancel">Cancel</string>
     <string name="frag_vgp_dialog_title">Set your comment for this control point</string>
 
-    <!-- Verification types and Choice Possibilities enumeration -->
+    <!-- Verification types, Control type and Choice Possibilities enumeration -->
     <string name="verification_type_visual">Visual</string>
     <string name="verification_type_both_visual_functional">Visual / Functional</string>
     <string name="verification_type_functional">Functional</string>
@@ -133,4 +133,8 @@
     <string name="choice_possibilities_good">Good</string>
     <string name="choice_possibilities_medium">Medium</string>
     <string name="choice_possibilities_bad">Bad</string>
+
+    <string name="ctrl_type_one">commissioning</string>
+    <string name="ctrl_type_two">periodic general audit</string>
+    <string name="ctrl_type_three">put back into service</string>
 </resources>

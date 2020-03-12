@@ -14,6 +14,7 @@ class DefaultNewVgpRepository(private val localSource: NewVgpSource) : NewVgpRep
 
     override suspend fun insertMachineControlPointData(ctrlPointDataVgp: List<ControlPointDataVgp>, machineId: Long): Results<List<Long>>
     {
+        val reportDate = System.currentTimeMillis()
         val idResultList = mutableListOf<Long>()
         ctrlPointDataVgp.map {
             ControlPointData(
@@ -33,7 +34,7 @@ class DefaultNewVgpRepository(private val localSource: NewVgpSource) : NewVgpRep
                 val crossRef = MachineControlPointData(
                     machineId = machineId,
                     ctrlPointDataId = results.data,
-                    reportDate = System.currentTimeMillis()
+                    reportDate = reportDate
                 )
 
                 val crossRefResult = localSource.insertMachineCtrlPtDataCrossRef(crossRef)

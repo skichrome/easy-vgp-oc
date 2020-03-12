@@ -20,4 +20,7 @@ class EasyVGPApplication : Application()
 
     val newVgpRepository: NewVgpRepository
         get() = ServiceLocator.provideVgpRepository(this)
+
+    val vgpListRepository: VgpListRepository
+        get() = ServiceLocator.provideVgpListRepository(this)
 }

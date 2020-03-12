@@ -50,6 +50,10 @@ object ServiceLocator
     var newVgpRepository: NewVgpRepository? = null
         @VisibleForTesting set
 
+    @Volatile
+    var vgpListRepository: VgpListRepository? = null
+        @VisibleForTesting set
+
     // =================================
     //              Methods
     // =================================
@@ -138,6 +142,14 @@ object ServiceLocator
 
     // --- VGP
 
+    private fun configureLocalVgpListRepository(app: Application): VgpListSource
+    {
+        val db = getLocalDatabaseInstance(app)
+        val machineControlPointDataDao = db.machineControlPointDataDao()
+
+        return LocalVgpListSource(machineControlPointDataDao = machineControlPointDataDao)
+    }
+
     private fun configureLocalVgpRepository(app: Application): NewVgpSource
     {
         val db = getLocalDatabaseInstance(app)
@@ -206,6 +218,16 @@ object ServiceLocator
     }
 
     // --- VGP
+
+    fun provideVgpListRepository(app: Application) = vgpListRepository ?: synchronized(this) {
+        vgpListRepository ?: configureVgpListRepository(app).also { vgpListRepository = it }
+    }
+
+    private fun configureVgpListRepository(app: Application): VgpListRepository
+    {
+        val localSource = configureLocalVgpListRepository(app)
+        return DefaultVgpListRepository(localSource = localSource)
+    }
 
     fun provideVgpRepository(app: Application) = newVgpRepository ?: synchronized(this) {
         newVgpRepository ?: configureVgpRepository(app).also { newVgpRepository = it }
