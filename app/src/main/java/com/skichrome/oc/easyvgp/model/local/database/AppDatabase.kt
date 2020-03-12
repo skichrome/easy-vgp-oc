@@ -13,11 +13,11 @@ import androidx.room.RoomDatabase
 
         MachineType::class,
         ControlPoint::class,
+        ControlPointData::class,
 
-        ControlPointChoicePossibility::class,
-        ControlPointVerificationType::class,
-
-        MachineTypeControlPointCrossRef::class],
+        MachineTypeControlPointCrossRef::class,
+        MachineControlPointData::class
+    ],
     exportSchema = false,
     version = 1
 )
@@ -31,9 +31,8 @@ abstract class AppDatabase : RoomDatabase()
 
     abstract fun machinesTypeDao(): MachineTypeDao
     abstract fun controlPointDao(): ControlPointDao
-
-    abstract fun ctrlPointChoicePossibilityDao(): ControlPointChoicePossibilityDao
-    abstract fun ctrlPointVerificationTypeDao(): ControlPointVerificationTypeDao
+    abstract fun controlPointDataDao(): ControlPointDataDao
 
     abstract fun machineTypeControlPointCrossRefDao(): MachineTypeControlPointCrossRefDao
+    abstract fun machineControlPointDataDao(): MachineControlPointDataDao
 }

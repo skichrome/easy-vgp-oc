@@ -81,7 +81,7 @@ class MachineFragment : BaseBindingFragment<FragmentMachineBinding>()
 
     private fun goToVgpFragment(machine: Machine? = null)
     {
-        val opt = MachineFragmentDirections.actionMachineFragmentToVgpFragment(
+        val opt = MachineFragmentDirections.actionMachineFragmentToVgpListFragment(
             machineId = machine?.machineId ?: -1L,
             machineTypeId = machine?.type ?: -1L,
             customerId = args.customerId

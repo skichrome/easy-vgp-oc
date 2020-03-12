@@ -47,7 +47,7 @@ object ServiceLocator
         @VisibleForTesting set
 
     @Volatile
-    var vgpRepository: VgpRepository? = null
+    var newVgpRepository: NewVgpRepository? = null
         @VisibleForTesting set
 
     // =================================
@@ -138,13 +138,17 @@ object ServiceLocator
 
     // --- VGP
 
-    private fun configureLocalVgpRepository(app: Application): VgpSource
+    private fun configureLocalVgpRepository(app: Application): NewVgpSource
     {
         val db = getLocalDatabaseInstance(app)
         val machineTypeDao = db.machinesTypeDao()
-        val choicesDao = db.ctrlPointChoicePossibilityDao()
-        val verificationsDao = db.ctrlPointVerificationTypeDao()
-        return LocalVgpSource(machineTypeDao = machineTypeDao, choicePossibilityDao = choicesDao, verificationTypeDao = verificationsDao)
+        val ctrlPointDataDao = db.controlPointDataDao()
+        val machineCtrlPointDao = db.machineControlPointDataDao()
+        return LocalNewVgpSource(
+            machineTypeDao = machineTypeDao,
+            ctrlPointDataDao = ctrlPointDataDao,
+            machineCtrlPointDao = machineCtrlPointDao
+        )
     }
 
     // --- Data Repository --- //
@@ -203,14 +207,14 @@ object ServiceLocator
 
     // --- VGP
 
-    fun provideVgpRepository(app: Application) = vgpRepository ?: synchronized(this) {
-        vgpRepository ?: configureVgpRepository(app).also { vgpRepository = it }
+    fun provideVgpRepository(app: Application) = newVgpRepository ?: synchronized(this) {
+        newVgpRepository ?: configureVgpRepository(app).also { newVgpRepository = it }
     }
 
-    private fun configureVgpRepository(app: Application): VgpRepository
+    private fun configureVgpRepository(app: Application): NewVgpRepository
     {
         val localSource = configureLocalVgpRepository(app)
-        return DefaultVgpRepository(localSource = localSource)
+        return DefaultNewVgpRepository(localSource = localSource)
     }
 
     // --- Testing purposes --- //

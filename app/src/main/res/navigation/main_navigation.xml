@@ -20,12 +20,12 @@
             app:popEnterAnim="@anim/fragment_close_enter"
             app:popExitAnim="@anim/fragment_close_exit" />
         <action
-            android:id="@+id/action_homeFragment_to_vgpFragment"
-            app:destination="@id/vgpFragment"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_open_exit"
-            app:popEnterAnim="@anim/fragment_close_enter"
-            app:popExitAnim="@anim/fragment_close_exit" />
+            android:id="@+id/action_homeFragment_to_vgpListFragment"
+            app:destination="@id/vgpListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/customerFragment"
@@ -78,25 +78,25 @@
             android:defaultValue="-1L"
             app:argType="long" />
         <action
-            android:id="@+id/action_machineFragment_to_vgpFragment"
-            app:destination="@id/vgpFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
             android:id="@+id/action_machineFragment_to_addEditMachineFragment"
             app:destination="@id/addEditMachineFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_machineFragment_to_vgpListFragment"
+            app:destination="@id/vgpListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
-        android:id="@+id/vgpFragment"
-        android:name="com.skichrome.oc.easyvgp.view.fragments.VgpFragment"
+        android:id="@+id/newVgpFragment"
+        android:name="com.skichrome.oc.easyvgp.view.fragments.NewVgpFragment"
         android:label="VgpFragment"
-        tools:layout="@layout/fragment_vgp">
+        tools:layout="@layout/fragment_new_vgp">
         <argument
             android:name="machineId"
             android:defaultValue="-1L"
@@ -134,4 +134,29 @@
         android:name="com.skichrome.oc.easyvgp.view.fragments.AdminFragment"
         android:label="AdminFragment"
         tools:layout="@layout/fragment_admin" />
+    <fragment
+        android:id="@+id/vgpListFragment"
+        android:name="com.skichrome.oc.easyvgp.view.fragments.VgpListFragment"
+        android:label="VgpListFragment"
+        tools:layout="@layout/fragment_vgp_list">
+        <argument
+            android:name="machineId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <argument
+            android:name="customerId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <argument
+            android:name="machineTypeId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_vgpListFragment_to_vgpFragment"
+            app:destination="@id/newVgpFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_close_enter"
+            app:popExitAnim="@anim/fragment_close_exit" />
+    </fragment>
 </navigation>

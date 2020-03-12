@@ -113,6 +113,7 @@
     <string name="vgp_view_model_machine_type_with_ctrl_points_error">Something went wrong when fetching control points list for this machine</string>
     <string name="vgp_view_model_choices_error">Something went wrong when fetching choices possibilities</string>
     <string name="vgp_view_model_verifications_error">Something went wrong when fetching verification types</string>
+    <string name="vgp_view_model_data_successfully_saved">Successfully saved in database !</string>
 
     <!-- VGP Fragment -->
     <string name="frag_vgp_item_title_ctrl_point">Control Point</string>
@@ -120,4 +121,16 @@
     <string name="frag_vgp_item_title_state_em">EM</string>
     <string name="frag_vgp_item_title_state_me">ME</string>
     <string name="frag_vgp_item_comment_img_content_desc">Add a comment by clicking on this comment picture</string>
+    <string name="frag_vgp_dialog_ok">save</string>
+    <string name="frag_vgp_dialog_cancel">Cancel</string>
+    <string name="frag_vgp_dialog_title">Set your comment for this control point</string>
+
+    <!-- Verification types and Choice Possibilities enumeration -->
+    <string name="verification_type_visual">Visual</string>
+    <string name="verification_type_both_visual_functional">Visual / Functional</string>
+    <string name="verification_type_functional">Functional</string>
+
+    <string name="choice_possibilities_good">Good</string>
+    <string name="choice_possibilities_medium">Medium</string>
+    <string name="choice_possibilities_bad">Bad</string>
 </resources>

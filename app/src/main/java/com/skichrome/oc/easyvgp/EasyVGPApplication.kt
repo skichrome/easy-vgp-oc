@@ -18,6 +18,6 @@ class EasyVGPApplication : Application()
     val adminRepository: AdminRepository
         get() = ServiceLocator.provideAdminRepository(this)
 
-    val vgpRepository: VgpRepository
+    val newVgpRepository: NewVgpRepository
         get() = ServiceLocator.provideVgpRepository(this)
 }

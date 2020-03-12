@@ -57,5 +57,5 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>()
 
     private fun navigateToCustomersFragment() = findNavController().navigate(R.id.action_homeFragment_to_customerFragment)
 
-    private fun navigateToNewVGPFragment() = findNavController().navigate(R.id.action_homeFragment_to_vgpFragment)
+    private fun navigateToNewVGPFragment() = findNavController().navigate(R.id.action_homeFragment_to_vgpListFragment)
 }

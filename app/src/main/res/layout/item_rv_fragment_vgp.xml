@@ -13,7 +13,7 @@
 
         <variable
             name="ctrlPoint"
-            type="com.skichrome.oc.easyvgp.model.local.database.ControlPoint" />
+            type="com.skichrome.oc.easyvgp.model.local.util.ControlPointDataVgp" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -46,8 +46,8 @@
                 android:layout_marginBottom="16dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:tag="@{ctrlPoint.id}"
-                android:text="@{ctrlPoint.name}"
+                android:tag="@{ctrlPoint.controlPoint.id}"
+                android:text="@{ctrlPoint.controlPoint.name}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/rvItemFragVgpCtrlPointPossibilityGroup"
                 app:layout_constraintStart_toEndOf="@+id/rvItemFragVgpCtrlPointStateViewIndicator"
@@ -88,7 +88,6 @@
                 android:clickable="true"
                 android:contentDescription="@string/frag_vgp_item_comment_img_content_desc"
                 android:focusable="true"
-                android:onClick="@{() -> viewModel.onClickCommentEvent(ctrlPoint.id)}"
                 android:padding="4dp"
                 android:src="@drawable/ic_note_add_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
