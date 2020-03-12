@@ -6,10 +6,7 @@ import com.skichrome.oc.easyvgp.model.local.database.ControlPoint
 import com.skichrome.oc.easyvgp.model.local.database.Customer
 import com.skichrome.oc.easyvgp.model.local.database.Machine
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
-import com.skichrome.oc.easyvgp.view.fragments.adapters.ControlPointAdapter
-import com.skichrome.oc.easyvgp.view.fragments.adapters.CustomerFragmentAdapter
-import com.skichrome.oc.easyvgp.view.fragments.adapters.MachineFragmentAdapter
-import com.skichrome.oc.easyvgp.view.fragments.adapters.MachineTypeAdapter
+import com.skichrome.oc.easyvgp.view.fragments.adapters.*
 
 @BindingAdapter(value = ["items_customers"])
 fun setCustomerItems(listView: RecyclerView, customers: List<Customer>?) = customers?.let {
@@ -29,4 +26,9 @@ fun setMachineTypesItems(listView: RecyclerView, machineTypes: List<MachineType>
 @BindingAdapter(value = ["items_ctrl_points"])
 fun setControlPointsItems(listView: RecyclerView, controlPoints: List<ControlPoint>?) = controlPoints?.let {
     (listView.adapter as ControlPointAdapter).submitList(it)
+}
+
+@BindingAdapter(value = ["items_ctrl_points_vgp"])
+fun setCtrlPointDataItems(listView: RecyclerView, controlPoints: List<ControlPoint>?) = controlPoints?.let {
+    (listView.adapter as ControlPointVgpAdapter).submitList(it)
 }

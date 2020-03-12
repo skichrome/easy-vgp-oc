@@ -2,31 +2,67 @@
 
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.skichrome.oc.easyvgp.viewmodel.VgpViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/fragVGPItemTitle"
+            style="@style/tvBody1Style"
+            android:text="@string/frag_vgp_item_title_ctrl_point"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/fragVGPChoiceGoodTitle"
+            style="@style/tvBody1Style"
+            android:layout_marginEnd="28dp"
+            android:text="@string/frag_vgp_item_title_state_be"
+            app:layout_constraintEnd_toStartOf="@+id/fragVGPChoiceOkTitle"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/fragVGPChoiceOkTitle"
+            style="@style/tvBody1Style"
+            android:layout_marginEnd="28dp"
+            android:text="@string/frag_vgp_item_title_state_em"
+            app:layout_constraintEnd_toStartOf="@+id/fragVGPChoiceBadTitle"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/fragVGPChoiceBadTitle"
+            style="@style/tvBody1Style"
+            android:layout_marginEnd="82dp"
+            android:text="@string/frag_vgp_item_title_state_me"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragVGPRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:items_ctrl_points_vgp="@{viewModel.machineTypeWithControlPoints.controlPoints}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/fragVGPItemTitle"
+            tools:listitem="@layout/item_rv_fragment_vgp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fragVGPFab"
-            style="@style/Widget.MaterialComponents.FloatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/fab_margin"
-            android:layout_marginBottom="@dimen/fab_margin"
-            android:src="@drawable/ic_add_24dp"
-            app:backgroundTint="@color/secondaryColor"
+            style="@style/fabStyle"
+            android:src="@drawable/ic_save_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

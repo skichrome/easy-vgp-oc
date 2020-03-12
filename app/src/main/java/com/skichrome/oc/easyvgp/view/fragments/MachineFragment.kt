@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentMachineBinding
+import com.skichrome.oc.easyvgp.model.local.database.Machine
 import com.skichrome.oc.easyvgp.util.AutoClearedValue
 import com.skichrome.oc.easyvgp.util.EventObserver
 import com.skichrome.oc.easyvgp.util.snackBar
@@ -78,9 +79,13 @@ class MachineFragment : BaseBindingFragment<FragmentMachineBinding>()
         findNavController().navigate(opt)
     }
 
-    private fun goToVgpFragment(machineId: Long = -1L)
+    private fun goToVgpFragment(machine: Machine? = null)
     {
-        val opt = MachineFragmentDirections.actionMachineFragmentToVgpFragment(machineId = machineId, customerId = args.customerId)
+        val opt = MachineFragmentDirections.actionMachineFragmentToVgpFragment(
+            machineId = machine?.machineId ?: -1L,
+            machineTypeId = machine?.type ?: -1L,
+            customerId = args.customerId
+        )
         findNavController().navigate(opt)
     }
 }

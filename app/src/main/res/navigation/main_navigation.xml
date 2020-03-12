@@ -105,6 +105,10 @@
             android:name="customerId"
             android:defaultValue="-1L"
             app:argType="long" />
+        <argument
+            android:name="machineTypeId"
+            android:defaultValue="-1L"
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/addEditMachineFragment"

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.skichrome.oc.easyvgp.viewmodel.VgpViewModel" />
+
+        <variable
+            name="ctrlPoint"
+            type="com.skichrome.oc.easyvgp.model.local.database.ControlPoint" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        style="@style/cardStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp">
+
+            <View
+                android:id="@+id/rvItemFragVgpCtrlPointStateViewIndicator"
+                android:layout_width="4dp"
+                android:layout_height="50dp"
+                android:layout_marginVertical="5dp"
+                android:background="@color/primaryLightColor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:background="@color/ctrlPointChoiceBE" />
+
+            <TextView
+                android:id="@+id/rvItemFragVgpCtrlPointName"
+                style="@style/tvBody1Style"
+                android:layout_width="0dp"
+                android:layout_marginBottom="16dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:tag="@{ctrlPoint.id}"
+                android:text="@{ctrlPoint.name}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/rvItemFragVgpCtrlPointPossibilityGroup"
+                app:layout_constraintStart_toEndOf="@+id/rvItemFragVgpCtrlPointStateViewIndicator"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Control point 1" />
+
+            <RadioGroup
+                android:id="@+id/rvItemFragVgpCtrlPointPossibilityGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/rvItemFragVgpCtrlPointComment"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <RadioButton
+                    android:id="@+id/rvItemFragVgpCtrlPointPossibilityGoodState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/rvItemFragVgpCtrlPointPossibilityMediumState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <RadioButton
+                    android:id="@+id/rvItemFragVgpCtrlPointPossibilityBadState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RadioGroup>
+
+            <ImageView
+                android:id="@+id/rvItemFragVgpCtrlPointComment"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:contentDescription="@string/frag_vgp_item_comment_img_content_desc"
+                android:focusable="true"
+                android:onClick="@{() -> viewModel.onClickCommentEvent(ctrlPoint.id)}"
+                android:padding="4dp"
+                android:src="@drawable/ic_note_add_24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

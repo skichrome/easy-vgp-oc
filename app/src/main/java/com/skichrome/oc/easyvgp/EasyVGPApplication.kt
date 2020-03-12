@@ -1,10 +1,7 @@
 package com.skichrome.oc.easyvgp
 
 import android.app.Application
-import com.skichrome.oc.easyvgp.model.AdminRepository
-import com.skichrome.oc.easyvgp.model.CustomerRepository
-import com.skichrome.oc.easyvgp.model.HomeRepository
-import com.skichrome.oc.easyvgp.model.MachineRepository
+import com.skichrome.oc.easyvgp.model.*
 import com.skichrome.oc.easyvgp.viewmodel.ServiceLocator
 
 class EasyVGPApplication : Application()
@@ -20,4 +17,7 @@ class EasyVGPApplication : Application()
 
     val adminRepository: AdminRepository
         get() = ServiceLocator.provideAdminRepository(this)
+
+    val vgpRepository: VgpRepository
+        get() = ServiceLocator.provideVgpRepository(this)
 }

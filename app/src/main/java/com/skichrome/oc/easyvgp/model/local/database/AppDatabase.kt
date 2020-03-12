@@ -4,7 +4,20 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [Company::class, User::class, Customer::class, Machine::class, MachineType::class, ControlPoint::class, MachineTypeControlPointCrossRef::class],
+    entities = [
+        Company::class,
+        User::class,
+
+        Customer::class,
+        Machine::class,
+
+        MachineType::class,
+        ControlPoint::class,
+
+        ControlPointChoicePossibility::class,
+        ControlPointVerificationType::class,
+
+        MachineTypeControlPointCrossRef::class],
     exportSchema = false,
     version = 1
 )
@@ -18,6 +31,9 @@ abstract class AppDatabase : RoomDatabase()
 
     abstract fun machinesTypeDao(): MachineTypeDao
     abstract fun controlPointDao(): ControlPointDao
+
+    abstract fun ctrlPointChoicePossibilityDao(): ControlPointChoicePossibilityDao
+    abstract fun ctrlPointVerificationTypeDao(): ControlPointVerificationTypeDao
 
     abstract fun machineTypeControlPointCrossRefDao(): MachineTypeControlPointCrossRefDao
 }
