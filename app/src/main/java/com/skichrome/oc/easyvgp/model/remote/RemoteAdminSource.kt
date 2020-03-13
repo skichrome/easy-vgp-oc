@@ -3,7 +3,6 @@ package com.skichrome.oc.easyvgp.model.remote
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
-import com.skichrome.oc.easyvgp.BuildConfig
 import com.skichrome.oc.easyvgp.model.AdminSource
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
@@ -11,10 +10,7 @@ import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.local.database.ControlPoint
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
 import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints
-import com.skichrome.oc.easyvgp.util.ItemNotFoundException
-import com.skichrome.oc.easyvgp.util.awaitDocument
-import com.skichrome.oc.easyvgp.util.awaitQuery
-import com.skichrome.oc.easyvgp.util.awaitUpload
+import com.skichrome.oc.easyvgp.util.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -22,31 +18,21 @@ import kotlinx.coroutines.withContext
 class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatchers: CoroutineDispatcher = Dispatchers.IO) : AdminSource
 {
     // =================================
-    //              Fields
-    // =================================
-
-    companion object
-    {
-        val REMOTE_ADMIN_COLLECTION = if (BuildConfig.DEBUG) "admin_debug" else "admin"
-        const val REMOTE_MACHINE_TYPE_DOCUMENT = "machine_type"
-        const val REMOTE_MACHINE_TYPE_CONTROL_POINT_DOCUMENT = "machine_type_control_points"
-        const val REMOTE_CONTROL_POINT_DOCUMENT = "control_points"
-        const val REMOTE_VERSION = "1.0"
-    }
-
-    // =================================
     //        Superclass Methods
     // =================================
 
     override suspend fun getAllMachineType(): Results<List<MachineType>> = withContext(dispatchers) {
         return@withContext try
         {
-            val result = getMachineTypesCollection().get()
+            val results = getMachineTypesCollection().get()
                 .awaitQuery()
                 ?.toObjects(RemoteMachineType::class.java)?.toList()
                 ?.map { MachineType(id = it.id, legalName = it.legalName, name = it.name) }
-            return@withContext Success(result)
-        } catch (e: Exception)
+
+            results?.let { return@withContext Success(it) }
+                ?: throw RemoteRepositoryException("Something went wrong when fetching all machine types")
+        }
+        catch (e: Exception)
         {
             Error(e)
         }
@@ -59,8 +45,11 @@ class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatche
                 .awaitQuery()
                 ?.toObjects(RemoteControlPoint::class.java)?.toList()
                 ?.map { ControlPoint(id = it.id, name = it.name, code = it.code) }
-            return@withContext Success(results)
-        } catch (e: Exception)
+
+            results?.let { return@withContext Success(results) }
+                ?: throw RemoteRepositoryException("Something went wrong when fetching all control points")
+        }
+        catch (e: Exception)
         {
             Error(e)
         }
@@ -74,7 +63,8 @@ class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatche
                 .set(machineType)
                 .awaitUpload()
             Success(machineType.id)
-        } catch (e: Exception)
+        }
+        catch (e: Exception)
         {
             Error(e)
         }
@@ -88,7 +78,8 @@ class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatche
                 .set(controlPoint)
                 .awaitUpload()
             Success(controlPoint.id)
-        } catch (e: Exception)
+        }
+        catch (e: Exception)
         {
             Error(e)
         }
@@ -105,9 +96,9 @@ class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatche
                 ?.let {
                     MachineTypeWithControlPoints(
                         machineType = MachineType(
-                            id = it.remoteMachineType.id,
-                            name = it.remoteMachineType.name,
-                            legalName = it.remoteMachineType.legalName
+                            id = it.machineType.id,
+                            name = it.machineType.name,
+                            legalName = it.machineType.legalName
                         ),
                         controlPoints = it.controlPoints.map { remoteCtrlPt ->
                             ControlPoint(
@@ -119,10 +110,8 @@ class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatche
                     )
                 }
 
-            if (results != null)
-                Success(results)
-            else
-                Error(ItemNotFoundException("Item doesn't exist on remote database"))
+            results?.let { return@withContext Success(results) }
+                ?: throw ItemNotFoundException("Item doesn't exist on remote database")
         }
         catch (e: Exception)
         {
@@ -146,7 +135,8 @@ class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatche
 
                 val idList = machineTypeWithControlPoints.controlPoints.map { it.id }
                 Success(idList)
-            } catch (e: Exception)
+            }
+            catch (e: Exception)
             {
                 Error(e)
             }

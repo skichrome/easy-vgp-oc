@@ -5,13 +5,13 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.skichrome.oc.easyvgp.getOrAwaitValue
 import com.skichrome.oc.easyvgp.model.HomeSource
+import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.local.database.AppDatabase
-import com.skichrome.oc.easyvgp.model.local.database.CompanyDao
-import com.skichrome.oc.easyvgp.model.local.database.UserAndCompany
-import com.skichrome.oc.easyvgp.model.local.database.UserDao
+import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.model.source.DataProvider
+import com.skichrome.oc.easyvgp.util.NotImplementedException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.*
@@ -39,6 +39,9 @@ class LocalHomeSourceTest
     private lateinit var database: AppDatabase
     private lateinit var companyDao: CompanyDao
     private lateinit var userDao: UserDao
+    private lateinit var ctrlPointDao: ControlPointDao
+    private lateinit var machineTypeDao: MachineTypeDao
+    private lateinit var machineTypeControlPointCrossRefDao: MachineTypeControlPointCrossRefDao
     private lateinit var homeSource: HomeSource
 
     // =================================
@@ -51,15 +54,26 @@ class LocalHomeSourceTest
     fun setUp()
     {
         database = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            AppDatabase::class.java
-        )
+                ApplicationProvider.getApplicationContext(),
+                AppDatabase::class.java
+            )
             .allowMainThreadQueries()
             .build()
 
         companyDao = database.companiesDao()
         userDao = database.usersDao()
-        homeSource = LocalHomeSource(companyDao = companyDao, userDao = userDao, dispatchers = Dispatchers.Main)
+        ctrlPointDao = database.controlPointDao()
+        machineTypeDao = database.machinesTypeDao()
+        machineTypeControlPointCrossRefDao = database.machineTypeControlPointCrossRefDao()
+
+        homeSource = LocalHomeSource(
+            companyDao = companyDao,
+            userDao = userDao,
+            machineTypeDao = machineTypeDao,
+            controlPointDao = ctrlPointDao,
+            machineTypeControlPointCrossRefDao = machineTypeControlPointCrossRefDao,
+            dispatchers = Dispatchers.Main
+        )
     }
 
     @After
@@ -117,5 +131,70 @@ class LocalHomeSourceTest
         // Inserted objects must be equal to retrieved objects
         assertThat(result, IsNot(nullValue()))
         assertThat(result, IsEqual(userCompanyToUpdate))
+    }
+
+    @Test
+    fun insertControlPointsAsync() = runBlocking {
+        val ctrlPts = DataProvider.ctrlPointList
+        val insertResult = homeSource.insertControlPointsAsync(ctrlPts).await()
+
+        assertThat(insertResult, instanceOf(Success::class.java))
+        assertThat((insertResult as Success).data, IsEqual(ctrlPts.map { it.id }))
+
+        val result = ctrlPointDao.observeControlPoints().getOrAwaitValue()
+        assertThat(result, IsNot(nullValue()))
+        assertThat(result, IsEqual(ctrlPts))
+    }
+
+    @Test
+    fun insertMachineTypesAsync() = runBlocking {
+        val machTypes = DataProvider.machineTypeList
+        val insertResult = homeSource.insertMachineTypesAsync(machTypes).await()
+
+        assertThat(insertResult, instanceOf(Success::class.java))
+        assertThat((insertResult as Success).data, IsEqual(machTypes.map { it.id }))
+
+        val result = machineTypeDao.observeMachineTypes().getOrAwaitValue()
+        assertThat(result, IsNot(nullValue()))
+        assertThat(result, IsEqual(machTypes))
+    }
+
+    @Test
+    fun insertMachineTypesWithCtrlPoints() = runBlocking {
+        val ctrlPts = DataProvider.ctrlPointList
+        val machTypes = DataProvider.machineTypeList
+        val machTypeCtrlPt = DataProvider.machineTypeUpdateWithControlPointList
+
+        ctrlPointDao.insertReplace(*ctrlPts.toTypedArray())
+        machineTypeDao.insertReplace(*machTypes.toTypedArray())
+
+        homeSource.insertMachineTypesWithCtrlPoints(machTypeCtrlPt)
+
+        val result = machineTypeDao.getMachineTypeWithControlPointsFromMachineTypeId(machTypes.first().id)
+        assertThat(result, IsNot(nullValue()))
+        assertThat(result.machineType, IsEqual(machTypes.first()))
+        assertThat(result.controlPoints, IsEqual(listOf(DataProvider.ctrlPoint1, DataProvider.ctrlPoint2)))
+    }
+
+    @Test
+    fun getAllControlPointsAsync() = runBlocking {
+
+        val result = homeSource.getAllControlPointsAsync().await()
+        assertThat(result, instanceOf(Error::class.java))
+        assertThat((result as Error).exception, instanceOf(NotImplementedException::class.java))
+    }
+
+    @Test
+    fun getAllMachineTypesAsync() = runBlocking {
+        val result = homeSource.getAllMachineTypesAsync().await()
+        assertThat(result, instanceOf(Error::class.java))
+        assertThat((result as Error).exception, instanceOf(NotImplementedException::class.java))
+    }
+
+    @Test
+    fun getAllMachineTypeCtrlPointsAsync() = runBlocking {
+        val result = homeSource.getAllMachineTypeCtrlPointsAsync().await()
+        assertThat(result, instanceOf(Error::class.java))
+        assertThat((result as Error).exception, instanceOf(NotImplementedException::class.java))
     }
 }

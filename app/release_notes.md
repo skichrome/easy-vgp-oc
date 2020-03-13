@@ -1,6 +1,2 @@
-## First automated app distribution test.
-This is a first test to automatically deploy apk release to testers.
-
-## Changelog
-
-- Nothing from previous version
+[Features]
+ - Added performance monitoring sdk to the app, when the app crash the developers will be informed about why the crash happened.

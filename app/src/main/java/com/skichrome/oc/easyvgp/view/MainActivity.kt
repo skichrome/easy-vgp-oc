@@ -132,6 +132,7 @@ class MainActivity : AppCompatActivity()
                             .putLong(CURRENT_LOCAL_PROFILE, it)
                             .apply()
                     }
+                    viewModel.synchronizeLocalDatabaseWithRemote()
                 }
             })
             viewModel.message.observe(this, EventObserver { toast(getString(it)) })

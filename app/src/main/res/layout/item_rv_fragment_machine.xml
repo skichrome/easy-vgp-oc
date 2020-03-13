@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         style="@style/cardStyle"
         android:layout_height="140dp"
-        android:onClick="@{() -> viewModel.onClickMachine(machine.machineId)}">
+        android:onClick="@{() -> viewModel.onClickMachine(machine)}">
 
         <ImageView
             android:layout_width="48dp"

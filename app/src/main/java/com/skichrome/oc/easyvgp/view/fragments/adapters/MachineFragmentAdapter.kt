@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.skichrome.oc.easyvgp.databinding.ItemRvFragmentMachineBinding
 import com.skichrome.oc.easyvgp.model.local.database.Machine
+import com.skichrome.oc.easyvgp.util.setHolderBottomMargin
 import com.skichrome.oc.easyvgp.viewmodel.MachineViewModel
 
 class MachineFragmentAdapter(private val viewModel: MachineViewModel) :
@@ -18,7 +19,11 @@ class MachineFragmentAdapter(private val viewModel: MachineViewModel) :
         return CustomersFragmentViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: CustomersFragmentViewHolder, position: Int) = holder.bind(viewModel, getItem(position))
+    override fun onBindViewHolder(holder: CustomersFragmentViewHolder, position: Int)
+    {
+        holder.setHolderBottomMargin(position == currentList.lastIndex || position == currentList.lastIndex - 1)
+        holder.bind(viewModel, getItem(position))
+    }
 
     class CustomersFragmentViewHolder(private val binding: ItemRvFragmentMachineBinding) : RecyclerView.ViewHolder(binding.root)
     {

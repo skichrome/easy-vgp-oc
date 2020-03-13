@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentSnapshot
@@ -23,6 +24,14 @@ fun Fragment.errorLog(msg: String) = Log.e(javaClass.simpleName, msg)
 fun View.snackBar(msg: String)
 {
     Snackbar.make(this, msg, Snackbar.LENGTH_SHORT).run { show() }
+}
+
+fun RecyclerView.ViewHolder.setHolderBottomMargin(isLastIndex: Boolean)
+{
+    val params = itemView.layoutParams as RecyclerView.LayoutParams
+    // Set a bottom margin for last item in list, without it the FAB will hide last item actions.
+    params.bottomMargin = if (isLastIndex) 250 else 0
+    itemView.layoutParams = params
 }
 
 @Suppress("UNCHECKED_CAST")

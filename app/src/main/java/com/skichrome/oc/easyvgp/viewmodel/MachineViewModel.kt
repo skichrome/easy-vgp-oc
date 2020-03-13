@@ -46,8 +46,8 @@ class MachineViewModel(private val repository: MachineRepository) : ViewModel()
     private val _machineSaved = MutableLiveData<Event<Boolean>>()
     val machineSaved: LiveData<Event<Boolean>> = _machineSaved
 
-    private val _machineClicked = MutableLiveData<Event<Long>>()
-    val machineClicked: LiveData<Event<Long>> = _machineClicked
+    private val _machineClicked = MutableLiveData<Event<Machine>>()
+    val machineClicked: LiveData<Event<Machine>> = _machineClicked
 
     private val _machineLongClicked = MutableLiveData<Event<Long>>()
     val machineLongClicked: LiveData<Event<Long>> = _machineLongClicked
@@ -61,9 +61,9 @@ class MachineViewModel(private val repository: MachineRepository) : ViewModel()
 
     // --- Events
 
-    fun onClickMachine(machineId: Long)
+    fun onClickMachine(machine: Machine)
     {
-        _machineClicked.value = Event(machineId)
+        _machineClicked.value = Event(machine)
     }
 
     fun onLongClickMachine(machineId: Long)

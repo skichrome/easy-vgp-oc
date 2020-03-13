@@ -10,13 +10,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.skichrome.oc.easyvgp.androidmanagers.DefaultNetManager
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager
 import com.skichrome.oc.easyvgp.model.*
-import com.skichrome.oc.easyvgp.model.local.LocalAdminSource
-import com.skichrome.oc.easyvgp.model.local.LocalCustomerSource
-import com.skichrome.oc.easyvgp.model.local.LocalHomeSource
-import com.skichrome.oc.easyvgp.model.local.LocalMachineSource
+import com.skichrome.oc.easyvgp.model.local.*
 import com.skichrome.oc.easyvgp.model.local.database.AppDatabase
 import com.skichrome.oc.easyvgp.model.remote.CustomerRemoteRepository
 import com.skichrome.oc.easyvgp.model.remote.RemoteAdminSource
+import com.skichrome.oc.easyvgp.model.remote.RemoteHomeSource
 
 object ServiceLocator
 {
@@ -47,6 +45,14 @@ object ServiceLocator
 
     @Volatile
     var adminRepository: AdminRepository? = null
+        @VisibleForTesting set
+
+    @Volatile
+    var newVgpRepository: NewVgpRepository? = null
+        @VisibleForTesting set
+
+    @Volatile
+    var vgpListRepository: VgpListRepository? = null
         @VisibleForTesting set
 
     // =================================
@@ -90,7 +96,16 @@ object ServiceLocator
         val db = getLocalDatabaseInstance(app)
         val companyDao = db.companiesDao()
         val userDao = db.usersDao()
-        return LocalHomeSource(companyDao, userDao)
+        val ctrlPointDao = db.controlPointDao()
+        val machineTypeDao = db.machinesTypeDao()
+        val machineTypeCtrlPointDao = db.machineTypeControlPointCrossRefDao()
+        return LocalHomeSource(companyDao, userDao, ctrlPointDao, machineTypeDao, machineTypeCtrlPointDao)
+    }
+
+    private fun provideRemoteHomeSource(): HomeSource
+    {
+        val db = getRemoteDatabaseInstance()
+        return RemoteHomeSource(db)
     }
 
     // --- Customers
@@ -135,6 +150,29 @@ object ServiceLocator
         return RemoteAdminSource(db)
     }
 
+    // --- VGP
+
+    private fun configureLocalVgpListRepository(app: Application): VgpListSource
+    {
+        val db = getLocalDatabaseInstance(app)
+        val machineControlPointDataDao = db.machineControlPointDataDao()
+
+        return LocalVgpListSource(machineControlPointDataDao = machineControlPointDataDao)
+    }
+
+    private fun configureLocalVgpRepository(app: Application): NewVgpSource
+    {
+        val db = getLocalDatabaseInstance(app)
+        val machineTypeDao = db.machinesTypeDao()
+        val ctrlPointDataDao = db.controlPointDataDao()
+        val machineCtrlPointDao = db.machineControlPointDataDao()
+        return LocalNewVgpSource(
+            machineTypeDao = machineTypeDao,
+            ctrlPointDataDao = ctrlPointDataDao,
+            machineCtrlPointDao = machineCtrlPointDao
+        )
+    }
+
     // --- Data Repository --- //
 
     // --- Home
@@ -145,8 +183,10 @@ object ServiceLocator
 
     private fun configureDefaultHomeRepository(app: Application): HomeRepository
     {
+        val netManager = provideNetworkManager(app)
         val localSource = provideLocalHomeSource(app)
-        return DefaultHomeRepository(localSource)
+        val remoteSource = provideRemoteHomeSource()
+        return DefaultHomeRepository(netManager, localSource, remoteSource)
     }
 
     // --- Customers
@@ -187,6 +227,28 @@ object ServiceLocator
         val localSource = configureLocalAdminRepository(app)
         val remoteSource = configureRemoteAdminRepository()
         return DefaultAdminRepository(netManager = netManager, localSource = localSource, remoteSource = remoteSource)
+    }
+
+    // --- VGP
+
+    fun provideVgpListRepository(app: Application) = vgpListRepository ?: synchronized(this) {
+        vgpListRepository ?: configureVgpListRepository(app).also { vgpListRepository = it }
+    }
+
+    private fun configureVgpListRepository(app: Application): VgpListRepository
+    {
+        val localSource = configureLocalVgpListRepository(app)
+        return DefaultVgpListRepository(localSource = localSource)
+    }
+
+    fun provideVgpRepository(app: Application) = newVgpRepository ?: synchronized(this) {
+        newVgpRepository ?: configureVgpRepository(app).also { newVgpRepository = it }
+    }
+
+    private fun configureVgpRepository(app: Application): NewVgpRepository
+    {
+        val localSource = configureLocalVgpRepository(app)
+        return DefaultNewVgpRepository(localSource = localSource)
     }
 
     // --- Testing purposes --- //

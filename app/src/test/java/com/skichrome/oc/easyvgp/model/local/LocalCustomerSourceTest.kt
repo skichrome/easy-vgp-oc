@@ -63,7 +63,7 @@ class LocalCustomerSourceTest
     @After
     fun tearDown() = database.close()
 
-    // --- Configuration --- //
+    // --- Tests --- //
 
     @Test
     fun loadAllCustomers() = runBlocking {

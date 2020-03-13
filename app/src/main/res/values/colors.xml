@@ -19,6 +19,13 @@
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#ffffff</color>
 
+    <color name="ctrlPointChoiceBE">#64DD17</color>
+    <color name="ctrlPointChoiceEM">#FF6D00</color>
+    <color name="ctrlPointChoiceME">#DD2C00</color>
+
+    <color name="reportFinal">#64DD17</color>
+    <color name="reportDraft">#2962FF</color>
+
     <!--    <color name="primaryColor">#121212</color>-->
     <!--    <color name="primaryLightColor">#383838</color>-->
     <!--    <color name="primaryDarkColor">#000000</color>-->
