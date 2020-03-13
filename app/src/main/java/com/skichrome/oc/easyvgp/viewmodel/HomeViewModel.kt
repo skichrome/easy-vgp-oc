@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.HomeRepository
+import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.local.database.UserAndCompany
 import com.skichrome.oc.easyvgp.util.Event
+import com.skichrome.oc.easyvgp.util.uiJob
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repository: HomeRepository) : ViewModel()
@@ -100,6 +102,15 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel()
                 showMessage(R.string.view_model_home_user_update)
             } else
                 showMessage(R.string.view_model_home_user_update_error)
+        }
+    }
+
+    fun synchronizeLocalDatabaseWithRemote()
+    {
+        viewModelScope.uiJob {
+            val results = repository.synchronizeDatabase()
+            if (results is Error)
+                showMessage(R.string.view_model_home_update_error)
         }
     }
 }

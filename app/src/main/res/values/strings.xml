@@ -15,6 +15,7 @@
     <string name="view_model_home_user_insert_error">An error occurred when creating your profile</string>
     <string name="view_model_home_user_update">Your profile has been successfully updated</string>
     <string name="view_model_home_user_update_error">An error occurred when updating your profile</string>
+    <string name="view_model_home_update_error">An error occurred when updating application database</string>
 
     <!-- Settings Fragment -->
     <string name="setting_fragment_account_img_content_desc">Account image profile</string>
@@ -108,4 +109,35 @@
     <string name="admin_fragment_dialog_error_required_fields">Please provide all fields</string>
     <string name="dialog_ctrl_point_code">Control point code</string>
     <string name="dialog_ctrl_point_name">control point name</string>
+
+    <!-- New VGP ViewModel -->
+    <string name="vgp_view_model_machine_type_with_ctrl_points_error">Something went wrong when fetching control points list for this machine</string>
+    <string name="vgp_view_model_cannot_save_all_points_not_provided">Please provide all control points</string>
+    <string name="vgp_view_model_cannot_update">Something went wrong when trying to update this report</string>
+
+    <!-- New VGP Fragment -->
+    <string name="frag_vgp_item_title_ctrl_point">Control Point</string>
+    <string name="frag_vgp_item_title_state_be">BE</string>
+    <string name="frag_vgp_item_title_state_em">EM</string>
+    <string name="frag_vgp_item_title_state_me">ME</string>
+    <string name="frag_vgp_item_comment_img_content_desc">Add a comment by clicking on this comment picture</string>
+    <string name="frag_vgp_dialog_ok">save</string>
+    <string name="frag_vgp_dialog_cancel">Cancel</string>
+    <string name="frag_vgp_dialog_title">Set your comment for this control point</string>
+
+    <!-- VGP List ViewModel -->
+    <string name="vgp_list_view_model_cannot_edit_validated_report">Error, you can\'t edit an already validated report</string>
+
+    <!-- Verification types, Control type and Choice Possibilities enumeration -->
+    <string name="verification_type_visual">Visual</string>
+    <string name="verification_type_both_visual_functional">Visual / Functional</string>
+    <string name="verification_type_functional">Functional</string>
+
+    <string name="choice_possibilities_good">Good</string>
+    <string name="choice_possibilities_medium">Medium</string>
+    <string name="choice_possibilities_bad">Bad</string>
+
+    <string name="ctrl_type_one">commissioning</string>
+    <string name="ctrl_type_two">periodic general audit</string>
+    <string name="ctrl_type_three">put back into service</string>
 </resources>

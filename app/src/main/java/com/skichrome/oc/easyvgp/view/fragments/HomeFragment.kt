@@ -45,7 +45,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>()
     }
 
     private fun configureViewModel() = viewModel.apply {
-        currentUserId.observe(this@HomeFragment, EventObserver { toast("saved : $it") })
+        currentUserId.observe(viewLifecycleOwner, EventObserver { toast("saved : $it") })
     }
 
     private fun configureUI()
@@ -57,5 +57,5 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>()
 
     private fun navigateToCustomersFragment() = findNavController().navigate(R.id.action_homeFragment_to_customerFragment)
 
-    private fun navigateToNewVGPFragment() = findNavController().navigate(R.id.action_homeFragment_to_vgpFragment)
+    private fun navigateToNewVGPFragment() = findNavController().navigate(R.id.action_homeFragment_to_vgpListFragment)
 }

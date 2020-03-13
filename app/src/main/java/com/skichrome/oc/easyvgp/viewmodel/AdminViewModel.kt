@@ -7,10 +7,10 @@ import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.AdminRepository
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.local.MachineTypeCtrlPtMultiChoiceItems
 import com.skichrome.oc.easyvgp.model.local.database.ControlPoint
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
 import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints
+import com.skichrome.oc.easyvgp.model.local.util.MachineTypeCtrlPtMultiChoiceItems
 import com.skichrome.oc.easyvgp.util.Event
 import com.skichrome.oc.easyvgp.util.NetworkException
 import com.skichrome.oc.easyvgp.util.RemoteRepositoryException
