@@ -41,11 +41,11 @@ class FakeHomeDataSource(
             Error(ItemNotFoundException("Item doesnt' exist in the list"))
     }
 
-    override suspend fun getAllControlPointsAsync(): Deferred<Results<List<ControlPoint>>> = withContext(Dispatchers.Main) {
+    override suspend fun getAllControlPointsAsync(): Deferred<Results<List<ControlPoint>>> = withContext(Dispatchers.Unconfined) {
         async { Success(ctrlPointDataService.values.toList().sortedBy { it.id }) }
     }
 
-    override suspend fun getAllMachineTypesAsync(): Deferred<Results<List<MachineType>>> = withContext(Dispatchers.Main) {
+    override suspend fun getAllMachineTypesAsync(): Deferred<Results<List<MachineType>>> = withContext(Dispatchers.Unconfined) {
         async { Success(machineTypeDataService.values.toList().sortedBy { it.id }) }
     }
 
@@ -115,5 +115,20 @@ class FakeHomeDataSource(
         return Success(result)
     }
 
+    // =================================
+    //              Methods
+    // =================================
 
+    fun insertData(
+        ctrlPt: LinkedHashMap<Long, ControlPoint>,
+        machTypes: LinkedHashMap<Long, MachineType>,
+        machTypesCtrlPt: List<MachineTypeControlPointCrossRef>
+    )
+    {
+        ctrlPt.forEach { ctrlPointDataService[it.key] = it.value }
+        machTypes.forEach { machineTypeDataService[it.key] = it.value }
+        machTypesCtrlPt.forEachIndexed { index, machineTypeControlPointCrossRef ->
+            machineTypeCtrlPointDataService[index.toLong()] = machineTypeControlPointCrossRef
+        }
+    }
 }

@@ -5,6 +5,7 @@ import com.skichrome.oc.easyvgp.model.local.database.UserAndCompany
 import com.skichrome.oc.easyvgp.model.source.DataProvider
 import com.skichrome.oc.easyvgp.model.source.FakeHomeDataSource
 import com.skichrome.oc.easyvgp.model.source.FakeNetManager
+import com.skichrome.oc.easyvgp.util.NetworkException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.*
@@ -76,4 +77,39 @@ class DefaultHomeRepositoryTest
         assertThat((result as Success).data, instanceOf(Int::class.java))
         assertThat(result.data, `is`(1))
     }
+
+    @Test
+    fun synchronizeDatabase_offlineMode_shouldThrowAnError_InternetAccessMustBeAvailable() = runBlockingTest {
+        val result = repository.synchronizeDatabase()
+        assertThat(result, instanceOf(Results.Error::class.java))
+        assertThat((result as Results.Error).exception, instanceOf(NetworkException::class.java))
+    }
+
+// Todo Will be added when I will find a good way to test methods that use async coroutines
+
+//    @Test
+//    fun synchronizeDatabase_onlineMode_homeAndRemoteSourcesShouldContainSameData() = runBlockingTest {
+//        val ctrlPts = DataProvider.ctrlPointHashMap
+//        val machTypes = DataProvider.machineTypeHashMap
+//        val machTypeCtrlPt = DataProvider.machineTypeCtrlPointCrossRefList
+//
+//        homeRemoteSource.insertData(ctrlPt = ctrlPts, machTypes = machTypes, machTypesCtrlPt = machTypeCtrlPt)
+//
+//        netManager.setIsFakeConnected(true)
+//        val result = repositoryTest()//.getOrAwaitValue()
+//
+////        assertThat(result, instanceOf(Success::class.java))
+////        assertThat((result as Success).data, `is`(true))
+//
+//        val ctrlPtResult = homeLocalSource.getAllControlPointsAsync()
+//    }
+//
+//    private fun CoroutineScope.repositoryTest(): LiveData<Results<Boolean>>
+//    {
+//        val result = MutableLiveData<Results<Boolean>>()
+//        launch {
+//            result.value = repository.synchronizeDatabase()
+//        }
+//        return result
+//    }
 }
