@@ -51,6 +51,13 @@ class VgpViewModel(private val repository: NewVgpRepository) : ViewModel()
         _onClickCommentEvent.value = Event(index)
     }
 
+    fun onClickRadioBtnEvent(index: Int, state: Int)
+    {
+        viewModelScope.uiJob {
+            _machineTypeWithControlPointsData.value?.get(index)?.choicePossibilityId = state
+        }
+    }
+
     // --- Data
 
     fun setCommentToCtrlPointData(index: Int, comment: String)

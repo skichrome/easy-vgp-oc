@@ -23,38 +23,62 @@ class ControlPointNewVgpAdapter(private val viewModel: VgpViewModel) :
     override fun onBindViewHolder(holder: MachineTypeViewHolder, position: Int)
     {
         holder.setHolderBottomMargin(position == currentList.lastIndex)
-        holder.bind(controlPoint = getItem(position), viewModel = viewModel, position = position)
+        holder.bind(controlPoint = getItem(position), viewModel = viewModel)
     }
 
     class MachineTypeViewHolder(private val binding: ItemRvFragmentVgpBinding) : RecyclerView.ViewHolder(binding.root)
     {
-        fun bind(controlPoint: ControlPointDataVgp, position: Int, viewModel: VgpViewModel)
+        fun bind(controlPoint: ControlPointDataVgp, viewModel: VgpViewModel)
         {
             binding.ctrlPoint = controlPoint
             binding.viewModel = viewModel
 
-            binding.rvItemFragVgpCtrlPointComment.setOnClickListener { viewModel.onClickCommentEvent(position) }
+            binding.rvItemFragVgpCtrlPointPossibilityGroup.clearCheck()
 
-            binding.rvItemFragVgpCtrlPointPossibilityGoodState.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked)
+            when (controlPoint.choicePossibilityId)
+            {
+                1 ->
                 {
-                    controlPoint.choicePossibilityId = 1
+                    binding.rvItemFragVgpCtrlPointPossibilityGoodState.isChecked = true
                     binding.rvItemFragVgpCtrlPointStateViewIndicator.setBackgroundResource(R.color.ctrlPointChoiceBE)
                 }
-            }
-            binding.rvItemFragVgpCtrlPointPossibilityMediumState.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked)
+                2 ->
                 {
-                    controlPoint.choicePossibilityId = 2
+                    binding.rvItemFragVgpCtrlPointPossibilityMediumState.isChecked = true
                     binding.rvItemFragVgpCtrlPointStateViewIndicator.setBackgroundResource(R.color.ctrlPointChoiceEM)
                 }
-            }
-            binding.rvItemFragVgpCtrlPointPossibilityBadState.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked)
+                3 ->
                 {
-                    controlPoint.choicePossibilityId = 3
+                    binding.rvItemFragVgpCtrlPointPossibilityBadState.isChecked = true
                     binding.rvItemFragVgpCtrlPointStateViewIndicator.setBackgroundResource(R.color.ctrlPointChoiceME)
                 }
+                else ->
+                {
+                    binding.rvItemFragVgpCtrlPointPossibilityGoodState.isChecked = false
+                    binding.rvItemFragVgpCtrlPointPossibilityMediumState.isChecked = false
+                    binding.rvItemFragVgpCtrlPointPossibilityBadState.isChecked = false
+                    binding.rvItemFragVgpCtrlPointStateViewIndicator.setBackgroundResource(R.color.primaryLightColor)
+                }
+            }
+            binding.executePendingBindings()
+
+            binding.rvItemFragVgpCtrlPointComment.setOnClickListener {
+                viewModel.onClickCommentEvent(adapterPosition)
+            }
+
+            binding.rvItemFragVgpCtrlPointPossibilityGoodState.setOnClickListener {
+                viewModel.onClickRadioBtnEvent(adapterPosition, 1)
+                binding.rvItemFragVgpCtrlPointStateViewIndicator.setBackgroundResource(R.color.ctrlPointChoiceBE)
+            }
+
+            binding.rvItemFragVgpCtrlPointPossibilityMediumState.setOnClickListener {
+                viewModel.onClickRadioBtnEvent(adapterPosition, 2)
+                binding.rvItemFragVgpCtrlPointStateViewIndicator.setBackgroundResource(R.color.ctrlPointChoiceEM)
+            }
+
+            binding.rvItemFragVgpCtrlPointPossibilityBadState.setOnClickListener {
+                viewModel.onClickRadioBtnEvent(adapterPosition, 3)
+                binding.rvItemFragVgpCtrlPointStateViewIndicator.setBackgroundResource(R.color.ctrlPointChoiceME)
             }
         }
     }
