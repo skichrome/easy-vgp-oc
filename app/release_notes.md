@@ -1,5 +1,2 @@
 [Features]
- - Implemented report list by machine type by customer.
- - Implemented new report feature.
- - Implemented report edition feature.
- - Implemented remote data synchronization at app start (for control points, machine types, and control points by machine types).
+ - Added performance monitoring sdk to the app, when the app crash the developers will be informed about why the crash happened.
