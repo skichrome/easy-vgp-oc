@@ -9,7 +9,7 @@
 
         <variable
             name="report"
-            type="Long" />
+            type="com.skichrome.oc.easyvgp.model.local.database.VgpListItem" />
 
         <variable
             name="viewModel"
@@ -25,20 +25,56 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_margin="8dp">
+
+            <View
+                android:id="@+id/rvItemFragVgpCtrlPointStateViewIndicator"
+                android:layout_width="4dp"
+                android:layout_height="50dp"
+                android:layout_marginVertical="5dp"
+                android:background="@color/primaryLightColor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:background="@color/ctrlPointChoiceBE" />
 
             <TextView
-                android:id="@+id/rvItemMachineTypeName"
-                style="@style/tvBody1Style"
+                android:id="@+id/rvItemVgpListReportName"
+                style="@style/tvTitleStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:bind_date="@{report}"
+                app:bind_date="@{report.reportDate}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Type name" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="4dp"
+                android:background="@color/darkThemeSeparatorColor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/rvItemVgpListGeneratePdf"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/rvItemVgpListGeneratePdf"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_marginEnd="8dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="4dp"
+                android:src="@drawable/ic_picture_as_pdf_24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

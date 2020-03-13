@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.ItemRvFragmentVgpBinding
 import com.skichrome.oc.easyvgp.model.local.util.ControlPointDataVgp
+import com.skichrome.oc.easyvgp.util.setHolderBottomMargin
 import com.skichrome.oc.easyvgp.viewmodel.VgpViewModel
 
 class ControlPointNewVgpAdapter(private val viewModel: VgpViewModel) :
@@ -19,8 +20,11 @@ class ControlPointNewVgpAdapter(private val viewModel: VgpViewModel) :
         return MachineTypeViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: MachineTypeViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: MachineTypeViewHolder, position: Int)
+    {
+        holder.setHolderBottomMargin(position == currentList.lastIndex)
         holder.bind(controlPoint = getItem(position), viewModel = viewModel, position = position)
+    }
 
     class MachineTypeViewHolder(private val binding: ItemRvFragmentVgpBinding) : RecyclerView.ViewHolder(binding.root)
     {

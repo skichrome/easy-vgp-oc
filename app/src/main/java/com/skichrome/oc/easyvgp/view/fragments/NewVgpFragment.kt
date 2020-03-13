@@ -4,6 +4,7 @@ import android.text.InputType
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
@@ -51,6 +52,7 @@ class NewVgpFragment : BaseBindingFragment<FragmentNewVgpBinding>()
     {
         viewModel.message.observe(viewLifecycleOwner, EventObserver { binding.root.snackBar(getString(it)) })
         viewModel.onClickCommentEvent.observe(viewLifecycleOwner, EventObserver { showCommentAlertDialog(it) })
+        viewModel.onReportSaved.observe(viewLifecycleOwner, EventObserver { if (it) findNavController().navigateUp() })
         viewModel.getMachineTypeWithControlPoints(args.machineTypeId)
     }
 

@@ -3,10 +3,7 @@ package com.skichrome.oc.easyvgp.util
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.skichrome.oc.easyvgp.model.local.database.ControlPoint
-import com.skichrome.oc.easyvgp.model.local.database.Customer
-import com.skichrome.oc.easyvgp.model.local.database.Machine
-import com.skichrome.oc.easyvgp.model.local.database.MachineType
+import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.model.local.util.ControlPointDataVgp
 import com.skichrome.oc.easyvgp.view.fragments.adapters.*
 import java.text.SimpleDateFormat
@@ -32,7 +29,7 @@ fun setControlPointsItems(listView: RecyclerView, controlPoints: List<ControlPoi
 }
 
 @BindingAdapter(value = ["items_reports"])
-fun setReportItems(listView: RecyclerView, reports: List<Long>?) = reports?.let {
+fun setReportItems(listView: RecyclerView, reports: List<VgpListItem>?) = reports?.let {
     (listView.adapter as VgpListFragmentAdapter).submitList(it)
 }
 
@@ -41,7 +38,7 @@ fun setCtrlPointDataItems(listView: RecyclerView, controlPoints: List<ControlPoi
     (listView.adapter as ControlPointNewVgpAdapter).submitList(it)
 }
 
-@BindingAdapter("bind_date")
+@BindingAdapter(value = ["bind_date"])
 fun getDateFormatted(textView: TextView, dateMillis: Long)
 {
     val date = SimpleDateFormat.getDateInstance()

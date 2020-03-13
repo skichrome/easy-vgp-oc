@@ -21,7 +21,14 @@ import androidx.room.*
 data class MachineControlPointData(
     @ColumnInfo(name = "machine_id", index = true) val machineId: Long,
     @ColumnInfo(name = "ctrl_point_data_id", index = true) val ctrlPointDataId: Long,
-    @ColumnInfo(name = "report_date") val reportDate: Long
+    @ColumnInfo(name = "report_date") val reportDate: Long,
+    @ColumnInfo(name = "is_valid") val isValid: Boolean = false
+)
+
+data class VgpListItem(
+    @ColumnInfo(name = "report_date") val reportDate: Long,
+    @ColumnInfo(name = "is_valid") val isValid: Boolean,
+    @ColumnInfo(name = "ctrl_point_data_id") val controlPointDataId: Long
 )
 
 data class MachineIdWithControlPointData(
@@ -34,8 +41,8 @@ data class MachineIdWithControlPointData(
 @Dao
 interface MachineControlPointDataDao : BaseDao<MachineControlPointData>
 {
-    @Query("SELECT MachinesControlPointsDataCrossRef.report_date FROM MachinesControlPointsDataCrossRef LEFT JOIN ControlPointsData WHERE MachinesControlPointsDataCrossRef.ctrl_point_data_id == ControlPointsData.ctrl_point_data_id AND MachinesControlPointsDataCrossRef.machine_id == :id")
-    suspend fun getCtrlPointDataFromMachineId(id: Long): List<Long>
+    @Query("SELECT MachinesControlPointsDataCrossRef.report_date, MachinesControlPointsDataCrossRef.ctrl_point_data_id, MachinesControlPointsDataCrossRef.is_valid FROM MachinesControlPointsDataCrossRef LEFT JOIN ControlPointsData WHERE MachinesControlPointsDataCrossRef.ctrl_point_data_id == ControlPointsData.ctrl_point_data_id AND MachinesControlPointsDataCrossRef.machine_id == :id")
+    suspend fun getCtrlPointDataFromMachineId(id: Long): List<VgpListItem>
 
     @Query("SELECT MachinesControlPointsDataCrossRef.machine_id, ControlPointsData.ctrl_point_data_id, control_points.control_point_id, control_points.control_point_name FROM MachinesControlPointsDataCrossRef JOIN ControlPointsData JOIN control_points WHERE MachinesControlPointsDataCrossRef.machine_id == :id AND MachinesControlPointsDataCrossRef.ctrl_point_data_id == ControlPointsData.ctrl_point_data_id AND control_points.control_point_id == ControlPointsData.ctrl_point_data_ctrl_point_ref")
     suspend fun getCtrlPointControlPointDataFromMachineId(id: Long): List<MachineIdWithControlPointData>

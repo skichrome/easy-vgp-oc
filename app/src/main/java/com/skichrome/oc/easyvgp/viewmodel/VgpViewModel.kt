@@ -27,6 +27,9 @@ class VgpViewModel(private val repository: NewVgpRepository) : ViewModel()
     private val _onClickCommentEvent = MutableLiveData<Event<Int>>()
     val onClickCommentEvent: LiveData<Event<Int>> = _onClickCommentEvent
 
+    private val _onReportSaved = MutableLiveData<Event<Boolean>>()
+    val onReportSaved: LiveData<Event<Boolean>> = _onReportSaved
+
     // --- Data
 
     private val _machineTypeWithControlPointsData = MutableLiveData<List<ControlPointDataVgp>>()
@@ -90,7 +93,7 @@ class VgpViewModel(private val repository: NewVgpRepository) : ViewModel()
             _machineTypeWithControlPointsData.value?.let {
                 val result = repository.insertMachineControlPointData(it, machineId)
                 if (result is Success)
-                    showMessage(R.string.vgp_view_model_data_successfully_saved)
+                    _onReportSaved.value = Event(true)
                 else
                     Log.e("VgpVm", "Error : ${(result as Error).exception.message}", result.exception)
             }

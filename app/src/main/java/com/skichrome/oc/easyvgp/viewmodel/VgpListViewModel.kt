@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.VgpListRepository
+import com.skichrome.oc.easyvgp.model.local.database.VgpListItem
 import com.skichrome.oc.easyvgp.util.Event
 import com.skichrome.oc.easyvgp.util.uiJob
 
@@ -19,8 +20,8 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
     override val message: LiveData<Event<Int>>
         get() = _message
 
-    private val _vgpList = MutableLiveData<List<Long>>()
-    val vgpList: LiveData<List<Long>> = _vgpList
+    private val _vgpList = MutableLiveData<List<VgpListItem>>()
+    val vgpList: LiveData<List<VgpListItem>> = _vgpList
 
     // =================================
     //        Superclass Methods
@@ -35,7 +36,7 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
     //              Methods
     // =================================
 
-    fun onClickReport(reportId: Long)
+    fun onClickReport(report: VgpListItem)
     {
     }
 
@@ -45,7 +46,7 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
             val result = repository.getAllReports(machineId)
             if (result is Success)
             {
-                _vgpList.value = result.data
+                _vgpList.value = result.data.groupBy { it.reportDate }.map { it.value.first() }
                 Log.e("VgpListVM", "Success: ${result.data}")
             } else
                 Log.e("VgpListVM", "An error occurred when loading vgp list", (result as Error).exception)
