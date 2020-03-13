@@ -14,6 +14,7 @@ import com.skichrome.oc.easyvgp.model.local.*
 import com.skichrome.oc.easyvgp.model.local.database.AppDatabase
 import com.skichrome.oc.easyvgp.model.remote.CustomerRemoteRepository
 import com.skichrome.oc.easyvgp.model.remote.RemoteAdminSource
+import com.skichrome.oc.easyvgp.model.remote.RemoteHomeSource
 
 object ServiceLocator
 {
@@ -95,7 +96,16 @@ object ServiceLocator
         val db = getLocalDatabaseInstance(app)
         val companyDao = db.companiesDao()
         val userDao = db.usersDao()
-        return LocalHomeSource(companyDao, userDao)
+        val ctrlPointDao = db.controlPointDao()
+        val machineTypeDao = db.machinesTypeDao()
+        val machineTypeCtrlPointDao = db.machineTypeControlPointCrossRefDao()
+        return LocalHomeSource(companyDao, userDao, ctrlPointDao, machineTypeDao, machineTypeCtrlPointDao)
+    }
+
+    private fun provideRemoteHomeSource(): HomeSource
+    {
+        val db = getRemoteDatabaseInstance()
+        return RemoteHomeSource(db)
     }
 
     // --- Customers
@@ -173,8 +183,10 @@ object ServiceLocator
 
     private fun configureDefaultHomeRepository(app: Application): HomeRepository
     {
+        val netManager = provideNetworkManager(app)
         val localSource = provideLocalHomeSource(app)
-        return DefaultHomeRepository(localSource)
+        val remoteSource = provideRemoteHomeSource()
+        return DefaultHomeRepository(netManager, localSource, remoteSource)
     }
 
     // --- Customers

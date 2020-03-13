@@ -7,10 +7,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.skichrome.oc.easyvgp.model.HomeSource
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.local.database.AppDatabase
-import com.skichrome.oc.easyvgp.model.local.database.CompanyDao
-import com.skichrome.oc.easyvgp.model.local.database.UserAndCompany
-import com.skichrome.oc.easyvgp.model.local.database.UserDao
+import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.model.source.DataProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -39,6 +36,9 @@ class LocalHomeSourceTest
     private lateinit var database: AppDatabase
     private lateinit var companyDao: CompanyDao
     private lateinit var userDao: UserDao
+    private lateinit var ctrlPointDao: ControlPointDao
+    private lateinit var machineTypeDao: MachineTypeDao
+    private lateinit var machineTypeControlPointCrossRefDao: MachineTypeControlPointCrossRefDao
     private lateinit var homeSource: HomeSource
 
     // =================================
@@ -51,15 +51,26 @@ class LocalHomeSourceTest
     fun setUp()
     {
         database = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            AppDatabase::class.java
-        )
+                ApplicationProvider.getApplicationContext(),
+                AppDatabase::class.java
+            )
             .allowMainThreadQueries()
             .build()
 
         companyDao = database.companiesDao()
         userDao = database.usersDao()
-        homeSource = LocalHomeSource(companyDao = companyDao, userDao = userDao, dispatchers = Dispatchers.Main)
+        ctrlPointDao = database.controlPointDao()
+        machineTypeDao = database.machinesTypeDao()
+        machineTypeControlPointCrossRefDao = database.machineTypeControlPointCrossRefDao()
+
+        homeSource = LocalHomeSource(
+            companyDao = companyDao,
+            userDao = userDao,
+            machineTypeDao = machineTypeDao,
+            controlPointDao = ctrlPointDao,
+            machineTypeControlPointCrossRefDao = machineTypeControlPointCrossRefDao,
+            dispatchers = Dispatchers.Main
+        )
     }
 
     @After

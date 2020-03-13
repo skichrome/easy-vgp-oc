@@ -15,6 +15,7 @@
     <string name="view_model_home_user_insert_error">An error occurred when creating your profile</string>
     <string name="view_model_home_user_update">Your profile has been successfully updated</string>
     <string name="view_model_home_user_update_error">An error occurred when updating your profile</string>
+    <string name="view_model_home_update_error">An error occurred when updating application database</string>
 
     <!-- Settings Fragment -->
     <string name="setting_fragment_account_img_content_desc">Account image profile</string>

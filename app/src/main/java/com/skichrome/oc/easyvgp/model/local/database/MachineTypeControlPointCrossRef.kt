@@ -21,6 +21,9 @@ data class MachineTypeWithControlPoints(
 @Dao
 interface MachineTypeControlPointCrossRefDao : BaseDao<MachineTypeControlPointCrossRef>
 {
+    @Query("DELETE FROM machine_type_control_point_cross_ref")
+    fun deleteAll(): Int
+
     @Query("DELETE FROM machine_type_control_point_cross_ref WHERE machine_type_id == :machineTypeId")
     fun deleteMatchMachineTypeId(machineTypeId: Long): Int
 }

@@ -45,7 +45,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>()
     }
 
     private fun configureViewModel() = viewModel.apply {
-        currentUserId.observe(this@HomeFragment, EventObserver { toast("saved : $it") })
+        currentUserId.observe(viewLifecycleOwner, EventObserver { toast("saved : $it") })
     }
 
     private fun configureUI()

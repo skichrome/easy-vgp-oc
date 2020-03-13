@@ -4,6 +4,7 @@ import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.local.database.UserAndCompany
 import com.skichrome.oc.easyvgp.model.source.DataProvider
 import com.skichrome.oc.easyvgp.model.source.FakeHomeDataSource
+import com.skichrome.oc.easyvgp.model.source.FakeNetManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.*
@@ -20,7 +21,9 @@ class DefaultHomeRepositoryTest
     //              Fields
     // =================================
 
-    private lateinit var homeSource: FakeHomeDataSource
+    private lateinit var netManager: FakeNetManager
+    private lateinit var homeLocalSource: FakeHomeDataSource
+    private lateinit var homeRemoteSource: FakeHomeDataSource
     private lateinit var repository: DefaultHomeRepository
 
     // =================================
@@ -32,10 +35,12 @@ class DefaultHomeRepositoryTest
     @Before
     fun setUp()
     {
-        homeSource = FakeHomeDataSource(
+        netManager = FakeNetManager(false)
+        homeLocalSource = FakeHomeDataSource(
             userAndCompanyDataService = DataProvider.userCompanyHashMap
         )
-        repository = DefaultHomeRepository(localSource = homeSource)
+        homeRemoteSource = FakeHomeDataSource()
+        repository = DefaultHomeRepository(netManager = netManager, localSource = homeLocalSource, remoteSource = homeRemoteSource)
     }
 
     // --- Tests --- //
