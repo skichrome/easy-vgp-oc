@@ -53,7 +53,11 @@ class NewVgpFragment : BaseBindingFragment<FragmentNewVgpBinding>()
         viewModel.message.observe(viewLifecycleOwner, EventObserver { binding.root.snackBar(getString(it)) })
         viewModel.onClickCommentEvent.observe(viewLifecycleOwner, EventObserver { showCommentAlertDialog(it) })
         viewModel.onReportSaved.observe(viewLifecycleOwner, EventObserver { if (it) findNavController().navigateUp() })
-        viewModel.getMachineTypeWithControlPoints(args.machineTypeId)
+
+        if (args.reportDateToEdit == -1L)
+            viewModel.getMachineTypeWithControlPoints(args.machineTypeId)
+        else
+            viewModel.loadPreviouslyCreatedReport(args.reportDateToEdit)
     }
 
     private fun configureBinding()
@@ -71,7 +75,10 @@ class NewVgpFragment : BaseBindingFragment<FragmentNewVgpBinding>()
     private fun configureBtn()
     {
         binding.fragVGPFab.setOnClickListener {
-            viewModel.saveCtrlPointDataList(args.machineId)
+            if (args.reportDateToEdit == -1L)
+                viewModel.saveCtrlPointDataList(args.machineId)
+            else
+                viewModel.updatePreviouslyCreatedReport()
         }
     }
 

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.VgpListRepository
@@ -17,20 +18,15 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
     //              Fields
     // =================================
 
-    override val message: LiveData<Event<Int>>
-        get() = _message
+    // --- Event
+
+    private val _reportDateEvent = MutableLiveData<Event<Long>>()
+    val reportDateEvent: LiveData<Event<Long>> = _reportDateEvent
+
+    // --- Data
 
     private val _vgpList = MutableLiveData<List<VgpListItem>>()
     val vgpList: LiveData<List<VgpListItem>> = _vgpList
-
-    // =================================
-    //        Superclass Methods
-    // =================================
-
-    override fun showMessage(msgRef: Int)
-    {
-        _message.value = Event(msgRef)
-    }
 
     // =================================
     //              Methods
@@ -38,6 +34,10 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
 
     fun onClickReport(report: VgpListItem)
     {
+        if (report.isValid)
+            showMessage(R.string.vgp_list_view_model_cannot_edit_validated_report)
+        else
+            _reportDateEvent.value = Event(report.reportDate)
     }
 
     fun loadAllVgpFromMachine(machineId: Long)
@@ -45,10 +45,8 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
         viewModelScope.uiJob {
             val result = repository.getAllReports(machineId)
             if (result is Success)
-            {
                 _vgpList.value = result.data.groupBy { it.reportDate }.map { it.value.first() }
-                Log.e("VgpListVM", "Success: ${result.data}")
-            } else
+            else
                 Log.e("VgpListVM", "An error occurred when loading vgp list", (result as Error).exception)
         }
     }

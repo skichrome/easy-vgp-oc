@@ -7,8 +7,19 @@ import com.skichrome.oc.easyvgp.util.Event
 
 abstract class BaseViewModel : ViewModel()
 {
-    protected val _message = MutableLiveData<Event<Int>>()
-    abstract val message: LiveData<Event<Int>>
+    // =================================
+    //              Fields
+    // =================================
 
-    protected abstract fun showMessage(msgRef: Int)
+    private val _message = MutableLiveData<Event<Int>>()
+    val message: LiveData<Event<Int>> = _message
+
+    // =================================
+    //              Methods
+    // =================================
+
+    protected fun showMessage(msgRef: Int)
+    {
+        _message.value = Event(msgRef)
+    }
 }

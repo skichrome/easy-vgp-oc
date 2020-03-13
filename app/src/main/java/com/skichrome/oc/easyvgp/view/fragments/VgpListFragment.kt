@@ -48,6 +48,7 @@ class VgpListFragment : BaseBindingFragment<FragmentVgpListBinding>()
 
     private fun configureViewModel() = viewModel.apply {
         message.observe(viewLifecycleOwner, EventObserver { binding.root.snackBar(getString(it)) })
+        reportDateEvent.observe(viewLifecycleOwner, EventObserver { navigateToNewVgpFragment(reportDateToEdit = it) })
         loadAllVgpFromMachine(args.machineId)
     }
 
@@ -68,12 +69,13 @@ class VgpListFragment : BaseBindingFragment<FragmentVgpListBinding>()
         vgpListFragmentFab.setOnClickListener { navigateToNewVgpFragment() }
     }
 
-    private fun navigateToNewVgpFragment(machineId: Long = args.machineId, machineTypeId: Long = args.machineTypeId, customerId: Long = -1L)
+    private fun navigateToNewVgpFragment(customerId: Long = -1L, reportDateToEdit: Long = -1L)
     {
         val opt = VgpListFragmentDirections.actionVgpListFragmentToVgpFragment(
-            machineId = machineId,
-            machineTypeId = machineTypeId,
-            customerId = customerId
+            machineId = args.machineId,
+            machineTypeId = args.machineTypeId,
+            customerId = customerId,
+            reportDateToEdit = reportDateToEdit
         )
         findNavController().navigate(opt)
     }

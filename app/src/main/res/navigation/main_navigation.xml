@@ -109,6 +109,10 @@
             android:name="machineTypeId"
             android:defaultValue="-1L"
             app:argType="long" />
+        <argument
+            android:name="reportDateToEdit"
+            android:defaultValue="-1L"
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/addEditMachineFragment"

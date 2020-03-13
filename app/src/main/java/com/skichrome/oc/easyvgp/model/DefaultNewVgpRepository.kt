@@ -5,12 +5,15 @@ import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.local.database.ControlPointData
 import com.skichrome.oc.easyvgp.model.local.database.MachineControlPointData
 import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints
+import com.skichrome.oc.easyvgp.model.local.database.Report
 import com.skichrome.oc.easyvgp.model.local.util.ControlPointDataVgp
 
 class DefaultNewVgpRepository(private val localSource: NewVgpSource) : NewVgpRepository
 {
     override suspend fun getAllControlPointsWithMachineType(machineTypeId: Long): Results<MachineTypeWithControlPoints> =
         localSource.getAllControlPointsWithMachineType(machineTypeId)
+
+    override suspend fun getReportFromDate(date: Long): Results<List<Report>> = localSource.getReportFromDate(date)
 
     override suspend fun insertMachineControlPointData(ctrlPointDataVgp: List<ControlPointDataVgp>, machineId: Long): Results<List<Long>>
     {
@@ -45,4 +48,7 @@ class DefaultNewVgpRepository(private val localSource: NewVgpSource) : NewVgpRep
         }
         return Success(idResultList)
     }
+
+    override suspend fun updateControlPointData(ctrlPointData: List<ControlPointData>): Results<Int> =
+        localSource.updateControlPointData(ctrlPointData)
 }

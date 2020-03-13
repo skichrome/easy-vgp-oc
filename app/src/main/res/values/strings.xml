@@ -109,13 +109,12 @@
     <string name="dialog_ctrl_point_code">Control point code</string>
     <string name="dialog_ctrl_point_name">control point name</string>
 
-    <!-- VGP ViewModel -->
+    <!-- New VGP ViewModel -->
     <string name="vgp_view_model_machine_type_with_ctrl_points_error">Something went wrong when fetching control points list for this machine</string>
-    <string name="vgp_view_model_choices_error">Something went wrong when fetching choices possibilities</string>
-    <string name="vgp_view_model_verifications_error">Something went wrong when fetching verification types</string>
-    <string name="vgp_view_model_data_successfully_saved">Successfully saved in database !</string>
+    <string name="vgp_view_model_cannot_save_all_points_not_provided">Please provide all control points</string>
+    <string name="vgp_view_model_cannot_update">Something went wrong when trying to update this report</string>
 
-    <!-- VGP Fragment -->
+    <!-- New VGP Fragment -->
     <string name="frag_vgp_item_title_ctrl_point">Control Point</string>
     <string name="frag_vgp_item_title_state_be">BE</string>
     <string name="frag_vgp_item_title_state_em">EM</string>
@@ -124,6 +123,9 @@
     <string name="frag_vgp_dialog_ok">save</string>
     <string name="frag_vgp_dialog_cancel">Cancel</string>
     <string name="frag_vgp_dialog_title">Set your comment for this control point</string>
+
+    <!-- VGP List ViewModel -->
+    <string name="vgp_list_view_model_cannot_edit_validated_report">Error, you can\'t edit an already validated report</string>
 
     <!-- Verification types, Control type and Choice Possibilities enumeration -->
     <string name="verification_type_visual">Visual</string>
