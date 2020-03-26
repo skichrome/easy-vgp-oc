@@ -128,6 +128,9 @@
     <!-- VGP List ViewModel -->
     <string name="vgp_list_view_model_cannot_edit_validated_report">Error, you can\'t edit an already validated report</string>
 
+    <!-- Machine RecyclerView Item -->
+    <string name="rv_item_bgp_list_pdf_logo">Generate a Pdf by touching this pdf icon</string>
+
     <!-- Verification types, Control type and Choice Possibilities enumeration -->
     <string name="verification_type_visual">Visual</string>
     <string name="verification_type_both_visual_functional">Visual / Functional</string>

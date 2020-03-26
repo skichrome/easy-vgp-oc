@@ -15,6 +15,7 @@ import com.skichrome.oc.easyvgp.model.local.database.AppDatabase
 import com.skichrome.oc.easyvgp.model.remote.CustomerRemoteRepository
 import com.skichrome.oc.easyvgp.model.remote.RemoteAdminSource
 import com.skichrome.oc.easyvgp.model.remote.RemoteHomeSource
+import com.skichrome.oc.easyvgp.model.remote.RemoteVgpListSource
 
 object ServiceLocator
 {
@@ -155,9 +156,23 @@ object ServiceLocator
     private fun configureLocalVgpListRepository(app: Application): VgpListSource
     {
         val db = getLocalDatabaseInstance(app)
+        val customerDao = db.customersDao()
+        val machineDao = db.machinesDao()
+        val machineTypeDao = db.machinesTypeDao()
         val machineControlPointDataDao = db.machineControlPointDataDao()
 
-        return LocalVgpListSource(machineControlPointDataDao = machineControlPointDataDao)
+        return LocalVgpListSource(
+            machineControlPointDataDao = machineControlPointDataDao,
+            machineTypeDao = machineTypeDao,
+            machineDao = machineDao,
+            customerDao = customerDao
+        )
+    }
+
+    private fun configureRemoteVgpListSource(): VgpListSource
+    {
+        val db = getRemoteDatabaseInstance()
+        return RemoteVgpListSource(db = db)
     }
 
     private fun configureLocalVgpRepository(app: Application): NewVgpSource
@@ -237,8 +252,10 @@ object ServiceLocator
 
     private fun configureVgpListRepository(app: Application): VgpListRepository
     {
+        val netManager = provideNetworkManager(app.applicationContext)
         val localSource = configureLocalVgpListRepository(app)
-        return DefaultVgpListRepository(localSource = localSource)
+        val remoteSource = configureRemoteVgpListSource()
+        return DefaultVgpListRepository(localSource = localSource, remoteSource = remoteSource, netManager = netManager)
     }
 
     fun provideVgpRepository(app: Application) = newVgpRepository ?: synchronized(this) {

@@ -23,6 +23,12 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
     private val _reportDateEvent = MutableLiveData<Event<Long>>()
     val reportDateEvent: LiveData<Event<Long>> = _reportDateEvent
 
+    private val _pdfDataReadyEvent = MutableLiveData<Event<Boolean>>()
+    val pdfDataReadyEvent: LiveData<Event<Boolean>> = _pdfDataReadyEvent
+
+    private val _pdfClickEvent = MutableLiveData<Event<Long>>()
+    val pdfClickEvent: LiveData<Event<Long>> = _pdfClickEvent
+
     // --- Data
 
     private val _vgpList = MutableLiveData<List<VgpListItem>>()
@@ -32,6 +38,8 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
     //              Methods
     // =================================
 
+    // --- Event
+
     fun onClickReport(report: VgpListItem)
     {
         if (report.isValid)
@@ -40,6 +48,13 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
             _reportDateEvent.value = Event(report.reportDate)
     }
 
+    fun onClickReportPdf(reportDate: Long)
+    {
+        _pdfClickEvent.value = Event(reportDate)
+    }
+
+    // --- Data
+
     fun loadAllVgpFromMachine(machineId: Long)
     {
         viewModelScope.uiJob {
@@ -47,7 +62,24 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
             if (result is Success)
                 _vgpList.value = result.data.groupBy { it.reportDate }.map { it.value.first() }
             else
-                Log.e("VgpListVM", "An error occurred when loading vgp list", (result as Error).exception)
+                Log.e("VgpListVM", "An error occurred when loading vgp list", (result as? Error)?.exception)
+        }
+    }
+
+    fun loadReport(userUid: String, customerId: Long, reportDate: Long, machineId: Long, machineTypeId: Long)
+    {
+        viewModelScope.uiJob {
+            val result = repository.generateReport(
+                userUid = userUid,
+                reportDate = reportDate,
+                machineTypeId = machineTypeId,
+                machineId = machineId,
+                customerId = customerId
+            )
+            if (result is Success)
+                _pdfDataReadyEvent.value = Event(result.data)
+            else
+                Log.e("VgpListVM", "Error when loading report", (result as? Error)?.exception)
         }
     }
 }

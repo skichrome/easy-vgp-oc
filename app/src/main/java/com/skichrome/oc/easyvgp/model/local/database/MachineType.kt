@@ -16,6 +16,9 @@ interface MachineTypeDao : BaseDao<MachineType>
     @Query("SELECT * FROM MachineType")
     fun observeMachineTypes(): LiveData<List<MachineType>>
 
+    @Query("SELECT * FROM MachineType WHERE machine_type_id == :machineTypeId")
+    suspend fun getMachineTypeFromId(machineTypeId: Long): MachineType
+
     @Transaction
     @Query("SELECT * FROM MachineType WHERE machine_type_id == :id")
     suspend fun getMachineTypeWithControlPointsFromMachineTypeId(id: Long): MachineTypeWithControlPoints

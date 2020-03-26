@@ -10,6 +10,9 @@ import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.local.database.ControlPoint
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
 import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints
+import com.skichrome.oc.easyvgp.model.remote.util.RemoteControlPoint
+import com.skichrome.oc.easyvgp.model.remote.util.RemoteMachineType
+import com.skichrome.oc.easyvgp.model.remote.util.RemoteMachineTypeWithControlPoints
 import com.skichrome.oc.easyvgp.util.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
