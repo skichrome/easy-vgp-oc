@@ -49,8 +49,22 @@ android {
                 serviceCredentialsFile = System.getenv("FIREBASE_APP_DISTRIBUTION_FILE")
                 releaseNotesFile "app/release_notes.md"
                 testers = "campeoltoni@gmail.com"
-                apkPath "app/build/outputs/apk/release/app-release.apk"
+                apkPath "app/build/outputs/apk/demo/release/app-demo-release.apk"
             }
+        }
+    }
+
+    flavorDimensions "versions"
+    productFlavors {
+        dev {
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+        }
+        demo {
+            applicationIdSuffix ".demo"
+            versionNameSuffix "-demo"
+        }
+        production {
         }
     }
 
@@ -145,7 +159,11 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
     implementation 'com.google.firebase:firebase-storage-ktx:19.1.1'
 
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta03'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
-    implementation 'com.google.firebase:firebase-perf:19.0.5'
+    demoImplementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta03'
+    demoImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    demoImplementation 'com.google.firebase:firebase-perf:19.0.5'
+
+    productionImplementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta03'
+    productionImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    productionImplementation 'com.google.firebase:firebase-perf:19.0.5'
 }
