@@ -1,5 +1,6 @@
 package com.skichrome.oc.easyvgp.model.local
 
+import android.net.Uri
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
@@ -73,6 +74,20 @@ class LocalVgpListSource(
             Error(e)
         }
     }
+
+    override suspend fun updateMachine(machine: Machine): Results<Int> = withContext(dispatchers) {
+        return@withContext try
+        {
+            Success(machineDao.update(machine))
+        }
+        catch (e: Exception)
+        {
+            Error(e)
+        }
+    }
+
+    override suspend fun uploadImageToStorage(userUid: String, filePath: String): Results<Uri> =
+        Error(NotImplementedException("Method not available on local VGPList source"))
 
     override suspend fun generateReport(
         userUid: String,

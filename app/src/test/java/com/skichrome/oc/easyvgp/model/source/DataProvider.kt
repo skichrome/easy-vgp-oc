@@ -127,6 +127,9 @@ object DataProvider
         machineId = machine1Id,
         name = "Mach1",
         brand = "brand1",
+        model = "model1",
+        manufacturingYear = 2000,
+        localPhotoRef = null,
         customer = customer1Id,
         serial = "DFG123AER13333",
         type = machineType1Id
@@ -135,6 +138,9 @@ object DataProvider
         machineId = machine1Id,
         name = "Mach1-Edited",
         brand = "brand1-Edited",
+        model = "model1-edited",
+        manufacturingYear = 2000,
+        localPhotoRef = null,
         customer = customer1Id,
         serial = "DFG123AER13333-Edited",
         type = machineType1Id
@@ -145,6 +151,9 @@ object DataProvider
         machineId = machine2Id,
         name = "Mach2",
         brand = "brand2",
+        model = "model2",
+        manufacturingYear = 2001,
+        localPhotoRef = null,
         customer = customer2Id,
         serial = "DFG12ddd3AER13333",
         type = machineType2Id
@@ -155,6 +164,9 @@ object DataProvider
         machineId = machine2Id,
         name = "Mach3",
         brand = "brand3",
+        model = "model3",
+        manufacturingYear = 2002,
+        localPhotoRef = null,
         customer = customer2Id,
         serial = "DFG12dsdz3AER13333",
         type = machineType2Id

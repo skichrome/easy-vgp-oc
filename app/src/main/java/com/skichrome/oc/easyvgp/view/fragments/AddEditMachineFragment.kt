@@ -40,7 +40,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
     }
 
     private lateinit var inputList: List<TextView>
-    private lateinit var machineFilePath: String
+    private var machineFilePath: String? = null
     private var machineType: Long? = null
 
     // =================================
@@ -59,9 +59,8 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK)
-            Glide.with(this).load(File(machineFilePath)).into(addEditMachineFragmentImg)
-
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && machineFilePath != null)
+            Glide.with(this).load(File(machineFilePath!!)).into(addEditMachineFragmentImg)
         super.onActivityResult(requestCode, resultCode, data)
     }
 
@@ -80,6 +79,17 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
                 if (args.machineId != -1L)
                 {
                     machine.observe(viewLifecycleOwner, Observer { machine ->
+
+                        machine.remotePhotoRef?.let { remotePhoto ->
+                            Glide.with(this@AddEditMachineFragment).load(remotePhoto).into(addEditMachineFragmentImg)
+                            Log.e("AddEditMachFrag", "Remote photo path save : $remotePhoto")
+                        }
+                            ?: machine.localPhotoRef?.let { localPhoto ->
+                                machineFilePath = localPhoto
+                                Glide.with(this@AddEditMachineFragment).load(File(localPhoto)).into(addEditMachineFragmentImg)
+                                Log.e("AddEditMachFrag", "Local photo path save : $localPhoto")
+                            }
+
                         machine?.let { machineNotNull ->
                             val type = it.firstOrNull { it.id == machineNotNull.type }
                             type?.let { typeExist -> binding.addEditMachineFragmentMachineTypeSpinner.setSelection((it.indexOf(typeExist))) }
@@ -148,7 +158,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
             }
         }
 
-        if (machineType == null)
+        if (machineType == null || machineFilePath == null)
             canRegisterCustomer = false
 
         if (canRegisterCustomer)
@@ -161,7 +171,8 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
                 brand = addEditMachineFragmentBrand.text.toString(),
                 name = addEditMachineFragmentName.text.toString(),
                 model = addEditMachineFragmentModel.text.toString(),
-                manufacturingYear = addEditMachineFragmentManufacturingYear.text.toString().toInt()
+                manufacturingYear = addEditMachineFragmentManufacturingYear.text.toString().toInt(),
+                localPhotoRef = machineFilePath
             )
 
             if (args.machineId != -1L)

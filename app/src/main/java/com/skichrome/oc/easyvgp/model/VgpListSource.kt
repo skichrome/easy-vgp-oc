@@ -1,5 +1,6 @@
 package com.skichrome.oc.easyvgp.model
 
+import android.net.Uri
 import com.skichrome.oc.easyvgp.model.local.database.*
 
 interface VgpListSource
@@ -13,6 +14,10 @@ interface VgpListSource
     suspend fun getMachineFromId(machineId: Long): Results<Machine>
 
     suspend fun getMachineTypeFromId(machineTypeId: Long): Results<MachineType>
+
+    suspend fun updateMachine(machine: Machine): Results<Int>
+
+    suspend fun uploadImageToStorage(userUid: String, filePath: String): Results<Uri>
 
     suspend fun generateReport(
         userUid: String,

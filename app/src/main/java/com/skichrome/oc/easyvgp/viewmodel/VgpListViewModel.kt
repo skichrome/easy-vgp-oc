@@ -1,6 +1,7 @@
 package com.skichrome.oc.easyvgp.viewmodel
 
 import android.util.Log
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -19,6 +20,9 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
     // =================================
 
     // --- Event
+
+    private val _isLoading = ObservableBoolean(false)
+    val isLoading: ObservableBoolean = _isLoading
 
     private val _reportDateEvent = MutableLiveData<Event<Long>>()
     val reportDateEvent: LiveData<Event<Long>> = _reportDateEvent
@@ -69,6 +73,7 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
     fun loadReport(userUid: String, customerId: Long, reportDate: Long, machineId: Long, machineTypeId: Long)
     {
         viewModelScope.uiJob {
+            _isLoading.set(true)
             val result = repository.generateReport(
                 userUid = userUid,
                 reportDate = reportDate,
@@ -80,6 +85,7 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
                 _pdfDataReadyEvent.value = Event(result.data)
             else
                 Log.e("VgpListVM", "Error when loading report", (result as? Error)?.exception)
+            _isLoading.set(false)
         }
     }
 }

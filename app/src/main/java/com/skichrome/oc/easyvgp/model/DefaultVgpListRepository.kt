@@ -23,7 +23,26 @@ class DefaultVgpListRepository(
             val customer = localSource.getCustomerFromId(customerId)
             val machine = localSource.getMachineFromId(machineId)
             val machineType = localSource.getMachineTypeFromId(machineTypeId)
+
             if (localReport is Success && customer is Success && machine is Success && machineType is Success)
+            {
+                machine.data.localPhotoRef?.let { photoRef ->
+                    // avoid re-uploading media
+                    if (machine.data.remotePhotoRef != null)
+                        return@let
+
+                    val uploadPhotoResult = remoteSource.uploadImageToStorage(userUid = userUid, filePath = photoRef)
+                    if (uploadPhotoResult is Success)
+                    {
+                        machine.data.remotePhotoRef = uploadPhotoResult.data
+                        val updateResult = localSource.updateMachine(machine.data)
+                        if (updateResult is Error)
+                            return updateResult
+                    }
+                    else
+                        return uploadPhotoResult as? Error ?: Error(LocalRepositoryException("Something went wrong with local source"))
+                }
+
                 remoteSource.generateReport(
                     userUid = userUid,
                     customer = customer.data,
@@ -32,6 +51,7 @@ class DefaultVgpListRepository(
                     reports = localReport.data,
                     reportDate = reportDate
                 )
+            }
             else
                 Error((localReport as? Error)?.exception ?: LocalRepositoryException("Something went wrong with local source"))
         }
