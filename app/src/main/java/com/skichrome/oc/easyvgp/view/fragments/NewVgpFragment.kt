@@ -1,11 +1,11 @@
 package com.skichrome.oc.easyvgp.view.fragments
 
-import android.text.InputType
-import android.widget.EditText
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.textfield.TextInputEditText
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentNewVgpBinding
@@ -82,22 +82,21 @@ class NewVgpFragment : BaseBindingFragment<FragmentNewVgpBinding>()
         }
     }
 
-    private fun showCommentAlertDialog(index: Int)
+    private fun showCommentAlertDialog(indexAndComment: Pair<Int, String?>)
     {
         val dialog = activity?.let {
             val builder = AlertDialog.Builder(it)
 
-            // Set up the input
-            val input = EditText(it)
-            input.inputType = InputType.TYPE_CLASS_TEXT
+            val dialogView = View.inflate(context, R.layout.dialog_comment, null)
+            val commentEditText = dialogView.findViewById<TextInputEditText>(R.id.dialogCommentCommentEditText)
+            indexAndComment.second?.let { comment -> commentEditText.setText(comment) }
 
-            builder.setView(input)
+            builder.setView(dialogView)
 
             builder.apply {
                 setTitle(R.string.frag_vgp_dialog_title)
                 setPositiveButton(R.string.frag_vgp_dialog_ok) { _, _ ->
-                    binding.root.snackBar(input.text.toString())
-                    viewModel.setCommentToCtrlPointData(index, input.text.toString())
+                    viewModel.setCommentToCtrlPointData(indexAndComment.first, commentEditText.text.toString())
                 }
                 setNegativeButton(R.string.frag_vgp_dialog_cancel, null)
             }

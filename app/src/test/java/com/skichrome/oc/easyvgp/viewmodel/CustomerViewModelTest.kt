@@ -6,11 +6,13 @@ import com.skichrome.oc.easyvgp.model.source.DataProvider
 import com.skichrome.oc.easyvgp.viewmodel.source.FakeCustomerRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
 import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsNot
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -40,6 +42,12 @@ class CustomerViewModelTest
         customerViewModel = CustomerViewModel(customerRepository)
 
         Dispatchers.setMain(Dispatchers.Unconfined)
+    }
+
+    @After
+    fun tearDown()
+    {
+        Dispatchers.resetMain()
     }
 
     // --- LiveData --- //

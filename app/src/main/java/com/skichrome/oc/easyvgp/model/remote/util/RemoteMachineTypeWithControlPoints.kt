@@ -1,4 +1,4 @@
-package com.skichrome.oc.easyvgp.model.remote
+package com.skichrome.oc.easyvgp.model.remote.util
 
 class RemoteMachineTypeWithControlPoints(
     val machineType: RemoteMachineType = RemoteMachineType(),

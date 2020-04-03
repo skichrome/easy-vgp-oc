@@ -1,6 +1,5 @@
 package com.skichrome.oc.easyvgp.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -21,8 +20,8 @@ class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
 
     // --- Events
 
-    private val _onClickCommentEvent = MutableLiveData<Event<Int>>()
-    val onClickCommentEvent: LiveData<Event<Int>> = _onClickCommentEvent
+    private val _onClickCommentEvent = MutableLiveData<Event<Pair<Int, String?>>>()
+    val onClickCommentEvent: LiveData<Event<Pair<Int, String?>>> = _onClickCommentEvent
 
     private val _onReportSaved = MutableLiveData<Event<Boolean>>()
     val onReportSaved: LiveData<Event<Boolean>> = _onReportSaved
@@ -38,9 +37,9 @@ class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
 
     // --- Events
 
-    fun onClickCommentEvent(index: Int)
+    fun onClickCommentEvent(index: Int, comment: String?)
     {
-        _onClickCommentEvent.value = Event(index)
+        _onClickCommentEvent.value = Event(Pair(index, comment))
     }
 
     fun onClickRadioBtnEvent(index: Int, state: Int)
@@ -77,13 +76,9 @@ class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
                     )
                 }
                 _machineTypeWithControlPointsData.value = newList
-            } else
-            {
-                when ((result as? Error)?.exception)
-                {
-                    else -> showMessage(R.string.vgp_view_model_machine_type_with_ctrl_points_error)
-                }
             }
+            else
+                handleError(result as? Error)
         }
     }
 
@@ -125,7 +120,7 @@ class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
                 if (result is Success)
                     _onReportSaved.value = Event(true)
                 else
-                    Log.e("VgpVm", "Error : ${(result as Error).exception.message}", result.exception)
+                    handleError(result as? Error)
             }
         }
     }
@@ -149,7 +144,7 @@ class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
                 else
                 {
                     showMessage(R.string.vgp_view_model_cannot_update)
-                    Log.e("VgpViewModel", "Error when update report", (result as? Error)?.exception)
+                    handleError(result as? Error)
                 }
             }
         }

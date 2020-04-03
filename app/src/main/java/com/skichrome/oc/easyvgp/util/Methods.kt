@@ -1,6 +1,7 @@
 package com.skichrome.oc.easyvgp.util
 
 import android.app.Activity
+import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -34,6 +35,8 @@ fun RecyclerView.ViewHolder.setHolderBottomMargin(isLastIndex: Boolean)
     itemView.layoutParams = params
 }
 
+// --- Cloud Firestore --- //
+
 @Suppress("UNCHECKED_CAST")
 suspend fun <T> Task<T>.awaitQuery(): T = suspendCoroutine { continuation ->
     addOnCompleteListener { task ->
@@ -65,6 +68,21 @@ suspend fun <T> Task<T>.awaitUpload(): T = suspendCancellableCoroutine { continu
     addOnCompleteListener { task ->
         when
         {
+            task.isCanceled -> continuation.cancel()
+            task.isSuccessful -> continuation.resume(task.result as T)
+        }
+    }
+    addOnFailureListener { continuation.resumeWithException(it) }
+}
+
+// --- Cloud Storage --- //
+
+@Suppress("UNCHECKED_CAST")
+suspend fun <T> Task<T>.awaitDownloadUrl(): T = suspendCancellableCoroutine { continuation ->
+    addOnCompleteListener { task ->
+        when
+        {
+            (task.result as Uri).path == null -> continuation.resumeWithException(Exception("path is null !!"))
             task.isCanceled -> continuation.cancel()
             task.isSuccessful -> continuation.resume(task.result as T)
         }

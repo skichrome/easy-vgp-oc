@@ -91,6 +91,8 @@ object DatabaseDataDebug
         contentValues.put("machine_name", "Grue untel")
         contentValues.put("machine_serial", "1448247DLRE")
         contentValues.put("machine_brand", "Potain")
+        contentValues.put("machine_model", "IGO 18")
+        contentValues.put("machine_manufacturing_year", "2014")
         contentValues.put("customer_ref", 1)
         contentValues.put("machine_type_ref", 1000)
 
@@ -101,6 +103,8 @@ object DatabaseDataDebug
         contentValues.put("machine_name", "Grue untel 2")
         contentValues.put("machine_serial", "1448FEFDLRE34")
         contentValues.put("machine_brand", "Potain")
+        contentValues.put("machine_model", "IGO 18")
+        contentValues.put("machine_manufacturing_year", "2016")
         contentValues.put("customer_ref", 1)
         contentValues.put("machine_type_ref", 1000)
 
@@ -111,6 +115,8 @@ object DatabaseDataDebug
         contentValues.put("machine_name", "Chariot untel")
         contentValues.put("machine_serial", "45DFZ44ED")
         contentValues.put("machine_brand", "Fennwick")
+        contentValues.put("machine_model", "F132")
+        contentValues.put("machine_manufacturing_year", "2009")
         contentValues.put("customer_ref", 2)
         contentValues.put("machine_type_ref", 1003)
 
@@ -121,6 +127,8 @@ object DatabaseDataDebug
         contentValues.put("machine_name", "Chariot untel dupont")
         contentValues.put("machine_serial", "45DFZ44ETYE")
         contentValues.put("machine_brand", "Fennwick")
+        contentValues.put("machine_model", "F13")
+        contentValues.put("machine_manufacturing_year", "2008")
         contentValues.put("customer_ref", 3)
         contentValues.put("machine_type_ref", 1003)
 
@@ -131,6 +139,8 @@ object DatabaseDataDebug
         contentValues.put("machine_name", "Grue Dupont")
         contentValues.put("machine_serial", "45DFDD1454Z44ED")
         contentValues.put("machine_brand", "Potain")
+        contentValues.put("machine_model", "IGO 18")
+        contentValues.put("machine_manufacturing_year", "2016")
         contentValues.put("customer_ref", 3)
         contentValues.put("machine_type_ref", 1002)
 

@@ -189,7 +189,7 @@ pipeline {
                     // Avoid keystore.jks not found, because temp directory has changed at this stage
                     sh '''
                     set +x
-                    ./gradlew assembleRelease appDistributionUploadRelease
+                    ./gradlew assembleDemoRelease appDistributionUploadDemoRelease
                     '''
                 }
             }
