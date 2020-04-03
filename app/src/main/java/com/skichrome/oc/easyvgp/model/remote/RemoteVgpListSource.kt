@@ -42,7 +42,7 @@ class RemoteVgpListSource(
             }
 
             val file = Uri.fromFile(File(filePath))
-            val userPhotoReference = userReference.child("$userUid/$PICTURES_FOLDER_NAME/${file.lastPathSegment}")
+            val userPhotoReference = userReference.child("$REMOTE_USER_STORAGE/$userUid/$PICTURES_FOLDER_NAME/${file.lastPathSegment}")
 
             val remotePhotoReference = userPhotoReference.putFile(file, metadata)
                 .continueWithTask { task ->

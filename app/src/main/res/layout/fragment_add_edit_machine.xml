@@ -13,126 +13,142 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/addEditMachineFragmentNameTitle"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/tv_input_margin"
-            android:layout_marginTop="@dimen/tv_input_margin"
-            android:text="@string/add_edit_machine_frag_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/addEditMachineFragmentName"
-            style="@style/editTextStyle"
+        <ScrollView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:hint="@string/add_edit_machine_frag_hint_name"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:text="@{viewModel.machine.name}"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentNameTitle" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/addEditMachineFragmentBrand"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/tv_input_margin"
-            android:layout_marginTop="@dimen/tv_input_margin"
-            android:layout_marginEnd="8dp"
-            android:hint="@string/add_edit_machine_frag_hint_brand"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:text="@{viewModel.machine.brand}"
-            app:layout_constraintEnd_toStartOf="@+id/addEditMachineFragmentModel"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentName" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/addEditMachineFragmentModel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="@dimen/tv_input_margin"
-            android:layout_marginEnd="@dimen/tv_input_margin"
-            android:hint="@string/add_edit_machine_frag_hint_model"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:text="@{viewModel.machine.model}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/addEditMachineFragmentBrand"
-            app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentName" />
+                <TextView
+                    android:id="@+id/addEditMachineFragmentNameTitle"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tv_input_margin"
+                    android:layout_marginTop="@dimen/tv_input_margin"
+                    android:text="@string/add_edit_machine_frag_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/addEditMachineFragmentSerial"
-            style="@style/editTextStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/tv_input_margin"
-            android:hint="@string/add_edit_machine_frag_hint_serial"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:text="@{viewModel.machine.serial}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentBrand" />
+                <EditText
+                    android:id="@+id/addEditMachineFragmentName"
+                    style="@style/editTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:hint="@string/add_edit_machine_frag_hint_name"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:text="@{viewModel.machine.name}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentNameTitle" />
 
-        <EditText
-            android:id="@+id/addEditMachineFragmentManufacturingYear"
-            style="@style/editTextStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/tv_input_margin"
-            android:hint="@string/add_edit_machine_frag_hint_year"
-            android:importantForAutofill="no"
-            android:inputType="numberSigned"
-            android:text="@{String.valueOf(viewModel.machine.manufacturingYear)}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addEditMachineFragmentSerial" />
+                <EditText
+                    android:id="@+id/addEditMachineFragmentBrand"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tv_input_margin"
+                    android:layout_marginTop="@dimen/tv_input_margin"
+                    android:layout_marginEnd="8dp"
+                    android:hint="@string/add_edit_machine_frag_hint_brand"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:text="@{viewModel.machine.brand}"
+                    app:layout_constraintEnd_toStartOf="@+id/addEditMachineFragmentModel"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentName" />
 
-        <TextView
-            android:id="@+id/addEditMachineFragmentMachineTypeTitle"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/tv_input_margin"
-            android:layout_marginTop="@dimen/tv_input_margin"
-            android:text="@string/add_edit_machine_frag_machine_type_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentManufacturingYear" />
+                <EditText
+                    android:id="@+id/addEditMachineFragmentModel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="@dimen/tv_input_margin"
+                    android:layout_marginEnd="@dimen/tv_input_margin"
+                    android:hint="@string/add_edit_machine_frag_hint_model"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:text="@{viewModel.machine.model}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/addEditMachineFragmentBrand"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentName" />
 
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/addEditMachineFragmentMachineTypeSpinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/tv_input_margin"
-            android:layout_marginTop="@dimen/tv_input_margin"
-            android:layout_marginEnd="@dimen/tv_input_margin"
-            android:minHeight="50dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addEditMachineFragmentMachineTypeTitle" />
+                <EditText
+                    android:id="@+id/addEditMachineFragmentSerial"
+                    style="@style/editTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/tv_input_margin"
+                    android:hint="@string/add_edit_machine_frag_hint_serial"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:text="@{viewModel.machine.serial}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentBrand" />
 
-        <ImageView
-            android:id="@+id/addEditMachineFragmentImg"
-            android:layout_width="280dp"
-            android:layout_height="210dp"
-            android:layout_marginTop="@dimen/divider_top_margin"
-            android:contentDescription="@string/add_edit_machine_frag_img_machine_content_desc"
-            android:src="@drawable/ic_add_24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addEditMachineFragmentMachineTypeSpinner" />
+                <EditText
+                    android:id="@+id/addEditMachineFragmentManufacturingYear"
+                    style="@style/editTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/tv_input_margin"
+                    android:hint="@string/add_edit_machine_frag_hint_year"
+                    android:importantForAutofill="no"
+                    android:inputType="numberSigned"
+                    android:text="@{String.valueOf(viewModel.machine.manufacturingYear)}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addEditMachineFragmentSerial" />
+
+                <TextView
+                    android:id="@+id/addEditMachineFragmentMachineTypeTitle"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tv_input_margin"
+                    android:layout_marginTop="@dimen/tv_input_margin"
+                    android:text="@string/add_edit_machine_frag_machine_type_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentManufacturingYear" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/addEditMachineFragmentMachineTypeSpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tv_input_margin"
+                    android:layout_marginTop="@dimen/tv_input_margin"
+                    android:layout_marginEnd="@dimen/tv_input_margin"
+                    android:minHeight="50dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addEditMachineFragmentMachineTypeTitle" />
+
+                <ImageView
+                    android:id="@+id/addEditMachineFragmentImg"
+                    android:layout_width="280dp"
+                    android:layout_height="210dp"
+                    android:layout_marginTop="@dimen/divider_top_margin"
+                    android:layout_marginBottom="90dp"
+                    android:contentDescription="@string/add_edit_machine_frag_img_machine_content_desc"
+                    android:src="@drawable/ic_add_24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addEditMachineFragmentMachineTypeSpinner" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addEditCustomerFragFab"

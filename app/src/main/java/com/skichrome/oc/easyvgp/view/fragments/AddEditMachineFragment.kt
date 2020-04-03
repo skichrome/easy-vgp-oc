@@ -60,7 +60,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && machineFilePath != null)
-            Glide.with(this).load(File(machineFilePath!!)).into(addEditMachineFragmentImg)
+            Glide.with(this).load(File(machineFilePath!!)).centerCrop().into(addEditMachineFragmentImg)
         super.onActivityResult(requestCode, resultCode, data)
     }
 
@@ -81,12 +81,12 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
                     machine.observe(viewLifecycleOwner, Observer { machine ->
 
                         machine.remotePhotoRef?.let { remotePhoto ->
-                            Glide.with(this@AddEditMachineFragment).load(remotePhoto).into(addEditMachineFragmentImg)
+                            Glide.with(this@AddEditMachineFragment).load(remotePhoto).centerCrop().into(addEditMachineFragmentImg)
                             Log.e("AddEditMachFrag", "Remote photo path save : $remotePhoto")
                         }
                             ?: machine.localPhotoRef?.let { localPhoto ->
                                 machineFilePath = localPhoto
-                                Glide.with(this@AddEditMachineFragment).load(File(localPhoto)).into(addEditMachineFragmentImg)
+                                Glide.with(this@AddEditMachineFragment).load(File(localPhoto)).centerCrop().into(addEditMachineFragmentImg)
                                 Log.e("AddEditMachFrag", "Local photo path save : $localPhoto")
                             }
 
