@@ -127,6 +127,7 @@
     <string name="frag_vgp_dialog_ok">save</string>
     <string name="frag_vgp_dialog_cancel">Cancel</string>
     <string name="frag_vgp_dialog_title">Set your comment for this control point</string>
+    <string name="dialog_comment_comment_hint">Comment</string>
 
     <!-- VGP List ViewModel -->
     <string name="vgp_list_view_model_cannot_edit_validated_report">Error, you can\'t edit an already validated report</string>

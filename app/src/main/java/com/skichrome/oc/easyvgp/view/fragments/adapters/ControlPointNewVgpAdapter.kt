@@ -63,7 +63,7 @@ class ControlPointNewVgpAdapter(private val viewModel: VgpViewModel) :
             binding.executePendingBindings()
 
             binding.rvItemFragVgpCtrlPointComment.setOnClickListener {
-                viewModel.onClickCommentEvent(adapterPosition)
+                viewModel.onClickCommentEvent(adapterPosition, controlPoint.comment)
             }
 
             binding.rvItemFragVgpCtrlPointPossibilityGoodState.setOnClickListener {
