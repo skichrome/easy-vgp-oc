@@ -1,24 +1,32 @@
 package com.skichrome.oc.easyvgp.view.fragments
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.os.Environment
+import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.core.content.FileProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentAddEditMachineBinding
 import com.skichrome.oc.easyvgp.model.local.database.Machine
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
-import com.skichrome.oc.easyvgp.util.EventObserver
-import com.skichrome.oc.easyvgp.util.snackBar
+import com.skichrome.oc.easyvgp.util.*
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.viewmodel.MachineViewModel
 import com.skichrome.oc.easyvgp.viewmodel.vmfactory.MachineViewModelFactory
 import kotlinx.android.synthetic.main.fragment_add_edit_machine.*
+import java.io.File
+import java.io.IOException
 
 class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding>()
 {
@@ -32,6 +40,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
     }
 
     private lateinit var inputList: List<TextView>
+    private lateinit var machineFilePath: String
     private var machineType: Long? = null
 
     // =================================
@@ -45,6 +54,15 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
         configureViewModel()
         configureUI()
         configureBtn()
+        configureImg()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK)
+            Glide.with(this).load(File(machineFilePath)).into(addEditMachineFragmentImg)
+
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     // =================================
@@ -53,15 +71,15 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
 
     private fun configureViewModel() = viewModel.apply {
 
-        machineSaved.observe(this@AddEditMachineFragment, EventObserver { findNavController().navigateUp() })
-        errorMessage.observe(this@AddEditMachineFragment, EventObserver { binding.root.snackBar(getString(it)) })
-        machineTypes.observe(this@AddEditMachineFragment, Observer { machineTypes ->
+        machineSaved.observe(viewLifecycleOwner, EventObserver { findNavController().navigateUp() })
+        errorMessage.observe(viewLifecycleOwner, EventObserver { binding.root.snackBar(getString(it)) })
+        machineTypes.observe(viewLifecycleOwner, Observer { machineTypes ->
             machineTypes?.let {
                 configureOrUpdateSpinner(machineTypes)
 
                 if (args.machineId != -1L)
                 {
-                    machine.observe(this@AddEditMachineFragment, Observer { machine ->
+                    machine.observe(viewLifecycleOwner, Observer { machine ->
                         machine?.let { machineNotNull ->
                             val type = it.firstOrNull { it.id == machineNotNull.type }
                             type?.let { typeExist -> binding.addEditMachineFragmentMachineTypeSpinner.setSelection((it.indexOf(typeExist))) }
@@ -94,7 +112,9 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
         inputList = listOf(
             addEditMachineFragmentName,
             addEditMachineFragmentBrand,
-            addEditMachineFragmentSerial
+            addEditMachineFragmentModel,
+            addEditMachineFragmentSerial,
+            addEditMachineFragmentManufacturingYear
         )
 
         binding.viewModel = viewModel
@@ -106,6 +126,11 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
     private fun configureBtn()
     {
         binding.addEditCustomerFragFab.setOnClickListener { getUserEnteredValues() }
+    }
+
+    private fun configureImg()
+    {
+        binding.addEditMachineFragmentImg.setOnClickListener { launchCamera() }
     }
 
     private fun getUserEnteredValues()
@@ -134,13 +159,49 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
                 serial = addEditMachineFragmentSerial.text.toString(),
                 customer = args.customerId,
                 brand = addEditMachineFragmentBrand.text.toString(),
-                name = addEditMachineFragmentName.text.toString()
+                name = addEditMachineFragmentName.text.toString(),
+                model = addEditMachineFragmentModel.text.toString(),
+                manufacturingYear = addEditMachineFragmentManufacturingYear.text.toString().toInt()
             )
 
             if (args.machineId != -1L)
                 viewModel.updateMachine(machine)
             else
                 viewModel.saveMachine(machine)
+        }
+    }
+
+    private fun launchCamera()
+    {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(requireActivity().packageManager)?.also {
+                val photoFile = try
+                {
+                    if (canWriteExternalStorage())
+                    {
+                        requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                            ?.createOrGetJpegFile(PICTURES_FOLDER_NAME, "machine")
+                    }
+                    else null
+
+                }
+                catch (e: IOException)
+                {
+                    Log.e("AddEditMachineFrag", "Error when getting photo file : ${e.message}", e)
+                    null
+                }
+
+                photoFile?.also { file ->
+                    machineFilePath = file.absolutePath
+                    val uri = FileProvider.getUriForFile(
+                        requireActivity().applicationContext,
+                        AUTHORITY,
+                        file
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                }
+            }
         }
     }
 }

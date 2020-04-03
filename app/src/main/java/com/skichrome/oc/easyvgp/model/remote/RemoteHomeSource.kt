@@ -16,8 +16,14 @@ import com.skichrome.oc.easyvgp.model.remote.util.RemoteMachineTypeWithControlPo
 import com.skichrome.oc.easyvgp.util.*
 import kotlinx.coroutines.*
 
-class RemoteHomeSource(private val db: FirebaseFirestore, private val dispatchers: CoroutineDispatcher = Dispatchers.IO) : HomeSource
+class RemoteHomeSource(private val dispatchers: CoroutineDispatcher = Dispatchers.IO) : HomeSource
 {
+    // =================================
+    //              Fields
+    // =================================
+
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+
     // =================================
     //        Superclass Methods
     // =================================

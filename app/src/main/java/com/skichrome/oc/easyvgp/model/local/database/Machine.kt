@@ -21,6 +21,8 @@ data class Machine(
     @ColumnInfo(name = "machine_name") val name: String,
     @ColumnInfo(name = "machine_serial") val serial: String,
     @ColumnInfo(name = "machine_brand") val brand: String,
+    @ColumnInfo(name = "machine_model") val model: String,
+    @ColumnInfo(name = "machine_manufacturing_year") val manufacturingYear: Int,
     @ColumnInfo(name = "customer_ref", index = true) val customer: Long,
     @ColumnInfo(name = "machine_type_ref", index = true) val type: Long
 )

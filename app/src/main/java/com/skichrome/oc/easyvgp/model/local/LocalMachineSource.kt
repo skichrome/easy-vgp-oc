@@ -28,7 +28,8 @@ class LocalMachineSource(
         {
             val result = machineDao.getMachineById(machineId)
             Success(result)
-        } catch (e: Exception)
+        }
+        catch (e: Exception)
         {
             Error(e)
         }
@@ -38,7 +39,8 @@ class LocalMachineSource(
         return@withContext try
         {
             Success(machineDao.insertIgnore(machine))
-        } catch (e: Exception)
+        }
+        catch (e: Exception)
         {
             Error(e)
         }
@@ -48,7 +50,8 @@ class LocalMachineSource(
         return@withContext try
         {
             Success(machineDao.update(machine))
-        } catch (e: Exception)
+        }
+        catch (e: Exception)
         {
             Error(e)
         }

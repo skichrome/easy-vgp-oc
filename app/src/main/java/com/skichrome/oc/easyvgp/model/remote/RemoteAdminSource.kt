@@ -18,8 +18,14 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatchers: CoroutineDispatcher = Dispatchers.IO) : AdminSource
+class RemoteAdminSource(private val dispatchers: CoroutineDispatcher = Dispatchers.IO) : AdminSource
 {
+    // =================================
+    //              Fields
+    // =================================
+
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+
     // =================================
     //        Superclass Methods
     // =================================

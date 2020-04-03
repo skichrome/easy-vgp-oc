@@ -4,10 +4,10 @@ data class RemoteControlPointData
     (
     val id: Long,
     val ctrlPointRef: Long,
-    val ctrlPointPossibility: Int,
-    val ctrlPointVerificationType: Int,
+    val ctrlPointPossibility: String,
+    val ctrlPointVerificationType: String,
     val comment: String?
 )
 {
-    constructor() : this(0L, 0L, 0, 0, null)
+    constructor() : this(0L, 0L, "", "", null)
 }

@@ -1,11 +1,15 @@
 package com.skichrome.oc.easyvgp.model.remote
 
+import android.content.res.Resources
 import android.util.Log
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.VgpListSource
+import com.skichrome.oc.easyvgp.model.local.ChoicePossibility
+import com.skichrome.oc.easyvgp.model.local.VerificationType
 import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.model.remote.util.*
 import com.skichrome.oc.easyvgp.util.NotImplementedException
@@ -17,10 +21,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class RemoteVgpListSource(
-    private val db: FirebaseFirestore,
+    private val resources: Resources,
     private val dispatchers: CoroutineDispatcher = Dispatchers.IO
 ) : VgpListSource
 {
+    private val db = Firebase.firestore
+
     // =================================
     //        Superclass Methods
     // =================================
@@ -57,6 +63,8 @@ class RemoteVgpListSource(
                         machineId = it.machineId,
                         name = it.name,
                         brand = it.brand,
+                        model = it.model,
+                        manufacturingYear = it.manufacturingYear,
                         customer = it.customer,
                         serial = it.serial,
                         type = it.type
@@ -72,14 +80,25 @@ class RemoteVgpListSource(
                 }
 
                 val remoteReportCtrlPointData = LinkedHashMap<String, RemoteControlPointData>()
+                val remoteReportCtrlPoint = LinkedHashMap<String, RemoteControlPoint>()
 
                 reports.forEach {
+                    val verificationType = resources.getString(VerificationType.values()[it.ctrlPointData.ctrlPointVerificationType - 1].verification)
+                    val possibility = resources.getString(ChoicePossibility.values()[it.ctrlPointData.ctrlPointPossibility - 1].choice)
+
                     remoteReportCtrlPointData["${it.ctrlPoint.id}"] = RemoteControlPointData(
                         id = it.ctrlPointData.id,
                         comment = it.ctrlPointData.comment,
-                        ctrlPointVerificationType = it.ctrlPointData.ctrlPointVerificationType,
+                        ctrlPointVerificationType = verificationType,
                         ctrlPointRef = it.ctrlPointData.ctrlPointRef,
-                        ctrlPointPossibility = it.ctrlPointData.ctrlPointPossibility
+                        ctrlPointPossibility = possibility
+                    )
+
+                    remoteReportCtrlPoint["${it.ctrlPoint.id}"] = RemoteControlPoint(
+                        id = it.ctrlPoint.id,
+                        name = it.ctrlPoint.name,
+                        code = it.ctrlPoint.code,
+                        remoteId = ""
                     )
                 }
 
@@ -87,7 +106,8 @@ class RemoteVgpListSource(
                     customer = remoteCustomer,
                     machine = remoteMachine,
                     machineType = remoteMachineType,
-                    reportData = remoteReportCtrlPointData
+                    reportData = remoteReportCtrlPointData,
+                    reportCtrlPoint = remoteReportCtrlPoint
                 )
 
                 getUserCollection(userUid)

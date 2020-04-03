@@ -6,7 +6,6 @@ import androidx.annotation.VisibleForTesting
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.google.firebase.firestore.FirebaseFirestore
 import com.skichrome.oc.easyvgp.androidmanagers.DefaultNetManager
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager
 import com.skichrome.oc.easyvgp.model.*
@@ -25,9 +24,6 @@ object ServiceLocator
 
     @Volatile
     private var localDatabase: AppDatabase? = null
-
-    @Volatile
-    private var remoteDatabase: FirebaseFirestore? = null
 
     var netManager: NetManager? = null
         @VisibleForTesting set
@@ -82,12 +78,6 @@ object ServiceLocator
             })
             .build()
 
-    // --- Cloud Firestore Database --- //
-
-    private fun getRemoteDatabaseInstance(): FirebaseFirestore = remoteDatabase ?: synchronized(this) {
-        remoteDatabase ?: FirebaseFirestore.getInstance().also { remoteDatabase = it }
-    }
-
     // --- Data Source --- //
 
     // --- Home
@@ -103,11 +93,7 @@ object ServiceLocator
         return LocalHomeSource(companyDao, userDao, ctrlPointDao, machineTypeDao, machineTypeCtrlPointDao)
     }
 
-    private fun provideRemoteHomeSource(): HomeSource
-    {
-        val db = getRemoteDatabaseInstance()
-        return RemoteHomeSource(db)
-    }
+    private fun provideRemoteHomeSource(): HomeSource = RemoteHomeSource()
 
     // --- Customers
 
@@ -145,11 +131,7 @@ object ServiceLocator
         )
     }
 
-    private fun configureRemoteAdminRepository(): AdminSource
-    {
-        val db = getRemoteDatabaseInstance()
-        return RemoteAdminSource(db)
-    }
+    private fun configureRemoteAdminRepository(): AdminSource = RemoteAdminSource()
 
     // --- VGP
 
@@ -169,10 +151,10 @@ object ServiceLocator
         )
     }
 
-    private fun configureRemoteVgpListSource(): VgpListSource
+    private fun configureRemoteVgpListSource(app: Application): VgpListSource
     {
-        val db = getRemoteDatabaseInstance()
-        return RemoteVgpListSource(db = db)
+        val resources = app.resources
+        return RemoteVgpListSource(resources = resources)
     }
 
     private fun configureLocalVgpRepository(app: Application): NewVgpSource
@@ -254,7 +236,7 @@ object ServiceLocator
     {
         val netManager = provideNetworkManager(app.applicationContext)
         val localSource = configureLocalVgpListRepository(app)
-        val remoteSource = configureRemoteVgpListSource()
+        val remoteSource = configureRemoteVgpListSource(app)
         return DefaultVgpListRepository(localSource = localSource, remoteSource = remoteSource, netManager = netManager)
     }
 
