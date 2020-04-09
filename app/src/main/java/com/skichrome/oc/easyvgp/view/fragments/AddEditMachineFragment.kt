@@ -60,10 +60,12 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && machinePhotoPath != null)
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK)
         {
-            val machinePicture = File(machinePhotoPath!!).transformBitmapFile()
-            Glide.with(this).load(machinePicture).centerCrop().into(addEditMachineFragmentImg)
+            machinePhotoPath?.let {
+                val machinePicture = File(it).transformBitmapFile()
+                Glide.with(this).load(machinePicture).centerCrop().into(addEditMachineFragmentImg)
+            }
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
