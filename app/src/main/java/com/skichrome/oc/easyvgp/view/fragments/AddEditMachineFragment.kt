@@ -2,6 +2,7 @@ package com.skichrome.oc.easyvgp.view.fragments
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
@@ -40,7 +41,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
     }
 
     private lateinit var inputList: List<TextView>
-    private var machineFilePath: String? = null
+    private var machinePhotoPath: String? = null
     private var machineType: Long? = null
 
     // =================================
@@ -59,9 +60,25 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && machineFilePath != null)
-            Glide.with(this).load(File(machineFilePath!!)).centerCrop().into(addEditMachineFragmentImg)
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && machinePhotoPath != null)
+        {
+            val machinePicture = File(machinePhotoPath!!).transformBitmapFile()
+            Glide.with(this).load(machinePicture).centerCrop().into(addEditMachineFragmentImg)
+        }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle)
+    {
+        outState.putString(FRAGMENT_STATE_PICTURE_LOCATION, machinePhotoPath)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?)
+    {
+        super.onActivityCreated(savedInstanceState)
+        machinePhotoPath = savedInstanceState?.getString(FRAGMENT_STATE_PICTURE_LOCATION)
+        machinePhotoPath?.let { Glide.with(this).load(it).centerCrop().into(addEditMachineFragmentImg) }
     }
 
     // =================================
@@ -85,7 +102,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
                             Log.e("AddEditMachFrag", "Remote photo path save : $remotePhoto")
                         }
                             ?: machine.localPhotoRef?.let { localPhoto ->
-                                machineFilePath = localPhoto
+                                machinePhotoPath = localPhoto
                                 Glide.with(this@AddEditMachineFragment).load(File(localPhoto)).centerCrop().into(addEditMachineFragmentImg)
                                 Log.e("AddEditMachFrag", "Local photo path save : $localPhoto")
                             }
@@ -158,7 +175,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
             }
         }
 
-        if (machineType == null || machineFilePath == null)
+        if (machineType == null || machinePhotoPath == null)
             canRegisterCustomer = false
 
         if (canRegisterCustomer)
@@ -172,7 +189,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
                 name = addEditMachineFragmentName.text.toString(),
                 model = addEditMachineFragmentModel.text.toString(),
                 manufacturingYear = addEditMachineFragmentManufacturingYear.text.toString().toInt(),
-                localPhotoRef = machineFilePath
+                localPhotoRef = machinePhotoPath
             )
 
             if (args.machineId != -1L)
@@ -203,7 +220,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
                 }
 
                 photoFile?.also { file ->
-                    machineFilePath = file.absolutePath
+                    machinePhotoPath = file.absolutePath
                     val uri = FileProvider.getUriForFile(
                         requireActivity().applicationContext,
                         AUTHORITY,
