@@ -287,7 +287,11 @@ object DataProvider
 
     val companyList = listOf(company1, company2, company3)
     val userList = listOf(user1, user2, user3)
-    val userCompanyList = listOf(UserAndCompany(company1, user1), UserAndCompany(company2, user2), UserAndCompany(company3, user3))
+    val userCompanyList = listOf(
+        UserAndCompany(company = company1, user = user1),
+        UserAndCompany(company = company2, user = user2),
+        UserAndCompany(company = company3, user = user3)
+    )
 
     val companyHashMap: LinkedHashMap<Long, Company>
         get()
