@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.net.Uri
 import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.google.firebase.storage.ktx.storageMetadata
@@ -51,7 +52,7 @@ class RemoteVgpListSource(
 
                     userPhotoReference.downloadUrl
                 }
-                .awaitDownloadUrl()
+                .await()
             Success(remotePhotoReference)
         }
         catch (e: Exception)
@@ -61,8 +62,8 @@ class RemoteVgpListSource(
     }
 
     override suspend fun generateReport(
-        userUid: String,
         reportDate: Long,
+        user: UserAndCompany,
         customer: Customer,
         machine: Machine,
         machineType: MachineType,
@@ -71,43 +72,54 @@ class RemoteVgpListSource(
         withContext(dispatchers) {
             return@withContext try
             {
-                val remoteCustomer = customer.let {
-                    RemoteCustomer(
-                        id = it.id,
-                        address = it.address,
-                        city = it.city,
-                        email = it.email,
-                        firstName = it.firstName,
-                        lastName = it.lastName,
-                        mobilePhone = it.mobilePhone,
-                        notes = it.notes,
-                        phone = it.phone,
-                        postCode = it.postCode,
-                        siret = it.siret
-                    )
-                }
+                val notificationToken = FirebaseInstanceId.getInstance().instanceId
+                    .await()
+                    .token
 
-                val remoteMachine = machine.let {
-                    RemoteMachine(
-                        machineId = it.machineId,
-                        name = it.name,
-                        brand = it.brand,
-                        model = it.model,
-                        manufacturingYear = it.manufacturingYear,
-                        customer = it.customer,
-                        serial = it.serial,
-                        type = it.type,
-                        photoReference = it.remotePhotoRef.toString()
-                    )
-                }
+                val remoteUser = RemoteUser(
+                    id = user.user.id,
+                    name = user.user.name,
+                    email = user.user.email,
+                    approval = user.user.approval,
+                    companyId = user.company.id,
+                    companyName = user.company.name,
+                    companySiret = user.company.siret,
+                    firebaseUid = user.user.firebaseUid,
+                    notificationToken = notificationToken,
+                    vatNumber = user.user.vatNumber
+                )
 
-                val remoteMachineType = machineType.let {
-                    RemoteMachineType(
-                        id = it.id,
-                        name = it.name,
-                        legalName = it.legalName
-                    )
-                }
+                val remoteCustomer = RemoteCustomer(
+                    id = customer.id,
+                    address = customer.address,
+                    city = customer.city,
+                    email = customer.email,
+                    firstName = customer.firstName,
+                    lastName = customer.lastName,
+                    mobilePhone = customer.mobilePhone,
+                    notes = customer.notes,
+                    phone = customer.phone,
+                    postCode = customer.postCode,
+                    siret = customer.siret
+                )
+
+                val remoteMachine = RemoteMachine(
+                    machineId = machine.machineId,
+                    name = machine.name,
+                    brand = machine.brand,
+                    model = machine.model,
+                    manufacturingYear = machine.manufacturingYear,
+                    customer = machine.customer,
+                    serial = machine.serial,
+                    type = machine.type,
+                    photoReference = machine.remotePhotoRef.toString()
+                )
+
+                val remoteMachineType = RemoteMachineType(
+                    id = machineType.id,
+                    name = machineType.name,
+                    legalName = machineType.legalName
+                )
 
                 val remoteReportCtrlPointData = LinkedHashMap<String, RemoteControlPointData>()
                 val remoteReportCtrlPoint = LinkedHashMap<String, RemoteControlPoint>()
@@ -133,6 +145,7 @@ class RemoteVgpListSource(
                 }
 
                 val remoteReport = RemoteReportData(
+                    user = remoteUser,
                     customer = remoteCustomer,
                     machine = remoteMachine,
                     machineType = remoteMachineType,
@@ -140,16 +153,16 @@ class RemoteVgpListSource(
                     reportCtrlPoint = remoteReportCtrlPoint
                 )
 
-                getUserCollection(userUid)
+                getUserCollection(user.user.firebaseUid)
                     .document("$reportDate")
                     .set(remoteReport)
-                    .awaitUpload()
+                    .await()
 
                 Success(true)
             }
             catch (e: Exception)
             {
-                Log.e("RemoteVGPListSrc", "Upload failed ! ${getUserCollection(userUid).path}", e)
+                Log.e("RemoteVGPListSrc", "Upload failed ! ${getUserCollection(user.user.firebaseUid).path}", e)
                 Error(e)
             }
         }
@@ -158,6 +171,9 @@ class RemoteVgpListSource(
         Error(NotImplementedException("Not implemented for remote source"))
 
     override suspend fun getReportFromDate(date: Long): Results<List<Report>> =
+        Error(NotImplementedException("Not implemented for remote source"))
+
+    override suspend fun getUserFromId(id: Long): Results<UserAndCompany> =
         Error(NotImplementedException("Not implemented for remote source"))
 
     override suspend fun getCustomerFromId(customerId: Long): Results<Customer> =

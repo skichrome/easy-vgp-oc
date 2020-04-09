@@ -34,7 +34,7 @@ class RemoteAdminSource(private val dispatchers: CoroutineDispatcher = Dispatche
         return@withContext try
         {
             val results = getMachineTypesCollection().get()
-                .awaitQuery()
+                .await()
                 ?.toObjects(RemoteMachineType::class.java)?.toList()
                 ?.map { MachineType(id = it.id, legalName = it.legalName, name = it.name) }
 
@@ -51,7 +51,7 @@ class RemoteAdminSource(private val dispatchers: CoroutineDispatcher = Dispatche
         return@withContext try
         {
             val results = getControlPointCollection().get()
-                .awaitQuery()
+                .await()
                 ?.toObjects(RemoteControlPoint::class.java)?.toList()
                 ?.map { ControlPoint(id = it.id, name = it.name, code = it.code) }
 
@@ -70,7 +70,7 @@ class RemoteAdminSource(private val dispatchers: CoroutineDispatcher = Dispatche
             getMachineTypesCollection()
                 .document("${machineType.id}")
                 .set(machineType)
-                .awaitUpload()
+                .await()
             Success(machineType.id)
         }
         catch (e: Exception)
@@ -85,7 +85,7 @@ class RemoteAdminSource(private val dispatchers: CoroutineDispatcher = Dispatche
             getControlPointCollection()
                 .document("${controlPoint.id}")
                 .set(controlPoint)
-                .awaitUpload()
+                .await()
             Success(controlPoint.id)
         }
         catch (e: Exception)
@@ -100,7 +100,7 @@ class RemoteAdminSource(private val dispatchers: CoroutineDispatcher = Dispatche
             val results = getMachineTypesControlPointCollection()
                 .document("$id")
                 .get()
-                .awaitDocument()
+                .await()
                 .toObject<RemoteMachineTypeWithControlPoints>()
                 ?.let {
                     MachineTypeWithControlPoints(
@@ -135,12 +135,12 @@ class RemoteAdminSource(private val dispatchers: CoroutineDispatcher = Dispatche
                 getMachineTypesControlPointCollection()
                     .document("${machineTypeWithControlPoints.machineType.id}")
                     .delete()
-                    .awaitUpload()
+                    .await()
 
                 getMachineTypesControlPointCollection()
                     .document("${machineTypeWithControlPoints.machineType.id}")
                     .set(machineTypeWithControlPoints)
-                    .awaitUpload()
+                    .await()
 
                 val idList = machineTypeWithControlPoints.controlPoints.map { it.id }
                 Success(idList)

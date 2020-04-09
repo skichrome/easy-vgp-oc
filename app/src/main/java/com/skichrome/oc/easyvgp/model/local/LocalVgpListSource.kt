@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class LocalVgpListSource(
+    private val userDao: UserDao,
     private val customerDao: CustomerDao,
     private val machineDao: MachineDao,
     private val machineTypeDao: MachineTypeDao,
@@ -35,6 +36,17 @@ class LocalVgpListSource(
         {
             val result = machineControlPointDataDao.getPreviouslyInsertedReport(date)
             Success(result)
+        }
+        catch (e: Exception)
+        {
+            Error(e)
+        }
+    }
+
+    override suspend fun getUserFromId(id: Long): Results<UserAndCompany> = withContext(dispatchers) {
+        return@withContext try
+        {
+            Success(userDao.getUserFromId(id))
         }
         catch (e: Exception)
         {
@@ -90,8 +102,8 @@ class LocalVgpListSource(
         Error(NotImplementedException("Method not available on local VGPList source"))
 
     override suspend fun generateReport(
-        userUid: String,
         reportDate: Long,
+        user: UserAndCompany,
         customer: Customer,
         machine: Machine,
         machineType: MachineType,

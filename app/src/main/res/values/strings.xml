@@ -147,4 +147,10 @@
     <string name="ctrl_type_one">commissioning</string>
     <string name="ctrl_type_two">periodic general audit</string>
     <string name="ctrl_type_three">put back into service</string>
+
+    <!-- Firebase Cloud Messaging -->
+    <string name="cloud_msg_notification_title">A new report has been generated</string>
+    <string name="cloud_msg_notification_content">Your report generated on %1$s for machine model %2$s is ready</string>
+    <string name="cloud_msg_notification_channel_id" translatable="false">fcm_report_ready_notification_channel</string>
+    <string name="cloud_msg_notification_channel">Report notification</string>
 </resources>

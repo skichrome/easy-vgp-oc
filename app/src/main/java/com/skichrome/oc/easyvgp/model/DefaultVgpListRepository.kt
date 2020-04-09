@@ -15,23 +15,30 @@ class DefaultVgpListRepository(
 {
     override suspend fun getAllReports(machineId: Long): Results<List<VgpListItem>> = localSource.getAllReports(machineId)
 
-    override suspend fun generateReport(userUid: String, customerId: Long, machineId: Long, machineTypeId: Long, reportDate: Long): Results<Boolean>
+    override suspend fun generateReport(
+        userId: Long,
+        customerId: Long,
+        machineId: Long,
+        machineTypeId: Long,
+        reportDate: Long
+    ): Results<Boolean>
     {
         return if (netManager.isConnectedToInternet())
         {
+            val localUser = localSource.getUserFromId(userId)
             val localReport = localSource.getReportFromDate(reportDate)
             val customer = localSource.getCustomerFromId(customerId)
             val machine = localSource.getMachineFromId(machineId)
             val machineType = localSource.getMachineTypeFromId(machineTypeId)
 
-            if (localReport is Success && customer is Success && machine is Success && machineType is Success)
+            if (localUser is Success && localReport is Success && customer is Success && machine is Success && machineType is Success)
             {
                 machine.data.localPhotoRef?.let { photoRef ->
                     // avoid re-uploading media
                     if (machine.data.remotePhotoRef != null)
                         return@let
 
-                    val uploadPhotoResult = remoteSource.uploadImageToStorage(userUid = userUid, filePath = photoRef)
+                    val uploadPhotoResult = remoteSource.uploadImageToStorage(userUid = localUser.data.user.firebaseUid, filePath = photoRef)
                     if (uploadPhotoResult is Success)
                     {
                         machine.data.remotePhotoRef = uploadPhotoResult.data
@@ -44,7 +51,7 @@ class DefaultVgpListRepository(
                 }
 
                 remoteSource.generateReport(
-                    userUid = userUid,
+                    user = localUser.data,
                     customer = customer.data,
                     machineType = machineType.data,
                     machine = machine.data,

@@ -15,12 +15,12 @@ data class User(
 )
 
 data class UserAndCompany(
-    @Embedded val company: Company,
+    @Embedded val user: User,
     @Relation(
-        parentColumn = "company_id",
-        entityColumn = "user_company_id"
+        parentColumn = "user_company_id",
+        entityColumn = "company_id"
     )
-    val user: User
+    val company: Company
 )
 
 @Dao
@@ -30,6 +30,10 @@ interface UserDao : BaseDao<User>
     fun observeUsers(): LiveData<List<User>>
 
     @Transaction
-    @Query("SELECT * FROM Companies")
+    @Query("SELECT * FROM Users WHERE user_id = :userId")
+    suspend fun getUserFromId(userId: Long): UserAndCompany
+
+    @Transaction
+    @Query("SELECT * FROM Users")
     suspend fun getAllUserAndCompanies(): List<UserAndCompany>
 }

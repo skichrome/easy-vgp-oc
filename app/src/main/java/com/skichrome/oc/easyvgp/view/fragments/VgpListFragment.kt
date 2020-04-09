@@ -4,11 +4,12 @@ import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.firebase.auth.FirebaseAuth
+import androidx.preference.PreferenceManager
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentVgpListBinding
 import com.skichrome.oc.easyvgp.util.AutoClearedValue
+import com.skichrome.oc.easyvgp.util.CURRENT_LOCAL_PROFILE
 import com.skichrome.oc.easyvgp.util.EventObserver
 import com.skichrome.oc.easyvgp.util.snackBar
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
@@ -75,17 +76,16 @@ class VgpListFragment : BaseBindingFragment<FragmentVgpListBinding>()
 
     private fun generateReport(reportDate: Long)
     {
-        val userUid = FirebaseAuth.getInstance().currentUser?.uid
-        userUid?.let { uid ->
-            viewModel.loadReport(
-                userUid = uid,
-                machineId = args.machineId,
-                reportDate = reportDate,
-                machineTypeId = args.machineTypeId,
-                customerId = args.customerId
-            )
-        }
-            ?: Log.e("VgpListFragment", "UserUID is NULL ! Check Firebase Auth status")
+        val userId = PreferenceManager.getDefaultSharedPreferences(context)
+            .getLong(CURRENT_LOCAL_PROFILE, -1L)
+
+        viewModel.loadReport(
+            userId = userId,
+            machineId = args.machineId,
+            reportDate = reportDate,
+            machineTypeId = args.machineTypeId,
+            customerId = args.customerId
+        )
     }
 
     private fun navigateToNewVgpFragment(customerId: Long = -1L, reportDateToEdit: Long = -1L)
