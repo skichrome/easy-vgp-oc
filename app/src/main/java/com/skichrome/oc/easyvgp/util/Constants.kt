@@ -2,6 +2,7 @@ package com.skichrome.oc.easyvgp.util
 
 import com.skichrome.oc.easyvgp.BuildConfig
 
+const val RC_PICK_PICTURE_INTENT = 3000
 const val RC_SIGN_IN_CODE = 2000
 const val RC_FCM = 2222
 const val NOTIFICATION_FCM_ID = 2223

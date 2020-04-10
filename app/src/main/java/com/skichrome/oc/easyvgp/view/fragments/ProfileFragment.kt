@@ -1,6 +1,11 @@
 package com.skichrome.oc.easyvgp.view.fragments
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.net.Uri
+import android.util.Log
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.skichrome.oc.easyvgp.EasyVGPApplication
@@ -10,6 +15,8 @@ import com.skichrome.oc.easyvgp.model.local.database.Company
 import com.skichrome.oc.easyvgp.model.local.database.User
 import com.skichrome.oc.easyvgp.model.local.database.UserAndCompany
 import com.skichrome.oc.easyvgp.util.EventObserver
+import com.skichrome.oc.easyvgp.util.RC_PICK_PICTURE_INTENT
+import com.skichrome.oc.easyvgp.util.snackBar
 import com.skichrome.oc.easyvgp.util.toast
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.viewmodel.HomeViewModel
@@ -26,6 +33,8 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
         HomeViewModelFactory((requireActivity().application as EasyVGPApplication).homeRepository)
     }
 
+    private var signatureImagePath: Uri? = null
+
     // =================================
     //        Superclass Methods
     // =================================
@@ -36,6 +45,20 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
     {
         configureViewModel()
         configureUI()
+        configureBtn()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    {
+        if (requestCode == RC_PICK_PICTURE_INTENT && resultCode == RESULT_OK)
+        {
+            data?.data?.let {
+                Log.e("ProfileFrag", "data: ${it.encodedPath}")
+                signatureImagePath = it
+                binding.profileFragmentSignatureLocationTextView.text = signatureImagePath?.path?.split("/")?.last()
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     // =================================
@@ -46,9 +69,16 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
         FirebaseAuth.getInstance().uid?.let {
             getCurrentFirebaseUser(it)
         }
-        onSaveEvent.observe(this@ProfileFragment, EventObserver { getUserValues(it) })
-        onSaveSuccessEvent.observe(this@ProfileFragment, EventObserver { if (it) findNavController().navigateUp() })
-        message.observe(this@ProfileFragment, EventObserver { toast(getString(it)) })
+        onSaveEvent.observe(viewLifecycleOwner, EventObserver { getUserValues(it) })
+        onSaveSuccessEvent.observe(viewLifecycleOwner, EventObserver { if (it) findNavController().navigateUp() })
+        message.observe(viewLifecycleOwner, EventObserver { toast(getString(it)) })
+        currentUser.observe(viewLifecycleOwner, Observer {
+            it?.let { user ->
+                signatureImagePath = user.user.signaturePath
+                Log.e("ProfileFrag", "signature path: ${user.user.signaturePath}")
+                binding.profileFragmentSignatureLocationTextView.text = user.user.signaturePath?.path?.split("/")?.last()
+            }
+        })
     }
 
     private fun configureUI()
@@ -56,8 +86,31 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
         binding.viewModel = viewModel
     }
 
+    private fun configureBtn()
+    {
+        binding.profileFragmentSignatureBtn.setOnClickListener { openFileUsingSAF() }
+    }
+
+    private fun openFileUsingSAF()
+    {
+        Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "image/*"
+
+            resolveActivity(requireActivity().packageManager)?.let {
+                startActivityForResult(this, RC_PICK_PICTURE_INTENT)
+            } ?: binding.root.snackBar(getString(R.string.profile_fragment_no_app_take_picture_intent))
+        }
+    }
+
     private fun getUserValues(userAndCompany: UserAndCompany)
     {
+        if (binding.profileFragmentEnableSignatureSwitch.isChecked && signatureImagePath == null)
+        {
+            binding.root.snackBar("Please set a signature or uncheck enable signature parameter")
+            return
+        }
+
         val company = Company(
             id = userAndCompany.company.id,
             name = profileFragmentCompanyNameEditText.text.toString(),
@@ -70,7 +123,9 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
             email = userAndCompany.user.email,
             approval = profileFragmentApprovalEditText.text.toString(),
             vatNumber = profileFragmentVatEditText.text.toString(),
-            companyId = userAndCompany.company.id
+            companyId = userAndCompany.company.id,
+            signaturePath = signatureImagePath,
+            isSignatureEnabled = binding.profileFragmentEnableSignatureSwitch.isChecked
         )
         viewModel.updateUserAndCompany(UserAndCompany(user = user, company = company))
     }

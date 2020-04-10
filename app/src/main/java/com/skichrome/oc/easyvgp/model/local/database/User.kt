@@ -1,5 +1,6 @@
 package com.skichrome.oc.easyvgp.model.local.database
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
@@ -11,7 +12,9 @@ data class User(
     @ColumnInfo(name = "user_display_name") val name: String,
     @ColumnInfo(name = "user_email") val email: String,
     @ColumnInfo(name = "user_approval") val approval: String?,
-    @ColumnInfo(name = "user_vat_number") val vatNumber: String?
+    @ColumnInfo(name = "user_vat_number") val vatNumber: String?,
+    @ColumnInfo(name = "user_signature_picture_path") val signaturePath: Uri? = null,
+    @ColumnInfo(name = "user_signature_in_report_enabled") val isSignatureEnabled: Boolean = false
 )
 
 data class UserAndCompany(

@@ -17,11 +17,15 @@
     <string name="view_model_home_user_update_error">An error occurred when updating your profile</string>
     <string name="view_model_home_update_error">An error occurred when updating application database</string>
 
-    <!-- Settings Fragment -->
+    <!-- Profile Fragment -->
     <string name="setting_fragment_account_img_content_desc">Account image profile</string>
     <string name="profile_fragment_approval_hint">Approval number</string>
     <string name="profile_fragment_vat_hint">VAT number</string>
     <string name="profile_fragment_company_title">Your company</string>
+    <string name="profile_fragment_no_app_take_picture_intent">Your app doesn\'t have a file manager installed</string>
+    <string name="profile_fragment_signature_title">Signature settings</string>
+    <string name="profile_fragment_signature_btn_text">Import</string>
+    <string name="profile_fragment_signature_enable_switch_text">Enable signature in reports</string>
 
     <!-- Add Edit Customer Fragment -->
     <string name="frag_add_edit_customer_name_title">Customer Name</string>

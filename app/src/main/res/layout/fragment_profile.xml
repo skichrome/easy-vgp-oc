@@ -14,116 +14,189 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/profileFragmentGuideline"
-            android:layout_width="wrap_content"
+        <ScrollView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.20" />
-
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginBottom="8dp"
-            android:contentDescription="@string/setting_fragment_account_img_content_desc"
-            android:src="@drawable/ic_account_circle_24dp"
-            android:tint="@color/secondaryColor"
-            app:layout_constraintBottom_toTopOf="@id/profileFragmentGuideline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/profileFragmentName"
-            style="@style/tvTitleStyle"
-            android:text="@{viewModel.currentUser.user.name}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profileFragmentGuideline"
-            tools:text="John Doe" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/profileFragmentEmail"
-            style="@style/tvBody1Style"
-            android:text="@{viewModel.currentUser.user.email}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profileFragmentName"
-            tools:text="john.doe@fakemail.com" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <View
-            android:id="@+id/profileFragmentDivider"
-            style="@style/separatorStyle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profileFragmentEmail" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/profileFragmentGuideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.15" />
 
-        <EditText
-            android:id="@+id/profileFragmentApprovalEditText"
-            style="@style/editTextStyle"
-            android:layout_width="0dp"
-            android:layout_marginEnd="@dimen/tv_input_margin"
-            android:hint="@string/profile_fragment_approval_hint"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:text="@{viewModel.currentUser.user.approval}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profileFragmentDivider" />
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="8dp"
+                    android:contentDescription="@string/setting_fragment_account_img_content_desc"
+                    android:src="@drawable/ic_account_circle_24dp"
+                    android:tint="@color/secondaryColor"
+                    app:layout_constraintBottom_toTopOf="@id/profileFragmentGuideline"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-        <EditText
-            android:id="@+id/profileFragmentVatEditText"
-            style="@style/editTextStyle"
-            android:layout_width="0dp"
-            android:layout_marginEnd="@dimen/tv_input_margin"
-            android:hint="@string/profile_fragment_vat_hint"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:text="@{viewModel.currentUser.user.vatNumber}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profileFragmentApprovalEditText" />
+                <TextView
+                    android:id="@+id/profileFragmentName"
+                    style="@style/tvTitleStyle"
+                    android:text="@{viewModel.currentUser.user.name}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profileFragmentGuideline"
+                    tools:text="John Doe" />
 
-        <View
-            android:id="@+id/profileFragmentDivider2"
-            style="@style/separatorStyle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profileFragmentVatEditText" />
+                <TextView
+                    android:id="@+id/profileFragmentEmail"
+                    style="@style/tvBody1Style"
+                    android:text="@{viewModel.currentUser.user.email}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profileFragmentName"
+                    tools:text="john.doe@fakemail.com" />
 
-        <TextView
-            android:id="@+id/profileFragmentCompanyTitle"
-            style="@style/tvTitleStyle"
-            android:text="@string/profile_fragment_company_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profileFragmentDivider2" />
+                <View
+                    android:id="@+id/profileFragmentDivider"
+                    style="@style/separatorStyle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profileFragmentEmail" />
 
-        <EditText
-            android:id="@+id/profileFragmentCompanyNameEditText"
-            style="@style/editTextStyle"
-            android:layout_width="0dp"
-            android:layout_marginEnd="@dimen/tv_input_margin"
-            android:hint="@string/profile_fragment_company_name_hint"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:text="@{viewModel.currentUser.company.name}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profileFragmentCompanyTitle" />
+                <EditText
+                    android:id="@+id/profileFragmentApprovalEditText"
+                    style="@style/editTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_marginEnd="@dimen/tv_input_margin"
+                    android:hint="@string/profile_fragment_approval_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:text="@{viewModel.currentUser.user.approval}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profileFragmentDivider" />
 
-        <EditText
-            android:id="@+id/profileFragmentCompanySiretEditText"
-            style="@style/editTextStyle"
-            android:layout_width="0dp"
-            android:layout_marginEnd="@dimen/tv_input_margin"
-            android:hint="@string/profile_fragment_company_siret_hint"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:text="@{viewModel.currentUser.company.siret}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profileFragmentCompanyNameEditText" />
+                <EditText
+                    android:id="@+id/profileFragmentVatEditText"
+                    style="@style/editTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_marginEnd="@dimen/tv_input_margin"
+                    android:hint="@string/profile_fragment_vat_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:text="@{viewModel.currentUser.user.vatNumber}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profileFragmentApprovalEditText" />
+
+                <View
+                    android:id="@+id/profileFragmentDivider2"
+                    style="@style/separatorStyle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profileFragmentVatEditText" />
+
+                <TextView
+                    android:id="@+id/profileFragmentCompanyTitle"
+                    style="@style/tvTitleStyle"
+                    android:text="@string/profile_fragment_company_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profileFragmentDivider2" />
+
+                <EditText
+                    android:id="@+id/profileFragmentCompanyNameEditText"
+                    style="@style/editTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_marginEnd="@dimen/tv_input_margin"
+                    android:hint="@string/profile_fragment_company_name_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:text="@{viewModel.currentUser.company.name}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profileFragmentCompanyTitle" />
+
+                <EditText
+                    android:id="@+id/profileFragmentCompanySiretEditText"
+                    style="@style/editTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_marginEnd="@dimen/tv_input_margin"
+                    android:hint="@string/profile_fragment_company_siret_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:text="@{viewModel.currentUser.company.siret}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profileFragmentCompanyNameEditText" />
+
+                <View
+                    android:id="@+id/profileFragmentDivider3"
+                    style="@style/separatorStyle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profileFragmentCompanySiretEditText" />
+
+                <TextView
+                    android:id="@+id/profileFragmentSignatureTitle"
+                    style="@style/tvTitleStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile_fragment_signature_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profileFragmentDivider3" />
+
+                <TextView
+                    android:id="@+id/profileFragmentSignatureLocationTextView"
+                    style="@style/tvBody1Style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="0dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/profileFragmentSignatureBtn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/profileFragmentSignatureBtn"
+                    tools:text="very-long-filepath?.jpg" />
+
+                <Button
+                    android:id="@+id/profileFragmentSignatureBtn"
+                    style="@style/buttonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/divider_top_margin"
+                    android:layout_marginEnd="@dimen/btn_end_margin"
+                    android:text="@string/profile_fragment_signature_btn_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profileFragmentSignatureTitle" />
+
+                <TextView
+                    android:id="@+id/profileFragmentEnableSignatureTextView"
+                    style="@style/tvBody1Style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile_fragment_signature_enable_switch_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profileFragmentSignatureBtn" />
+
+                <Switch
+                    android:id="@+id/profileFragmentEnableSignatureSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="@dimen/btn_end_margin"
+                    android:layout_marginBottom="@dimen/margin_do_not_hide_fab"
+                    android:checked="@{viewModel.currentUser.user.signatureEnabled}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profileFragmentSignatureBtn" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/profileFragmentFab"
