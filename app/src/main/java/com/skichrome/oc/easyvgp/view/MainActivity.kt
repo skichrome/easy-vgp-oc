@@ -115,7 +115,7 @@ class MainActivity : AppCompatActivity()
                 {
                     if (it == -1L)
                     {
-                        val company = Company(id = 0L, name = "", siret = "")
+                        val company = Company(id = 0L, name = "", siret = "", localCompanyLogo = null, remoteCompanyLogo = null)
                         val user = User(
                             id = 0L,
                             firebaseUid = userUid,

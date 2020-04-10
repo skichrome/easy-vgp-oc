@@ -7,10 +7,12 @@ data class RemoteUser(
     val notificationToken: String = "",
     val name: String = "",
     val email: String = "",
+    val signaturePath: String? = null,
     val approval: String? = null,
     val vatNumber: String? = null,
     val companyName: String = "",
-    val companySiret: String = ""
+    val companySiret: String = "",
+    val companyLogo: String? = null
 )
 {
     constructor() : this(
@@ -23,6 +25,8 @@ data class RemoteUser(
         approval = null,
         vatNumber = null,
         companyName = "",
-        companySiret = ""
+        companySiret = "",
+        signaturePath = null,
+        companyLogo = null
     )
 }

@@ -11,15 +11,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 // =================================
-//              Fields
-// =================================
-
-const val PICTURES_FOLDER_NAME = "user_medias"
-const val REQUEST_IMAGE_CAPTURE = 333
-const val PDF_FOLDER_NAME = "pdf_reports"
-const val AUTHORITY = "com.skichrome.oc.easyvgp.fileprovider"
-
-// =================================
 //              Methods
 // =================================
 

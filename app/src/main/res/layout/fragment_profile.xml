@@ -145,13 +145,51 @@
                     app:layout_constraintTop_toBottomOf="@id/profileFragmentCompanySiretEditText" />
 
                 <TextView
+                    android:id="@+id/profileFragmentCompanyLogoTitle"
+                    style="@style/tvTitleStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile_fragment_company_logo_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profileFragmentDivider3" />
+
+                <TextView
+                    android:id="@+id/profileFragmentCompanyLogoLocationTextView"
+                    style="@style/tvBody1Style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="0dp"
+                    android:text="@string/profile_fragment_no_logo_default_text"
+                    app:layout_constraintBottom_toBottomOf="@+id/profileFragmentCompanyLogoBtn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/profileFragmentCompanyLogoBtn" />
+
+                <Button
+                    android:id="@+id/profileFragmentCompanyLogoBtn"
+                    style="@style/buttonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/divider_top_margin"
+                    android:layout_marginEnd="@dimen/btn_end_margin"
+                    android:text="@string/profile_fragment_import_btn_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profileFragmentCompanyLogoTitle" />
+
+                <View
+                    android:id="@+id/profileFragmentDivider4"
+                    style="@style/separatorStyle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profileFragmentCompanyLogoBtn" />
+
+                <TextView
                     android:id="@+id/profileFragmentSignatureTitle"
                     style="@style/tvTitleStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/profile_fragment_signature_title"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/profileFragmentDivider3" />
+                    app:layout_constraintTop_toBottomOf="@id/profileFragmentDivider4" />
 
                 <TextView
                     android:id="@+id/profileFragmentSignatureLocationTextView"
@@ -159,10 +197,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="0dp"
+                    android:text="@string/profile_fragment_no_logo_default_text"
                     app:layout_constraintBottom_toBottomOf="@+id/profileFragmentSignatureBtn"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/profileFragmentSignatureBtn"
-                    tools:text="very-long-filepath?.jpg" />
+                    app:layout_constraintTop_toTopOf="@+id/profileFragmentSignatureBtn" />
 
                 <Button
                     android:id="@+id/profileFragmentSignatureBtn"
@@ -171,7 +209,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/divider_top_margin"
                     android:layout_marginEnd="@dimen/btn_end_margin"
-                    android:text="@string/profile_fragment_signature_btn_text"
+                    android:text="@string/profile_fragment_import_btn_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/profileFragmentSignatureTitle" />
 

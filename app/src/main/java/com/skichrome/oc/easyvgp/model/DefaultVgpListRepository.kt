@@ -43,7 +43,8 @@ class DefaultVgpListRepository(
                     val uploadPhotoResult = remoteSource.uploadImageToStorage(
                         userUid = localUser.data.user.firebaseUid,
                         localUri = photoRefUri,
-                        oldRemoteUri = storedRemoteRef
+                        remoteUri = storedRemoteRef,
+                        filePrefix = "machine"
                     )
                     if (uploadPhotoResult is Success)
                     {
@@ -63,12 +64,31 @@ class DefaultVgpListRepository(
                     val uploadResult = remoteSource.uploadImageToStorage(
                         userUid = localUser.data.user.firebaseUid,
                         localUri = signatureRef,
-                        oldRemoteUri = localUser.data.user.remoteSignaturePath
+                        remoteUri = localUser.data.user.remoteSignaturePath,
+                        filePrefix = "signature"
                     )
                     if (uploadResult is Success)
                     {
                         localUser.data.user.remoteSignaturePath = uploadResult.data
                         val updateLocalResult = localSource.updateUser(localUser.data.user)
+                        if (updateLocalResult is Error)
+                            return updateLocalResult
+                    }
+                    else
+                        return uploadResult as? Error ?: Error(RemoteRepositoryException("Something went wrong with remote storage method"))
+                }
+
+                localUser.data.company.localCompanyLogo?.let { logoRef ->
+                    val uploadResult = remoteSource.uploadImageToStorage(
+                        userUid = localUser.data.user.firebaseUid,
+                        localUri = logoRef,
+                        remoteUri = localUser.data.company.remoteCompanyLogo,
+                        filePrefix = "logo"
+                    )
+                    if (uploadResult is Success)
+                    {
+                        localUser.data.company.remoteCompanyLogo = uploadResult.data
+                        val updateLocalResult = localSource.updateCompany(localUser.data.company)
                         if (updateLocalResult is Error)
                             return updateLocalResult
                     }

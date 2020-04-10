@@ -24,8 +24,10 @@
     <string name="profile_fragment_company_title">Your company</string>
     <string name="profile_fragment_no_app_take_picture_intent">Your app doesn\'t have a file manager installed</string>
     <string name="profile_fragment_signature_title">Signature settings</string>
-    <string name="profile_fragment_signature_btn_text">Import</string>
+    <string name="profile_fragment_import_btn_text">Import</string>
     <string name="profile_fragment_signature_enable_switch_text">Enable signature in reports</string>
+    <string name="profile_fragment_company_logo_title">Company Logo</string>
+    <string name="profile_fragment_no_logo_default_text">no picture selected</string>
 
     <!-- Add Edit Customer Fragment -->
     <string name="frag_add_edit_customer_name_title">Customer Name</string>

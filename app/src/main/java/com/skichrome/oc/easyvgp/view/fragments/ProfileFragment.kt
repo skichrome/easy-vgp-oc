@@ -33,6 +33,9 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
     private var signatureImagePath: Uri? = null
     private var remoteSignatureImagePath: Uri? = null
 
+    private var logoImagePath: Uri? = null
+    private var remoteLogoImagePath: Uri? = null
+
     // =================================
     //        Superclass Methods
     // =================================
@@ -49,24 +52,33 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
     override fun onSaveInstanceState(outState: Bundle)
     {
         outState.putString(FRAGMENT_STATE_REMOTE_SIGNATURE_LOCATION, remoteSignatureImagePath?.toString())
+        outState.putString(FRAGMENT_STATE_REMOTE_LOGO_LOCATION, remoteLogoImagePath?.toString())
         super.onSaveInstanceState(outState)
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?)
     {
         super.onViewStateRestored(savedInstanceState)
-        savedInstanceState?.getString(FRAGMENT_STATE_REMOTE_SIGNATURE_LOCATION)?.let {
-            remoteSignatureImagePath = Uri.parse(it)
-        }
+        savedInstanceState?.getString(FRAGMENT_STATE_REMOTE_SIGNATURE_LOCATION)?.let { remoteSignatureImagePath = Uri.parse(it) }
+        savedInstanceState?.getString(FRAGMENT_STATE_REMOTE_LOGO_LOCATION)?.let { remoteLogoImagePath = Uri.parse(it) }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     {
-        if (requestCode == RC_PICK_PICTURE_INTENT && resultCode == RESULT_OK)
+        if (resultCode == RESULT_OK)
         {
-            data?.data?.let {
-                signatureImagePath = it
-                binding.profileFragmentSignatureLocationTextView.text = signatureImagePath?.path?.split("/")?.last()
+            when (requestCode)
+            {
+                RC_PICK_LOGO_INTENT ->
+                {
+                    logoImagePath = data?.data
+                    logoImagePath?.path?.split("/")?.last()?.let { binding.profileFragmentCompanyLogoLocationTextView.text = it }
+                }
+                RC_PICK_SIGNATURE_INTENT ->
+                {
+                    signatureImagePath = data?.data
+                    signatureImagePath?.path?.split("/")?.last()?.let { binding.profileFragmentSignatureLocationTextView.text = it }
+                }
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
@@ -87,7 +99,14 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
             it?.let { user ->
                 signatureImagePath = user.user.signaturePath
                 remoteSignatureImagePath = user.user.remoteSignaturePath
-                binding.profileFragmentSignatureLocationTextView.text = user.user.signaturePath?.path?.split("/")?.last()
+
+                logoImagePath = user.company.localCompanyLogo
+                remoteLogoImagePath = user.company.remoteCompanyLogo
+
+                user.user.signaturePath?.path?.split("/")?.last()
+                    ?.let { signature -> binding.profileFragmentSignatureLocationTextView.text = signature }
+                user.company.localCompanyLogo?.path?.split("/")?.last()
+                    ?.let { signature -> binding.profileFragmentCompanyLogoLocationTextView.text = signature }
             }
         })
     }
@@ -99,17 +118,17 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
 
     private fun configureBtn()
     {
-        binding.profileFragmentSignatureBtn.setOnClickListener { openFileUsingSAF() }
+        binding.profileFragmentCompanyLogoBtn.setOnClickListener { openFileUsingSAF(RC_PICK_LOGO_INTENT) }
+        binding.profileFragmentSignatureBtn.setOnClickListener { openFileUsingSAF(RC_PICK_SIGNATURE_INTENT) }
     }
 
-    private fun openFileUsingSAF()
+    private fun openFileUsingSAF(origin: Int)
     {
         Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "image/*"
-
             resolveActivity(requireActivity().packageManager)?.let {
-                startActivityForResult(this, RC_PICK_PICTURE_INTENT)
+                startActivityForResult(this, origin)
             } ?: binding.root.snackBar(getString(R.string.profile_fragment_no_app_take_picture_intent))
         }
     }
@@ -125,7 +144,9 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
         val company = Company(
             id = userAndCompany.company.id,
             name = profileFragmentCompanyNameEditText.text.toString(),
-            siret = profileFragmentCompanySiretEditText.text.toString()
+            siret = profileFragmentCompanySiretEditText.text.toString(),
+            localCompanyLogo = logoImagePath,
+            remoteCompanyLogo = remoteLogoImagePath
         )
         val user = User(
             id = userAndCompany.user.id,

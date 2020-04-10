@@ -36,34 +36,36 @@ class RemoteVgpListSource(
     //        Superclass Methods
     // =================================
 
-    override suspend fun uploadImageToStorage(userUid: String, localUri: Uri, oldRemoteUri: Uri?): Results<Uri> = withContext(dispatchers) {
-        return@withContext try
-        {
-            val metadata = storageMetadata {
-                contentType = "image/jpg"
-            }
-
-            val userPhotoReference = userReference.child("$REMOTE_USER_STORAGE/$userUid/$PICTURES_FOLDER_NAME/${localUri.path?.split("/")?.last()}")
-
-            oldRemoteUri?.let {
-                val oldUserPhotoReference =
-                    userReference.child("$REMOTE_USER_STORAGE/$userUid/$PICTURES_FOLDER_NAME/${it.path?.split("/")?.last()}")
-
-                if (userPhotoReference != oldUserPhotoReference)
-                {
-                    Log.e("RemoteVgpListSrc", "Remote reference need to be updated")
-                    oldUserPhotoReference.delete()
-                    uploadToStorage(reference = userPhotoReference, uri = localUri, metadata = metadata)
+    override suspend fun uploadImageToStorage(userUid: String, localUri: Uri, remoteUri: Uri?, filePrefix: String): Results<Uri> =
+        withContext(dispatchers) {
+            return@withContext try
+            {
+                val metadata = storageMetadata {
+                    contentType = "image/jpg"
                 }
-                else
-                    Success(localUri)
-            } ?: uploadToStorage(reference = userPhotoReference, uri = localUri, metadata = metadata)
+
+                val userPhotoReference =
+                    userReference.child("$REMOTE_USER_STORAGE/$userUid/$PICTURES_FOLDER_NAME/$filePrefix-${localUri.path?.split("/")?.last()}")
+
+                remoteUri?.let {
+                    val oldUserPhotoReference =
+                        userReference.child("$REMOTE_USER_STORAGE/$userUid/$PICTURES_FOLDER_NAME/$filePrefix-${it.path?.split("/")?.last()}")
+
+                    if (userPhotoReference != oldUserPhotoReference)
+                    {
+                        Log.e("RemoteVgpListSrc", "Remote reference need to be updated")
+                        oldUserPhotoReference.delete()
+                        return@let uploadToStorage(reference = userPhotoReference, uri = localUri, metadata = metadata)
+                    }
+                    else
+                        return@let Success(remoteUri)
+                } ?: uploadToStorage(reference = userPhotoReference, uri = localUri, metadata = metadata)
+            }
+            catch (e: Exception)
+            {
+                Error(e)
+            }
         }
-        catch (e: Exception)
-        {
-            Error(e)
-        }
-    }
 
     override suspend fun generateReport(
         reportDate: Long,
@@ -90,7 +92,9 @@ class RemoteVgpListSource(
                     companySiret = user.company.siret,
                     firebaseUid = user.user.firebaseUid,
                     notificationToken = notificationToken,
-                    vatNumber = user.user.vatNumber
+                    vatNumber = user.user.vatNumber,
+                    companyLogo = user.company.remoteCompanyLogo.toString(),
+                    signaturePath = user.user.remoteSignaturePath.toString()
                 )
 
                 val remoteCustomer = RemoteCustomer(
@@ -193,6 +197,9 @@ class RemoteVgpListSource(
         Error(NotImplementedException("Not implemented for remote source"))
 
     override suspend fun updateUser(user: User): Results<Int> =
+        Error(NotImplementedException("Not implemented for remote source"))
+
+    override suspend fun updateCompany(company: Company): Results<Int> =
         Error(NotImplementedException("Not implemented for remote source"))
 
     // =================================

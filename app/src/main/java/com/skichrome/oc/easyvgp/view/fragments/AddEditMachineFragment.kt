@@ -62,7 +62,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK)
+        if (requestCode == RC_IMAGE_CAPTURE_INTENT && resultCode == RESULT_OK)
         {
             machinePhotoPath?.let {
                 val machinePicture = File(it).transformBitmapFile()
@@ -239,7 +239,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
                         file
                     )
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                    startActivityForResult(takePictureIntent, RC_IMAGE_CAPTURE_INTENT)
                 }
             }
         }

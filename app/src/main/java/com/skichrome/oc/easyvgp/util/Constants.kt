@@ -2,10 +2,16 @@ package com.skichrome.oc.easyvgp.util
 
 import com.skichrome.oc.easyvgp.BuildConfig
 
-const val RC_PICK_PICTURE_INTENT = 3000
+const val RC_IMAGE_CAPTURE_INTENT = 3000
+const val RC_PICK_SIGNATURE_INTENT = 3001
+const val RC_PICK_LOGO_INTENT = 3002
+
 const val RC_SIGN_IN_CODE = 2000
 const val RC_FCM = 2222
 const val NOTIFICATION_FCM_ID = 2223
+
+const val PICTURES_FOLDER_NAME = "user_medias"
+const val AUTHORITY = "com.skichrome.oc.easyvgp.fileprovider"
 
 const val CURRENT_LOCAL_PROFILE = "current_profile_id_from_room"
 
@@ -13,6 +19,7 @@ const val MAIN_ACTIVITY_FRAGMENT_ROUTE = "destination_to_navigate_if_coming_from
 const val FRAGMENT_STATE_PICTURE_LOCATION = "where_picture_is_saved"
 const val FRAGMENT_STATE_REMOTE_PICTURE_LOCATION = "where_remote_picture_is_saved"
 const val FRAGMENT_STATE_REMOTE_SIGNATURE_LOCATION = "where_remote_signature_picture_is_saved"
+const val FRAGMENT_STATE_REMOTE_LOGO_LOCATION = "where_remote_signature_picture_is_saved"
 
 // Cloud Firestore and Cloud Stograge
 val REMOTE_ADMIN_COLLECTION = if (BuildConfig.DEBUG) "admin_${BuildConfig.FLAVOR}_debug" else "admin_${BuildConfig.FLAVOR}"
