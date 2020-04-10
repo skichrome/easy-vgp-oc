@@ -14,6 +14,7 @@ data class User(
     @ColumnInfo(name = "user_approval") val approval: String?,
     @ColumnInfo(name = "user_vat_number") val vatNumber: String?,
     @ColumnInfo(name = "user_signature_picture_path") val signaturePath: Uri? = null,
+    @ColumnInfo(name = "user_signature_picture_remote_path") var remoteSignaturePath: Uri? = null,
     @ColumnInfo(name = "user_signature_in_report_enabled") val isSignatureEnabled: Boolean = false
 )
 

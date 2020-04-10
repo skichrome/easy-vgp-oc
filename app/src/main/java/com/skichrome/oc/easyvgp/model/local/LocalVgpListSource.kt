@@ -98,7 +98,18 @@ class LocalVgpListSource(
         }
     }
 
-    override suspend fun uploadImageToStorage(userUid: String, filePath: String): Results<Uri> =
+    override suspend fun updateUser(user: User): Results<Int> = withContext(dispatchers) {
+        return@withContext try
+        {
+            Success(userDao.update(user))
+        }
+        catch (e: Exception)
+        {
+            Error(e)
+        }
+    }
+
+    override suspend fun uploadImageToStorage(userUid: String, localUri: Uri, oldRemoteUri: Uri?): Results<Uri> =
         Error(NotImplementedException("Method not available on local VGPList source"))
 
     override suspend fun generateReport(

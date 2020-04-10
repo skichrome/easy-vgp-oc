@@ -11,6 +11,8 @@ const val CURRENT_LOCAL_PROFILE = "current_profile_id_from_room"
 
 const val MAIN_ACTIVITY_FRAGMENT_ROUTE = "destination_to_navigate_if_coming_from_fcm_intent"
 const val FRAGMENT_STATE_PICTURE_LOCATION = "where_picture_is_saved"
+const val FRAGMENT_STATE_REMOTE_PICTURE_LOCATION = "where_remote_picture_is_saved"
+const val FRAGMENT_STATE_REMOTE_SIGNATURE_LOCATION = "where_remote_signature_picture_is_saved"
 
 // Cloud Firestore and Cloud Stograge
 val REMOTE_ADMIN_COLLECTION = if (BuildConfig.DEBUG) "admin_${BuildConfig.FLAVOR}_debug" else "admin_${BuildConfig.FLAVOR}"

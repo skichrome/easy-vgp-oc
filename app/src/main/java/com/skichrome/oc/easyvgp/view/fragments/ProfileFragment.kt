@@ -3,7 +3,7 @@ package com.skichrome.oc.easyvgp.view.fragments
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
+import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -14,10 +14,7 @@ import com.skichrome.oc.easyvgp.databinding.FragmentProfileBinding
 import com.skichrome.oc.easyvgp.model.local.database.Company
 import com.skichrome.oc.easyvgp.model.local.database.User
 import com.skichrome.oc.easyvgp.model.local.database.UserAndCompany
-import com.skichrome.oc.easyvgp.util.EventObserver
-import com.skichrome.oc.easyvgp.util.RC_PICK_PICTURE_INTENT
-import com.skichrome.oc.easyvgp.util.snackBar
-import com.skichrome.oc.easyvgp.util.toast
+import com.skichrome.oc.easyvgp.util.*
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.viewmodel.HomeViewModel
 import com.skichrome.oc.easyvgp.viewmodel.vmfactory.HomeViewModelFactory
@@ -34,6 +31,7 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
     }
 
     private var signatureImagePath: Uri? = null
+    private var remoteSignatureImagePath: Uri? = null
 
     // =================================
     //        Superclass Methods
@@ -48,12 +46,25 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
         configureBtn()
     }
 
+    override fun onSaveInstanceState(outState: Bundle)
+    {
+        outState.putString(FRAGMENT_STATE_REMOTE_SIGNATURE_LOCATION, remoteSignatureImagePath?.toString())
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?)
+    {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.getString(FRAGMENT_STATE_REMOTE_SIGNATURE_LOCATION)?.let {
+            remoteSignatureImagePath = Uri.parse(it)
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     {
         if (requestCode == RC_PICK_PICTURE_INTENT && resultCode == RESULT_OK)
         {
             data?.data?.let {
-                Log.e("ProfileFrag", "data: ${it.encodedPath}")
                 signatureImagePath = it
                 binding.profileFragmentSignatureLocationTextView.text = signatureImagePath?.path?.split("/")?.last()
             }
@@ -75,7 +86,7 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
         currentUser.observe(viewLifecycleOwner, Observer {
             it?.let { user ->
                 signatureImagePath = user.user.signaturePath
-                Log.e("ProfileFrag", "signature path: ${user.user.signaturePath}")
+                remoteSignatureImagePath = user.user.remoteSignaturePath
                 binding.profileFragmentSignatureLocationTextView.text = user.user.signaturePath?.path?.split("/")?.last()
             }
         })
@@ -125,6 +136,7 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
             vatNumber = profileFragmentVatEditText.text.toString(),
             companyId = userAndCompany.company.id,
             signaturePath = signatureImagePath,
+            remoteSignaturePath = remoteSignatureImagePath,
             isSignatureEnabled = binding.profileFragmentEnableSignatureSwitch.isChecked
         )
         viewModel.updateUserAndCompany(UserAndCompany(user = user, company = company))

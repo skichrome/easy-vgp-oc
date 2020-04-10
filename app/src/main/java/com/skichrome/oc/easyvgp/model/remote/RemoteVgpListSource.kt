@@ -6,6 +6,8 @@ import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageMetadata
+import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.google.firebase.storage.ktx.storageMetadata
 import com.skichrome.oc.easyvgp.model.Results
@@ -20,7 +22,6 @@ import com.skichrome.oc.easyvgp.util.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.File
 
 class RemoteVgpListSource(
     private val resources: Resources,
@@ -35,25 +36,28 @@ class RemoteVgpListSource(
     //        Superclass Methods
     // =================================
 
-    override suspend fun uploadImageToStorage(userUid: String, filePath: String): Results<Uri> = withContext(dispatchers) {
+    override suspend fun uploadImageToStorage(userUid: String, localUri: Uri, oldRemoteUri: Uri?): Results<Uri> = withContext(dispatchers) {
         return@withContext try
         {
             val metadata = storageMetadata {
                 contentType = "image/jpg"
             }
 
-            val file = Uri.fromFile(File(filePath))
-            val userPhotoReference = userReference.child("$REMOTE_USER_STORAGE/$userUid/$PICTURES_FOLDER_NAME/${file.lastPathSegment}")
+            val userPhotoReference = userReference.child("$REMOTE_USER_STORAGE/$userUid/$PICTURES_FOLDER_NAME/${localUri.path?.split("/")?.last()}")
 
-            val remotePhotoReference = userPhotoReference.putFile(file, metadata)
-                .continueWithTask { task ->
-                    if (!task.isSuccessful)
-                        task.exception?.let { throw it }
+            oldRemoteUri?.let {
+                val oldUserPhotoReference =
+                    userReference.child("$REMOTE_USER_STORAGE/$userUid/$PICTURES_FOLDER_NAME/${it.path?.split("/")?.last()}")
 
-                    userPhotoReference.downloadUrl
+                if (userPhotoReference != oldUserPhotoReference)
+                {
+                    Log.e("RemoteVgpListSrc", "Remote reference need to be updated")
+                    oldUserPhotoReference.delete()
+                    uploadToStorage(reference = userPhotoReference, uri = localUri, metadata = metadata)
                 }
-                .await()
-            Success(remotePhotoReference)
+                else
+                    Success(localUri)
+            } ?: uploadToStorage(reference = userPhotoReference, uri = localUri, metadata = metadata)
         }
         catch (e: Exception)
         {
@@ -188,6 +192,9 @@ class RemoteVgpListSource(
     override suspend fun updateMachine(machine: Machine): Results<Int> =
         Error(NotImplementedException("Not implemented for remote source"))
 
+    override suspend fun updateUser(user: User): Results<Int> =
+        Error(NotImplementedException("Not implemented for remote source"))
+
     // =================================
     //              Methods
     // =================================
@@ -195,4 +202,24 @@ class RemoteVgpListSource(
     private fun getUserCollection(userUid: String) = db.collection(REMOTE_USER_COLLECTION)
         .document(userUid)
         .collection(REMOTE_REPORT_COLLECTION)
+
+    private suspend fun uploadToStorage(reference: StorageReference, uri: Uri, metadata: StorageMetadata): Results<Uri>
+    {
+        try
+        {
+            val remotePhotoReference = reference.putFile(uri, metadata)
+                .continueWithTask { task ->
+                    if (!task.isSuccessful)
+                        task.exception?.let { throw it }
+
+                    reference.downloadUrl
+                }
+                .await()
+            return Success(remotePhotoReference)
+        }
+        catch (e: Exception)
+        {
+            return Error(e)
+        }
+    }
 }

@@ -2,6 +2,7 @@ package com.skichrome.oc.easyvgp.view.fragments
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -42,6 +43,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
 
     private lateinit var inputList: List<TextView>
     private var machinePhotoPath: String? = null
+    private var machineRemotePhotoPath: Uri? = null
     private var machineType: Long? = null
 
     // =================================
@@ -73,14 +75,22 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
     override fun onSaveInstanceState(outState: Bundle)
     {
         outState.putString(FRAGMENT_STATE_PICTURE_LOCATION, machinePhotoPath)
+        outState.putString(FRAGMENT_STATE_REMOTE_PICTURE_LOCATION, machineRemotePhotoPath?.toString())
         super.onSaveInstanceState(outState)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?)
+    override fun onViewStateRestored(savedInstanceState: Bundle?)
     {
-        super.onActivityCreated(savedInstanceState)
+        super.onViewStateRestored(savedInstanceState)
         machinePhotoPath = savedInstanceState?.getString(FRAGMENT_STATE_PICTURE_LOCATION)
-        machinePhotoPath?.let { Glide.with(this).load(it).centerCrop().into(addEditMachineFragmentImg) }
+        machineRemotePhotoPath = savedInstanceState?.getString(FRAGMENT_STATE_REMOTE_PICTURE_LOCATION)?.let { Uri.parse(it) }
+
+        machineRemotePhotoPath?.let { remotePhoto ->
+            Glide.with(this).load(remotePhoto).centerCrop().into(addEditMachineFragmentImg)
+        }
+            ?: machinePhotoPath?.let { localPhoto ->
+                Glide.with(this).load(localPhoto).centerCrop().into(addEditMachineFragmentImg)
+            }
     }
 
     // =================================
@@ -100,13 +110,12 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
                     machine.observe(viewLifecycleOwner, Observer { machine ->
 
                         machine.remotePhotoRef?.let { remotePhoto ->
+                            machineRemotePhotoPath = machine.remotePhotoRef
                             Glide.with(this@AddEditMachineFragment).load(remotePhoto).centerCrop().into(addEditMachineFragmentImg)
-                            Log.e("AddEditMachFrag", "Remote photo path save : $remotePhoto")
                         }
                             ?: machine.localPhotoRef?.let { localPhoto ->
                                 machinePhotoPath = localPhoto
                                 Glide.with(this@AddEditMachineFragment).load(File(localPhoto)).centerCrop().into(addEditMachineFragmentImg)
-                                Log.e("AddEditMachFrag", "Local photo path save : $localPhoto")
                             }
 
                         machine?.let { machineNotNull ->
@@ -191,7 +200,8 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
                 name = addEditMachineFragmentName.text.toString(),
                 model = addEditMachineFragmentModel.text.toString(),
                 manufacturingYear = addEditMachineFragmentManufacturingYear.text.toString().toInt(),
-                localPhotoRef = machinePhotoPath
+                localPhotoRef = machinePhotoPath,
+                remotePhotoRef = machineRemotePhotoPath
             )
 
             if (args.machineId != -1L)

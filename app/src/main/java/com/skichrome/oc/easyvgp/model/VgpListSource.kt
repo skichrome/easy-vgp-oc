@@ -19,7 +19,9 @@ interface VgpListSource
 
     suspend fun updateMachine(machine: Machine): Results<Int>
 
-    suspend fun uploadImageToStorage(userUid: String, filePath: String): Results<Uri>
+    suspend fun updateUser(user: User): Results<Int>
+
+    suspend fun uploadImageToStorage(userUid: String, localUri: Uri, oldRemoteUri: Uri?): Results<Uri>
 
     suspend fun generateReport(
         reportDate: Long,

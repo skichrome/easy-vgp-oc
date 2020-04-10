@@ -1,11 +1,14 @@
 package com.skichrome.oc.easyvgp.model
 
+import android.net.Uri
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.local.database.VgpListItem
 import com.skichrome.oc.easyvgp.util.LocalRepositoryException
 import com.skichrome.oc.easyvgp.util.NetworkException
+import com.skichrome.oc.easyvgp.util.RemoteRepositoryException
+import java.io.File
 
 class DefaultVgpListRepository(
     private val netManager: NetManager,
@@ -34,11 +37,14 @@ class DefaultVgpListRepository(
             if (localUser is Success && localReport is Success && customer is Success && machine is Success && machineType is Success)
             {
                 machine.data.localPhotoRef?.let { photoRef ->
-                    // avoid re-uploading media
-                    if (machine.data.remotePhotoRef != null)
-                        return@let
+                    val photoRefUri = Uri.fromFile(File(photoRef))
+                    val storedRemoteRef = machine.data.remotePhotoRef
 
-                    val uploadPhotoResult = remoteSource.uploadImageToStorage(userUid = localUser.data.user.firebaseUid, filePath = photoRef)
+                    val uploadPhotoResult = remoteSource.uploadImageToStorage(
+                        userUid = localUser.data.user.firebaseUid,
+                        localUri = photoRefUri,
+                        oldRemoteUri = storedRemoteRef
+                    )
                     if (uploadPhotoResult is Success)
                     {
                         machine.data.remotePhotoRef = uploadPhotoResult.data
@@ -47,7 +53,27 @@ class DefaultVgpListRepository(
                             return updateResult
                     }
                     else
-                        return uploadPhotoResult as? Error ?: Error(LocalRepositoryException("Something went wrong with local source"))
+                        return uploadPhotoResult as? Error ?: Error(RemoteRepositoryException("Something went wrong with remote storage method"))
+                }
+
+                localUser.data.user.signaturePath?.let { signatureRef ->
+                    if (!localUser.data.user.isSignatureEnabled)
+                        return@let
+
+                    val uploadResult = remoteSource.uploadImageToStorage(
+                        userUid = localUser.data.user.firebaseUid,
+                        localUri = signatureRef,
+                        oldRemoteUri = localUser.data.user.remoteSignaturePath
+                    )
+                    if (uploadResult is Success)
+                    {
+                        localUser.data.user.remoteSignaturePath = uploadResult.data
+                        val updateLocalResult = localSource.updateUser(localUser.data.user)
+                        if (updateLocalResult is Error)
+                            return updateLocalResult
+                    }
+                    else
+                        return uploadResult as? Error ?: Error(RemoteRepositoryException("Something went wrong with remote storage method"))
                 }
 
                 remoteSource.generateReport(
