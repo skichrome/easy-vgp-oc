@@ -199,7 +199,9 @@ object DataProvider
     val company1 = Company(
         id = company1Id,
         name = "company1",
-        siret = "fdsgerg222"
+        siret = "fdsgerg222",
+        localCompanyLogo = null,
+        remoteCompanyLogo = null
     )
 
     const val user1Id = 1L
@@ -217,7 +219,9 @@ object DataProvider
     val company1Edit = Company(
         id = company1IdEdit,
         name = "company1Edit",
-        siret = "fdsgerg222Edit"
+        siret = "fdsgerg222Edit",
+        localCompanyLogo = null,
+        remoteCompanyLogo = null
     )
 
     const val user1IdEdit = 1L
@@ -235,7 +239,9 @@ object DataProvider
     val companyToInsert = Company(
         id = companyIdToInsert,
         name = "company4 to inset",
-        siret = "fdsgerg2defe22"
+        siret = "fdsgerg2defe22",
+        localCompanyLogo = null,
+        remoteCompanyLogo = null
     )
 
     const val userIdToInsert = 4L
@@ -253,7 +259,9 @@ object DataProvider
     val company2 = Company(
         id = company2Id,
         name = "company2",
-        siret = "fdsgerg2zr22"
+        siret = "fdsgerg2zr22",
+        localCompanyLogo = null,
+        remoteCompanyLogo = null
     )
 
     const val user2Id = 2L
@@ -271,7 +279,9 @@ object DataProvider
     val company3 = Company(
         id = company3Id,
         name = "company3",
-        siret = "fdsgerg222ze"
+        siret = "fdsgerg222ze",
+        localCompanyLogo = null,
+        remoteCompanyLogo = null
     )
 
     const val user3Id = 3L
