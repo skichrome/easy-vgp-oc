@@ -2,6 +2,8 @@
 
 <resources>
     <dimen name="btn_bottom_margin">24dp</dimen>
+    <dimen name="btn_top_margin">24dp</dimen>
+    <dimen name="btn_end_margin">24dp</dimen>
     <dimen name="tv_top_margin">64dp</dimen>
     <dimen name="fab_margin">24dp</dimen>
 
@@ -10,4 +12,6 @@
     <dimen name="edit_text_drawable_padding">16dp</dimen>
     <dimen name="divider_top_margin">16dp</dimen>
     <dimen name="divider_horizontal_margin">64dp</dimen>
+
+    <dimen name="margin_do_not_hide_fab">100dp</dimen>
 </resources>

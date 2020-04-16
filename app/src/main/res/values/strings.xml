@@ -17,11 +17,17 @@
     <string name="view_model_home_user_update_error">An error occurred when updating your profile</string>
     <string name="view_model_home_update_error">An error occurred when updating application database</string>
 
-    <!-- Settings Fragment -->
+    <!-- Profile Fragment -->
     <string name="setting_fragment_account_img_content_desc">Account image profile</string>
     <string name="profile_fragment_approval_hint">Approval number</string>
     <string name="profile_fragment_vat_hint">VAT number</string>
     <string name="profile_fragment_company_title">Your company</string>
+    <string name="profile_fragment_no_app_take_picture_intent">Your app doesn\'t have a file manager installed</string>
+    <string name="profile_fragment_signature_title">Signature settings</string>
+    <string name="profile_fragment_import_btn_text">Import</string>
+    <string name="profile_fragment_signature_enable_switch_text">Enable signature in reports</string>
+    <string name="profile_fragment_company_logo_title">Company Logo</string>
+    <string name="profile_fragment_no_logo_default_text">no picture selected</string>
 
     <!-- Add Edit Customer Fragment -->
     <string name="frag_add_edit_customer_name_title">Customer Name</string>
@@ -147,4 +153,10 @@
     <string name="ctrl_type_one">commissioning</string>
     <string name="ctrl_type_two">periodic general audit</string>
     <string name="ctrl_type_three">put back into service</string>
+
+    <!-- Firebase Cloud Messaging -->
+    <string name="cloud_msg_notification_title">A new report has been generated</string>
+    <string name="cloud_msg_notification_content">Your report generated on %1$s for machine model %2$s is ready</string>
+    <string name="cloud_msg_notification_channel_id" translatable="false">fcm_report_ready_notification_channel</string>
+    <string name="cloud_msg_notification_channel">Report notification</string>
 </resources>

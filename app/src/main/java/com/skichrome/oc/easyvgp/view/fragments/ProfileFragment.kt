@@ -1,6 +1,11 @@
 package com.skichrome.oc.easyvgp.view.fragments
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.skichrome.oc.easyvgp.EasyVGPApplication
@@ -9,8 +14,7 @@ import com.skichrome.oc.easyvgp.databinding.FragmentProfileBinding
 import com.skichrome.oc.easyvgp.model.local.database.Company
 import com.skichrome.oc.easyvgp.model.local.database.User
 import com.skichrome.oc.easyvgp.model.local.database.UserAndCompany
-import com.skichrome.oc.easyvgp.util.EventObserver
-import com.skichrome.oc.easyvgp.util.toast
+import com.skichrome.oc.easyvgp.util.*
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.viewmodel.HomeViewModel
 import com.skichrome.oc.easyvgp.viewmodel.vmfactory.HomeViewModelFactory
@@ -26,6 +30,12 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
         HomeViewModelFactory((requireActivity().application as EasyVGPApplication).homeRepository)
     }
 
+    private var signatureImagePath: Uri? = null
+    private var remoteSignatureImagePath: Uri? = null
+
+    private var logoImagePath: Uri? = null
+    private var remoteLogoImagePath: Uri? = null
+
     // =================================
     //        Superclass Methods
     // =================================
@@ -36,6 +46,42 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
     {
         configureViewModel()
         configureUI()
+        configureBtn()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle)
+    {
+        outState.putString(FRAGMENT_STATE_REMOTE_SIGNATURE_LOCATION, remoteSignatureImagePath?.toString())
+        outState.putString(FRAGMENT_STATE_REMOTE_LOGO_LOCATION, remoteLogoImagePath?.toString())
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?)
+    {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.getString(FRAGMENT_STATE_REMOTE_SIGNATURE_LOCATION)?.let { remoteSignatureImagePath = Uri.parse(it) }
+        savedInstanceState?.getString(FRAGMENT_STATE_REMOTE_LOGO_LOCATION)?.let { remoteLogoImagePath = Uri.parse(it) }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    {
+        if (resultCode == RESULT_OK)
+        {
+            when (requestCode)
+            {
+                RC_PICK_LOGO_INTENT ->
+                {
+                    logoImagePath = data?.data
+                    logoImagePath?.path?.split("/")?.last()?.let { binding.profileFragmentCompanyLogoLocationTextView.text = it }
+                }
+                RC_PICK_SIGNATURE_INTENT ->
+                {
+                    signatureImagePath = data?.data
+                    signatureImagePath?.path?.split("/")?.last()?.let { binding.profileFragmentSignatureLocationTextView.text = it }
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     // =================================
@@ -46,9 +92,23 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
         FirebaseAuth.getInstance().uid?.let {
             getCurrentFirebaseUser(it)
         }
-        onSaveEvent.observe(this@ProfileFragment, EventObserver { getUserValues(it) })
-        onSaveSuccessEvent.observe(this@ProfileFragment, EventObserver { if (it) findNavController().navigateUp() })
-        message.observe(this@ProfileFragment, EventObserver { toast(getString(it)) })
+        onSaveEvent.observe(viewLifecycleOwner, EventObserver { getUserValues(it) })
+        onSaveSuccessEvent.observe(viewLifecycleOwner, EventObserver { if (it) findNavController().navigateUp() })
+        message.observe(viewLifecycleOwner, EventObserver { toast(getString(it)) })
+        currentUser.observe(viewLifecycleOwner, Observer {
+            it?.let { user ->
+                signatureImagePath = user.user.signaturePath
+                remoteSignatureImagePath = user.user.remoteSignaturePath
+
+                logoImagePath = user.company.localCompanyLogo
+                remoteLogoImagePath = user.company.remoteCompanyLogo
+
+                user.user.signaturePath?.path?.split("/")?.last()
+                    ?.let { signature -> binding.profileFragmentSignatureLocationTextView.text = signature }
+                user.company.localCompanyLogo?.path?.split("/")?.last()
+                    ?.let { signature -> binding.profileFragmentCompanyLogoLocationTextView.text = signature }
+            }
+        })
     }
 
     private fun configureUI()
@@ -56,12 +116,37 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
         binding.viewModel = viewModel
     }
 
+    private fun configureBtn()
+    {
+        binding.profileFragmentCompanyLogoBtn.setOnClickListener { openFileUsingSAF(RC_PICK_LOGO_INTENT) }
+        binding.profileFragmentSignatureBtn.setOnClickListener { openFileUsingSAF(RC_PICK_SIGNATURE_INTENT) }
+    }
+
+    private fun openFileUsingSAF(origin: Int)
+    {
+        Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "image/*"
+            resolveActivity(requireActivity().packageManager)?.let {
+                startActivityForResult(this, origin)
+            } ?: binding.root.snackBar(getString(R.string.profile_fragment_no_app_take_picture_intent))
+        }
+    }
+
     private fun getUserValues(userAndCompany: UserAndCompany)
     {
+        if (binding.profileFragmentEnableSignatureSwitch.isChecked && signatureImagePath == null)
+        {
+            binding.root.snackBar("Please set a signature or uncheck enable signature parameter")
+            return
+        }
+
         val company = Company(
             id = userAndCompany.company.id,
             name = profileFragmentCompanyNameEditText.text.toString(),
-            siret = profileFragmentCompanySiretEditText.text.toString()
+            siret = profileFragmentCompanySiretEditText.text.toString(),
+            localCompanyLogo = logoImagePath,
+            remoteCompanyLogo = remoteLogoImagePath
         )
         val user = User(
             id = userAndCompany.user.id,
@@ -70,7 +155,10 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
             email = userAndCompany.user.email,
             approval = profileFragmentApprovalEditText.text.toString(),
             vatNumber = profileFragmentVatEditText.text.toString(),
-            companyId = userAndCompany.company.id
+            companyId = userAndCompany.company.id,
+            signaturePath = signatureImagePath,
+            remoteSignaturePath = remoteSignatureImagePath,
+            isSignatureEnabled = binding.profileFragmentEnableSignatureSwitch.isChecked
         )
         viewModel.updateUserAndCompany(UserAndCompany(user = user, company = company))
     }

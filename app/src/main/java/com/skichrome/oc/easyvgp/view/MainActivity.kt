@@ -56,7 +56,8 @@ class MainActivity : AppCompatActivity()
             {
                 activityMainConstraintLayout.rootView?.snackBar(getString(R.string.frag_login_success))
                 checkIfUserIsAlreadyLoggedIn()
-            } else
+            }
+            else
             {
                 val response = IdpResponse.fromResultIntent(data)
                 errorLog("An error occurred when trying to login : ${response?.error?.cause?.localizedMessage}")
@@ -82,7 +83,6 @@ class MainActivity : AppCompatActivity()
         it.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId)
             {
-                R.id.settingsFragment -> navController.navigate(R.id.action_global_settingsFragment)
                 R.id.logoutItem ->
                 {
                     AuthUI.getInstance().signOut(this)
@@ -101,7 +101,8 @@ class MainActivity : AppCompatActivity()
         if (FirebaseAuth.getInstance().currentUser == null)
         {
             configureAppLogin()
-        } else
+        }
+        else
         {
             val userUid = FirebaseAuth.getInstance().currentUser!!.uid
             viewModel.getCurrentFirebaseUser(userUid)
@@ -114,7 +115,7 @@ class MainActivity : AppCompatActivity()
                 {
                     if (it == -1L)
                     {
-                        val company = Company(id = 0L, name = "Change me", siret = "change me")
+                        val company = Company(id = 0L, name = "", siret = "", localCompanyLogo = null, remoteCompanyLogo = null)
                         val user = User(
                             id = 0L,
                             firebaseUid = userUid,
@@ -125,7 +126,8 @@ class MainActivity : AppCompatActivity()
                             companyId = company.id
                         )
                         viewModel.saveNewUserAndCompany(UserAndCompany(company = company, user = user))
-                    } else
+                    }
+                    else
                     {
                         PreferenceManager.getDefaultSharedPreferences(this)
                             .edit()
@@ -141,7 +143,10 @@ class MainActivity : AppCompatActivity()
 
     private fun configureAppLogin()
     {
-        val loginProviders = listOf(AuthUI.IdpConfig.EmailBuilder().build())
+        val loginProviders = listOf(
+            AuthUI.IdpConfig.EmailBuilder().build(),
+            AuthUI.IdpConfig.GoogleBuilder().build()
+        )
         startActivityForResult(
             AuthUI.getInstance()
                 .createSignInIntentBuilder()

@@ -1,22 +1,14 @@
 package com.skichrome.oc.easyvgp.util
 
-import android.graphics.pdf.PdfDocument
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.os.Environment.*
-import android.util.Log
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-
-// =================================
-//              Fields
-// =================================
-
-const val PICTURES_FOLDER_NAME = "user_medias"
-const val REQUEST_IMAGE_CAPTURE = 333
-const val PDF_FOLDER_NAME = "pdf_reports"
-const val AUTHORITY = "com.skichrome.oc.easyvgp.fileprovider"
 
 // =================================
 //              Methods
@@ -49,16 +41,33 @@ fun File.createOrGetJpegFile(folderName: String, fileName: String): File
     return File(fileFolder, "[$timeStamp]-$fileName.jpg")
 }
 
-fun File.writePdfToFile(pdf: PdfDocument)
+@Throws(Exception::class)
+fun File.transformBitmapFile(): Bitmap
 {
-    try
+    if (extension != "jpg")
+        throw IllegalArgumentException("File to transform must be a JPG image, not $extension !")
+
+    val bmOpt = BitmapFactory.Options()
+    val bitmap = BitmapFactory.decodeFile(absolutePath, bmOpt)
+    val scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.width, bitmap.height, true)
+
+    if (bitmap.width < bitmap.height)
     {
-        parentFile?.mkdirs()
-        FileOutputStream(this)
-            .use { pdf.writeTo(it) }
+        val matrix = Matrix()
+        matrix.postRotate(90f)
+        val rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+
+        try
+        {
+            FileOutputStream(absolutePath).use { out ->
+                rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
+            }
+            return rotatedBitmap
+        }
+        catch (e: IOException)
+        {
+            e.printStackTrace()
+        }
     }
-    catch (e: IOException)
-    {
-        Log.e("StorageUtils", "Cannot open file from storage", e)
-    }
+    return scaledBitmap
 }

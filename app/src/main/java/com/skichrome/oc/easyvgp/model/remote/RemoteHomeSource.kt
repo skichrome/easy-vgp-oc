@@ -33,7 +33,7 @@ class RemoteHomeSource(private val dispatchers: CoroutineDispatcher = Dispatcher
         {
             async {
                 val results = getControlPointCollection().get()
-                    .awaitQuery()
+                    .await()
                     ?.toObjects(RemoteControlPoint::class.java)?.toList()
                     ?.map { ControlPoint(id = it.id, name = it.name, code = it.code) }
 
@@ -52,7 +52,7 @@ class RemoteHomeSource(private val dispatchers: CoroutineDispatcher = Dispatcher
             try
             {
                 val results = getMachineTypesCollection().get()
-                    .awaitQuery()
+                    .await()
                     ?.toObjects(RemoteMachineType::class.java)?.toList()
                     ?.map { MachineType(id = it.id, legalName = it.legalName, name = it.name) }
 
@@ -71,7 +71,7 @@ class RemoteHomeSource(private val dispatchers: CoroutineDispatcher = Dispatcher
             try
             {
                 val results = getMachineTypesControlPointCollection().get()
-                    .awaitQuery()
+                    .await()
                     ?.map {
                         it.toObject<RemoteMachineTypeWithControlPoints>().let { remoteMachineTypeWithControlPoints ->
                             MachineTypeWithControlPoints(

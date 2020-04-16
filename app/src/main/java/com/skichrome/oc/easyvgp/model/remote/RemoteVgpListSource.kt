@@ -4,7 +4,10 @@ import android.content.res.Resources
 import android.net.Uri
 import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageMetadata
+import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.google.firebase.storage.ktx.storageMetadata
 import com.skichrome.oc.easyvgp.model.Results
@@ -19,7 +22,6 @@ import com.skichrome.oc.easyvgp.util.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.File
 
 class RemoteVgpListSource(
     private val resources: Resources,
@@ -34,35 +36,40 @@ class RemoteVgpListSource(
     //        Superclass Methods
     // =================================
 
-    override suspend fun uploadImageToStorage(userUid: String, filePath: String): Results<Uri> = withContext(dispatchers) {
-        return@withContext try
-        {
-            val metadata = storageMetadata {
-                contentType = "image/jpg"
-            }
-
-            val file = Uri.fromFile(File(filePath))
-            val userPhotoReference = userReference.child("$REMOTE_USER_STORAGE/$userUid/$PICTURES_FOLDER_NAME/${file.lastPathSegment}")
-
-            val remotePhotoReference = userPhotoReference.putFile(file, metadata)
-                .continueWithTask { task ->
-                    if (!task.isSuccessful)
-                        task.exception?.let { throw it }
-
-                    userPhotoReference.downloadUrl
+    override suspend fun uploadImageToStorage(userUid: String, localUri: Uri, remoteUri: Uri?, filePrefix: String): Results<Uri> =
+        withContext(dispatchers) {
+            return@withContext try
+            {
+                val metadata = storageMetadata {
+                    contentType = "image/jpg"
                 }
-                .awaitDownloadUrl()
-            Success(remotePhotoReference)
+
+                val userPhotoReference =
+                    userReference.child("$REMOTE_USER_STORAGE/$userUid/$PICTURES_FOLDER_NAME/$filePrefix-${localUri.path?.split("/")?.last()}")
+
+                remoteUri?.let {
+                    val oldUserPhotoReference =
+                        userReference.child("$REMOTE_USER_STORAGE/$userUid/$PICTURES_FOLDER_NAME/$filePrefix-${it.path?.split("/")?.last()}")
+
+                    if (userPhotoReference != oldUserPhotoReference)
+                    {
+                        Log.e("RemoteVgpListSrc", "Remote reference need to be updated")
+                        oldUserPhotoReference.delete()
+                        return@let uploadToStorage(reference = userPhotoReference, uri = localUri, metadata = metadata)
+                    }
+                    else
+                        return@let Success(remoteUri)
+                } ?: uploadToStorage(reference = userPhotoReference, uri = localUri, metadata = metadata)
+            }
+            catch (e: Exception)
+            {
+                Error(e)
+            }
         }
-        catch (e: Exception)
-        {
-            Error(e)
-        }
-    }
 
     override suspend fun generateReport(
-        userUid: String,
         reportDate: Long,
+        user: UserAndCompany,
         customer: Customer,
         machine: Machine,
         machineType: MachineType,
@@ -71,43 +78,56 @@ class RemoteVgpListSource(
         withContext(dispatchers) {
             return@withContext try
             {
-                val remoteCustomer = customer.let {
-                    RemoteCustomer(
-                        id = it.id,
-                        address = it.address,
-                        city = it.city,
-                        email = it.email,
-                        firstName = it.firstName,
-                        lastName = it.lastName,
-                        mobilePhone = it.mobilePhone,
-                        notes = it.notes,
-                        phone = it.phone,
-                        postCode = it.postCode,
-                        siret = it.siret
-                    )
-                }
+                val notificationToken = FirebaseInstanceId.getInstance().instanceId
+                    .await()
+                    .token
 
-                val remoteMachine = machine.let {
-                    RemoteMachine(
-                        machineId = it.machineId,
-                        name = it.name,
-                        brand = it.brand,
-                        model = it.model,
-                        manufacturingYear = it.manufacturingYear,
-                        customer = it.customer,
-                        serial = it.serial,
-                        type = it.type,
-                        photoReference = it.remotePhotoRef.toString()
-                    )
-                }
+                val remoteUser = RemoteUser(
+                    id = user.user.id,
+                    name = user.user.name,
+                    email = user.user.email,
+                    approval = user.user.approval,
+                    companyId = user.company.id,
+                    companyName = user.company.name,
+                    companySiret = user.company.siret,
+                    firebaseUid = user.user.firebaseUid,
+                    notificationToken = notificationToken,
+                    vatNumber = user.user.vatNumber,
+                    companyLogo = user.company.remoteCompanyLogo.toString(),
+                    signaturePath = user.user.remoteSignaturePath.toString()
+                )
 
-                val remoteMachineType = machineType.let {
-                    RemoteMachineType(
-                        id = it.id,
-                        name = it.name,
-                        legalName = it.legalName
-                    )
-                }
+                val remoteCustomer = RemoteCustomer(
+                    id = customer.id,
+                    address = customer.address,
+                    city = customer.city,
+                    email = customer.email,
+                    firstName = customer.firstName,
+                    lastName = customer.lastName,
+                    mobilePhone = customer.mobilePhone,
+                    notes = customer.notes,
+                    phone = customer.phone,
+                    postCode = customer.postCode,
+                    siret = customer.siret
+                )
+
+                val remoteMachine = RemoteMachine(
+                    machineId = machine.machineId,
+                    name = machine.name,
+                    brand = machine.brand,
+                    model = machine.model,
+                    manufacturingYear = machine.manufacturingYear,
+                    customer = machine.customer,
+                    serial = machine.serial,
+                    type = machine.type,
+                    photoReference = machine.remotePhotoRef.toString()
+                )
+
+                val remoteMachineType = RemoteMachineType(
+                    id = machineType.id,
+                    name = machineType.name,
+                    legalName = machineType.legalName
+                )
 
                 val remoteReportCtrlPointData = LinkedHashMap<String, RemoteControlPointData>()
                 val remoteReportCtrlPoint = LinkedHashMap<String, RemoteControlPoint>()
@@ -133,6 +153,7 @@ class RemoteVgpListSource(
                 }
 
                 val remoteReport = RemoteReportData(
+                    user = remoteUser,
                     customer = remoteCustomer,
                     machine = remoteMachine,
                     machineType = remoteMachineType,
@@ -140,16 +161,16 @@ class RemoteVgpListSource(
                     reportCtrlPoint = remoteReportCtrlPoint
                 )
 
-                getUserCollection(userUid)
+                getUserCollection(user.user.firebaseUid)
                     .document("$reportDate")
                     .set(remoteReport)
-                    .awaitUpload()
+                    .await()
 
                 Success(true)
             }
             catch (e: Exception)
             {
-                Log.e("RemoteVGPListSrc", "Upload failed ! ${getUserCollection(userUid).path}", e)
+                Log.e("RemoteVGPListSrc", "Upload failed ! ${getUserCollection(user.user.firebaseUid).path}", e)
                 Error(e)
             }
         }
@@ -158,6 +179,9 @@ class RemoteVgpListSource(
         Error(NotImplementedException("Not implemented for remote source"))
 
     override suspend fun getReportFromDate(date: Long): Results<List<Report>> =
+        Error(NotImplementedException("Not implemented for remote source"))
+
+    override suspend fun getUserFromId(id: Long): Results<UserAndCompany> =
         Error(NotImplementedException("Not implemented for remote source"))
 
     override suspend fun getCustomerFromId(customerId: Long): Results<Customer> =
@@ -172,6 +196,12 @@ class RemoteVgpListSource(
     override suspend fun updateMachine(machine: Machine): Results<Int> =
         Error(NotImplementedException("Not implemented for remote source"))
 
+    override suspend fun updateUser(user: User): Results<Int> =
+        Error(NotImplementedException("Not implemented for remote source"))
+
+    override suspend fun updateCompany(company: Company): Results<Int> =
+        Error(NotImplementedException("Not implemented for remote source"))
+
     // =================================
     //              Methods
     // =================================
@@ -179,4 +209,24 @@ class RemoteVgpListSource(
     private fun getUserCollection(userUid: String) = db.collection(REMOTE_USER_COLLECTION)
         .document(userUid)
         .collection(REMOTE_REPORT_COLLECTION)
+
+    private suspend fun uploadToStorage(reference: StorageReference, uri: Uri, metadata: StorageMetadata): Results<Uri>
+    {
+        try
+        {
+            val remotePhotoReference = reference.putFile(uri, metadata)
+                .continueWithTask { task ->
+                    if (!task.isSuccessful)
+                        task.exception?.let { throw it }
+
+                    reference.downloadUrl
+                }
+                .await()
+            return Success(remotePhotoReference)
+        }
+        catch (e: Exception)
+        {
+            return Error(e)
+        }
+    }
 }

@@ -14,7 +14,6 @@ import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 fun Activity.toast(msg: String) = Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 fun Fragment.toast(msg: String) = Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
@@ -35,56 +34,23 @@ fun RecyclerView.ViewHolder.setHolderBottomMargin(isLastIndex: Boolean)
     itemView.layoutParams = params
 }
 
-// --- Cloud Firestore --- //
+// --- Use Task with coroutines --- //
 
 @Suppress("UNCHECKED_CAST")
-suspend fun <T> Task<T>.awaitQuery(): T = suspendCoroutine { continuation ->
+suspend fun <T> Task<T>.await(): T = suspendCancellableCoroutine { continuation ->
     addOnCompleteListener { task ->
         when
         {
-            (task.result as QuerySnapshot).metadata.isFromCache -> continuation.resumeWithException(Exception("without internet"))
-            task.isSuccessful -> continuation.resume(value = task.result as T)
-            else -> continuation.resumeWithException(task.exception!!)
-        }
-    }
-    addOnFailureListener { continuation.resumeWithException(it) }
-}
-
-@Suppress("UNCHECKED_CAST")
-suspend fun <T> Task<T>.awaitDocument(): T = suspendCoroutine { continuation ->
-    addOnCompleteListener { task ->
-        when
-        {
-            (task.result as DocumentSnapshot).metadata.isFromCache -> continuation.resumeWithException(Exception("without internet"))
-            task.isSuccessful -> continuation.resume(value = task.result as T)
-            else -> continuation.resumeWithException(task.exception!!)
-        }
-    }
-    addOnFailureListener { continuation.resumeWithException(it) }
-}
-
-@Suppress("UNCHECKED_CAST")
-suspend fun <T> Task<T>.awaitUpload(): T = suspendCancellableCoroutine { continuation ->
-    addOnCompleteListener { task ->
-        when
-        {
-            task.isCanceled -> continuation.cancel()
-            task.isSuccessful -> continuation.resume(task.result as T)
-        }
-    }
-    addOnFailureListener { continuation.resumeWithException(it) }
-}
-
-// --- Cloud Storage --- //
-
-@Suppress("UNCHECKED_CAST")
-suspend fun <T> Task<T>.awaitDownloadUrl(): T = suspendCancellableCoroutine { continuation ->
-    addOnCompleteListener { task ->
-        when
-        {
-            (task.result as Uri).path == null -> continuation.resumeWithException(Exception("path is null !!"))
-            task.isCanceled -> continuation.cancel()
-            task.isSuccessful -> continuation.resume(task.result as T)
+            task.result is QuerySnapshot && (task.result as QuerySnapshot).metadata.isFromCache ->
+                continuation.resumeWithException(Exception("without internet"))
+            task.result is DocumentSnapshot && (task.result as DocumentSnapshot).metadata.isFromCache ->
+                continuation.resumeWithException(Exception("without internet"))
+            task.result is Uri && (task.result as Uri).path == null ->
+                continuation.resumeWithException(Exception("path is null !!"))
+            task.isCanceled ->
+                continuation.cancel()
+            task.isSuccessful ->
+                continuation.resume(task.result as T)
         }
     }
     addOnFailureListener { continuation.resumeWithException(it) }

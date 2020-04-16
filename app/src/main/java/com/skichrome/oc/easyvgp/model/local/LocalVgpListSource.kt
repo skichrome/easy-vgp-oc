@@ -12,6 +12,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class LocalVgpListSource(
+    private val userDao: UserDao,
+    private val companyDao: CompanyDao,
     private val customerDao: CustomerDao,
     private val machineDao: MachineDao,
     private val machineTypeDao: MachineTypeDao,
@@ -35,6 +37,17 @@ class LocalVgpListSource(
         {
             val result = machineControlPointDataDao.getPreviouslyInsertedReport(date)
             Success(result)
+        }
+        catch (e: Exception)
+        {
+            Error(e)
+        }
+    }
+
+    override suspend fun getUserFromId(id: Long): Results<UserAndCompany> = withContext(dispatchers) {
+        return@withContext try
+        {
+            Success(userDao.getUserFromId(id))
         }
         catch (e: Exception)
         {
@@ -86,12 +99,34 @@ class LocalVgpListSource(
         }
     }
 
-    override suspend fun uploadImageToStorage(userUid: String, filePath: String): Results<Uri> =
+    override suspend fun updateUser(user: User): Results<Int> = withContext(dispatchers) {
+        return@withContext try
+        {
+            Success(userDao.update(user))
+        }
+        catch (e: Exception)
+        {
+            Error(e)
+        }
+    }
+
+    override suspend fun updateCompany(company: Company): Results<Int> = withContext(dispatchers) {
+        return@withContext try
+        {
+            Success(companyDao.update(company))
+        }
+        catch (e: Exception)
+        {
+            Error(e)
+        }
+    }
+
+    override suspend fun uploadImageToStorage(userUid: String, localUri: Uri, remoteUri: Uri?, filePrefix: String): Results<Uri> =
         Error(NotImplementedException("Method not available on local VGPList source"))
 
     override suspend fun generateReport(
-        userUid: String,
         reportDate: Long,
+        user: UserAndCompany,
         customer: Customer,
         machine: Machine,
         machineType: MachineType,

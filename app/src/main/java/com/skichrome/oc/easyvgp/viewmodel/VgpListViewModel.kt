@@ -70,12 +70,12 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
         }
     }
 
-    fun loadReport(userUid: String, customerId: Long, reportDate: Long, machineId: Long, machineTypeId: Long)
+    fun loadReport(userId: Long, customerId: Long, reportDate: Long, machineId: Long, machineTypeId: Long)
     {
         viewModelScope.uiJob {
             _isLoading.set(true)
             val result = repository.generateReport(
-                userUid = userUid,
+                userId = userId,
                 reportDate = reportDate,
                 machineTypeId = machineTypeId,
                 machineId = machineId,

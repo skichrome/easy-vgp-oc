@@ -121,7 +121,7 @@ class LocalHomeSourceTest
         DataProvider.userCompanyList.forEach { homeSource.insertNewUserAndCompany(it) }
 
         // Update data with source
-        val userCompanyToUpdate = UserAndCompany(DataProvider.company1Edit, DataProvider.user1Edit)
+        val userCompanyToUpdate = UserAndCompany(company = DataProvider.company1Edit, user = DataProvider.user1Edit)
         homeSource.updateUserAndCompany(userCompanyToUpdate)
 
         // Get data with database DAO

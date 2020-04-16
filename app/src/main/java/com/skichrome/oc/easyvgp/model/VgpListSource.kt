@@ -9,6 +9,8 @@ interface VgpListSource
 
     suspend fun getReportFromDate(date: Long): Results<List<Report>>
 
+    suspend fun getUserFromId(id: Long): Results<UserAndCompany>
+
     suspend fun getCustomerFromId(customerId: Long): Results<Customer>
 
     suspend fun getMachineFromId(machineId: Long): Results<Machine>
@@ -17,11 +19,15 @@ interface VgpListSource
 
     suspend fun updateMachine(machine: Machine): Results<Int>
 
-    suspend fun uploadImageToStorage(userUid: String, filePath: String): Results<Uri>
+    suspend fun updateUser(user: User): Results<Int>
+
+    suspend fun updateCompany(company: Company): Results<Int>
+
+    suspend fun uploadImageToStorage(userUid: String, localUri: Uri, remoteUri: Uri?, filePrefix: String): Results<Uri>
 
     suspend fun generateReport(
-        userUid: String,
         reportDate: Long,
+        user: UserAndCompany,
         customer: Customer,
         machine: Machine,
         machineType: MachineType,

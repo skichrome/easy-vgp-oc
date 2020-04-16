@@ -1,6 +1,7 @@
 package com.skichrome.oc.easyvgp.model.remote.util
 
 data class RemoteReportData(
+    val user: RemoteUser,
     val customer: RemoteCustomer,
     val machineType: RemoteMachineType,
     val machine: RemoteMachine,
@@ -8,5 +9,5 @@ data class RemoteReportData(
     val reportCtrlPoint: LinkedHashMap<String, RemoteControlPoint>
 )
 {
-    constructor() : this(RemoteCustomer(), RemoteMachineType(), RemoteMachine(), LinkedHashMap(), LinkedHashMap())
+    constructor() : this(RemoteUser(), RemoteCustomer(), RemoteMachineType(), RemoteMachine(), LinkedHashMap(), LinkedHashMap())
 }
