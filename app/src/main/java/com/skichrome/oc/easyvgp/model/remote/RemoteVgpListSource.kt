@@ -49,7 +49,7 @@ class RemoteVgpListSource(
 
                 remoteUri?.let {
                     val oldUserPhotoReference =
-                        userReference.child("$REMOTE_USER_STORAGE/$userUid/$PICTURES_FOLDER_NAME/$filePrefix-${it.path?.split("/")?.last()}")
+                        userReference.child("$REMOTE_USER_STORAGE/$userUid/$PICTURES_FOLDER_NAME/${it.path?.split("/")?.last()}")
 
                     if (userPhotoReference != oldUserPhotoReference)
                     {

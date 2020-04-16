@@ -41,6 +41,17 @@ fun File.createOrGetJpegFile(folderName: String, fileName: String): File
     return File(fileFolder, "[$timeStamp]-$fileName.jpg")
 }
 
+@Throws(IOException::class)
+fun File.createOrGetPdfFile(folderName: String, fileName: String): File
+{
+    val fileFolder = File(this, folderName).apply {
+        if (!exists())
+            mkdirs()
+    }
+    val timeStamp = SimpleDateFormat("HH:mm:ss_dd-MM-yyyy", Locale.getDefault()).format(Date())
+    return File(fileFolder, "[$timeStamp]-$fileName.pdf")
+}
+
 @Throws(Exception::class)
 fun File.transformBitmapFile(): Bitmap
 {
