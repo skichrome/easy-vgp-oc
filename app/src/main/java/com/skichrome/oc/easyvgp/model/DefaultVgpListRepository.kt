@@ -4,6 +4,8 @@ import android.net.Uri
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.local.base.VgpListRepository
+import com.skichrome.oc.easyvgp.model.local.base.VgpListSource
 import com.skichrome.oc.easyvgp.model.local.database.VgpListItem
 import com.skichrome.oc.easyvgp.util.LocalRepositoryException
 import com.skichrome.oc.easyvgp.util.NetworkException

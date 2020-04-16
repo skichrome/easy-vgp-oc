@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.local.base.AdminRepository
+import com.skichrome.oc.easyvgp.model.local.base.AdminSource
 import com.skichrome.oc.easyvgp.model.local.database.ControlPoint
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
 import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints

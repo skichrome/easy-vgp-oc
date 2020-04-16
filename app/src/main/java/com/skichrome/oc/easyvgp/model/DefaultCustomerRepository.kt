@@ -2,6 +2,8 @@ package com.skichrome.oc.easyvgp.model
 
 import androidx.lifecycle.LiveData
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager
+import com.skichrome.oc.easyvgp.model.local.base.CustomerRepository
+import com.skichrome.oc.easyvgp.model.local.base.CustomerSource
 import com.skichrome.oc.easyvgp.model.local.database.Customer
 
 class DefaultCustomerRepository(

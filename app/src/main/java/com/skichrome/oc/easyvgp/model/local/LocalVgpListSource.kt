@@ -4,7 +4,7 @@ import android.net.Uri
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.VgpListSource
+import com.skichrome.oc.easyvgp.model.local.base.VgpListSource
 import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.util.NotImplementedException
 import kotlinx.coroutines.CoroutineDispatcher

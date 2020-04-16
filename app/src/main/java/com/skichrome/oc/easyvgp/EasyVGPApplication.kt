@@ -1,7 +1,7 @@
 package com.skichrome.oc.easyvgp
 
 import android.app.Application
-import com.skichrome.oc.easyvgp.model.*
+import com.skichrome.oc.easyvgp.model.local.base.*
 import com.skichrome.oc.easyvgp.viewmodel.ServiceLocator
 
 class EasyVGPApplication : Application()

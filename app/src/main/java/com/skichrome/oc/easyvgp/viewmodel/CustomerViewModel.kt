@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.skichrome.oc.easyvgp.R
-import com.skichrome.oc.easyvgp.model.CustomerRepository
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.local.base.CustomerRepository
 import com.skichrome.oc.easyvgp.model.local.database.Customer
 import com.skichrome.oc.easyvgp.util.Event
 import com.skichrome.oc.easyvgp.util.uiJob

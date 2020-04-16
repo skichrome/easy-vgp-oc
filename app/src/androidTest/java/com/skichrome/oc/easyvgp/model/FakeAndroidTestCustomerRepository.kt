@@ -3,6 +3,7 @@ package com.skichrome.oc.easyvgp.model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.local.base.CustomerRepository
 import com.skichrome.oc.easyvgp.model.local.database.Customer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking

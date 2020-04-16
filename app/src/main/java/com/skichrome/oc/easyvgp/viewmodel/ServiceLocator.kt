@@ -10,6 +10,7 @@ import com.skichrome.oc.easyvgp.androidmanagers.DefaultNetManager
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager
 import com.skichrome.oc.easyvgp.model.*
 import com.skichrome.oc.easyvgp.model.local.*
+import com.skichrome.oc.easyvgp.model.local.base.*
 import com.skichrome.oc.easyvgp.model.local.database.AppDatabase
 import com.skichrome.oc.easyvgp.model.remote.CustomerRemoteRepository
 import com.skichrome.oc.easyvgp.model.remote.RemoteAdminSource

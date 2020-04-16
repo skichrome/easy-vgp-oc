@@ -1,9 +1,9 @@
 package com.skichrome.oc.easyvgp.model.source
 
-import com.skichrome.oc.easyvgp.model.HomeSource
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.local.base.HomeSource
 import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.util.ItemNotFoundException
 import kotlinx.coroutines.Deferred

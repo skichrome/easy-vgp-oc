@@ -1,6 +1,7 @@
-package com.skichrome.oc.easyvgp.model
+package com.skichrome.oc.easyvgp.model.local.base
 
 import android.net.Uri
+import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.local.database.*
 
 interface VgpListSource

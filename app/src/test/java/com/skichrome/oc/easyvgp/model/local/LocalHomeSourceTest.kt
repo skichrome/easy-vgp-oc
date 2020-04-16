@@ -6,9 +6,9 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.skichrome.oc.easyvgp.getOrAwaitValue
-import com.skichrome.oc.easyvgp.model.HomeSource
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.local.base.HomeSource
 import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.model.source.DataProvider
 import com.skichrome.oc.easyvgp.util.NotImplementedException

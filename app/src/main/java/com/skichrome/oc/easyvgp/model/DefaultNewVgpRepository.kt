@@ -2,6 +2,8 @@ package com.skichrome.oc.easyvgp.model
 
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.local.base.NewVgpRepository
+import com.skichrome.oc.easyvgp.model.local.base.NewVgpSource
 import com.skichrome.oc.easyvgp.model.local.database.ControlPointData
 import com.skichrome.oc.easyvgp.model.local.database.MachineControlPointData
 import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints

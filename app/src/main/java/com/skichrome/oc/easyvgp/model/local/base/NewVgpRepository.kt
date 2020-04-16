@@ -1,5 +1,6 @@
-package com.skichrome.oc.easyvgp.model
+package com.skichrome.oc.easyvgp.model.local.base
 
+import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.local.database.ControlPointData
 import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints
 import com.skichrome.oc.easyvgp.model.local.database.Report

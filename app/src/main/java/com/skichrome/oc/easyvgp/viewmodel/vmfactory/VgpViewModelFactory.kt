@@ -2,7 +2,7 @@ package com.skichrome.oc.easyvgp.viewmodel.vmfactory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.skichrome.oc.easyvgp.model.NewVgpRepository
+import com.skichrome.oc.easyvgp.model.local.base.NewVgpRepository
 import com.skichrome.oc.easyvgp.viewmodel.VgpViewModel
 
 class VgpViewModelFactory(private val repository: NewVgpRepository) : ViewModelProvider.NewInstanceFactory()
