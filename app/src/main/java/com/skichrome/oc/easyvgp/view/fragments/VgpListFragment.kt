@@ -111,11 +111,9 @@ class VgpListFragment : BaseBindingFragment<FragmentVgpListBinding>()
                 {
                     requireContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)?.getFile(PDF_FOLDER_NAME, fileName)
                         ?.let { file ->
-                            Log.e("VgpListFrag", "File path : ${file.path}")
                             val uri = FileProvider.getUriForFile(requireContext(), AUTHORITY, file)
-                            Log.e("VgpListFrag", "Uri : $uri")
                             setDataAndType(uri, "application/pdf")
-                            flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+                            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
 
                             resolveActivity(requireActivity().packageManager)?.let {
                                 startActivity(this)
