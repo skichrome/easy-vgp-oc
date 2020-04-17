@@ -106,6 +106,15 @@
             android:name="vgpReportExtra"
             android:defaultValue="-1L"
             app:argType="long" />
+        <action
+            android:id="@+id/action_newVgpFragment_to_vgpListFragment"
+            app:destination="@id/vgpListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/vgpListFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/addEditMachineFragment"

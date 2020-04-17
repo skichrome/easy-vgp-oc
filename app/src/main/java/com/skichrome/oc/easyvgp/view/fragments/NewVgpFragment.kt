@@ -52,7 +52,7 @@ class NewVgpFragment : BaseBindingFragment<FragmentNewVgpBinding>()
     {
         viewModel.message.observe(viewLifecycleOwner, EventObserver { binding.root.snackBar(getString(it)) })
         viewModel.onClickCommentEvent.observe(viewLifecycleOwner, EventObserver { showCommentAlertDialog(it) })
-        viewModel.onReportSaved.observe(viewLifecycleOwner, EventObserver { if (it) findNavController().navigateUp() })
+        viewModel.onReportSaved.observe(viewLifecycleOwner, EventObserver { if (it) navigateToVgpList() })
 
         if (args.reportDateToEdit == -1L)
             viewModel.getMachineTypeWithControlPoints(args.machineTypeId)
@@ -102,5 +102,15 @@ class NewVgpFragment : BaseBindingFragment<FragmentNewVgpBinding>()
             }
         }
         dialog?.show()
+    }
+
+    private fun navigateToVgpList()
+    {
+        val opt = NewVgpFragmentDirections.actionNewVgpFragmentToVgpListFragment(
+            machineId = args.machineId,
+            machineTypeId = args.machineTypeId,
+            customerId = args.customerId
+        )
+        findNavController().navigate(opt)
     }
 }
