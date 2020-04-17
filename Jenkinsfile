@@ -200,7 +200,7 @@ pipeline {
             }
             steps {
                 script {
-                    archiveArtifacts artifacts: 'app/build/outputs/apk/release/*.apk'
+                    archiveArtifacts artifacts: 'app/build/outputs/apk/**/release/*.apk'
                 }
             }
         }
