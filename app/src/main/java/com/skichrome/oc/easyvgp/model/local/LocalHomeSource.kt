@@ -3,7 +3,7 @@ package com.skichrome.oc.easyvgp.model.local
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.local.base.HomeSource
+import com.skichrome.oc.easyvgp.model.base.HomeSource
 import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.util.AppCoroutinesConfiguration
 import com.skichrome.oc.easyvgp.util.NotImplementedException

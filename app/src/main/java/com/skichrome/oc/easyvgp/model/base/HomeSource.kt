@@ -1,4 +1,4 @@
-package com.skichrome.oc.easyvgp.model.local.base
+package com.skichrome.oc.easyvgp.model.base
 
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.local.database.ControlPoint

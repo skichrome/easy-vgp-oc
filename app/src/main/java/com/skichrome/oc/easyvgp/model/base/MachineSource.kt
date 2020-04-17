@@ -1,11 +1,11 @@
-package com.skichrome.oc.easyvgp.model.local.base
+package com.skichrome.oc.easyvgp.model.base
 
 import androidx.lifecycle.LiveData
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.local.database.Machine
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
 
-interface MachineRepository
+interface MachineSource
 {
     fun observeMachines(): LiveData<Results<List<Machine>>>
     fun observeMachineTypes(): LiveData<Results<List<MachineType>>>

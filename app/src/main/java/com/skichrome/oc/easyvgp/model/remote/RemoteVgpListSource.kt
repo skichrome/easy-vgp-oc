@@ -13,9 +13,9 @@ import com.google.firebase.storage.ktx.storageMetadata
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.base.VgpListSource
 import com.skichrome.oc.easyvgp.model.local.ChoicePossibility
 import com.skichrome.oc.easyvgp.model.local.VerificationType
-import com.skichrome.oc.easyvgp.model.local.base.VgpListSource
 import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.model.remote.util.*
 import com.skichrome.oc.easyvgp.util.*
@@ -73,7 +73,8 @@ class RemoteVgpListSource(
         customer: Customer,
         machine: Machine,
         machineType: MachineType,
-        reports: List<Report>
+        reports: List<Report>,
+        reportExtra: MachineControlPointDataExtra
     ): Results<Boolean> =
         withContext(dispatchers) {
             return@withContext try
@@ -152,13 +153,27 @@ class RemoteVgpListSource(
                     )
                 }
 
+                val remoteExtra = RemoteMachineControlPointDataExtra(
+                    id = reportExtra.id,
+                    reportEndDate = reportExtra.reportEndDate,
+                    machineHours = reportExtra.machineHours,
+                    interventionPlace = reportExtra.interventionPlace,
+                    controlType = reportExtra.controlType.id,
+                    machineNotice = reportExtra.machineNotice,
+                    isMachineClean = reportExtra.isMachineClean,
+                    isLiftingEquip = reportExtra.isLiftingEquip,
+                    isMachineCE = reportExtra.isMachineCE,
+                    reportDate = reportExtra.reportDate
+                )
+
                 val remoteReport = RemoteReportData(
                     user = remoteUser,
                     customer = remoteCustomer,
                     machine = remoteMachine,
                     machineType = remoteMachineType,
                     reportData = remoteReportCtrlPointData,
-                    reportCtrlPoint = remoteReportCtrlPoint
+                    reportCtrlPoint = remoteReportCtrlPoint,
+                    reportDataExtra = remoteExtra
                 )
 
                 getUserCollection(user.user.firebaseUid)
@@ -179,6 +194,9 @@ class RemoteVgpListSource(
         Error(NotImplementedException("Not implemented for remote source"))
 
     override suspend fun getReportFromDate(date: Long): Results<List<Report>> =
+        Error(NotImplementedException("Not implemented for remote source"))
+
+    override suspend fun getReportExtrasFromId(id: Long): Results<MachineControlPointDataExtra> =
         Error(NotImplementedException("Not implemented for remote source"))
 
     override suspend fun getUserFromId(id: Long): Results<UserAndCompany> =

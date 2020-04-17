@@ -76,7 +76,7 @@ class NewVgpFragment : BaseBindingFragment<FragmentNewVgpBinding>()
     {
         binding.fragVGPFab.setOnClickListener {
             if (args.reportDateToEdit == -1L)
-                viewModel.saveCtrlPointDataList(args.machineId)
+                viewModel.saveCtrlPointDataList(args.machineId, args.vgpReportExtra)
             else
                 viewModel.updatePreviouslyCreatedReport()
         }

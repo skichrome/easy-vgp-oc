@@ -6,7 +6,7 @@ import androidx.lifecycle.*
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.local.base.AdminRepository
+import com.skichrome.oc.easyvgp.model.base.AdminRepository
 import com.skichrome.oc.easyvgp.model.local.database.ControlPoint
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
 import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints

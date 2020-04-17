@@ -1,4 +1,4 @@
-package com.skichrome.oc.easyvgp.model.local.base
+package com.skichrome.oc.easyvgp.model.base
 
 import androidx.lifecycle.LiveData
 import com.skichrome.oc.easyvgp.model.Results

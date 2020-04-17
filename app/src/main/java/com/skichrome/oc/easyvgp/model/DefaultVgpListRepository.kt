@@ -4,8 +4,8 @@ import android.net.Uri
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.local.base.VgpListRepository
-import com.skichrome.oc.easyvgp.model.local.base.VgpListSource
+import com.skichrome.oc.easyvgp.model.base.VgpListRepository
+import com.skichrome.oc.easyvgp.model.base.VgpListSource
 import com.skichrome.oc.easyvgp.model.local.database.VgpListItem
 import com.skichrome.oc.easyvgp.util.LocalRepositoryException
 import com.skichrome.oc.easyvgp.util.NetworkException
@@ -25,18 +25,19 @@ class DefaultVgpListRepository(
         customerId: Long,
         machineId: Long,
         machineTypeId: Long,
-        reportDate: Long
+        report: VgpListItem
     ): Results<Boolean>
     {
         return if (netManager.isConnectedToInternet())
         {
             val localUser = localSource.getUserFromId(userId)
-            val localReport = localSource.getReportFromDate(reportDate)
+            val localReport = localSource.getReportFromDate(report.reportDate)
             val customer = localSource.getCustomerFromId(customerId)
             val machine = localSource.getMachineFromId(machineId)
             val machineType = localSource.getMachineTypeFromId(machineTypeId)
+            val reportExtras = localSource.getReportExtrasFromId(report.extrasReference)
 
-            if (localUser is Success && localReport is Success && customer is Success && machine is Success && machineType is Success)
+            if (localUser is Success && localReport is Success && customer is Success && machine is Success && machineType is Success && reportExtras is Success)
             {
                 machine.data.localPhotoRef?.let { photoRef ->
                     val photoRefUri = Uri.fromFile(File(photoRef))
@@ -104,7 +105,8 @@ class DefaultVgpListRepository(
                     machineType = machineType.data,
                     machine = machine.data,
                     reports = localReport.data,
-                    reportDate = reportDate
+                    reportDate = report.reportDate,
+                    reportExtra = reportExtras.data
                 )
             }
             else

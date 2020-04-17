@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.local.base.NewVgpRepository
+import com.skichrome.oc.easyvgp.model.base.NewVgpRepository
 import com.skichrome.oc.easyvgp.model.local.database.ControlPointData
 import com.skichrome.oc.easyvgp.model.local.util.ControlPointDataVgp
 import com.skichrome.oc.easyvgp.util.Event
@@ -105,7 +105,7 @@ class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
         }
     }
 
-    fun saveCtrlPointDataList(machineId: Long)
+    fun saveCtrlPointDataList(machineId: Long, controlExtraId: Long)
     {
         viewModelScope.uiJob {
             _machineTypeWithControlPointsData.value?.let {
@@ -116,7 +116,7 @@ class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
                     return@let
                 }
 
-                val result = repository.insertMachineControlPointData(it, machineId)
+                val result = repository.insertMachineControlPointData(it, machineId, controlExtraId)
                 if (result is Success)
                     _onReportSaved.value = Event(true)
                 else

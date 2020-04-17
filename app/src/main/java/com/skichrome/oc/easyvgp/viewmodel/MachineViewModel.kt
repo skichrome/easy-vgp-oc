@@ -3,7 +3,7 @@ package com.skichrome.oc.easyvgp.viewmodel
 import androidx.lifecycle.*
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.local.base.MachineRepository
+import com.skichrome.oc.easyvgp.model.base.MachineRepository
 import com.skichrome.oc.easyvgp.model.local.database.Machine
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
 import com.skichrome.oc.easyvgp.util.Event

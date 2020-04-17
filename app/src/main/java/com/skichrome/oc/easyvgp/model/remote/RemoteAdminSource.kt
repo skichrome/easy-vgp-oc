@@ -6,7 +6,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.local.base.AdminSource
+import com.skichrome.oc.easyvgp.model.base.AdminSource
 import com.skichrome.oc.easyvgp.model.local.database.ControlPoint
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
 import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints

@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.local.base.HomeRepository
+import com.skichrome.oc.easyvgp.model.base.HomeRepository
 import com.skichrome.oc.easyvgp.model.local.database.UserAndCompany
 import com.skichrome.oc.easyvgp.util.Event
 import com.skichrome.oc.easyvgp.util.uiJob

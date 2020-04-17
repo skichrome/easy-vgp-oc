@@ -4,10 +4,7 @@ import android.util.Log
 import androidx.work.*
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.skichrome.oc.easyvgp.util.KEY_PDF_WORK
-import com.skichrome.oc.easyvgp.util.KEY_REPORT_DATE_WORK
-import com.skichrome.oc.easyvgp.util.KEY_REPORT_ID_WORK
-import com.skichrome.oc.easyvgp.util.KEY_REPORT_MACHINE_WORK
+import com.skichrome.oc.easyvgp.util.*
 
 class ReportReadyNotificationService : FirebaseMessagingService()
 {
@@ -30,7 +27,8 @@ class ReportReadyNotificationService : FirebaseMessagingService()
             KEY_PDF_WORK to messageData["path"],
             KEY_REPORT_ID_WORK to messageData["reportId"],
             KEY_REPORT_MACHINE_WORK to messageData["machine"],
-            KEY_REPORT_DATE_WORK to messageData["date"]
+            KEY_REPORT_DATE_WORK to messageData["date"],
+            KEY_REPORT__EXTRA_ID_WORK to messageData["extraId"]
         )
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.local.base.CustomerRepository
+import com.skichrome.oc.easyvgp.model.base.CustomerRepository
 import com.skichrome.oc.easyvgp.model.local.database.Customer
 
 class FakeCustomerRepository : CustomerRepository

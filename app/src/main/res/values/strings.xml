@@ -161,4 +161,12 @@
     <string name="cloud_msg_notification_error_content">An error occurred with your report created on %1$s for machine model %2$s</string>
     <string name="cloud_msg_notification_channel_id" translatable="false">fcm_report_ready_notification_channel</string>
     <string name="cloud_msg_notification_channel">Report notification</string>
+
+    <!-- New VGP Setup Fragment -->
+    <string name="fragment_new_vgp_setup_sw_machine_clean">Is the machine clean for control ?</string>
+    <string name="fragment_new_vgp_setup_sw_machine_ce">Is the machine marked with CE ?</string>
+    <string name="fragment_new_vgp_setup_sw_machine_manual">Is the manual available in the machine ?</string>
+    <string name="fragment_new_vgp_setup_sw_machine_lifting">Is machine equipped for lifting ?</string>
+    <string name="fragment_new_vgp_setup_sw_machine_hours">machine hours</string>
+    <string name="fragment_new_vgp_setup_machine_intervention_place">Intervention place</string>
 </resources>

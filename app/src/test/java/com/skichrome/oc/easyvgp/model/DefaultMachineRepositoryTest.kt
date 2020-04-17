@@ -5,7 +5,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.skichrome.oc.easyvgp.getOrAwaitValue
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.local.base.MachineRepository
+import com.skichrome.oc.easyvgp.model.base.MachineRepository
 import com.skichrome.oc.easyvgp.model.source.DataProvider
 import com.skichrome.oc.easyvgp.model.source.FakeMachineDataSource
 import kotlinx.coroutines.ExperimentalCoroutinesApi

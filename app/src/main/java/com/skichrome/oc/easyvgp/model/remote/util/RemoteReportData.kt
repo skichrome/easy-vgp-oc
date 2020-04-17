@@ -6,8 +6,17 @@ data class RemoteReportData(
     val machineType: RemoteMachineType,
     val machine: RemoteMachine,
     val reportData: LinkedHashMap<String, RemoteControlPointData>,
-    val reportCtrlPoint: LinkedHashMap<String, RemoteControlPoint>
+    val reportCtrlPoint: LinkedHashMap<String, RemoteControlPoint>,
+    val reportDataExtra: RemoteMachineControlPointDataExtra
 )
 {
-    constructor() : this(RemoteUser(), RemoteCustomer(), RemoteMachineType(), RemoteMachine(), LinkedHashMap(), LinkedHashMap())
+    constructor() : this(
+        RemoteUser(),
+        RemoteCustomer(),
+        RemoteMachineType(),
+        RemoteMachine(),
+        LinkedHashMap(),
+        LinkedHashMap(),
+        RemoteMachineControlPointDataExtra()
+    )
 }

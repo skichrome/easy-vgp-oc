@@ -1,8 +1,8 @@
 package com.skichrome.oc.easyvgp.model
 
 import androidx.lifecycle.LiveData
-import com.skichrome.oc.easyvgp.model.local.base.MachineRepository
-import com.skichrome.oc.easyvgp.model.local.base.MachineSource
+import com.skichrome.oc.easyvgp.model.base.MachineRepository
+import com.skichrome.oc.easyvgp.model.base.MachineSource
 import com.skichrome.oc.easyvgp.model.local.database.Machine
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
 

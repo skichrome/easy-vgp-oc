@@ -7,7 +7,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.skichrome.oc.easyvgp.getOrAwaitValue
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.local.base.MachineSource
+import com.skichrome.oc.easyvgp.model.base.MachineSource
 import com.skichrome.oc.easyvgp.model.local.database.AppDatabase
 import com.skichrome.oc.easyvgp.model.local.database.CustomerDao
 import com.skichrome.oc.easyvgp.model.local.database.MachineDao

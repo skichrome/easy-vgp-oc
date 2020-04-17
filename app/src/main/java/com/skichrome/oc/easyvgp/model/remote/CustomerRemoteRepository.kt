@@ -3,7 +3,7 @@ package com.skichrome.oc.easyvgp.model.remote
 import androidx.lifecycle.LiveData
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
-import com.skichrome.oc.easyvgp.model.local.base.CustomerSource
+import com.skichrome.oc.easyvgp.model.base.CustomerSource
 import com.skichrome.oc.easyvgp.model.local.database.Customer
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

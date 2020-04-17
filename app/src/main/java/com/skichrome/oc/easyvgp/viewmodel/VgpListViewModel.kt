@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.local.base.VgpListRepository
+import com.skichrome.oc.easyvgp.model.base.VgpListRepository
 import com.skichrome.oc.easyvgp.model.local.database.VgpListItem
 import com.skichrome.oc.easyvgp.util.Event
 import com.skichrome.oc.easyvgp.util.uiJob
@@ -30,8 +30,11 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
     private val _pdfDataReadyEvent = MutableLiveData<Event<Boolean>>()
     val pdfDataReadyEvent: LiveData<Event<Boolean>> = _pdfDataReadyEvent
 
-    private val _pdfClickEvent = MutableLiveData<Event<Long>>()
-    val pdfClickEvent: LiveData<Event<Long>> = _pdfClickEvent
+    private val _pdfClickEvent = MutableLiveData<Event<VgpListItem>>()
+    val pdfClickEvent: LiveData<Event<VgpListItem>> = _pdfClickEvent
+
+    private val _pdfValidClickEvent = MutableLiveData<Event<VgpListItem>>()
+    val pdfValidClickEvent: LiveData<Event<VgpListItem>> = _pdfValidClickEvent
 
     // --- Data
 
@@ -52,9 +55,17 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
             _reportDateEvent.value = Event(report.reportDate)
     }
 
-    fun onClickReportPdf(reportDate: Long)
+    fun onClickReportPdf(report: VgpListItem)
     {
-        _pdfClickEvent.value = Event(reportDate)
+        when
+        {
+            report.reportLocalPath == null && report.isValid ->
+            {
+                // Todo -> download report from Firebase storage
+            }
+            report.isValid -> _pdfValidClickEvent.value = Event(report)
+            !report.isValid -> _pdfClickEvent.value = Event(report)
+        }
     }
 
     // --- Data
@@ -70,13 +81,13 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
         }
     }
 
-    fun loadReport(userId: Long, customerId: Long, reportDate: Long, machineId: Long, machineTypeId: Long)
+    fun loadReport(userId: Long, customerId: Long, report: VgpListItem, machineId: Long, machineTypeId: Long)
     {
         viewModelScope.uiJob {
             _isLoading.set(true)
             val result = repository.generateReport(
                 userId = userId,
-                reportDate = reportDate,
+                report = report,
                 machineTypeId = machineTypeId,
                 machineId = machineId,
                 customerId = customerId

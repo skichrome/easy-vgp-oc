@@ -11,13 +11,14 @@ const val RC_FCM = 2222
 const val NOTIFICATION_FCM_ID = 2223
 
 // Local Storage access
-const val PDF_FOLDER_NAME = "user_report"
+const val PDF_FOLDER_NAME = "user_reports"
 const val PICTURES_FOLDER_NAME = "user_medias"
 const val AUTHORITY = "com.skichrome.oc.easyvgp.fileprovider"
 
 // Work Manager
 const val KEY_PDF_WORK = "worker_data_identifier_for_pdf_firebase_storage_location"
 const val KEY_REPORT_ID_WORK = "worker_data_identifier_for_pdf_report_id"
+const val KEY_REPORT__EXTRA_ID_WORK = "worker_data_identifier_for_pdf_report_extra_id"
 const val KEY_REPORT_MACHINE_WORK = "worker_data_identifier_for_pdf_report_machine_name"
 const val KEY_REPORT_DATE_WORK = "worker_data_identifier_for_pdf_report_date"
 

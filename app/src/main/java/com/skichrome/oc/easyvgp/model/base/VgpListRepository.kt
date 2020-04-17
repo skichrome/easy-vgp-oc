@@ -1,4 +1,4 @@
-package com.skichrome.oc.easyvgp.model.local.base
+package com.skichrome.oc.easyvgp.model.base
 
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.local.database.VgpListItem
@@ -12,6 +12,6 @@ interface VgpListRepository
         customerId: Long,
         machineId: Long,
         machineTypeId: Long,
-        reportDate: Long
+        report: VgpListItem
     ): Results<Boolean>
 }

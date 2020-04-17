@@ -7,6 +7,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.util.Log
@@ -15,6 +16,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.util.*
 import com.skichrome.oc.easyvgp.view.MainActivity
@@ -22,11 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 
-class DownloadReportWorker(
-    context: Context,
-    params: WorkerParameters
-) :
-    CoroutineWorker(context, params)
+class DownloadReportWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params)
 {
     // =================================
     //              Fields
@@ -43,15 +41,25 @@ class DownloadReportWorker(
         val machine = inputData.getString(KEY_REPORT_MACHINE_WORK)
         val pdfLocation = inputData.getString(KEY_PDF_WORK)
         val reportId = inputData.getString(KEY_REPORT_ID_WORK)
+        val extraId = inputData.getString(KEY_REPORT__EXTRA_ID_WORK)?.toLongOrNull()
         val date = inputData.getString(KEY_REPORT_DATE_WORK)
 
-        if (machine != null && pdfLocation != null && reportId != null && date != null)
+        if (machine != null && pdfLocation != null && reportId != null && date != null && extraId != null)
         {
-            val isSuccess = downloadReport(location = pdfLocation, machine = machine, reportId = reportId)
-            if (isSuccess == true)
+            val localFile = downloadReport(location = pdfLocation, machine = machine, reportId = reportId)
+            if (localFile != null)
             {
-                sendNotification(notificationStyle = getSuccessStyleForNotification(date = date, machine = machine))
-                Result.Success()
+                val localResult = updateDatabase(extraId = extraId, reportRemotePath = pdfLocation, reportLocalFileName = localFile)
+                if (localResult == -1)
+                {
+                    sendNotification(notificationStyle = getErrorStyleForNotification(date = date, machine = machine))
+                    Result.failure()
+                }
+                else
+                {
+                    sendNotification(notificationStyle = getSuccessStyleForNotification(date = date, machine = machine))
+                    Result.Success()
+                }
             }
             else
             {
@@ -66,12 +74,10 @@ class DownloadReportWorker(
     //              Methods
     // =================================
 
-    private suspend fun downloadReport(location: String, machine: String, reportId: String) = withContext(Dispatchers.IO) {
+    private suspend fun downloadReport(location: String, machine: String, reportId: String): String? = withContext(Dispatchers.IO) {
         applicationContext.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
-            ?.createOrGetPdfFile(PDF_FOLDER_NAME, "$reportId-$machine")
+            ?.createOrGetFile(PDF_FOLDER_NAME, "$reportId-$machine.pdf")
             ?.let { reportFile ->
-                var isSuccess = false
-
                 storage.reference.child(location)
                     .getFile(reportFile)
                     .addOnSuccessListener { task ->
@@ -80,12 +86,26 @@ class DownloadReportWorker(
                     .addOnFailureListener {
                         Log.e("Worker", "An error occurred with Worker", it)
                     }
-                    .addOnCompleteListener {
-                        isSuccess = it.isSuccessful
-                    }
                     .await()
-                return@withContext isSuccess
+                return@withContext Uri.fromFile(reportFile).lastPathSegment
             }
+    }
+
+    private suspend fun updateDatabase(extraId: Long, reportRemotePath: String, reportLocalFileName: String) = withContext(Dispatchers.IO) {
+        return@withContext try
+        {
+            val machineCtrlPtExtraDao = (applicationContext as EasyVGPApplication).database.machineControlPointDataExtraDao()
+            val matchingExtra = machineCtrlPtExtraDao.getExtraFromId(extraId)
+            matchingExtra.isValid = true
+            matchingExtra.reportRemotePath = reportRemotePath
+            matchingExtra.reportLocalPath = reportLocalFileName
+            machineCtrlPtExtraDao.update(matchingExtra)
+        }
+        catch (e: Exception)
+        {
+            Log.e("DownloadReportWorker", "An error occurred when updating database", e)
+            -1
+        }
     }
 
     private fun sendNotification(notificationStyle: NotificationCompat.BigTextStyle)
