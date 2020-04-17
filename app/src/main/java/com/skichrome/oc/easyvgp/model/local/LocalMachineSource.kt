@@ -2,10 +2,10 @@ package com.skichrome.oc.easyvgp.model.local
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
-import com.skichrome.oc.easyvgp.model.MachineSource
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.base.MachineSource
 import com.skichrome.oc.easyvgp.model.local.database.Machine
 import com.skichrome.oc.easyvgp.model.local.database.MachineDao
 import com.skichrome.oc.easyvgp.model.local.database.MachineType

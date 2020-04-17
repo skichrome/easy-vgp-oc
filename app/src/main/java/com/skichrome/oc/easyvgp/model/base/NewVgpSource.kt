@@ -1,9 +1,7 @@
-package com.skichrome.oc.easyvgp.model
+package com.skichrome.oc.easyvgp.model.base
 
-import com.skichrome.oc.easyvgp.model.local.database.ControlPointData
-import com.skichrome.oc.easyvgp.model.local.database.MachineControlPointData
-import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints
-import com.skichrome.oc.easyvgp.model.local.database.Report
+import com.skichrome.oc.easyvgp.model.Results
+import com.skichrome.oc.easyvgp.model.local.database.*
 
 interface NewVgpSource
 {
@@ -12,5 +10,6 @@ interface NewVgpSource
 
     suspend fun insertControlPointData(controlPointsData: ControlPointData): Results<Long>
     suspend fun updateControlPointData(controlPointsData: List<ControlPointData>): Results<Int>
+    suspend fun insertMachineCtrlPtDataExtra(controlPointsDataExtra: MachineControlPointDataExtra): Results<Long>
     suspend fun insertMachineCtrlPtDataCrossRef(machineControlPointsData: MachineControlPointData): Results<Long>
 }

@@ -2,10 +2,10 @@ package com.skichrome.oc.easyvgp.model.local
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
-import com.skichrome.oc.easyvgp.model.AdminSource
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.base.AdminSource
 import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.util.NotImplementedException
 import kotlinx.coroutines.CoroutineDispatcher

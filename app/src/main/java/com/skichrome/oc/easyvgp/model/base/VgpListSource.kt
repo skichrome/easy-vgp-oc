@@ -1,6 +1,7 @@
-package com.skichrome.oc.easyvgp.model
+package com.skichrome.oc.easyvgp.model.base
 
 import android.net.Uri
+import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.local.database.*
 
 interface VgpListSource
@@ -8,6 +9,8 @@ interface VgpListSource
     suspend fun getAllReports(machineId: Long): Results<List<VgpListItem>>
 
     suspend fun getReportFromDate(date: Long): Results<List<Report>>
+
+    suspend fun getReportExtrasFromId(id: Long): Results<MachineControlPointDataExtra>
 
     suspend fun getUserFromId(id: Long): Results<UserAndCompany>
 
@@ -31,6 +34,7 @@ interface VgpListSource
         customer: Customer,
         machine: Machine,
         machineType: MachineType,
-        reports: List<Report>
+        reports: List<Report>,
+        reportExtra: MachineControlPointDataExtra
     ): Results<Boolean>
 }

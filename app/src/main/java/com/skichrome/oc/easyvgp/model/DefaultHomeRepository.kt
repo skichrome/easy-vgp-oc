@@ -3,6 +3,8 @@ package com.skichrome.oc.easyvgp.model
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.base.HomeRepository
+import com.skichrome.oc.easyvgp.model.base.HomeSource
 import com.skichrome.oc.easyvgp.model.local.database.UserAndCompany
 import com.skichrome.oc.easyvgp.util.NetworkException
 import com.skichrome.oc.easyvgp.util.RemoteRepositoryException

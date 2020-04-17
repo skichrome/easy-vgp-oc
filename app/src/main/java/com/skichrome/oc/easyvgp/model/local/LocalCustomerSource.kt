@@ -1,10 +1,10 @@
 package com.skichrome.oc.easyvgp.model.local
 
 import androidx.lifecycle.LiveData
-import com.skichrome.oc.easyvgp.model.CustomerSource
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.base.CustomerSource
 import com.skichrome.oc.easyvgp.model.local.database.Customer
 import com.skichrome.oc.easyvgp.model.local.database.CustomerDao
 import kotlinx.coroutines.CoroutineDispatcher

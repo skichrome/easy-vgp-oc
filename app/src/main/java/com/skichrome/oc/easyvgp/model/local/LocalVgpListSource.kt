@@ -4,7 +4,7 @@ import android.net.Uri
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.VgpListSource
+import com.skichrome.oc.easyvgp.model.base.VgpListSource
 import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.util.NotImplementedException
 import kotlinx.coroutines.CoroutineDispatcher
@@ -18,6 +18,7 @@ class LocalVgpListSource(
     private val machineDao: MachineDao,
     private val machineTypeDao: MachineTypeDao,
     private val machineControlPointDataDao: MachineControlPointDataDao,
+    private val machineCtrlPtExtraDao: MachineControlPointDataExtraDao,
     private val dispatchers: CoroutineDispatcher = Dispatchers.IO
 ) : VgpListSource
 {
@@ -37,6 +38,17 @@ class LocalVgpListSource(
         {
             val result = machineControlPointDataDao.getPreviouslyInsertedReport(date)
             Success(result)
+        }
+        catch (e: Exception)
+        {
+            Error(e)
+        }
+    }
+
+    override suspend fun getReportExtrasFromId(id: Long): Results<MachineControlPointDataExtra> = withContext(dispatchers) {
+        return@withContext try
+        {
+            Success(machineCtrlPtExtraDao.getExtraFromId(id))
         }
         catch (e: Exception)
         {
@@ -130,7 +142,9 @@ class LocalVgpListSource(
         customer: Customer,
         machine: Machine,
         machineType: MachineType,
-        reports: List<Report>
+        reports: List<Report>,
+        reportExtra: MachineControlPointDataExtra
+
     ): Results<Boolean> =
         Error(NotImplementedException("Method not available on local VGPList source"))
 }

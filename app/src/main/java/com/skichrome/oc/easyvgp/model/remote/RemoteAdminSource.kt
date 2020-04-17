@@ -3,10 +3,10 @@ package com.skichrome.oc.easyvgp.model.remote
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
-import com.skichrome.oc.easyvgp.model.AdminSource
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.base.AdminSource
 import com.skichrome.oc.easyvgp.model.local.database.ControlPoint
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
 import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints
@@ -18,7 +18,8 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class RemoteAdminSource(private val dispatchers: CoroutineDispatcher = Dispatchers.IO) : AdminSource
+class RemoteAdminSource(private val dispatchers: CoroutineDispatcher = Dispatchers.IO) :
+    AdminSource
 {
     // =================================
     //              Fields

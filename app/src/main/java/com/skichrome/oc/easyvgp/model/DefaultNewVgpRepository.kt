@@ -2,6 +2,8 @@ package com.skichrome.oc.easyvgp.model
 
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.base.NewVgpRepository
+import com.skichrome.oc.easyvgp.model.base.NewVgpSource
 import com.skichrome.oc.easyvgp.model.local.database.ControlPointData
 import com.skichrome.oc.easyvgp.model.local.database.MachineControlPointData
 import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints
@@ -15,9 +17,12 @@ class DefaultNewVgpRepository(private val localSource: NewVgpSource) : NewVgpRep
 
     override suspend fun getReportFromDate(date: Long): Results<List<Report>> = localSource.getReportFromDate(date)
 
-    override suspend fun insertMachineControlPointData(ctrlPointDataVgp: List<ControlPointDataVgp>, machineId: Long): Results<List<Long>>
+    override suspend fun insertMachineControlPointData(
+        ctrlPointDataVgp: List<ControlPointDataVgp>,
+        machineId: Long,
+        controlExtraId: Long
+    ): Results<List<Long>>
     {
-        val reportDate = System.currentTimeMillis()
         val idResultList = mutableListOf<Long>()
         ctrlPointDataVgp.map {
             ControlPointData(
@@ -37,7 +42,7 @@ class DefaultNewVgpRepository(private val localSource: NewVgpSource) : NewVgpRep
                 val crossRef = MachineControlPointData(
                     machineId = machineId,
                     ctrlPointDataId = results.data,
-                    reportDate = reportDate
+                    machineCtrlPointDataExtra = controlExtraId
                 )
 
                 val crossRefResult = localSource.insertMachineCtrlPtDataCrossRef(crossRef)

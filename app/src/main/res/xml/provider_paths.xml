@@ -8,5 +8,5 @@
     <!-- Contain the Pdf reports -->
     <external-files-path
         name="reports"
-        path="Documents/pdf_reports/" />
+        path="Documents/user_reports/" />
 </paths>

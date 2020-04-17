@@ -17,6 +17,7 @@ import androidx.room.TypeConverters
         ControlPointData::class,
 
         MachineTypeControlPointCrossRef::class,
+        MachineControlPointDataExtra::class,
         MachineControlPointData::class
     ],
     exportSchema = false,
@@ -36,5 +37,6 @@ abstract class AppDatabase : RoomDatabase()
     abstract fun controlPointDataDao(): ControlPointDataDao
 
     abstract fun machineTypeControlPointCrossRefDao(): MachineTypeControlPointCrossRefDao
+    abstract fun machineControlPointDataExtraDao(): MachineControlPointDataExtraDao
     abstract fun machineControlPointDataDao(): MachineControlPointDataDao
 }

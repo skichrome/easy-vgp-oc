@@ -1,11 +1,12 @@
-package com.skichrome.oc.easyvgp.model
+package com.skichrome.oc.easyvgp.model.base
 
 import androidx.lifecycle.LiveData
+import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.local.database.ControlPoint
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
 import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints
 
-interface AdminSource
+interface AdminRepository
 {
     fun observeMachineType(): LiveData<Results<List<MachineType>>>
     fun observeControlPoints(): LiveData<Results<List<ControlPoint>>>

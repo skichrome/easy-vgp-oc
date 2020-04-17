@@ -1,9 +1,9 @@
 package com.skichrome.oc.easyvgp.model.local
 
-import com.skichrome.oc.easyvgp.model.NewVgpSource
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.base.NewVgpSource
 import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.util.ItemNotFoundException
 import kotlinx.coroutines.CoroutineDispatcher
@@ -13,6 +13,7 @@ import kotlinx.coroutines.withContext
 class LocalNewVgpSource(
     private val machineTypeDao: MachineTypeDao,
     private val ctrlPointDataDao: ControlPointDataDao,
+    private val machineCtrlPtExtraDao: MachineControlPointDataExtraDao,
     private val machineCtrlPointDao: MachineControlPointDataDao,
     private val dispatchers: CoroutineDispatcher = Dispatchers.IO
 ) : NewVgpSource
@@ -65,6 +66,18 @@ class LocalNewVgpSource(
             Error(e)
         }
     }
+
+    override suspend fun insertMachineCtrlPtDataExtra(controlPointsDataExtra: MachineControlPointDataExtra): Results<Long> =
+        withContext(dispatchers) {
+            return@withContext try
+            {
+                Success(machineCtrlPtExtraDao.insertReplace(controlPointsDataExtra))
+            }
+            catch (e: Exception)
+            {
+                Error(e)
+            }
+        }
 
     override suspend fun insertMachineCtrlPtDataCrossRef(machineControlPointsData: MachineControlPointData): Results<Long> =
         withContext(dispatchers) {
