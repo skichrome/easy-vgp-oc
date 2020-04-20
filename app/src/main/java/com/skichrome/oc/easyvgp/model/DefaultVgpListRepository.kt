@@ -1,5 +1,6 @@
 package com.skichrome.oc.easyvgp.model
 
+import androidx.lifecycle.LiveData
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
@@ -17,7 +18,7 @@ class DefaultVgpListRepository(
     private val remoteSource: VgpListSource
 ) : VgpListRepository
 {
-    override suspend fun getAllReports(machineId: Long): Results<List<VgpListItem>> = localSource.getAllReports(machineId)
+    override fun observeReports(): LiveData<Results<List<VgpListItem>>> = localSource.observeReports()
 
     override suspend fun downloadReportFromStorage(extraId: Long, remotePath: String?, destinationFile: File): Results<File> =
         if (netManager.isConnectedToInternet())

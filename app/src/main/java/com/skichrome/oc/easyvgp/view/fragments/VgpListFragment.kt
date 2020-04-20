@@ -67,7 +67,6 @@ class VgpListFragment : BaseBindingFragment<FragmentVgpListBinding>()
     private fun configureRecyclerView()
     {
         adapter = VgpListFragmentAdapter(viewModel)
-        binding.vgpListFragmentRecyclerView.setHasFixedSize(true)
         binding.vgpListFragmentRecyclerView.adapter = adapter
     }
 
@@ -98,6 +97,8 @@ class VgpListFragment : BaseBindingFragment<FragmentVgpListBinding>()
             .setInputData(reportData)
             .build()
         WorkManager.getInstance(requireContext()).beginWith(work).enqueue()
+
+        binding.root.snackBar(getString(R.string.fragment_vgp_list_work_enqueued_info))
     }
 
     private fun navigateToNewVgpSetupFragment(reportDateToEdit: Long = -1L)
@@ -127,7 +128,7 @@ class VgpListFragment : BaseBindingFragment<FragmentVgpListBinding>()
 
                                 resolveActivity(requireActivity().packageManager)?.let {
                                     startActivity(this)
-                                } ?: binding.root.snackBar("No application found to open a PDF document")
+                                } ?: binding.root.snackBar(getString(R.string.fragment_vgp_list_no_pdf_viewer))
                             }
                             else
                                 viewModel.downloadReport(report, file)

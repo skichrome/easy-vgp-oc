@@ -1,5 +1,6 @@
 package com.skichrome.oc.easyvgp.model.remote
 
+import androidx.lifecycle.LiveData
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.skichrome.oc.easyvgp.model.Results
@@ -47,8 +48,8 @@ class RemoteVgpListSource(
         }
     }
 
-    override suspend fun getAllReports(machineId: Long): Results<List<VgpListItem>> =
-        Error(NotImplementedException("Not implemented for remote source"))
+    override fun observeReports(): LiveData<Results<List<VgpListItem>>> =
+        throw NotImplementedException("Not implemented for remote source")
 
     override suspend fun getMachineCtrlPtExtraFromId(id: Long): Results<MachineControlPointDataExtra> =
         Error(NotImplementedException("Not implemented for remote source"))
