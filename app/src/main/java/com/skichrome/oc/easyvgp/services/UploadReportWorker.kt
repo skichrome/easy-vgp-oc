@@ -231,6 +231,7 @@ class UploadReportWorker(appContext: Context, params: WorkerParameters) : Corout
                     address = customer.address,
                     city = customer.city,
                     email = customer.email,
+                    companyName = customer.companyName,
                     firstName = customer.firstName,
                     lastName = customer.lastName,
                     mobilePhone = customer.mobilePhone,

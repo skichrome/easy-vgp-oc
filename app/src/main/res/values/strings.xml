@@ -30,12 +30,13 @@
     <string name="profile_fragment_no_logo_default_text">no picture selected</string>
 
     <!-- Add Edit Customer Fragment -->
-    <string name="frag_add_edit_customer_name_title">Customer Name</string>
-    <string name="frag_add_edit_customer_siret_title">Customer SIRET</string>
+    <string name="frag_add_edit_customer_name_title">Referent</string>
+    <string name="frag_add_edit_customer_siret_title">SIRET</string>
     <string name="frag_add_edit_customer_contact_title">Contact information</string>
     <string name="frag_add_edit_customer_location_title">Customer location</string>
     <string name="frag_add_edit_customer_notes_title">Notes</string>
 
+    <string name="frag_add_edit_customer_company_name_hint">company name</string>
     <string name="frag_add_edit_customer_city_hint">City</string>
     <string name="frag_add_edit_customer_first_name_hint">first name</string>
     <string name="frag_add_edit_customer_last_name_hint">last name</string>
