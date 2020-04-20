@@ -162,10 +162,9 @@ object ServiceLocator
         )
     }
 
-    private fun configureRemoteVgpListSource(app: Application): VgpListSource
+    private fun configureRemoteVgpListSource(): VgpListSource
     {
-        val resources = app.resources
-        return RemoteVgpListSource(resources = resources)
+        return RemoteVgpListSource()
     }
 
     // --- New VGP Setup
@@ -260,7 +259,7 @@ object ServiceLocator
     {
         val netManager = provideNetworkManager(app.applicationContext)
         val localSource = configureLocalVgpListSource(app)
-        val remoteSource = configureRemoteVgpListSource(app)
+        val remoteSource = configureRemoteVgpListSource()
         return DefaultVgpListRepository(localSource = localSource, remoteSource = remoteSource, netManager = netManager)
     }
 

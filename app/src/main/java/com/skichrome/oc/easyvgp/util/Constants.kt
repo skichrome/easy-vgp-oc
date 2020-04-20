@@ -22,6 +22,12 @@ const val KEY_REPORT__EXTRA_ID_WORK = "worker_data_identifier_for_pdf_report_ext
 const val KEY_REPORT_MACHINE_WORK = "worker_data_identifier_for_pdf_report_machine_name"
 const val KEY_REPORT_DATE_WORK = "worker_data_identifier_for_pdf_report_date"
 
+const val KEY_LOCAL_USER_ID = "worker_data_identifier_local_user_id"
+const val KEY_LOCAL_CUSTOMER_ID = "worker_data_identifier_local_customer_id"
+const val KEY_LOCAL_MACHINE_ID = "worker_data_identifier_local_machine_id"
+const val KEY_LOCAL_MACHINE_TYPE_ID = "worker_data_identifier_local_machine_type_id"
+const val KEY_LOCAL_EXTRAS_REFERENCE = "worker_data_identifier_report_extra_reference"
+
 const val CURRENT_LOCAL_PROFILE = "current_profile_id_from_room"
 
 // Intents extras
