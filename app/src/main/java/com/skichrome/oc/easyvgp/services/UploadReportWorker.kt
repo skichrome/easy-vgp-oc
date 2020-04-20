@@ -1,9 +1,16 @@
 package com.skichrome.oc.easyvgp.services
 
 import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.media.RingtoneManager
 import android.net.Uri
+import android.os.Build
 import android.util.Log
+import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.google.firebase.firestore.ktx.firestore
@@ -14,6 +21,7 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.google.firebase.storage.ktx.storageMetadata
 import com.skichrome.oc.easyvgp.EasyVGPApplication
+import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.local.ChoicePossibility
@@ -21,10 +29,14 @@ import com.skichrome.oc.easyvgp.model.local.VerificationType
 import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.model.remote.util.*
 import com.skichrome.oc.easyvgp.util.*
+import com.skichrome.oc.easyvgp.view.MainActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.LinkedHashMap
 
 class UploadReportWorker(appContext: Context, params: WorkerParameters) : CoroutineWorker(appContext, params)
 {
@@ -47,8 +59,9 @@ class UploadReportWorker(appContext: Context, params: WorkerParameters) : Corout
         val machineId = inputData.getLong(KEY_LOCAL_MACHINE_ID, -1L)
         val machineTypeId = inputData.getLong(KEY_LOCAL_MACHINE_TYPE_ID, -1L)
         val extraRef = inputData.getLong(KEY_LOCAL_EXTRAS_REFERENCE, -1L)
+        val reportDate = inputData.getLong(KEY_LOCAL_REPORT_DATE, -1L)
 
-        return@coroutineScope if (userId != -1L && customerId != -1L && machineId != -1L && machineTypeId != -1L && extraRef != -1L)
+        val mainResults = if (userId != -1L && customerId != -1L && machineId != -1L && machineTypeId != -1L && extraRef != -1L)
         {
             withContext(Dispatchers.IO) {
                 val db = (applicationContext as EasyVGPApplication).database
@@ -138,6 +151,17 @@ class UploadReportWorker(appContext: Context, params: WorkerParameters) : Corout
         }
         else
             Result.failure()
+
+        return@coroutineScope when (mainResults)
+        {
+            Result.success() -> mainResults
+            Result.failure() ->
+            {
+                sendErrorNotification(reportDate)
+                Result.failure()
+            }
+            else -> mainResults
+        }
     }
 
     // =================================
@@ -323,4 +347,42 @@ class UploadReportWorker(appContext: Context, params: WorkerParameters) : Corout
     private fun getUserCollection(userUid: String) = db.collection(REMOTE_USER_COLLECTION)
         .document(userUid)
         .collection(REMOTE_REPORT_COLLECTION)
+
+    private fun sendErrorNotification(reportDate: Long)
+    {
+        val intent = Intent(applicationContext, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.putExtra(MAIN_ACTIVITY_FRAGMENT_ROUTE, true)
+
+        val pendingIntent = PendingIntent.getActivity(applicationContext, RC_UPLOAD_NOTIFICATION, intent, PendingIntent.FLAG_ONE_SHOT)
+
+        val channelId = applicationContext.getString(R.string.upload_report_worker_notification_channel_id)
+        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val notificationBuilder = NotificationCompat.Builder(applicationContext, channelId)
+            .setSmallIcon(R.drawable.easy_vgp_icon)
+            .setAutoCancel(true)
+            .setSound(defaultSoundUri)
+            .setContentIntent(pendingIntent)
+            .setContentText(
+                applicationContext.getString(
+                    R.string.upload_report_worker_notification_content,
+                    SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(reportDate)
+                )
+            )
+
+        val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        // Since android Oreo notification channel is needed.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            val channel = NotificationChannel(
+                channelId,
+                applicationContext.getString(R.string.upload_report_worker_notification_channel),
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        notificationManager.notify(NOTIFICATION_UPLOAD_ID, notificationBuilder.build())
+    }
 }

@@ -85,7 +85,8 @@ class VgpListFragment : BaseBindingFragment<FragmentVgpListBinding>()
             KEY_LOCAL_CUSTOMER_ID to args.customerId,
             KEY_LOCAL_MACHINE_ID to args.machineId,
             KEY_LOCAL_MACHINE_TYPE_ID to args.machineTypeId,
-            KEY_LOCAL_EXTRAS_REFERENCE to report.extrasReference
+            KEY_LOCAL_EXTRAS_REFERENCE to report.extrasReference,
+            KEY_LOCAL_REPORT_DATE to report.reportDate
         )
 
         val constraints = Constraints.Builder()

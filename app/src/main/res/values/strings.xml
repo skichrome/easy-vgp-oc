@@ -163,7 +163,12 @@
     <string name="cloud_msg_notification_success_content">Your report generated on %1$s for machine model %2$s is ready</string>
     <string name="cloud_msg_notification_error_content">An error occurred with your report created on %1$s for machine model %2$s</string>
     <string name="cloud_msg_notification_channel_id" translatable="false">fcm_report_ready_notification_channel</string>
-    <string name="cloud_msg_notification_channel">Report notification</string>
+    <string name="cloud_msg_notification_channel">Report download notification</string>
+
+    <!-- Upload Worker -->
+    <string name="upload_report_worker_notification_content">An error occurred when uploading report created on %1$s, please try again later</string>
+    <string name="upload_report_worker_notification_channel_id" translatable="false">upload_report_error_notification_channel</string>
+    <string name="upload_report_worker_notification_channel">Report upload notification</string>
 
     <!-- New VGP Setup Fragment -->
     <string name="fragment_new_vgp_setup_sw_machine_clean">Is the machine clean for control ?</string>

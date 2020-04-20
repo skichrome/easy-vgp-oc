@@ -9,6 +9,8 @@ const val RC_PICK_LOGO_INTENT = 3002
 const val RC_SIGN_IN_CODE = 2000
 const val RC_FCM = 2222
 const val NOTIFICATION_FCM_ID = 2223
+const val RC_UPLOAD_NOTIFICATION = 2224
+const val NOTIFICATION_UPLOAD_ID = 2225
 
 // Local Storage access
 const val PDF_FOLDER_NAME = "user_reports"
@@ -27,6 +29,7 @@ const val KEY_LOCAL_CUSTOMER_ID = "worker_data_identifier_local_customer_id"
 const val KEY_LOCAL_MACHINE_ID = "worker_data_identifier_local_machine_id"
 const val KEY_LOCAL_MACHINE_TYPE_ID = "worker_data_identifier_local_machine_type_id"
 const val KEY_LOCAL_EXTRAS_REFERENCE = "worker_data_identifier_report_extra_reference"
+const val KEY_LOCAL_REPORT_DATE = "worker_data_identifier_report_machine_name_for_notification"
 
 const val CURRENT_LOCAL_PROFILE = "current_profile_id_from_room"
 
