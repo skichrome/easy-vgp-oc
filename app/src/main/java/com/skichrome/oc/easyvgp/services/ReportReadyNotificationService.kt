@@ -28,16 +28,22 @@ class ReportReadyNotificationService : FirebaseMessagingService()
             KEY_REPORT_ID_WORK to messageData["reportId"],
             KEY_REPORT_MACHINE_WORK to messageData["machine"],
             KEY_REPORT_DATE_WORK to messageData["date"],
-            KEY_REPORT__EXTRA_ID_WORK to messageData["extraId"]
+            KEY_REPORT__EXTRA_ID_WORK to messageData["extraId"],
+            KEY_REPORT_MACHINE_ID to messageData["machineId"],
+            KEY_REPORT_MACHINE_TYPE_ID to messageData["machineTypeId"],
+            KEY_REPORT_CUSTOMER_ID to messageData["customerId"]
         )
+
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .setRequiresStorageNotLow(true)
             .build()
+
         val work = OneTimeWorkRequest.Builder(DownloadReportWorker::class.java)
             .setConstraints(constraints)
             .setInputData(pdfData)
             .build()
+
         WorkManager.getInstance(applicationContext).beginWith(work).enqueue()
     }
 }

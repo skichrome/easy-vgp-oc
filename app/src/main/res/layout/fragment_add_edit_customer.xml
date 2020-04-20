@@ -68,6 +68,18 @@
                     app:layout_constraintStart_toEndOf="@+id/addEditCustomerFragFirstNameText"
                     app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragNameTitle" />
 
+                <EditText
+                    android:id="@+id/addEditCustomerFragCompanyNameText"
+                    style="@style/editTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/tv_input_margin"
+                    android:hint="@string/frag_add_edit_customer_company_name_hint"
+                    android:text="@{viewModel.customer.companyName}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addEditCustomerFragFirstNameText" />
+
                 <TextView
                     android:id="@+id/addEditCustomerFragSiretTitle"
                     style="@style/TextAppearance.AppCompat.Title"
@@ -77,7 +89,7 @@
                     android:layout_marginTop="@dimen/tv_input_margin"
                     android:text="@string/frag_add_edit_customer_siret_title"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragFirstNameText" />
+                    app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragCompanyNameText" />
 
                 <EditText
                     android:id="@+id/addEditCustomerFragSiretText"

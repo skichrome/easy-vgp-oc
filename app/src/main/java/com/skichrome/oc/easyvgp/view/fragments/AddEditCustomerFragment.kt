@@ -13,7 +13,6 @@ import com.skichrome.oc.easyvgp.util.snackBar
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.viewmodel.CustomerViewModel
 import com.skichrome.oc.easyvgp.viewmodel.vmfactory.CustomerViewModelFactory
-import kotlinx.android.synthetic.main.fragment_add_edit_customer.*
 
 class AddEditCustomerFragment : BaseBindingFragment<FragmentAddEditCustomerBinding>()
 {
@@ -47,12 +46,13 @@ class AddEditCustomerFragment : BaseBindingFragment<FragmentAddEditCustomerBindi
     private fun configureUI()
     {
         inputList = listOf(
-            addEditCustomerFragFirstNameText,
-            addEditCustomerFragLastNameText,
-            addEditCustomerFragSiretText,
-            addEditCustomerFragAddressText,
-            addEditCustomerFragPostCodeText,
-            addEditCustomerFragCityText
+            binding.addEditCustomerFragFirstNameText,
+            binding.addEditCustomerFragLastNameText,
+            binding.addEditCustomerFragCompanyNameText,
+            binding.addEditCustomerFragSiretText,
+            binding.addEditCustomerFragAddressText,
+            binding.addEditCustomerFragPostCodeText,
+            binding.addEditCustomerFragCityText
         )
 
         binding.viewModel = viewModel
@@ -62,13 +62,13 @@ class AddEditCustomerFragment : BaseBindingFragment<FragmentAddEditCustomerBindi
     }
 
     private fun configureViewModel() = viewModel.apply {
-        errorMessage.observe(this@AddEditCustomerFragment, EventObserver { binding.root.snackBar(getString(it)) })
-        customersSaved.observe(this@AddEditCustomerFragment, EventObserver { findNavController().navigateUp() })
+        errorMessage.observe(viewLifecycleOwner, EventObserver { binding.root.snackBar(getString(it)) })
+        customersSaved.observe(viewLifecycleOwner, EventObserver { findNavController().navigateUp() })
     }
 
     private fun configureFab()
     {
-        addEditCustomerFragFab.setOnClickListener { getUserEnteredValues() }
+        binding.addEditCustomerFragFab.setOnClickListener { getUserEnteredValues() }
     }
 
     // --- Actions methods --- //
@@ -92,16 +92,17 @@ class AddEditCustomerFragment : BaseBindingFragment<FragmentAddEditCustomerBindi
         {
             val customer = Customer(
                 id = if (args.customerId != -1L) args.customerId else 0,
-                firstName = addEditCustomerFragFirstNameText.text.toString(),
-                lastName = addEditCustomerFragLastNameText.text.toString(),
-                siret = addEditCustomerFragSiretText.text.toString(),
-                postCode = addEditCustomerFragPostCodeText.text.toString().toInt(),
-                address = addEditCustomerFragAddressText.text.toString(),
-                city = addEditCustomerFragCityText.text.toString(),
-                email = addEditCustomerFragEmailText.text.toString(),
-                mobilePhone = addEditCustomerFragMobilePhoneText.text.toString().toIntOrNull(),
-                notes = addEditCustomerFragNotesText.text.toString(),
-                phone = addEditCustomerFragPhoneText.text.toString().toIntOrNull()
+                firstName = binding.addEditCustomerFragFirstNameText.text.toString(),
+                lastName = binding.addEditCustomerFragLastNameText.text.toString(),
+                siret = binding.addEditCustomerFragSiretText.text.toString(),
+                postCode = binding.addEditCustomerFragPostCodeText.text.toString().toInt(),
+                address = binding.addEditCustomerFragAddressText.text.toString(),
+                city = binding.addEditCustomerFragCityText.text.toString(),
+                email = binding.addEditCustomerFragEmailText.text.toString(),
+                mobilePhone = binding.addEditCustomerFragMobilePhoneText.text.toString().toIntOrNull(),
+                notes = binding.addEditCustomerFragNotesText.text.toString(),
+                phone = binding.addEditCustomerFragPhoneText.text.toString().toIntOrNull(),
+                companyName = binding.addEditCustomerFragCompanyNameText.text.toString()
             )
 
             if (args.customerId != -1L)

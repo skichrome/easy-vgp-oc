@@ -23,6 +23,7 @@ class CustomerDaoTest
     private val customer1Id = 1L
     private val customer1 = Customer(
         id = customer1Id,
+        companyName = "company 1",
         firstName = "first name $customer1Id",
         lastName = "last name $customer1Id",
         siret = "12345678910121L",
@@ -36,6 +37,7 @@ class CustomerDaoTest
     )
     private val customer1Edit = Customer(
         id = customer1Id,
+        companyName = "company 1",
         firstName = "first edited name $customer1Id",
         lastName = "last edited name $customer1Id",
         siret = "12345678910121L",
@@ -51,6 +53,7 @@ class CustomerDaoTest
     private val customer2Id = 2L
     private val customer2 = Customer(
         id = customer2Id,
+        companyName = "company 2",
         firstName = "first name $customer2Id",
         lastName = "last name $customer2Id",
         siret = "12345678910121L",
@@ -66,6 +69,7 @@ class CustomerDaoTest
     private val customer3Id = 3L
     private val customer3 = Customer(
         id = customer3Id,
+        companyName = "company 3",
         firstName = "first name $customer3Id",
         lastName = "last name $customer3Id",
         siret = "12345678910121L",

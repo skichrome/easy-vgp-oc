@@ -1,9 +1,9 @@
 package com.skichrome.oc.easyvgp.viewmodel
 
-import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.Results.Error
@@ -11,7 +11,8 @@ import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.base.VgpListRepository
 import com.skichrome.oc.easyvgp.model.local.database.VgpListItem
 import com.skichrome.oc.easyvgp.util.Event
-import com.skichrome.oc.easyvgp.util.uiJob
+import kotlinx.coroutines.launch
+import java.io.File
 
 class VgpListViewModel(private val repository: VgpListRepository) : BaseViewModel()
 {
@@ -27,9 +28,6 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
     private val _reportDateEvent = MutableLiveData<Event<Long>>()
     val reportDateEvent: LiveData<Event<Long>> = _reportDateEvent
 
-    private val _pdfDataReadyEvent = MutableLiveData<Event<Boolean>>()
-    val pdfDataReadyEvent: LiveData<Event<Boolean>> = _pdfDataReadyEvent
-
     private val _pdfClickEvent = MutableLiveData<Event<VgpListItem>>()
     val pdfClickEvent: LiveData<Event<VgpListItem>> = _pdfClickEvent
 
@@ -38,7 +36,19 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
 
     // --- Data
 
-    private val _vgpList = MutableLiveData<List<VgpListItem>>()
+    private val _machineId = MutableLiveData<Long>()
+
+    private val _vgpList: LiveData<List<VgpListItem>> = _machineId.switchMap { machineId ->
+        repository.observeReports().switchMap { items ->
+            if (items is Success)
+                filterAndGroupReport(items.data, machineId)
+            else
+            {
+                handleError(items as? Error)
+                MutableLiveData()
+            }
+        }
+    }
     val vgpList: LiveData<List<VgpListItem>> = _vgpList
 
     // =================================
@@ -49,53 +59,49 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
 
     fun onClickReport(report: VgpListItem)
     {
-        if (report.isValid)
-            showMessage(R.string.vgp_list_view_model_cannot_edit_validated_report)
-        else
-            _reportDateEvent.value = Event(report.reportDate)
+        when
+        {
+            report.isValid -> showMessage(R.string.vgp_list_view_model_cannot_edit_validated_report)
+            else -> _reportDateEvent.value = Event(report.reportDate)
+        }
     }
 
     fun onClickReportPdf(report: VgpListItem)
     {
         when
         {
-            report.reportLocalPath == null && report.isValid ->
-            {
-                // Todo -> download report from Firebase storage
-            }
             report.isValid -> _pdfValidClickEvent.value = Event(report)
-            !report.isValid -> _pdfClickEvent.value = Event(report)
+            else -> _pdfClickEvent.value = Event(report)
         }
     }
 
     // --- Data
 
-    fun loadAllVgpFromMachine(machineId: Long)
+    private fun filterAndGroupReport(items: List<VgpListItem>, machineId: Long): LiveData<List<VgpListItem>>
     {
-        viewModelScope.uiJob {
-            val result = repository.getAllReports(machineId)
-            if (result is Success)
-                _vgpList.value = result.data.groupBy { it.reportDate }.map { it.value.first() }
-            else
-                Log.e("VgpListVM", "An error occurred when loading vgp list", (result as? Error)?.exception)
+        val result = MutableLiveData<List<VgpListItem>>()
+        viewModelScope.launch {
+            result.value = items
+                .filter { it.machineId == machineId }
+                .groupBy { it.reportDate }.map { it.value.first() }
         }
+        return result
     }
 
-    fun loadReport(userId: Long, customerId: Long, report: VgpListItem, machineId: Long, machineTypeId: Long)
+    fun loadAllVgpFromMachine(machineId: Long)
     {
-        viewModelScope.uiJob {
+        _machineId.value = machineId
+    }
+
+    fun downloadReport(report: VgpListItem, destinationFile: File)
+    {
+        viewModelScope.launch {
             _isLoading.set(true)
-            val result = repository.generateReport(
-                userId = userId,
-                report = report,
-                machineTypeId = machineTypeId,
-                machineId = machineId,
-                customerId = customerId
-            )
+            val result = repository.downloadReportFromStorage(report.extrasReference, report.reportRemotePath, destinationFile)
             if (result is Success)
-                _pdfDataReadyEvent.value = Event(result.data)
+                onClickReportPdf(report)
             else
-                Log.e("VgpListVM", "Error when loading report", (result as? Error)?.exception)
+                handleError(result as? Error)
             _isLoading.set(false)
         }
     }

@@ -17,6 +17,7 @@ object DatabaseDataDebug
         // --- Customers --- //
 
         contentValues.put("customer_id", 1)
+        contentValues.put("company_name", "John's company")
         contentValues.put("first_name", "Doe")
         contentValues.put("last_name", "John")
         contentValues.put("siret", "123456789101112")
@@ -32,6 +33,7 @@ object DatabaseDataDebug
         contentValues.clear()
 
         contentValues.put("customer_id", 2)
+        contentValues.put("company_name", "Jane's company")
         contentValues.put("first_name", "Doe")
         contentValues.put("last_name", "Jane")
         contentValues.put("siret", "1211109876543210")
@@ -44,6 +46,7 @@ object DatabaseDataDebug
         contentValues.clear()
 
         contentValues.put("customer_id", 3)
+        contentValues.put("company_name", "Jean's company")
         contentValues.put("first_name", "Dupont")
         contentValues.put("last_name", "Jean")
         contentValues.put("siret", "121110987654")

@@ -143,29 +143,18 @@ object ServiceLocator
     private fun configureLocalVgpListSource(app: Application): VgpListSource
     {
         val db = getLocalDatabaseInstance(app)
-        val userDao = db.usersDao()
-        val companyDao = db.companiesDao()
-        val customerDao = db.customersDao()
-        val machineDao = db.machinesDao()
-        val machineTypeDao = db.machinesTypeDao()
         val machineControlPointDataDao = db.machineControlPointDataDao()
         val machineCtrlPtExtraDao = db.machineControlPointDataExtraDao()
 
         return LocalVgpListSource(
-            userDao = userDao,
-            companyDao = companyDao,
             machineControlPointDataDao = machineControlPointDataDao,
-            machineTypeDao = machineTypeDao,
-            machineDao = machineDao,
-            customerDao = customerDao,
             machineCtrlPtExtraDao = machineCtrlPtExtraDao
         )
     }
 
-    private fun configureRemoteVgpListSource(app: Application): VgpListSource
+    private fun configureRemoteVgpListSource(): VgpListSource
     {
-        val resources = app.resources
-        return RemoteVgpListSource(resources = resources)
+        return RemoteVgpListSource()
     }
 
     // --- New VGP Setup
@@ -260,7 +249,7 @@ object ServiceLocator
     {
         val netManager = provideNetworkManager(app.applicationContext)
         val localSource = configureLocalVgpListSource(app)
-        val remoteSource = configureRemoteVgpListSource(app)
+        val remoteSource = configureRemoteVgpListSource()
         return DefaultVgpListRepository(localSource = localSource, remoteSource = remoteSource, netManager = netManager)
     }
 

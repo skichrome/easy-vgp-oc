@@ -51,13 +51,6 @@ fun File.createOrGetFile(folderName: String, fileName: String): File
     return File(fileFolder, fileName)
 }
 
-@Throws(IOException::class)
-fun File.getFile(folderName: String, fileName: String): File
-{
-    val fileFolder = File(this, folderName)
-    return File(fileFolder, fileName)
-}
-
 @Throws(Exception::class)
 fun File.transformBitmapFile(): Bitmap
 {

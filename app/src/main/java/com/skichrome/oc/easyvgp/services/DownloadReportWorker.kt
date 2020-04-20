@@ -3,15 +3,15 @@ package com.skichrome.oc.easyvgp.services
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.navigation.NavDeepLinkBuilder
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.google.firebase.ktx.Firebase
@@ -19,7 +19,6 @@ import com.google.firebase.storage.ktx.storage
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.util.*
-import com.skichrome.oc.easyvgp.view.MainActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
@@ -43,8 +42,11 @@ class DownloadReportWorker(context: Context, params: WorkerParameters) : Corouti
         val reportId = inputData.getString(KEY_REPORT_ID_WORK)
         val extraId = inputData.getString(KEY_REPORT__EXTRA_ID_WORK)?.toLongOrNull()
         val date = inputData.getString(KEY_REPORT_DATE_WORK)
+        val customerId = inputData.getString(KEY_REPORT_CUSTOMER_ID)?.toLongOrNull()
+        val machineId = inputData.getString(KEY_REPORT_MACHINE_ID)?.toLongOrNull()
+        val machineTypeId = inputData.getString(KEY_REPORT_MACHINE_TYPE_ID)?.toLongOrNull()
 
-        if (machine != null && pdfLocation != null && reportId != null && date != null && extraId != null)
+        if (machine != null && pdfLocation != null && reportId != null && date != null && extraId != null && customerId != null && machineId != null && machineTypeId != null)
         {
             val localFile = downloadReport(location = pdfLocation, machine = machine, reportId = reportId)
             if (localFile != null)
@@ -52,18 +54,33 @@ class DownloadReportWorker(context: Context, params: WorkerParameters) : Corouti
                 val localResult = updateDatabase(extraId = extraId, reportRemotePath = pdfLocation, reportLocalFileName = localFile)
                 if (localResult == -1)
                 {
-                    sendNotification(notificationStyle = getErrorStyleForNotification(date = date, machine = machine))
+                    sendNotification(
+                        notificationStyle = getErrorStyleForNotification(date = date, machine = machine),
+                        customerId = customerId,
+                        machineTypeId = machineTypeId,
+                        machineId = machineId
+                    )
                     Result.failure()
                 }
                 else
                 {
-                    sendNotification(notificationStyle = getSuccessStyleForNotification(date = date, machine = machine))
+                    sendNotification(
+                        notificationStyle = getSuccessStyleForNotification(date = date, machine = machine),
+                        customerId = customerId,
+                        machineTypeId = machineTypeId,
+                        machineId = machineId
+                    )
                     Result.Success()
                 }
             }
             else
             {
-                sendNotification(notificationStyle = getErrorStyleForNotification(date = date, machine = machine))
+                sendNotification(
+                    notificationStyle = getErrorStyleForNotification(date = date, machine = machine),
+                    customerId = customerId,
+                    machineTypeId = machineTypeId,
+                    machineId = machineId
+                )
                 Result.failure()
             }
         }
@@ -108,13 +125,19 @@ class DownloadReportWorker(context: Context, params: WorkerParameters) : Corouti
         }
     }
 
-    private fun sendNotification(notificationStyle: NotificationCompat.BigTextStyle)
+    private fun sendNotification(notificationStyle: NotificationCompat.BigTextStyle, customerId: Long, machineId: Long, machineTypeId: Long)
     {
-        val intent = Intent(applicationContext, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        intent.putExtra(MAIN_ACTIVITY_FRAGMENT_ROUTE, true)
+        val bundle = Bundle().apply {
+            putLong(MAIN_ACTIVITY_EXTRA_CUSTOMER, customerId)
+            putLong(MAIN_ACTIVITY_EXTRA_MACHINE, machineId)
+            putLong(MAIN_ACTIVITY_EXTRA_MACHINE_TYPE, machineTypeId)
+        }
 
-        val pendingIntent = PendingIntent.getActivity(applicationContext, RC_FCM, intent, PendingIntent.FLAG_ONE_SHOT)
+        val pendingIntent = NavDeepLinkBuilder(applicationContext)
+            .setGraph(R.navigation.main_navigation)
+            .setDestination(R.id.vgpListFragment)
+            .setArguments(bundle)
+            .createPendingIntent()
 
         val channelId = applicationContext.getString(R.string.cloud_msg_notification_channel_id)
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)

@@ -1,6 +1,6 @@
 package com.skichrome.oc.easyvgp.model
 
-import android.net.Uri
+import androidx.lifecycle.LiveData
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
@@ -18,101 +18,30 @@ class DefaultVgpListRepository(
     private val remoteSource: VgpListSource
 ) : VgpListRepository
 {
-    override suspend fun getAllReports(machineId: Long): Results<List<VgpListItem>> = localSource.getAllReports(machineId)
+    override fun observeReports(): LiveData<Results<List<VgpListItem>>> = localSource.observeReports()
 
-    override suspend fun generateReport(
-        userId: Long,
-        customerId: Long,
-        machineId: Long,
-        machineTypeId: Long,
-        report: VgpListItem
-    ): Results<Boolean>
-    {
-        return if (netManager.isConnectedToInternet())
+    override suspend fun downloadReportFromStorage(extraId: Long, remotePath: String?, destinationFile: File): Results<File> =
+        if (netManager.isConnectedToInternet())
         {
-            val localUser = localSource.getUserFromId(userId)
-            val localReport = localSource.getReportFromDate(report.reportDate)
-            val customer = localSource.getCustomerFromId(customerId)
-            val machine = localSource.getMachineFromId(machineId)
-            val machineType = localSource.getMachineTypeFromId(machineTypeId)
-            val reportExtras = localSource.getReportExtrasFromId(report.extrasReference)
-
-            if (localUser is Success && localReport is Success && customer is Success && machine is Success && machineType is Success && reportExtras is Success)
+            val result = remoteSource.downloadReportFromStorage(remotePath, destinationFile)
+            if (result is Success)
             {
-                machine.data.localPhotoRef?.let { photoRef ->
-                    val photoRefUri = Uri.fromFile(File(photoRef))
-                    val storedRemoteRef = machine.data.remotePhotoRef
-
-                    val uploadPhotoResult = remoteSource.uploadImageToStorage(
-                        userUid = localUser.data.user.firebaseUid,
-                        localUri = photoRefUri,
-                        remoteUri = storedRemoteRef,
-                        filePrefix = "machine"
-                    )
-                    if (uploadPhotoResult is Success)
-                    {
-                        machine.data.remotePhotoRef = uploadPhotoResult.data
-                        val updateResult = localSource.updateMachine(machine.data)
-                        if (updateResult is Error)
-                            return updateResult
-                    }
+                val extras = localSource.getMachineCtrlPtExtraFromId(extraId)
+                if (extras is Success)
+                {
+                    extras.data.reportLocalPath = result.data.path.split("/").last()
+                    val localResult = localSource.updateMachineCtrlPtExtra(extras.data)
+                    if (localResult is Error)
+                        localResult
                     else
-                        return uploadPhotoResult as? Error ?: Error(RemoteRepositoryException("Something went wrong with remote storage method"))
+                        result
                 }
-
-                localUser.data.user.signaturePath?.let { signatureRef ->
-                    if (!localUser.data.user.isSignatureEnabled)
-                        return@let
-
-                    val uploadResult = remoteSource.uploadImageToStorage(
-                        userUid = localUser.data.user.firebaseUid,
-                        localUri = signatureRef,
-                        remoteUri = localUser.data.user.remoteSignaturePath,
-                        filePrefix = "signature"
-                    )
-                    if (uploadResult is Success)
-                    {
-                        localUser.data.user.remoteSignaturePath = uploadResult.data
-                        val updateLocalResult = localSource.updateUser(localUser.data.user)
-                        if (updateLocalResult is Error)
-                            return updateLocalResult
-                    }
-                    else
-                        return uploadResult as? Error ?: Error(RemoteRepositoryException("Something went wrong with remote storage method"))
-                }
-
-                localUser.data.company.localCompanyLogo?.let { logoRef ->
-                    val uploadResult = remoteSource.uploadImageToStorage(
-                        userUid = localUser.data.user.firebaseUid,
-                        localUri = logoRef,
-                        remoteUri = localUser.data.company.remoteCompanyLogo,
-                        filePrefix = "logo"
-                    )
-                    if (uploadResult is Success)
-                    {
-                        localUser.data.company.remoteCompanyLogo = uploadResult.data
-                        val updateLocalResult = localSource.updateCompany(localUser.data.company)
-                        if (updateLocalResult is Error)
-                            return updateLocalResult
-                    }
-                    else
-                        return uploadResult as? Error ?: Error(RemoteRepositoryException("Something went wrong with remote storage method"))
-                }
-
-                remoteSource.generateReport(
-                    user = localUser.data,
-                    customer = customer.data,
-                    machineType = machineType.data,
-                    machine = machine.data,
-                    reports = localReport.data,
-                    reportDate = report.reportDate,
-                    reportExtra = reportExtras.data
-                )
+                else
+                    extras as? Error ?: Error(LocalRepositoryException("Something went wrong with local VGP List source"))
             }
             else
-                Error((localReport as? Error)?.exception ?: LocalRepositoryException("Something went wrong with local source"))
+                result as? Error ?: Error(RemoteRepositoryException("Somthing went wrong with remote VGP List source"))
         }
         else
-            Error(NetworkException("Internet access is required to upload a report"))
-    }
+            Error(NetworkException("VGP List need network access to work properly"))
 }

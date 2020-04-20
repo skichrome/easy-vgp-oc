@@ -1,5 +1,6 @@
 package com.skichrome.oc.easyvgp.model.local.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Entity(
@@ -30,6 +31,7 @@ data class MachineControlPointData(
 )
 
 data class VgpListItem(
+    @ColumnInfo(name = "machine_id") val machineId: Long,
     @ColumnInfo(name = "report_date") val reportDate: Long,
     @ColumnInfo(name = "is_report_valid") val isValid: Boolean,
     @ColumnInfo(name = "report_path_on_device") val reportLocalPath: String?,
@@ -48,8 +50,8 @@ data class Report(
 @Dao
 interface MachineControlPointDataDao : BaseDao<MachineControlPointData>
 {
-    @Query("SELECT MachinesControlPointsDataExtras.report_date, MachinesControlPointsDataExtras.report_path_on_device, MachinesControlPointsDataExtras.machines_control_points_data_extras_id, MachinesControlPointsDataCrossRef.ctrl_point_data_id, MachinesControlPointsDataExtras.is_report_valid FROM MachinesControlPointsDataCrossRef LEFT JOIN ControlPointsData JOIN MachinesControlPointsDataExtras WHERE MachinesControlPointsDataCrossRef.ctrl_point_data_id == ControlPointsData.ctrl_point_data_id AND MachinesControlPointsDataCrossRef.machine_id == :id AND MachinesControlPointsDataExtras.machines_control_points_data_extras_id == MachinesControlPointsDataCrossRef.machine_ctrl_point_data_extras_reference")
-    suspend fun getCtrlPointDataFromMachineId(id: Long): List<VgpListItem>
+    @Query("SELECT MachinesControlPointsDataExtras.report_date, MachinesControlPointsDataExtras.report_path_on_device, MachinesControlPointsDataExtras.report_path_on_remote_storage, MachinesControlPointsDataExtras.machines_control_points_data_extras_id, MachinesControlPointsDataCrossRef.ctrl_point_data_id, MachinesControlPointsDataCrossRef.machine_id, MachinesControlPointsDataExtras.is_report_valid FROM MachinesControlPointsDataCrossRef LEFT JOIN ControlPointsData JOIN MachinesControlPointsDataExtras WHERE MachinesControlPointsDataCrossRef.ctrl_point_data_id == ControlPointsData.ctrl_point_data_id AND MachinesControlPointsDataExtras.machines_control_points_data_extras_id == MachinesControlPointsDataCrossRef.machine_ctrl_point_data_extras_reference")
+    fun observeCtrlPtData(): LiveData<List<VgpListItem>>
 
     @Query("SELECT * FROM MachinesControlPointsDataCrossRef JOIN ControlPointsData JOIN control_points JOIN MachinesControlPointsDataExtras WHERE MachinesControlPointsDataExtras.report_date == :reportDate AND MachinesControlPointsDataCrossRef.ctrl_point_data_id == ControlPointsData.ctrl_point_data_id AND ControlPointsData.ctrl_point_data_ctrl_point_ref == control_points.control_point_id AND MachinesControlPointsDataExtras.machines_control_points_data_extras_id == MachinesControlPointsDataCrossRef.machine_ctrl_point_data_extras_reference")
     suspend fun getPreviouslyInsertedReport(reportDate: Long): List<Report>

@@ -30,12 +30,13 @@
     <string name="profile_fragment_no_logo_default_text">no picture selected</string>
 
     <!-- Add Edit Customer Fragment -->
-    <string name="frag_add_edit_customer_name_title">Customer Name</string>
-    <string name="frag_add_edit_customer_siret_title">Customer SIRET</string>
+    <string name="frag_add_edit_customer_name_title">Referent</string>
+    <string name="frag_add_edit_customer_siret_title">SIRET</string>
     <string name="frag_add_edit_customer_contact_title">Contact information</string>
     <string name="frag_add_edit_customer_location_title">Customer location</string>
     <string name="frag_add_edit_customer_notes_title">Notes</string>
 
+    <string name="frag_add_edit_customer_company_name_hint">company name</string>
     <string name="frag_add_edit_customer_city_hint">City</string>
     <string name="frag_add_edit_customer_first_name_hint">first name</string>
     <string name="frag_add_edit_customer_last_name_hint">last name</string>
@@ -135,9 +136,11 @@
     <string name="frag_vgp_dialog_title">Set your comment for this control point</string>
     <string name="dialog_comment_comment_hint">Comment</string>
 
-    <!-- VGP List ViewModel -->
+    <!-- VGP List -->
+    <string name="fragment_vgp_list_work_enqueued_info">You will receive a notification when your report will be ready</string>
+    <string name="fragment_vgp_list_no_pdf_viewer">No application found to open a PDF document</string>
     <string name="vgp_list_view_model_cannot_edit_validated_report">Error, you can\'t edit an already validated report</string>
-
+    :
     <!-- Machine RecyclerView Item -->
     <string name="rv_item_bgp_list_pdf_logo">Generate a Pdf by touching this pdf icon</string>
 
@@ -160,7 +163,12 @@
     <string name="cloud_msg_notification_success_content">Your report generated on %1$s for machine model %2$s is ready</string>
     <string name="cloud_msg_notification_error_content">An error occurred with your report created on %1$s for machine model %2$s</string>
     <string name="cloud_msg_notification_channel_id" translatable="false">fcm_report_ready_notification_channel</string>
-    <string name="cloud_msg_notification_channel">Report notification</string>
+    <string name="cloud_msg_notification_channel">Report download notification</string>
+
+    <!-- Upload Worker -->
+    <string name="upload_report_worker_notification_content">An error occurred when uploading report created on %1$s, please try again later</string>
+    <string name="upload_report_worker_notification_channel_id" translatable="false">upload_report_error_notification_channel</string>
+    <string name="upload_report_worker_notification_channel">Report upload notification</string>
 
     <!-- New VGP Setup Fragment -->
     <string name="fragment_new_vgp_setup_sw_machine_clean">Is the machine clean for control ?</string>

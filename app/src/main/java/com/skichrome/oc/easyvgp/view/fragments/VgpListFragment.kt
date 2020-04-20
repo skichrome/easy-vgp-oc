@@ -2,16 +2,17 @@ package com.skichrome.oc.easyvgp.view.fragments
 
 import android.content.Intent
 import android.os.Environment
-import android.util.Log
 import androidx.core.content.FileProvider
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.preference.PreferenceManager
+import androidx.work.*
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentVgpListBinding
 import com.skichrome.oc.easyvgp.model.local.database.VgpListItem
+import com.skichrome.oc.easyvgp.services.UploadReportWorker
 import com.skichrome.oc.easyvgp.util.*
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.view.fragments.adapters.VgpListFragmentAdapter
@@ -55,7 +56,6 @@ class VgpListFragment : BaseBindingFragment<FragmentVgpListBinding>()
         reportDateEvent.observe(viewLifecycleOwner, EventObserver { navigateToNewVgpSetupFragment(reportDateToEdit = it) })
         pdfClickEvent.observe(viewLifecycleOwner, EventObserver { generateReport(it) })
         pdfValidClickEvent.observe(viewLifecycleOwner, EventObserver { openPdfViewer(it) })
-        pdfDataReadyEvent.observe(viewLifecycleOwner, EventObserver { Log.e("VgpListFrag", "Report to save : $it") })
         loadAllVgpFromMachine(args.machineId)
     }
 
@@ -67,7 +67,6 @@ class VgpListFragment : BaseBindingFragment<FragmentVgpListBinding>()
     private fun configureRecyclerView()
     {
         adapter = VgpListFragmentAdapter(viewModel)
-        binding.vgpListFragmentRecyclerView.setHasFixedSize(true)
         binding.vgpListFragmentRecyclerView.adapter = adapter
     }
 
@@ -81,21 +80,34 @@ class VgpListFragment : BaseBindingFragment<FragmentVgpListBinding>()
         val userId = PreferenceManager.getDefaultSharedPreferences(context)
             .getLong(CURRENT_LOCAL_PROFILE, -1L)
 
-        viewModel.loadReport(
-            userId = userId,
-            machineId = args.machineId,
-            report = report,
-            machineTypeId = args.machineTypeId,
-            customerId = args.customerId
+        val reportData = workDataOf(
+            KEY_LOCAL_USER_ID to userId,
+            KEY_LOCAL_CUSTOMER_ID to args.customerId,
+            KEY_LOCAL_MACHINE_ID to args.machineId,
+            KEY_LOCAL_MACHINE_TYPE_ID to args.machineTypeId,
+            KEY_LOCAL_EXTRAS_REFERENCE to report.extrasReference,
+            KEY_LOCAL_REPORT_DATE to report.reportDate
         )
+
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val work = OneTimeWorkRequest.Builder(UploadReportWorker::class.java)
+            .setConstraints(constraints)
+            .setInputData(reportData)
+            .build()
+        WorkManager.getInstance(requireContext()).beginWith(work).enqueue()
+
+        binding.root.snackBar(getString(R.string.fragment_vgp_list_work_enqueued_info))
     }
 
-    private fun navigateToNewVgpSetupFragment(customerId: Long = -1L, reportDateToEdit: Long = -1L)
+    private fun navigateToNewVgpSetupFragment(reportDateToEdit: Long = -1L)
     {
         val opt = VgpListFragmentDirections.actionVgpListFragmentToNewVgpSetupFragment(
             machineId = args.machineId,
             machineTypeId = args.machineTypeId,
-            customerId = customerId,
+            customerId = args.customerId,
             reportDateToEdit = reportDateToEdit
         )
         findNavController().navigate(opt)
@@ -105,22 +117,24 @@ class VgpListFragment : BaseBindingFragment<FragmentVgpListBinding>()
     {
         report.reportLocalPath?.let { fileName ->
             Intent(Intent.ACTION_VIEW).apply {
-                Log.e("VgpListFrag", "Filename : $fileName")
-
                 if (canReadExternalStorage())
                 {
-                    requireContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)?.getFile(PDF_FOLDER_NAME, fileName)
+                    requireContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)?.createOrGetFile(PDF_FOLDER_NAME, fileName)
                         ?.let { file ->
-                            val uri = FileProvider.getUriForFile(requireContext(), AUTHORITY, file)
-                            setDataAndType(uri, "application/pdf")
-                            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                            if (file.exists())
+                            {
+                                val uri = FileProvider.getUriForFile(requireContext(), AUTHORITY, file)
+                                setDataAndType(uri, "application/pdf")
+                                flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
 
-                            resolveActivity(requireActivity().packageManager)?.let {
-                                startActivity(this)
-                            } ?: binding.root.snackBar("No application found to open a PDF document")
+                                resolveActivity(requireActivity().packageManager)?.let {
+                                    startActivity(this)
+                                } ?: binding.root.snackBar(getString(R.string.fragment_vgp_list_no_pdf_viewer))
+                            }
+                            else
+                                viewModel.downloadReport(report, file)
                         }
                 }
-
             }
         }
     }
