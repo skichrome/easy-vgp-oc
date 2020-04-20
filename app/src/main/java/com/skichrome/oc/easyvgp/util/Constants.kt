@@ -23,6 +23,9 @@ const val KEY_REPORT_ID_WORK = "worker_data_identifier_for_pdf_report_id"
 const val KEY_REPORT__EXTRA_ID_WORK = "worker_data_identifier_for_pdf_report_extra_id"
 const val KEY_REPORT_MACHINE_WORK = "worker_data_identifier_for_pdf_report_machine_name"
 const val KEY_REPORT_DATE_WORK = "worker_data_identifier_for_pdf_report_date"
+const val KEY_REPORT_CUSTOMER_ID = "worker_data_identifier_for_pdf_report_customer"
+const val KEY_REPORT_MACHINE_ID = "worker_data_identifier_for_pdf_report_machine"
+const val KEY_REPORT_MACHINE_TYPE_ID = "worker_data_identifier_for_pdf_report_machine_type"
 
 const val KEY_LOCAL_USER_ID = "worker_data_identifier_local_user_id"
 const val KEY_LOCAL_CUSTOMER_ID = "worker_data_identifier_local_customer_id"
@@ -34,7 +37,9 @@ const val KEY_LOCAL_REPORT_DATE = "worker_data_identifier_report_machine_name_fo
 const val CURRENT_LOCAL_PROFILE = "current_profile_id_from_room"
 
 // Intents extras
-const val MAIN_ACTIVITY_FRAGMENT_ROUTE = "destination_to_navigate_if_coming_from_fcm_intent"
+const val MAIN_ACTIVITY_EXTRA_CUSTOMER = "customerId"
+const val MAIN_ACTIVITY_EXTRA_MACHINE = "machineId"
+const val MAIN_ACTIVITY_EXTRA_MACHINE_TYPE = "machineTypeId"
 const val FRAGMENT_STATE_PICTURE_LOCATION = "where_picture_is_saved"
 const val FRAGMENT_STATE_REMOTE_PICTURE_LOCATION = "where_remote_picture_is_saved"
 const val FRAGMENT_STATE_REMOTE_SIGNATURE_LOCATION = "where_remote_signature_picture_is_saved"

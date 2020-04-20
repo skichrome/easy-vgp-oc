@@ -3,14 +3,14 @@ package com.skichrome.oc.easyvgp.services
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.navigation.NavDeepLinkBuilder
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.google.firebase.firestore.ktx.firestore
@@ -29,7 +29,6 @@ import com.skichrome.oc.easyvgp.model.local.VerificationType
 import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.model.remote.util.*
 import com.skichrome.oc.easyvgp.util.*
-import com.skichrome.oc.easyvgp.view.MainActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
@@ -157,7 +156,7 @@ class UploadReportWorker(appContext: Context, params: WorkerParameters) : Corout
             Result.success() -> mainResults
             Result.failure() ->
             {
-                sendErrorNotification(reportDate)
+                sendErrorNotification(reportDate = reportDate, customerId = customerId, machineId = machineId, machineTypeId = machineTypeId)
                 Result.failure()
             }
             else -> mainResults
@@ -348,13 +347,19 @@ class UploadReportWorker(appContext: Context, params: WorkerParameters) : Corout
         .document(userUid)
         .collection(REMOTE_REPORT_COLLECTION)
 
-    private fun sendErrorNotification(reportDate: Long)
+    private fun sendErrorNotification(reportDate: Long, customerId: Long, machineId: Long, machineTypeId: Long)
     {
-        val intent = Intent(applicationContext, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        intent.putExtra(MAIN_ACTIVITY_FRAGMENT_ROUTE, true)
+        val bundle = Bundle().apply {
+            putLong(MAIN_ACTIVITY_EXTRA_CUSTOMER, customerId)
+            putLong(MAIN_ACTIVITY_EXTRA_MACHINE, machineId)
+            putLong(MAIN_ACTIVITY_EXTRA_MACHINE_TYPE, machineTypeId)
+        }
 
-        val pendingIntent = PendingIntent.getActivity(applicationContext, RC_UPLOAD_NOTIFICATION, intent, PendingIntent.FLAG_ONE_SHOT)
+        val pendingIntent = NavDeepLinkBuilder(applicationContext)
+            .setGraph(R.navigation.main_navigation)
+            .setDestination(R.id.vgpListFragment)
+            .setArguments(bundle)
+            .createPendingIntent()
 
         val channelId = applicationContext.getString(R.string.upload_report_worker_notification_channel_id)
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
