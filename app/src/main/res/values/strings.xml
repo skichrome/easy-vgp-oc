@@ -1,5 +1,20 @@
 <resources>
     <string name="app_name">Easy VGP</string>
+    <string name="file_provider_authority">com.skichrome.oc.easyvgp.fileprovider</string>
+    <string name="title_fragment_home">Summary</string>
+    <string name="title_fragment_profile">Profile settings</string>
+    <string name="title_fragment_admin">Administration</string>
+    <string name="title_fragment_customer">Select a customer</string>
+    <string name="title_fragment_machine">Select a machine</string>
+    <string name="title_fragment_add_customer">Create a customer</string>
+    <string name="title_fragment_edit_customer">Edit this customer</string>
+    <string name="title_fragment_add_machine">Create a machine</string>
+    <string name="title_fragment_edit_machine">Edit this machine</string>
+    <string name="title_fragment_vgp_list">Report list</string>
+    <string name="title_fragment_vgp_setup_new">New report</string>
+    <string name="title_fragment_vgp_setup_edit">Edit report</string>
+    <string name="title_fragment_vgp_new">Enter report points</string>
+    <string name="title_fragment_vgp_edit">Edit report points</string>
 
     <!-- MainActivity -->
     <string name="frag_login_success">You are successfully logged in !</string>
@@ -7,7 +22,14 @@
 
     <!-- Home Fragment -->
     <string name="frag_home_btn_new_vgp">New VGP</string>
-    <string name="frag_home_btn_see_vgp">See all VGP</string>
+    <string name="frag_home_no_report_approach_deadline">No control approach it\'s end validity date, congrats !</string>
+    <string name="home_fragment_chart_deadline_over">Deadline exceeded</string>
+    <string name="home_fragment_chart_deadline_five_days">5 days</string>
+    <string name="home_fragment_chart_deadline_fithteen_days">15 days</string>
+    <string name="home_fragment_chart_no_close_deadline">no close deadlines</string>
+    <string name="home_fragment_chart_center_text">Deadlines</string>
+    <string name="item_rv_home_frag_machine_image_desc">machine image</string>
+    <string name="item_rv_home_frag_machine_remaining_validity">%1$d days</string>
 
     <!-- Home ViewModel -->
     <string name="view_model_home_user_filter_error">An error occurred when trying to get your current user profile</string>
@@ -75,6 +97,7 @@
     <!-- Add Edit Machine Fragment -->
     <string name="add_edit_machine_frag_title">Enter the characteristics of the machine</string>
     <string name="add_edit_machine_frag_machine_type_title">Define the type of machine</string>
+    <string name="add_edit_machine_frag_machine_picture_title">Machine photo</string>
     <string name="add_edit_machine_frag_hint_name">machine name</string>
     <string name="add_edit_machine_frag_hint_brand">machine brand</string>
     <string name="add_edit_machine_frag_hint_model">machine model</string>
@@ -82,7 +105,7 @@
     <string name="add_edit_machine_frag_hint_year">manufacturing year</string>
     <string name="profile_fragment_company_name_hint">Your company name</string>
     <string name="profile_fragment_company_siret_hint">Your company Siret</string>
-    <string name="add_edit_machine_frag_img_machine_content_desc">Add a picture for this machine$</string>
+    <string name="add_edit_machine_frag_img_machine_content_desc">Add a picture for this machine</string>
 
     <!-- Admin ViewModel -->
     <string name="admin_view_model_machine_type_insert_success">Successfully saved new machine type</string>
@@ -130,6 +153,7 @@
     <string name="frag_vgp_item_title_state_be">BE</string>
     <string name="frag_vgp_item_title_state_em">EM</string>
     <string name="frag_vgp_item_title_state_me">ME</string>
+    <string name="frag_vgp_item_title_notes">Notes</string>
     <string name="frag_vgp_item_comment_img_content_desc">Add a comment by clicking on this comment picture</string>
     <string name="frag_vgp_dialog_ok">save</string>
     <string name="frag_vgp_dialog_cancel">Cancel</string>
@@ -177,4 +201,6 @@
     <string name="fragment_new_vgp_setup_sw_machine_lifting">Is machine equipped for lifting ?</string>
     <string name="fragment_new_vgp_setup_sw_machine_hours">machine hours</string>
     <string name="fragment_new_vgp_setup_machine_intervention_place">Intervention place</string>
+    <string name="fragment_new_vgp_setup_title">Pre control verifications</string>
+    <string name="fragment_new_vgp_setup_control_type_title">Select a control type</string>
 </resources>

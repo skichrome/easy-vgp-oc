@@ -18,7 +18,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/rvItemCustomerCardView"
-        style="@style/cardStyle"
+        style="@style/EasyVGPTheme.cardStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="@{() -> viewModel.onClickCustomer(customer.id)}">

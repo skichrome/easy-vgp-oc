@@ -1,18 +1,19 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
 
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="android:colorBackground">@color/primaryColor</item>
         <item name="colorAccent">@color/secondaryColor</item>
     </style>
 
     <!-- ToolBar style -->
     <style name="ToolBarStyle" parent="AppTheme">
-        <item name="android:background">@color/primaryLightColor</item>
-        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">@color/primaryColor</item>
+        <item name="actionMenuTextColor">@android:color/black</item>
         <item name="colorControlNormal">@android:color/white</item>
     </style>
 
@@ -45,12 +46,12 @@
     </style>
 
     <!-- CardView style -->
-    <style name="cardStyle" parent="Widget.MaterialComponents.CardView">
+    <style name="EasyVGPTheme.cardStyle" parent="Widget.MaterialComponents.CardView">
         <item name="cardBackgroundColor">@color/primaryLightColor</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
-        <item name="cardElevation">1dp</item>
+        <item name="cardElevation">2dp</item>
         <item name="android:layout_margin">8dp</item>
         <item name="cardCornerRadius">6dp</item>
     </style>
@@ -63,8 +64,31 @@
         <item name="android:drawablePadding">@dimen/edit_text_drawable_padding</item>
     </style>
 
+    <!-- EditTextInputLayout style -->
+    <style name="EasyVGPTheme.editTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/tv_input_margin</item>
+        <item name="endIconMode">clear_text</item>
+    </style>
+
+    <!-- EditTextInput style -->
+    <style name="EasyVGPTheme.editTextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:inputType">text</item>
+        <item name="endIconMode">clear_text</item>
+    </style>
+
     <!-- Title TextView style -->
-    <style name="tvTitleStyle" parent="TextAppearance.AppCompat.Title">
+    <style name="EasyVGPTheme.tvTitleStyle" parent="TextAppearance.AppCompat.Title">
+        <item name="android:layout_marginTop">@dimen/tv_input_margin</item>
+        <item name="android:drawablePadding">@dimen/edit_text_drawable_padding</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <!-- Body 1 TextView style -->
+    <style name="tvBody1Style" parent="TextAppearance.AppCompat.Body1">
         <item name="android:layout_marginTop">@dimen/tv_input_margin</item>
         <item name="android:layout_marginStart">@dimen/tv_input_margin</item>
         <item name="android:layout_marginEnd">@dimen/tv_input_margin</item>
@@ -73,12 +97,10 @@
         <item name="android:layout_width">wrap_content</item>
     </style>
 
-    <!-- Title TextView style -->
-    <style name="tvBody1Style" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:layout_marginTop">@dimen/tv_input_margin</item>
-        <item name="android:layout_marginStart">@dimen/tv_input_margin</item>
-        <item name="android:layout_marginEnd">@dimen/tv_input_margin</item>
+    <!-- Body 1 TextView style -->
+    <style name="tvBody1StyleNoMargin" parent="TextAppearance.AppCompat.Body1">
         <item name="android:drawablePadding">@dimen/edit_text_drawable_padding</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
     </style>
@@ -91,6 +113,13 @@
         <item name="android:layout_marginTop">@dimen/divider_top_margin</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <!-- Switch style -->
+    <style name="EasyVGPTheme.switch" parent="AppTheme">
+        <item name="android:layout_marginTop">@dimen/tv_input_margin</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
     </style>
 
     <!-- Sign-in Activity style -->

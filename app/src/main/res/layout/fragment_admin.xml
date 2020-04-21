@@ -30,7 +30,7 @@
 
         <TextView
             android:id="@+id/adminFragmentFabNewMachineTypeTitle"
-            style="@style/tvTitleStyle"
+            style="@style/EasyVGPTheme.tvTitleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/admin_fragment_machine_type_title"
@@ -60,7 +60,7 @@
 
         <TextView
             android:id="@+id/adminFragmentFabNewControlPointTitle"
-            style="@style/tvTitleStyle"
+            style="@style/EasyVGPTheme.tvTitleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/admin_fragment_ctrl_points_title"

@@ -15,7 +15,6 @@ const val NOTIFICATION_UPLOAD_ID = 2225
 // Local Storage access
 const val PDF_FOLDER_NAME = "user_reports"
 const val PICTURES_FOLDER_NAME = "user_medias"
-const val AUTHORITY = "com.skichrome.oc.easyvgp.fileprovider"
 
 // Work Manager
 const val KEY_PDF_WORK = "worker_data_identifier_for_pdf_firebase_storage_location"

@@ -16,6 +16,7 @@ import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.view.fragments.adapters.ControlPointNewVgpAdapter
 import com.skichrome.oc.easyvgp.viewmodel.VgpViewModel
 import com.skichrome.oc.easyvgp.viewmodel.vmfactory.VgpViewModelFactory
+import kotlinx.android.synthetic.main.activity_main.*
 
 class NewVgpFragment : BaseBindingFragment<FragmentNewVgpBinding>()
 {
@@ -38,6 +39,7 @@ class NewVgpFragment : BaseBindingFragment<FragmentNewVgpBinding>()
 
     override fun configureFragment()
     {
+        configureUI()
         configureViewModel()
         configureBinding()
         configureRecyclerView()
@@ -47,6 +49,12 @@ class NewVgpFragment : BaseBindingFragment<FragmentNewVgpBinding>()
     // =================================
     //              Methods
     // =================================
+
+    private fun configureUI()
+    {
+        if (args.reportDateToEdit != -1L)
+            activity?.apply { toolbar?.title = getString(R.string.title_fragment_vgp_edit) }
+    }
 
     private fun configureViewModel()
     {
@@ -97,6 +105,7 @@ class NewVgpFragment : BaseBindingFragment<FragmentNewVgpBinding>()
                 setTitle(R.string.frag_vgp_dialog_title)
                 setPositiveButton(R.string.frag_vgp_dialog_ok) { _, _ ->
                     viewModel.setCommentToCtrlPointData(indexAndComment.first, commentEditText.text.toString())
+                    adapter.notifyItemChanged(indexAndComment.first)
                 }
                 setNegativeButton(R.string.frag_vgp_dialog_cancel, null)
             }

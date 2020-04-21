@@ -123,7 +123,8 @@ class VgpListFragment : BaseBindingFragment<FragmentVgpListBinding>()
                         ?.let { file ->
                             if (file.exists())
                             {
-                                val uri = FileProvider.getUriForFile(requireContext(), AUTHORITY, file)
+                                val uri =
+                                    FileProvider.getUriForFile(requireContext(), requireActivity().getString(R.string.file_provider_authority), file)
                                 setDataAndType(uri, "application/pdf")
                                 flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
 

@@ -13,93 +13,113 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="8dp">
+        android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/fragmentNewVgpSetupIsMachineClean"
+        <ScrollView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:checked="@{viewModel.machineWithControlPointsDataExtras.machineClean}"
-            android:text="@string/fragment_new_vgp_setup_sw_machine_clean"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/fragmentNewVgpSetupIsMachineMarkedCE"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:checked="@{viewModel.machineWithControlPointsDataExtras.machineCE}"
-            android:text="@string/fragment_new_vgp_setup_sw_machine_ce"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupIsMachineClean" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/fragmentNewVgpSetupIsMachineNoticeAvailable"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:checked="@{viewModel.machineWithControlPointsDataExtras.machineNotice}"
-            android:text="@string/fragment_new_vgp_setup_sw_machine_manual"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupIsMachineMarkedCE" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/fragmentNewVgpSetupIsMachineLiftingEquiped"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:checked="@{viewModel.machineWithControlPointsDataExtras.liftingEquip}"
-            android:text="@string/fragment_new_vgp_setup_sw_machine_lifting"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupIsMachineNoticeAvailable" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fragmentNewVgpSetupMachineHoursLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/fragment_new_vgp_setup_sw_machine_hours"
-            app:endIconMode="clear_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupIsMachineLiftingEquiped">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fragmentNewVgpSetupMachineHours"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberSigned" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginHorizontal="12dp"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/margin_do_not_hide_fab">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fragmentNewVgpSetupMachineInterventionPlaceLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:endIconMode="clear_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupMachineHoursLayout">
+                <TextView
+                    android:id="@+id/fragmentNewVgpSetupTitle"
+                    style="@style/EasyVGPTheme.tvTitleStyle"
+                    android:text="@string/fragment_new_vgp_setup_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fragmentNewVgpSetupInterventionPlace"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/fragment_new_vgp_setup_machine_intervention_place"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fragmentNewVgpSetupMachineHoursLayout"
+                    style="@style/EasyVGPTheme.editTextInputLayoutStyle"
+                    android:layout_width="0dp"
+                    android:hint="@string/fragment_new_vgp_setup_sw_machine_hours"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupTitle">
 
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/fragmentNewVgpSetupMachineControlType"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragmentNewVgpSetupMachineInterventionPlaceLayout" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/fragmentNewVgpSetupMachineHours"
+                        style="@style/EasyVGPTheme.editTextInputStyle"
+                        android:inputType="numberSigned"
+                        android:text="@{viewModel.machineWithControlPointsDataExtras.machineHours != 0 ? String.valueOf(viewModel.machineWithControlPointsDataExtras.machineHours) : null}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fragmentNewVgpSetupMachineInterventionPlaceLayout"
+                    style="@style/EasyVGPTheme.editTextInputLayoutStyle"
+                    android:layout_width="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupMachineHoursLayout">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/fragmentNewVgpSetupInterventionPlace"
+                        style="@style/EasyVGPTheme.editTextInputStyle"
+                        android:hint="@string/fragment_new_vgp_setup_machine_intervention_place"
+                        android:text="@{viewModel.machineWithControlPointsDataExtras.interventionPlace}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/fragmentNewVgpSetupIsMachineClean"
+                    style="@style/EasyVGPTheme.switch"
+                    android:checked="@{viewModel.machineWithControlPointsDataExtras.machineClean}"
+                    android:text="@string/fragment_new_vgp_setup_sw_machine_clean"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupMachineInterventionPlaceLayout" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/fragmentNewVgpSetupIsMachineMarkedCE"
+                    style="@style/EasyVGPTheme.switch"
+                    android:checked="@{viewModel.machineWithControlPointsDataExtras.machineCE}"
+                    android:text="@string/fragment_new_vgp_setup_sw_machine_ce"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupIsMachineClean" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/fragmentNewVgpSetupIsMachineNoticeAvailable"
+                    style="@style/EasyVGPTheme.switch"
+                    android:checked="@{viewModel.machineWithControlPointsDataExtras.machineNotice}"
+                    android:text="@string/fragment_new_vgp_setup_sw_machine_manual"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupIsMachineMarkedCE" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/fragmentNewVgpSetupIsMachineLiftingEquiped"
+                    style="@style/EasyVGPTheme.switch"
+                    android:checked="@{viewModel.machineWithControlPointsDataExtras.liftingEquip}"
+                    android:text="@string/fragment_new_vgp_setup_sw_machine_lifting"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupIsMachineNoticeAvailable" />
+
+                <TextView
+                    android:id="@+id/fragmentNewVgpSetupMachineControlTypeTitle"
+                    style="@style/EasyVGPTheme.tvTitleStyle"
+                    android:text="@string/fragment_new_vgp_setup_control_type_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupIsMachineLiftingEquiped" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/fragmentNewVgpSetupMachineControlType"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/tv_input_margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fragmentNewVgpSetupMachineControlTypeTitle" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fragmentNewVgpSetupFab"

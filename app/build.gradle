@@ -173,4 +173,7 @@ dependencies {
     productionImplementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta04'
     productionImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
     productionImplementation 'com.google.firebase:firebase-perf:19.0.6'
+
+    // Graph library
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

@@ -10,13 +10,13 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import androidx.core.content.FileProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.google.android.material.textfield.TextInputEditText
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentAddEditMachineBinding
@@ -26,7 +26,7 @@ import com.skichrome.oc.easyvgp.util.*
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.viewmodel.MachineViewModel
 import com.skichrome.oc.easyvgp.viewmodel.vmfactory.MachineViewModelFactory
-import kotlinx.android.synthetic.main.fragment_add_edit_machine.*
+import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.io.IOException
 
@@ -41,7 +41,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
         MachineViewModelFactory((requireActivity().application as EasyVGPApplication).machineRepository)
     }
 
-    private lateinit var inputList: List<TextView>
+    private lateinit var inputList: List<TextInputEditText>
     private var machinePhotoPath: String? = null
     private var machineRemotePhotoPath: Uri? = null
     private var machineType: Long? = null
@@ -54,8 +54,8 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
 
     override fun configureFragment()
     {
-        configureViewModel()
         configureUI()
+        configureViewModel()
         configureBtn()
         configureImg()
     }
@@ -66,7 +66,8 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
         {
             machinePhotoPath?.let {
                 val machinePicture = File(it).transformBitmapFile()
-                Glide.with(this).load(machinePicture).centerCrop().into(addEditMachineFragmentImg)
+                Glide.with(this).load(machinePicture).centerCrop().into(binding.addEditMachineFragmentImg)
+                binding.addEditMachineFragmentImg.visibility = View.VISIBLE
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
@@ -86,16 +87,38 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
         machineRemotePhotoPath = savedInstanceState?.getString(FRAGMENT_STATE_REMOTE_PICTURE_LOCATION)?.let { Uri.parse(it) }
 
         machineRemotePhotoPath?.let { remotePhoto ->
-            Glide.with(this).load(remotePhoto).centerCrop().into(addEditMachineFragmentImg)
+            Glide.with(this).load(remotePhoto).centerCrop().into(binding.addEditMachineFragmentImg)
+            binding.addEditMachineFragmentImg.visibility = View.VISIBLE
         }
             ?: machinePhotoPath?.let { localPhoto ->
-                Glide.with(this).load(localPhoto).centerCrop().into(addEditMachineFragmentImg)
+                Glide.with(this).load(localPhoto).centerCrop().into(binding.addEditMachineFragmentImg)
+                binding.addEditMachineFragmentImg.visibility = View.VISIBLE
             }
+            ?: binding.addEditMachineFragmentImg.apply { visibility = View.GONE }
     }
 
     // =================================
     //              Methods
     // =================================
+
+    private fun configureUI()
+    {
+        inputList = listOf(
+            binding.addEditMachineFragmentNameEditText,
+            binding.addEditMachineFragmentBrandEditText,
+            binding.addEditMachineFragmentModelEditText,
+            binding.addEditMachineFragmentSerialEditText,
+            binding.addEditMachineFragmentManufacturingYearEditText
+        )
+
+        binding.viewModel = viewModel
+
+        if (args.machineId != -1L)
+        {
+            activity?.apply { toolbar?.title = getString(R.string.title_fragment_edit_machine) }
+            viewModel.loadMachineToEdit(args.machineId)
+        }
+    }
 
     private fun configureViewModel() = viewModel.apply {
 
@@ -111,12 +134,15 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
 
                         machine.remotePhotoRef?.let { remotePhoto ->
                             machineRemotePhotoPath = machine.remotePhotoRef
-                            Glide.with(this@AddEditMachineFragment).load(remotePhoto).centerCrop().into(addEditMachineFragmentImg)
+                            Glide.with(this@AddEditMachineFragment).load(remotePhoto).centerCrop().into(binding.addEditMachineFragmentImg)
+                            binding.addEditMachineFragmentImg.visibility = View.VISIBLE
                         }
                             ?: machine.localPhotoRef?.let { localPhoto ->
                                 machinePhotoPath = localPhoto
-                                Glide.with(this@AddEditMachineFragment).load(File(localPhoto)).centerCrop().into(addEditMachineFragmentImg)
+                                Glide.with(this@AddEditMachineFragment).load(File(localPhoto)).centerCrop().into(binding.addEditMachineFragmentImg)
+                                binding.addEditMachineFragmentImg.visibility = View.VISIBLE
                             }
+                            ?: binding.addEditMachineFragmentImg.apply { visibility = View.GONE }
 
                         machine?.let { machineNotNull ->
                             val type = it.firstOrNull { it.id == machineNotNull.type }
@@ -145,22 +171,6 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
         }
     }
 
-    private fun configureUI()
-    {
-        inputList = listOf(
-            addEditMachineFragmentName,
-            addEditMachineFragmentBrand,
-            addEditMachineFragmentModel,
-            addEditMachineFragmentSerial,
-            addEditMachineFragmentManufacturingYear
-        )
-
-        binding.viewModel = viewModel
-
-        if (args.machineId != -1L)
-            viewModel.loadMachineToEdit(args.machineId)
-    }
-
     private fun configureBtn()
     {
         binding.addEditCustomerFragFab.setOnClickListener { getUserEnteredValues() }
@@ -168,7 +178,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
 
     private fun configureImg()
     {
-        binding.addEditMachineFragmentImg.setOnClickListener { launchCamera() }
+        binding.addEditMachineFragmentImgCard.setOnClickListener { launchCamera() }
     }
 
     private fun getUserEnteredValues()
@@ -194,12 +204,12 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
             val machine = Machine(
                 machineId = if (args.machineId != -1L) args.machineId else 0,
                 type = machineType!!,
-                serial = addEditMachineFragmentSerial.text.toString(),
+                serial = binding.addEditMachineFragmentSerialEditText.text.toString(),
                 customer = args.customerId,
-                brand = addEditMachineFragmentBrand.text.toString(),
-                name = addEditMachineFragmentName.text.toString(),
-                model = addEditMachineFragmentModel.text.toString(),
-                manufacturingYear = addEditMachineFragmentManufacturingYear.text.toString().toInt(),
+                brand = binding.addEditMachineFragmentBrandEditText.text.toString(),
+                name = binding.addEditMachineFragmentNameEditText.text.toString(),
+                model = binding.addEditMachineFragmentModelEditText.text.toString(),
+                manufacturingYear = binding.addEditMachineFragmentManufacturingYearEditText.text.toString().toInt(),
                 localPhotoRef = machinePhotoPath,
                 remotePhotoRef = machineRemotePhotoPath
             )
@@ -235,7 +245,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
                     machinePhotoPath = file.absolutePath
                     val uri = FileProvider.getUriForFile(
                         requireActivity().applicationContext,
-                        AUTHORITY,
+                        requireActivity().getString(R.string.file_provider_authority),
                         file
                     )
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri)

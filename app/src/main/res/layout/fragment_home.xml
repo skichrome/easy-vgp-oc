@@ -2,9 +2,12 @@
 
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
@@ -15,41 +18,70 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/fragHomeLeftGuideline"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.25" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/fragHomeRightGuideline"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.75" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/fragHomeBtnNewVGP"
-            style="@style/buttonStyle"
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/homeFragmentChart"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/btn_bottom_margin"
-            android:text="@string/frag_home_btn_new_vgp"
-            app:layout_constraintBottom_toTopOf="@+id/fragHomeBtnSeeVGP"
-            app:layout_constraintEnd_toEndOf="@id/fragHomeRightGuideline"
-            app:layout_constraintStart_toStartOf="@id/fragHomeLeftGuideline" />
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toTopOf="@id/homeFragmentGuideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/fragHomeBtnSeeVGP"
-            style="@style/buttonStyle"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/homeFragmentGuideline"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/btn_bottom_margin"
-            android:text="@string/frag_home_btn_see_vgp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintGuide_percent="0.4"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/homeFragmentSeparator"
+            style="@style/separatorStyle"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/homeFragmentGuideline" />
+
+        <TextView
+            style="@style/tvBody1StyleNoMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/frag_home_no_report_approach_deadline"
+            android:textColor="@color/secondaryColor"
+            android:visibility="@{viewModel.controlList.size() == 0 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/homeFragmentRecyclerView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/homeFragmentRecyclerView"
+            tools:visibility="visible" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/homeFragmentRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:items_home_report="@{viewModel.controlList}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/fragHomeRightGuideline"
-            app:layout_constraintStart_toStartOf="@id/fragHomeLeftGuideline" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homeFragmentSeparator"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_rv_home_fragment" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/homeFragmentFab"
+            style="@style/fabStyle"
+            android:drawableEnd="@drawable/ic_add_24dp"
+            android:text="@string/frag_home_btn_new_vgp"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
