@@ -102,7 +102,17 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
 
     private fun getUserData()
     {
-        var canSave = nonNullableViewContent.none { it.text == null || it.text.toString() == "" }
+        var canSave = true
+        nonNullableViewContent.forEach { editText ->
+
+            if (editText.text == null || editText.text.toString() == "")
+            {
+                canSave = false
+                editText.error = getString(R.string.frag_add_edit_customer_error_input)
+                view?.snackBar(getString(R.string.frag_add_edit_customer_error_input_snack_bar_msg))
+                return@forEach
+            }
+        }
         if (args.reportDateToEdit != -1L && currentExtraId == -1L)
             canSave = false
 
@@ -144,8 +154,6 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
             else
                 viewModel.updateNewVgpExtras(extras)
         }
-        else
-            binding.root.snackBar("Error, can't save")
     }
 
     private fun navigateToNewVgpFragment(vgpExtraId: Long)

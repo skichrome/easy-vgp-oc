@@ -115,6 +115,13 @@
         <item name="android:layout_width">match_parent</item>
     </style>
 
+    <!-- Switch style -->
+    <style name="EasyVGPTheme.switch" parent="AppTheme">
+        <item name="android:layout_marginTop">@dimen/tv_input_margin</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+    </style>
+
     <!-- Sign-in Activity style -->
     <style name="LoginTheme" parent="AppTheme">
         <item name="colorPrimary">@color/primaryColor</item>

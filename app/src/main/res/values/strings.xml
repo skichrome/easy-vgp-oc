@@ -186,4 +186,6 @@
     <string name="fragment_new_vgp_setup_sw_machine_lifting">Is machine equipped for lifting ?</string>
     <string name="fragment_new_vgp_setup_sw_machine_hours">machine hours</string>
     <string name="fragment_new_vgp_setup_machine_intervention_place">Intervention place</string>
+    <string name="fragment_new_vgp_setup_title">Pre control verifications</string>
+    <string name="fragment_new_vgp_setup_control_type_title">Select a control type</string>
 </resources>
