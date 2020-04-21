@@ -235,7 +235,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
                     machinePhotoPath = file.absolutePath
                     val uri = FileProvider.getUriForFile(
                         requireActivity().applicationContext,
-                        AUTHORITY,
+                        requireActivity().getString(R.string.file_provider_authority),
                         file
                     )
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri)

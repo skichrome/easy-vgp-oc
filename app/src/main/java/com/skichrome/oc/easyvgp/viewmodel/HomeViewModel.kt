@@ -34,6 +34,9 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel()
 
     // --- Data
 
+    private val _controlList = MutableLiveData<List<*>>()
+    val controlList: LiveData<List<*>> = _controlList
+
     // =================================
     //              Methods
     // =================================
