@@ -9,6 +9,11 @@
     <!-- Home Fragment -->
     <string name="frag_home_btn_new_vgp">New VGP</string>
     <string name="frag_home_no_report_approach_deadline">No control approach it\'s end validity date, congrats !</string>
+    <string name="home_fragment_chart_deadline_over">Deadline exceeded</string>
+    <string name="home_fragment_chart_deadline_five_days">5 days</string>
+    <string name="home_fragment_chart_deadline_fithteen_days">15 days</string>
+    <string name="home_fragment_chart_no_close_deadline">no close deadlines</string>
+    <string name="home_fragment_chart_center_text">Deadlines</string>
     <string name="item_rv_home_frag_machine_image_desc">machine image</string>
     <string name="item_rv_home_frag_machine_remaining_validity">%1$d days</string>
 
