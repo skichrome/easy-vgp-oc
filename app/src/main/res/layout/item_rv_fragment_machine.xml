@@ -18,7 +18,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/rvItemMachineCardView"
         android:layout_width="match_parent"
-        style="@style/cardStyle"
+        style="@style/EasyVGPTheme.cardStyle"
         android:layout_height="140dp"
         android:onClick="@{() -> viewModel.onClickMachine(machine)}">
 

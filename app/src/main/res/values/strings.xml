@@ -83,6 +83,7 @@
     <!-- Add Edit Machine Fragment -->
     <string name="add_edit_machine_frag_title">Enter the characteristics of the machine</string>
     <string name="add_edit_machine_frag_machine_type_title">Define the type of machine</string>
+    <string name="add_edit_machine_frag_machine_picture_title">Machine photo</string>
     <string name="add_edit_machine_frag_hint_name">machine name</string>
     <string name="add_edit_machine_frag_hint_brand">machine brand</string>
     <string name="add_edit_machine_frag_hint_model">machine model</string>
@@ -90,7 +91,7 @@
     <string name="add_edit_machine_frag_hint_year">manufacturing year</string>
     <string name="profile_fragment_company_name_hint">Your company name</string>
     <string name="profile_fragment_company_siret_hint">Your company Siret</string>
-    <string name="add_edit_machine_frag_img_machine_content_desc">Add a picture for this machine$</string>
+    <string name="add_edit_machine_frag_img_machine_content_desc">Add a picture for this machine</string>
 
     <!-- Admin ViewModel -->
     <string name="admin_view_model_machine_type_insert_success">Successfully saved new machine type</string>

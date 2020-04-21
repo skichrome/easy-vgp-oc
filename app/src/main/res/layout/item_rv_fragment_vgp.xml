@@ -17,7 +17,7 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        style="@style/cardStyle"
+        style="@style/EasyVGPTheme.cardStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="false"

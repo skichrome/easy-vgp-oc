@@ -46,7 +46,7 @@
     </style>
 
     <!-- CardView style -->
-    <style name="cardStyle" parent="Widget.MaterialComponents.CardView">
+    <style name="EasyVGPTheme.cardStyle" parent="Widget.MaterialComponents.CardView">
         <item name="cardBackgroundColor">@color/primaryLightColor</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
         <item name="android:clickable">true</item>

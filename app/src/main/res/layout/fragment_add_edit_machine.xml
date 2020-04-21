@@ -2,7 +2,8 @@
 
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -13,11 +14,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <ScrollView
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,102 +27,109 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginHorizontal="12dp"
+                android:paddingBottom="@dimen/margin_do_not_hide_fab">
 
                 <TextView
                     android:id="@+id/addEditMachineFragmentNameTitle"
-                    style="@style/TextAppearance.AppCompat.Title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/tv_input_margin"
-                    android:layout_marginTop="@dimen/tv_input_margin"
+                    style="@style/EasyVGPTheme.tvTitleStyle"
                     android:text="@string/add_edit_machine_frag_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
-                    android:id="@+id/addEditMachineFragmentName"
-                    style="@style/editTextStyle"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addEditMachineFragmentNameEditTextLayout"
+                    style="@style/EasyVGPTheme.editTextInputLayoutStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
                     android:hint="@string/add_edit_machine_frag_hint_name"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:text="@{viewModel.machine.name}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentNameTitle" />
+                    app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentNameTitle">
 
-                <EditText
-                    android:id="@+id/addEditMachineFragmentBrand"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/addEditMachineFragmentNameEditText"
+                        style="@style/EasyVGPTheme.editTextInputStyle"
+                        android:text="@{viewModel.machine.name}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addEditMachineFragmentBrandEditTextLayout"
+                    style="@style/EasyVGPTheme.editTextInputLayoutStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/tv_input_margin"
-                    android:layout_marginTop="@dimen/tv_input_margin"
                     android:layout_marginEnd="8dp"
                     android:hint="@string/add_edit_machine_frag_hint_brand"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:text="@{viewModel.machine.brand}"
-                    app:layout_constraintEnd_toStartOf="@+id/addEditMachineFragmentModel"
-                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintEnd_toStartOf="@+id/addEditMachineFragmentModelEditTextLayout"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentName" />
+                    app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentNameEditTextLayout">
 
-                <EditText
-                    android:id="@+id/addEditMachineFragmentModel"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/addEditMachineFragmentBrandEditText"
+                        style="@style/EasyVGPTheme.editTextInputStyle"
+                        android:inputType="textPersonName"
+                        android:text="@{viewModel.machine.brand}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addEditMachineFragmentModelEditTextLayout"
+                    style="@style/EasyVGPTheme.editTextInputLayoutStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="@dimen/tv_input_margin"
-                    android:layout_marginEnd="@dimen/tv_input_margin"
                     android:hint="@string/add_edit_machine_frag_hint_model"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:text="@{viewModel.machine.model}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/addEditMachineFragmentBrand"
-                    app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentName" />
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/addEditMachineFragmentBrandEditTextLayout"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentNameEditTextLayout">
 
-                <EditText
-                    android:id="@+id/addEditMachineFragmentSerial"
-                    style="@style/editTextStyle"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/addEditMachineFragmentModelEditText"
+                        style="@style/EasyVGPTheme.editTextInputStyle"
+                        android:inputType="textPersonName"
+                        android:text="@{viewModel.machine.model}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addEditMachineFragmentSerialEditTextLayout"
+                    style="@style/EasyVGPTheme.editTextInputLayoutStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/tv_input_margin"
                     android:hint="@string/add_edit_machine_frag_hint_serial"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:text="@{viewModel.machine.serial}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentBrand" />
+                    app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentBrandEditTextLayout">
 
-                <EditText
-                    android:id="@+id/addEditMachineFragmentManufacturingYear"
-                    style="@style/editTextStyle"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/addEditMachineFragmentSerialEditText"
+                        style="@style/EasyVGPTheme.editTextInputStyle"
+                        android:text="@{viewModel.machine.serial}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addEditMachineFragmentManufacturingYearEditTextLayout"
+                    style="@style/EasyVGPTheme.editTextInputLayoutStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/tv_input_margin"
                     android:hint="@string/add_edit_machine_frag_hint_year"
-                    android:importantForAutofill="no"
-                    android:inputType="numberSigned"
-                    android:text="@{String.valueOf(viewModel.machine.manufacturingYear)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addEditMachineFragmentSerial" />
+                    app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentSerialEditTextLayout">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/addEditMachineFragmentManufacturingYearEditText"
+                        style="@style/EasyVGPTheme.editTextInputStyle"
+                        android:inputType="numberSigned"
+                        android:text="@{viewModel.machine.manufacturingYear != 0 ? String.valueOf(viewModel.machine.manufacturingYear) : null}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
                     android:id="@+id/addEditMachineFragmentMachineTypeTitle"
-                    style="@style/TextAppearance.AppCompat.Title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/tv_input_margin"
-                    android:layout_marginTop="@dimen/tv_input_margin"
+                    style="@style/EasyVGPTheme.tvTitleStyle"
                     android:text="@string/add_edit_machine_frag_machine_type_title"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentManufacturingYear" />
+                    app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentManufacturingYearEditTextLayout" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/addEditMachineFragmentMachineTypeSpinner"
@@ -135,18 +143,40 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/addEditMachineFragmentMachineTypeTitle" />
 
-                <ImageView
-                    android:id="@+id/addEditMachineFragmentImg"
-                    android:layout_width="280dp"
-                    android:layout_height="210dp"
-                    android:layout_marginTop="@dimen/divider_top_margin"
-                    android:layout_marginBottom="90dp"
-                    android:contentDescription="@string/add_edit_machine_frag_img_machine_content_desc"
-                    android:src="@drawable/ic_add_24dp"
+                <TextView
+                    android:id="@+id/addEditMachineFragmentMachinePictureTitle"
+                    style="@style/EasyVGPTheme.tvTitleStyle"
+                    android:text="@string/add_edit_machine_frag_machine_picture_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentMachineTypeSpinner" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/addEditMachineFragmentImgCard"
+                    style="@style/EasyVGPTheme.cardStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardUseCompatPadding="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addEditMachineFragmentMachineTypeSpinner" />
+                    app:layout_constraintTop_toBottomOf="@id/addEditMachineFragmentMachinePictureTitle">
+
+                    <ImageView
+                        android:id="@+id/addEditMachineFragmentImgDrawableHint"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/add_edit_machine_frag_img_machine_content_desc"
+                        android:src="@drawable/ic_add_24dp" />
+
+                    <ImageView
+                        android:id="@+id/addEditMachineFragmentImg"
+                        android:layout_width="280dp"
+                        android:layout_height="210dp"
+                        android:contentDescription="@string/add_edit_machine_frag_img_machine_content_desc"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+                </androidx.cardview.widget.CardView>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
