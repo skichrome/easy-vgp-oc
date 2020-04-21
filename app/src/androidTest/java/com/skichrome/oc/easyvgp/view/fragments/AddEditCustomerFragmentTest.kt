@@ -157,7 +157,7 @@ class AddEditCustomerFragmentTest
         // Scroll up to display bottom fields
         onView(withId(R.id.addEditCustomerFragmentNotesEditText)).perform(scrollTo())
 
-        onView(withId(R.id.addEditCustomerFragmentEmailEditText)).check(matches(not(hasErrorText(context.getString(R.string.frag_add_edit_customer_error_input)))))
+        onView(withId(R.id.addEditCustomerFragmentEmailEditText)).check(matches(hasErrorText(context.getString(R.string.frag_add_edit_customer_error_input))))
         onView(withId(R.id.addEditCustomerFragmentPhoneEditText)).check(matches(not(hasErrorText(context.getString(R.string.frag_add_edit_customer_error_input)))))
         onView(withId(R.id.addEditCustomerFragmentMobilePhoneEditText)).check(matches(not(hasErrorText(context.getString(R.string.frag_add_edit_customer_error_input)))))
         onView(withId(R.id.addEditCustomerFragmentNotesEditText)).check(matches(not(hasErrorText(context.getString(R.string.frag_add_edit_customer_error_input)))))
