@@ -18,7 +18,6 @@ import com.skichrome.oc.easyvgp.util.*
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.viewmodel.HomeViewModel
 import com.skichrome.oc.easyvgp.viewmodel.vmfactory.HomeViewModelFactory
-import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
 {
@@ -143,8 +142,8 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
 
         val company = Company(
             id = userAndCompany.company.id,
-            name = profileFragmentCompanyNameEditText.text.toString(),
-            siret = profileFragmentCompanySiretEditText.text.toString(),
+            name = binding.profileFragmentCompanyEditText.text.toString(),
+            siret = binding.profileFragmentCompanySiretEditText.text.toString(),
             localCompanyLogo = logoImagePath,
             remoteCompanyLogo = remoteLogoImagePath
         )
@@ -153,8 +152,8 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
             firebaseUid = userAndCompany.user.firebaseUid,
             name = userAndCompany.user.name,
             email = userAndCompany.user.email,
-            approval = profileFragmentApprovalEditText.text.toString(),
-            vatNumber = profileFragmentVatEditText.text.toString(),
+            approval = binding.profileFragmentApprovalEditText.text.toString(),
+            vatNumber = binding.profileFragmentVATEditText.text.toString(),
             companyId = userAndCompany.company.id,
             signaturePath = signatureImagePath,
             remoteSignaturePath = remoteSignatureImagePath,
