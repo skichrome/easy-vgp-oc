@@ -1,15 +1,14 @@
 package com.skichrome.oc.easyvgp.model.remote
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.base.HomeSource
-import com.skichrome.oc.easyvgp.model.local.database.ControlPoint
-import com.skichrome.oc.easyvgp.model.local.database.MachineType
-import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints
-import com.skichrome.oc.easyvgp.model.local.database.UserAndCompany
+import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.model.remote.util.RemoteControlPoint
 import com.skichrome.oc.easyvgp.model.remote.util.RemoteMachineType
 import com.skichrome.oc.easyvgp.model.remote.util.RemoteMachineTypeWithControlPoints
@@ -100,6 +99,9 @@ class RemoteHomeSource(private val dispatchers: CoroutineDispatcher = Dispatcher
             }
         }
     }
+
+    override fun observeHomeReportsEndValidityDate(): LiveData<Results<List<HomeEndValidityReportItem>>> =
+        MutableLiveData(Error(NotImplementedException("Not available on remote database for now")))
 
     override suspend fun getAllUserAndCompany(): Results<List<UserAndCompany>> =
         Error(NotImplementedException("Not available on remote database for now"))

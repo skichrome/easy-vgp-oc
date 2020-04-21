@@ -1,5 +1,8 @@
 package com.skichrome.oc.easyvgp.model.source
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
@@ -19,8 +22,17 @@ class FakeHomeDataSource(
 ) : HomeSource
 {
     // =================================
+    //              Fields
+    // =================================
+
+    private val observableHomeEndValidityReportItem = MutableLiveData<List<HomeEndValidityReportItem>>()
+
+    // =================================
     //        Superclass Methods
     // =================================
+
+    override fun observeHomeReportsEndValidityDate(): LiveData<Results<List<HomeEndValidityReportItem>>> =
+        observableHomeEndValidityReportItem.map { Success(it) }
 
     override suspend fun getAllUserAndCompany(): Results<List<UserAndCompany>> = Success(userAndCompanyDataService.values.toList())
 
@@ -37,7 +49,8 @@ class FakeHomeDataSource(
         {
             userAndCompanyDataService[userAndCompany.company.id] = userAndCompany
             Success(1)
-        } else
+        }
+        else
             Error(ItemNotFoundException("Item doesnt' exist in the list"))
     }
 
@@ -118,6 +131,11 @@ class FakeHomeDataSource(
     // =================================
     //              Methods
     // =================================
+
+    fun refresh(homeEndValidityReports: List<HomeEndValidityReportItem>)
+    {
+        observableHomeEndValidityReportItem.value = homeEndValidityReports
+    }
 
     fun insertData(
         ctrlPt: LinkedHashMap<Long, ControlPoint>,

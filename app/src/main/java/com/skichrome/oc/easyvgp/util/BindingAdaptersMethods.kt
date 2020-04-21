@@ -38,6 +38,11 @@ fun setCtrlPointDataItems(listView: RecyclerView, controlPoints: List<ControlPoi
     (listView.adapter as ControlPointNewVgpAdapter).submitList(it)
 }
 
+@BindingAdapter(value = ["items_home_report"])
+fun setHomeItems(listView: RecyclerView, reports: List<HomeEndValidityReportItem>?) = reports?.let {
+    (listView.adapter as HomeReportFragmentAdapter).submitList(it)
+}
+
 @BindingAdapter(value = ["bind_date"])
 fun getDateFormatted(textView: TextView, dateMillis: Long)
 {

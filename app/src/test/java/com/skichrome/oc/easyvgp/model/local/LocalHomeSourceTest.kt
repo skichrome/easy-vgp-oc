@@ -42,6 +42,7 @@ class LocalHomeSourceTest
     private lateinit var ctrlPointDao: ControlPointDao
     private lateinit var machineTypeDao: MachineTypeDao
     private lateinit var machineTypeControlPointCrossRefDao: MachineTypeControlPointCrossRefDao
+    private lateinit var ctrlPtDataDao: MachineControlPointDataDao
     private lateinit var homeSource: HomeSource
 
     // =================================
@@ -54,9 +55,9 @@ class LocalHomeSourceTest
     fun setUp()
     {
         database = Room.inMemoryDatabaseBuilder(
-                ApplicationProvider.getApplicationContext(),
-                AppDatabase::class.java
-            )
+            ApplicationProvider.getApplicationContext(),
+            AppDatabase::class.java
+        )
             .allowMainThreadQueries()
             .build()
 
@@ -65,6 +66,7 @@ class LocalHomeSourceTest
         ctrlPointDao = database.controlPointDao()
         machineTypeDao = database.machinesTypeDao()
         machineTypeControlPointCrossRefDao = database.machineTypeControlPointCrossRefDao()
+        ctrlPtDataDao = database.machineControlPointDataDao()
 
         homeSource = LocalHomeSource(
             companyDao = companyDao,
@@ -72,6 +74,7 @@ class LocalHomeSourceTest
             machineTypeDao = machineTypeDao,
             controlPointDao = ctrlPointDao,
             machineTypeControlPointCrossRefDao = machineTypeControlPointCrossRefDao,
+            machineControlPointDataDao = ctrlPtDataDao,
             dispatchers = Dispatchers.Main
         )
     }
@@ -79,7 +82,11 @@ class LocalHomeSourceTest
     @After
     fun tearDown() = database.close()
 
-    // --- Configuration --- //
+    // --- Tests --- //
+
+    @Test
+    fun observeHomeReportsEndValidityDateTest() = runBlocking {
+    }
 
     @Test
     fun getAllUserAndCompany() = runBlocking {

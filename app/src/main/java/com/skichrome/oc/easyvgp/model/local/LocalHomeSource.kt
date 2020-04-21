@@ -1,5 +1,7 @@
 package com.skichrome.oc.easyvgp.model.local
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
@@ -18,9 +20,13 @@ class LocalHomeSource(
     private val controlPointDao: ControlPointDao,
     private val machineTypeDao: MachineTypeDao,
     private val machineTypeControlPointCrossRefDao: MachineTypeControlPointCrossRefDao,
+    private val machineControlPointDataDao: MachineControlPointDataDao,
     private val dispatchers: CoroutineDispatcher = AppCoroutinesConfiguration.ioDispatchers
 ) : HomeSource
 {
+    override fun observeHomeReportsEndValidityDate(): LiveData<Results<List<HomeEndValidityReportItem>>> =
+        machineControlPointDataDao.observeEndValidityReports().map { Success(it) }
+
     override suspend fun getAllUserAndCompany(): Results<List<UserAndCompany>> = withContext(dispatchers) {
         return@withContext try
         {

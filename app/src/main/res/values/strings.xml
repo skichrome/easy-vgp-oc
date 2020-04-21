@@ -10,6 +10,7 @@
     <string name="frag_home_btn_new_vgp">New VGP</string>
     <string name="frag_home_no_report_approach_deadline">No control approach it\'s end validity date, congrats !</string>
     <string name="item_rv_home_frag_machine_image_desc">machine image</string>
+    <string name="item_rv_home_frag_machine_remaining_validity">%1$d days</string>
 
     <!-- Home ViewModel -->
     <string name="view_model_home_user_filter_error">An error occurred when trying to get your current user profile</string>

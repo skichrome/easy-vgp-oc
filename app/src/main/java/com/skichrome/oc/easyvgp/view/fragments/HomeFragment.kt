@@ -9,9 +9,11 @@ import com.github.mikephil.charting.formatter.PercentFormatter
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentHomeBinding
+import com.skichrome.oc.easyvgp.util.AutoClearedValue
 import com.skichrome.oc.easyvgp.util.EventObserver
 import com.skichrome.oc.easyvgp.util.toast
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
+import com.skichrome.oc.easyvgp.view.fragments.adapters.HomeReportFragmentAdapter
 import com.skichrome.oc.easyvgp.viewmodel.HomeViewModel
 import com.skichrome.oc.easyvgp.viewmodel.vmfactory.HomeViewModelFactory
 
@@ -20,6 +22,8 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>()
     // =================================
     //              Fields
     // =================================
+
+    private var adapter: HomeReportFragmentAdapter by AutoClearedValue()
 
     private val viewModel by viewModels<HomeViewModel> {
         HomeViewModelFactory((requireActivity().application as EasyVGPApplication).homeRepository)
@@ -34,6 +38,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>()
     {
         configureBtn()
         configureViewModel()
+        configureRecyclerView()
         configureUI()
         configureChart()
     }
@@ -49,6 +54,12 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>()
 
     private fun configureViewModel() = viewModel.apply {
         currentUserId.observe(viewLifecycleOwner, EventObserver { toast("saved : $it") })
+    }
+
+    private fun configureRecyclerView()
+    {
+        adapter = HomeReportFragmentAdapter(viewModel)
+        binding.homeFragmentRecyclerView.adapter = adapter
     }
 
     private fun configureUI()
@@ -75,7 +86,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>()
         entries.add(PieEntry(first, "Deadline over"))
         entries.add(PieEntry(second, "5 days"))
         entries.add(PieEntry(third, "15 days"))
-        entries.add(PieEntry(empty, "no deadlines"))
+        entries.add(PieEntry(empty, "no close deadlines"))
         val set = PieDataSet(entries, "").apply {
             val colors = IntArray(4)
             colors[0] = R.color.deadlineOverColor

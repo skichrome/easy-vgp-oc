@@ -8,6 +8,10 @@
     <data>
 
         <variable
+            name="report"
+            type="com.skichrome.oc.easyvgp.model.local.database.HomeEndValidityReportItem" />
+
+        <variable
             name="viewModel"
             type="com.skichrome.oc.easyvgp.viewmodel.HomeViewModel" />
     </data>
@@ -44,10 +48,13 @@
                 <TextView
                     android:id="@+id/itemRvHomeFragmentCustomerCompanyNameText"
                     style="@style/tvBody1StyleNoMargin"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@{report.companyName}"
                     app:layout_constraintBottom_toTopOf="@+id/itemRvHomeFragmentCustomerMachineNameText"
+                    app:layout_constraintEnd_toStartOf="@+id/itemRvHomeFragmentRemainingDayText"
                     app:layout_constraintStart_toEndOf="@+id/itemRvHomeFragmentMachinePicture"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="SAS TP Test" />
@@ -55,10 +62,13 @@
                 <TextView
                     android:id="@+id/itemRvHomeFragmentCustomerMachineNameText"
                     style="@style/tvBody1StyleNoMargin"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@{report.machineName}"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/itemRvHomeFragmentRemainingDayText"
                     app:layout_constraintStart_toEndOf="@+id/itemRvHomeFragmentMachinePicture"
                     app:layout_constraintTop_toBottomOf="@+id/itemRvHomeFragmentCustomerCompanyNameText"
                     tools:text="Grue test 25 du parc xzy" />
@@ -70,6 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:drawableTop="@drawable/ic_event_24dp"
+                    android:text="@{String.format(@string/item_rv_home_frag_machine_remaining_validity, report.reportDeltaDay)}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

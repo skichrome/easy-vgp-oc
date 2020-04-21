@@ -1,14 +1,14 @@
 package com.skichrome.oc.easyvgp.model.base
 
+import androidx.lifecycle.LiveData
 import com.skichrome.oc.easyvgp.model.Results
-import com.skichrome.oc.easyvgp.model.local.database.ControlPoint
-import com.skichrome.oc.easyvgp.model.local.database.MachineType
-import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints
-import com.skichrome.oc.easyvgp.model.local.database.UserAndCompany
+import com.skichrome.oc.easyvgp.model.local.database.*
 import kotlinx.coroutines.Deferred
 
 interface HomeSource
 {
+    fun observeHomeReportsEndValidityDate(): LiveData<Results<List<HomeEndValidityReportItem>>>
+
     suspend fun getAllUserAndCompany(): Results<List<UserAndCompany>>
     suspend fun insertNewUserAndCompany(userAndCompany: UserAndCompany): Results<Long>
     suspend fun updateUserAndCompany(userAndCompany: UserAndCompany): Results<Int>
