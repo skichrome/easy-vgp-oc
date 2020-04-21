@@ -49,7 +49,7 @@
 
                 <TextView
                     android:id="@+id/profileFragmentName"
-                    style="@style/tvTitleStyle"
+                    style="@style/EasyVGPTheme.tvTitleStyle"
                     android:text="@{viewModel.currentUser.user.name}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -111,7 +111,7 @@
 
                 <TextView
                     android:id="@+id/profileFragmentCompanyTitle"
-                    style="@style/tvTitleStyle"
+                    style="@style/EasyVGPTheme.tvTitleStyle"
                     android:text="@string/profile_fragment_company_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/profileFragmentDivider2" />
@@ -155,7 +155,7 @@
 
                 <TextView
                     android:id="@+id/profileFragmentCompanyLogoTitle"
-                    style="@style/tvTitleStyle"
+                    style="@style/EasyVGPTheme.tvTitleStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/profile_fragment_company_logo_title"
@@ -193,7 +193,7 @@
 
                 <TextView
                     android:id="@+id/profileFragmentSignatureTitle"
-                    style="@style/tvTitleStyle"
+                    style="@style/EasyVGPTheme.tvTitleStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/profile_fragment_signature_title"

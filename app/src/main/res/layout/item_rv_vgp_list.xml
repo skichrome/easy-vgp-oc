@@ -41,9 +41,10 @@
 
             <TextView
                 android:id="@+id/rvItemVgpListReportName"
-                style="@style/tvTitleStyle"
+                style="@style/EasyVGPTheme.tvTitleStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tv_input_margin"
                 android:layout_marginBottom="16dp"
                 app:bind_date="@{report.reportDate}"
                 app:layout_constraintBottom_toBottomOf="parent"

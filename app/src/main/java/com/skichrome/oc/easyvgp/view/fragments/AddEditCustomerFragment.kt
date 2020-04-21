@@ -1,9 +1,9 @@
 package com.skichrome.oc.easyvgp.view.fragments
 
-import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.textfield.TextInputEditText
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentAddEditCustomerBinding
@@ -25,7 +25,7 @@ class AddEditCustomerFragment : BaseBindingFragment<FragmentAddEditCustomerBindi
         CustomerViewModelFactory((requireActivity().application as EasyVGPApplication).customerRepository)
     }
 
-    private lateinit var inputList: List<TextView>
+    private lateinit var inputList: List<TextInputEditText>
 
     // =================================
     //        Superclass Methods
@@ -46,13 +46,14 @@ class AddEditCustomerFragment : BaseBindingFragment<FragmentAddEditCustomerBindi
     private fun configureUI()
     {
         inputList = listOf(
-            binding.addEditCustomerFragFirstNameText,
-            binding.addEditCustomerFragLastNameText,
-            binding.addEditCustomerFragCompanyNameText,
-            binding.addEditCustomerFragSiretText,
-            binding.addEditCustomerFragAddressText,
-            binding.addEditCustomerFragPostCodeText,
-            binding.addEditCustomerFragCityText
+            binding.addEditCustomerFragmentFirstNameEditText,
+            binding.addEditCustomerFragmentLastNameEditText,
+            binding.addEditCustomerFragmentCompanyNameEditText,
+            binding.addEditCustomerFragmentSiretEditText,
+            binding.addEditCustomerFragmentEmailEditText,
+            binding.addEditCustomerFragmentAddressEditText,
+            binding.addEditCustomerFragmentPostCodeEditText,
+            binding.addEditCustomerFragmentCityEditText
         )
 
         binding.viewModel = viewModel
@@ -77,12 +78,12 @@ class AddEditCustomerFragment : BaseBindingFragment<FragmentAddEditCustomerBindi
     {
         var canRegisterCustomer = true
 
-        inputList.forEach { textView ->
+        inputList.forEach { editText ->
 
-            if (textView.text.toString() == "")
+            if (editText.text.toString() == "")
             {
                 canRegisterCustomer = false
-                textView.error = getString(R.string.frag_add_edit_customer_error_input)
+                editText.error = getString(R.string.frag_add_edit_customer_error_input)
                 view?.snackBar(getString(R.string.frag_add_edit_customer_error_input_snack_bar_msg))
                 return@forEach
             }
@@ -92,17 +93,17 @@ class AddEditCustomerFragment : BaseBindingFragment<FragmentAddEditCustomerBindi
         {
             val customer = Customer(
                 id = if (args.customerId != -1L) args.customerId else 0,
-                firstName = binding.addEditCustomerFragFirstNameText.text.toString(),
-                lastName = binding.addEditCustomerFragLastNameText.text.toString(),
-                siret = binding.addEditCustomerFragSiretText.text.toString(),
-                postCode = binding.addEditCustomerFragPostCodeText.text.toString().toInt(),
-                address = binding.addEditCustomerFragAddressText.text.toString(),
-                city = binding.addEditCustomerFragCityText.text.toString(),
-                email = binding.addEditCustomerFragEmailText.text.toString(),
-                mobilePhone = binding.addEditCustomerFragMobilePhoneText.text.toString().toIntOrNull(),
-                notes = binding.addEditCustomerFragNotesText.text.toString(),
-                phone = binding.addEditCustomerFragPhoneText.text.toString().toIntOrNull(),
-                companyName = binding.addEditCustomerFragCompanyNameText.text.toString()
+                firstName = binding.addEditCustomerFragmentFirstNameEditText.text.toString(),
+                lastName = binding.addEditCustomerFragmentLastNameEditText.text.toString(),
+                siret = binding.addEditCustomerFragmentSiretEditText.text.toString(),
+                postCode = binding.addEditCustomerFragmentPostCodeEditText.text.toString().toInt(),
+                address = binding.addEditCustomerFragmentAddressEditText.text.toString(),
+                city = binding.addEditCustomerFragmentCityEditText.text.toString(),
+                email = binding.addEditCustomerFragmentEmailEditText.text.toString(),
+                mobilePhone = binding.addEditCustomerFragmentMobilePhoneEditText.text.toString().toIntOrNull(),
+                notes = binding.addEditCustomerFragmentNotesEditText.text.toString(),
+                phone = binding.addEditCustomerFragmentPhoneEditText.text.toString().toIntOrNull(),
+                companyName = binding.addEditCustomerFragmentCompanyNameEditText.text.toString()
             )
 
             if (args.customerId != -1L)

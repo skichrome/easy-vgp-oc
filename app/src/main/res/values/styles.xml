@@ -68,7 +68,6 @@
     <style name="EasyVGPTheme.editTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/tv_input_margin</item>
-        <item name="android:inputType">text</item>
         <item name="endIconMode">clear_text</item>
     </style>
 
@@ -76,11 +75,12 @@
     <style name="EasyVGPTheme.editTextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
+        <item name="android:inputType">text</item>
         <item name="endIconMode">clear_text</item>
     </style>
 
     <!-- Title TextView style -->
-    <style name="tvTitleStyle" parent="TextAppearance.AppCompat.Title">
+    <style name="EasyVGPTheme.tvTitleStyle" parent="TextAppearance.AppCompat.Title">
         <item name="android:layout_marginTop">@dimen/tv_input_margin</item>
         <item name="android:drawablePadding">@dimen/edit_text_drawable_padding</item>
         <item name="android:layout_height">wrap_content</item>
