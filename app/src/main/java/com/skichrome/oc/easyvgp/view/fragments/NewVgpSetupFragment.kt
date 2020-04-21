@@ -1,6 +1,5 @@
 package com.skichrome.oc.easyvgp.view.fragments
 
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -19,6 +18,7 @@ import com.skichrome.oc.easyvgp.util.snackBar
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.viewmodel.NewVgpSetupViewModel
 import com.skichrome.oc.easyvgp.viewmodel.vmfactory.NewVgpSetupViewModelFactory
+import kotlinx.android.synthetic.main.activity_main.*
 
 class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
 {
@@ -44,6 +44,7 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
 
     override fun configureFragment()
     {
+        configureUI()
         configureViewModel()
         configureBinding()
         configureFab()
@@ -54,6 +55,12 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
     //              Methods
     // =================================
 
+    private fun configureUI()
+    {
+        if (args.reportDateToEdit != -1L)
+            activity?.apply { toolbar?.title = getString(R.string.title_fragment_vgp_setup_edit) }
+    }
+
     private fun configureViewModel()
     {
         if (args.reportDateToEdit != -1L)
@@ -63,6 +70,8 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
         viewModel.machineWithControlPointsDataExtras.observe(viewLifecycleOwner, Observer {
             it?.let { extra ->
                 currentExtraId = extra.id
+                selectedControlType = extra.controlType
+                binding.fragmentNewVgpSetupMachineControlType.setSelection(selectedControlType.id)
             }
         })
     }
@@ -92,8 +101,6 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
             override fun onItemSelected(adapterView: AdapterView<*>?, v: View?, position: Int, itemId: Long)
             {
                 selectedControlType = ControlType.values()[position]
-                Log.e("NewVgpSetupFrag", "Current selected item : ${adapter.getItem(position)}")
-                Log.e("NewVgpSetupFrag", "Current selected item stored : ${getString(selectedControlType.type)}")
             }
 
             override fun onNothingSelected(adapterView: AdapterView<*>?) = Unit

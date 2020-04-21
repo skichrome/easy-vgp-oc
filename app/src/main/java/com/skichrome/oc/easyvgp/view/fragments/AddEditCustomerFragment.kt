@@ -13,6 +13,7 @@ import com.skichrome.oc.easyvgp.util.snackBar
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.viewmodel.CustomerViewModel
 import com.skichrome.oc.easyvgp.viewmodel.vmfactory.CustomerViewModelFactory
+import kotlinx.android.synthetic.main.activity_main.*
 
 class AddEditCustomerFragment : BaseBindingFragment<FragmentAddEditCustomerBinding>()
 {
@@ -59,7 +60,10 @@ class AddEditCustomerFragment : BaseBindingFragment<FragmentAddEditCustomerBindi
         binding.viewModel = viewModel
 
         if (args.customerId != -1L)
+        {
+            activity?.apply { toolbar?.title = getString(R.string.title_fragment_edit_customer) }
             viewModel.loadCustomerById(args.customerId)
+        }
     }
 
     private fun configureViewModel() = viewModel.apply {

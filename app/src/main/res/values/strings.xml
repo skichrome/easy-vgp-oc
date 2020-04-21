@@ -1,6 +1,20 @@
 <resources>
     <string name="app_name">Easy VGP</string>
     <string name="file_provider_authority">com.skichrome.oc.easyvgp.fileprovider</string>
+    <string name="title_fragment_home">Summary</string>
+    <string name="title_fragment_profile">Profile settings</string>
+    <string name="title_fragment_admin">Administration</string>
+    <string name="title_fragment_customer">Select a customer</string>
+    <string name="title_fragment_machine">Select a machine</string>
+    <string name="title_fragment_add_customer">Create a customer</string>
+    <string name="title_fragment_edit_customer">Edit this customer</string>
+    <string name="title_fragment_add_machine">Create a machine</string>
+    <string name="title_fragment_edit_machine">Edit this machine</string>
+    <string name="title_fragment_vgp_list">Report list</string>
+    <string name="title_fragment_vgp_setup_new">New report</string>
+    <string name="title_fragment_vgp_setup_edit">Edit report</string>
+    <string name="title_fragment_vgp_new">Enter report points</string>
+    <string name="title_fragment_vgp_edit">Edit report points</string>
 
     <!-- MainActivity -->
     <string name="frag_login_success">You are successfully logged in !</string>

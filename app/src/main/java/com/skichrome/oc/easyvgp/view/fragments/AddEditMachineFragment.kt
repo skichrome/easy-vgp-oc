@@ -26,6 +26,7 @@ import com.skichrome.oc.easyvgp.util.*
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.viewmodel.MachineViewModel
 import com.skichrome.oc.easyvgp.viewmodel.vmfactory.MachineViewModelFactory
+import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.io.IOException
 
@@ -53,8 +54,8 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
 
     override fun configureFragment()
     {
-        configureViewModel()
         configureUI()
+        configureViewModel()
         configureBtn()
         configureImg()
     }
@@ -99,6 +100,25 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
     // =================================
     //              Methods
     // =================================
+
+    private fun configureUI()
+    {
+        inputList = listOf(
+            binding.addEditMachineFragmentNameEditText,
+            binding.addEditMachineFragmentBrandEditText,
+            binding.addEditMachineFragmentModelEditText,
+            binding.addEditMachineFragmentSerialEditText,
+            binding.addEditMachineFragmentManufacturingYearEditText
+        )
+
+        binding.viewModel = viewModel
+
+        if (args.machineId != -1L)
+        {
+            activity?.apply { toolbar?.title = getString(R.string.title_fragment_edit_machine) }
+            viewModel.loadMachineToEdit(args.machineId)
+        }
+    }
 
     private fun configureViewModel() = viewModel.apply {
 
@@ -149,22 +169,6 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
                 machineType = machines[position].id
             }
         }
-    }
-
-    private fun configureUI()
-    {
-        inputList = listOf(
-            binding.addEditMachineFragmentNameEditText,
-            binding.addEditMachineFragmentBrandEditText,
-            binding.addEditMachineFragmentModelEditText,
-            binding.addEditMachineFragmentSerialEditText,
-            binding.addEditMachineFragmentManufacturingYearEditText
-        )
-
-        binding.viewModel = viewModel
-
-        if (args.machineId != -1L)
-            viewModel.loadMachineToEdit(args.machineId)
     }
 
     private fun configureBtn()

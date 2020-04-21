@@ -89,7 +89,7 @@
                 android:contentDescription="@string/frag_vgp_item_comment_img_content_desc"
                 android:focusable="true"
                 android:padding="4dp"
-                android:src="@drawable/ic_note_add_24dp"
+                android:src="@{ctrlPoint.comment == null ? @drawable/ic_note_add_24dp : @drawable/ic_note_24dp}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
