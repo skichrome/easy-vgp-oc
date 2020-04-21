@@ -153,6 +153,7 @@
     <string name="frag_vgp_item_title_state_be">BE</string>
     <string name="frag_vgp_item_title_state_em">EM</string>
     <string name="frag_vgp_item_title_state_me">ME</string>
+    <string name="frag_vgp_item_title_notes">Notes</string>
     <string name="frag_vgp_item_comment_img_content_desc">Add a comment by clicking on this comment picture</string>
     <string name="frag_vgp_dialog_ok">save</string>
     <string name="frag_vgp_dialog_cancel">Cancel</string>

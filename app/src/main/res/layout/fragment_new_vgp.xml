@@ -47,6 +47,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            style="@style/tvBody1Style"
+            android:text="@string/frag_vgp_item_title_notes"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragVGPRecyclerView"
             android:layout_width="0dp"
