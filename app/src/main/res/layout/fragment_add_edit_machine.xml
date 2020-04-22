@@ -18,7 +18,7 @@
 
         <ScrollView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -182,7 +182,7 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addEditCustomerFragFab"
-            style="@style/fabStyle"
+            style="@style/EasyVGPTheme.fabStyle"
             android:src="@drawable/ic_save_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

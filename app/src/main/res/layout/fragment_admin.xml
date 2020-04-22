@@ -109,7 +109,7 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/adminFragmentFabNewMachineType"
-            style="@style/secondaryFabStyle"
+            style="@style/EasyVGPTheme.secondaryFabStyle"
             android:src="@drawable/ic_gear_24dp"
             app:layout_constraintBottom_toTopOf="@id/adminFragmentFabNewCtrlPoint"
             app:layout_constraintEnd_toEndOf="@id/adminFragmentFabMain"
@@ -118,7 +118,7 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/adminFragmentFabNewCtrlPoint"
-            style="@style/secondaryFabStyle"
+            style="@style/EasyVGPTheme.secondaryFabStyle"
             android:src="@drawable/ic_check_box_24dp"
             app:layout_constraintBottom_toTopOf="@id/adminFragmentFabMain"
             app:layout_constraintEnd_toEndOf="@id/adminFragmentFabMain"
@@ -127,7 +127,7 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/adminFragmentFabMain"
-            style="@style/fabStyle"
+            style="@style/EasyVGPTheme.fabStyle"
             android:src="@drawable/ic_add_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

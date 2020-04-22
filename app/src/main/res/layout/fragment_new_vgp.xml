@@ -18,14 +18,14 @@
 
         <TextView
             android:id="@+id/fragVGPItemTitle"
-            style="@style/tvBody1Style"
+            style="@style/EasyVGPTheme.tvBody1Style"
             android:text="@string/frag_vgp_item_title_ctrl_point"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/fragVGPChoiceGoodTitle"
-            style="@style/tvBody1Style"
+            style="@style/EasyVGPTheme.tvBody1Style"
             android:layout_marginEnd="28dp"
             android:text="@string/frag_vgp_item_title_state_be"
             app:layout_constraintEnd_toStartOf="@+id/fragVGPChoiceOkTitle"
@@ -33,7 +33,7 @@
 
         <TextView
             android:id="@+id/fragVGPChoiceOkTitle"
-            style="@style/tvBody1Style"
+            style="@style/EasyVGPTheme.tvBody1Style"
             android:layout_marginEnd="28dp"
             android:text="@string/frag_vgp_item_title_state_em"
             app:layout_constraintEnd_toStartOf="@+id/fragVGPChoiceBadTitle"
@@ -41,14 +41,14 @@
 
         <TextView
             android:id="@+id/fragVGPChoiceBadTitle"
-            style="@style/tvBody1Style"
+            style="@style/EasyVGPTheme.tvBody1Style"
             android:layout_marginEnd="82dp"
             android:text="@string/frag_vgp_item_title_state_me"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            style="@style/tvBody1Style"
+            style="@style/EasyVGPTheme.tvBody1Style"
             android:text="@string/frag_vgp_item_title_notes"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -67,7 +67,7 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fragVGPFab"
-            style="@style/fabStyle"
+            style="@style/EasyVGPTheme.fabStyle"
             android:src="@drawable/ic_save_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

@@ -150,7 +150,7 @@ class MainActivity : AppCompatActivity()
         startActivityForResult(
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
-                .setTheme(R.style.LoginTheme)
+                .setTheme(R.style.EasyVGPTheme_LoginTheme)
                 .setAvailableProviders(loginProviders)
                 .setIsSmartLockEnabled(false)
                 .build(),

@@ -73,14 +73,12 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>()
 
     private fun navigateToCustomersFragment() = findNavController().navigate(R.id.action_homeFragment_to_customerFragment)
 
-    // -- Test
-
     private fun configureChart(reports: List<HomeEndValidityReportItem>)
     {
         val deadlineOver = reports.filter { it.reportDeltaDay?.let { delta -> delta <= 0 } ?: false }.size.toFloat()
         val fiveDaysCount = reports.filter { it.reportDeltaDay?.let { delta -> delta in 1..5 } ?: false }.size.toFloat()
         val fifteenDaysCount = reports.filter { it.reportDeltaDay?.let { delta -> delta in 6..15 } ?: false }.size.toFloat()
-        val noCloseDeadline = reports.filter { it.reportDeltaDay?.let { delta -> delta > 15 } ?: false }.size.toFloat()
+        val noCloseDeadline = if (reports.isEmpty()) 1f else reports.filter { it.reportDeltaDay?.let { delta -> delta > 15 } ?: false }.size.toFloat()
 
         val entries = arrayListOf<PieEntry>()
 

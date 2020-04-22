@@ -32,7 +32,7 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fragMachineFab"
-            style="@style/fabStyle"
+            style="@style/EasyVGPTheme.fabStyle"
             android:src="@drawable/ic_add_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

@@ -29,7 +29,7 @@
 
             <TextView
                 android:id="@+id/rvItemCtrlPointCode"
-                style="@style/tvBody1Style"
+                style="@style/EasyVGPTheme.tvBody1Style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{controlPoint.code}"
@@ -40,7 +40,7 @@
 
             <TextView
                 android:id="@+id/rvItemCtrlPointName"
-                style="@style/tvBody1Style"
+                style="@style/EasyVGPTheme.tvBody1Style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{controlPoint.name}"

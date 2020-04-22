@@ -123,7 +123,7 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fragmentNewVgpSetupFab"
-            style="@style/fabStyle"
+            style="@style/EasyVGPTheme.fabStyle"
             android:src="@drawable/ic_arrow_forward_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

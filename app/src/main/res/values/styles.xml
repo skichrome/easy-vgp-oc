@@ -9,7 +9,7 @@
     </style>
 
     <!-- ToolBar style -->
-    <style name="ToolBarStyle" parent="AppTheme">
+    <style name="EasyVGPTheme.ToolBarStyle" parent="AppTheme">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:background">@color/primaryColor</item>
@@ -18,13 +18,13 @@
     </style>
 
     <!-- Material button style -->
-    <style name="buttonStyle" parent="Widget.MaterialComponents.Button">
+    <style name="EasyVGPTheme.buttonStyle" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/secondaryColor</item>
         <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <!-- Floating action button style -->
-    <style name="fabStyle" parent="Widget.Design.FloatingActionButton">
+    <style name="EasyVGPTheme.fabStyle" parent="Widget.Design.FloatingActionButton">
         <item name="backgroundTint">@color/secondaryColor</item>
         <item name="android:background">@null</item>
         <item name="android:layout_width">wrap_content</item>
@@ -35,7 +35,7 @@
     </style>
 
     <!-- Secondary Floating action button style -->
-    <style name="secondaryFabStyle" parent="fabStyle">
+    <style name="EasyVGPTheme.secondaryFabStyle" parent="EasyVGPTheme.fabStyle">
         <item name="backgroundTint">@color/secondaryColor</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -57,7 +57,7 @@
     </style>
 
     <!-- EditText style -->
-    <style name="editTextStyle" parent="Widget.AppCompat.EditText">
+    <style name="EasyVGPTheme.editTextStyle" parent="Widget.AppCompat.EditText">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/tv_input_margin</item>
         <item name="android:layout_marginStart">@dimen/tv_input_margin</item>
@@ -88,7 +88,7 @@
     </style>
 
     <!-- Body 1 TextView style -->
-    <style name="tvBody1Style" parent="TextAppearance.AppCompat.Body1">
+    <style name="EasyVGPTheme.tvBody1Style" parent="TextAppearance.AppCompat.Body1">
         <item name="android:layout_marginTop">@dimen/tv_input_margin</item>
         <item name="android:layout_marginStart">@dimen/tv_input_margin</item>
         <item name="android:layout_marginEnd">@dimen/tv_input_margin</item>
@@ -98,7 +98,7 @@
     </style>
 
     <!-- Body 1 TextView style -->
-    <style name="tvBody1StyleNoMargin" parent="TextAppearance.AppCompat.Body1">
+    <style name="EasyVGPTheme.tvBody1StyleNoMargin" parent="TextAppearance.AppCompat.Body1">
         <item name="android:drawablePadding">@dimen/edit_text_drawable_padding</item>
         <item name="android:textColor">@color/primaryTextColor</item>
         <item name="android:layout_height">wrap_content</item>
@@ -106,11 +106,20 @@
     </style>
 
     <!-- Separator style -->
-    <style name="separatorStyle" parent="AppTheme">
+    <style name="EasyVGPTheme.horizontalSeparatorStyle" parent="AppTheme">
         <item name="android:background">@color/secondaryColor</item>
         <item name="android:layout_marginStart">@dimen/divider_horizontal_margin</item>
         <item name="android:layout_marginEnd">@dimen/divider_horizontal_margin</item>
         <item name="android:layout_marginTop">@dimen/divider_top_margin</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_width">0dp</item>
+    </style>
+
+    <style name="EasyVGPTheme.verticalSeparatorStyle" parent="AppTheme">
+        <item name="android:background">@color/secondaryColor</item>
+        <item name="android:layout_marginStart">@dimen/divider_top_margin</item>
+        <item name="android:layout_marginEnd">@dimen/divider_top_margin</item>
+        <item name="android:layout_marginTop">@dimen/divider_horizontal_margin</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:layout_width">match_parent</item>
     </style>
@@ -123,7 +132,7 @@
     </style>
 
     <!-- Sign-in Activity style -->
-    <style name="LoginTheme" parent="AppTheme">
+    <style name="EasyVGPTheme.LoginTheme" parent="AppTheme">
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/secondaryColor</item>

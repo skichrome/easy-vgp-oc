@@ -47,7 +47,7 @@
 
                 <TextView
                     android:id="@+id/itemRvHomeFragmentCustomerCompanyNameText"
-                    style="@style/tvBody1StyleNoMargin"
+                    style="@style/EasyVGPTheme.tvBody1StyleNoMargin"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -61,7 +61,7 @@
 
                 <TextView
                     android:id="@+id/itemRvHomeFragmentCustomerMachineNameText"
-                    style="@style/tvBody1StyleNoMargin"
+                    style="@style/EasyVGPTheme.tvBody1StyleNoMargin"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -75,7 +75,7 @@
 
                 <TextView
                     android:id="@+id/itemRvHomeFragmentRemainingDayText"
-                    style="@style/tvBody1StyleNoMargin"
+                    style="@style/EasyVGPTheme.tvBody1StyleNoMargin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
