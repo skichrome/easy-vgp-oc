@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.crashlytics.android.Crashlytics
+import com.skichrome.oc.easyvgp.BuildConfig
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.util.Event
 import com.skichrome.oc.easyvgp.util.NetworkException
@@ -33,6 +35,10 @@ abstract class BaseViewModel : ViewModel()
 
     protected fun handleError(e: Error?)
     {
+        e?.exception?.let {
+            if (!BuildConfig.DEBUG)
+                Crashlytics.logException(it)
+        }
         when (e?.exception)
         {
             is NotImplementedException -> Log.e(logTag, "This method isn't implemented !", e.exception)

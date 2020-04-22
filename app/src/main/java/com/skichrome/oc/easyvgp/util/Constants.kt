@@ -55,3 +55,6 @@ val REMOTE_USER_COLLECTION = if (BuildConfig.DEBUG) "users_data_${BuildConfig.FL
 const val REMOTE_REPORT_COLLECTION = "reports"
 
 val REMOTE_USER_STORAGE = if (BuildConfig.DEBUG) "users_data_${BuildConfig.FLAVOR}_debug" else "users_data_${BuildConfig.FLAVOR}"
+
+// Remote config
+const val KEY_ADMIN_USERS_MAP = "admin_users_email"

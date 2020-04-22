@@ -18,8 +18,9 @@ import kotlin.coroutines.resumeWithException
 fun Activity.toast(msg: String) = Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 fun Fragment.toast(msg: String) = Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
 
-fun Activity.errorLog(msg: String) = Log.e(javaClass.simpleName, msg)
-fun Fragment.errorLog(msg: String) = Log.e(javaClass.simpleName, msg)
+fun Activity.debugLog(msg: String, e: Exception? = null) = Log.d(javaClass.simpleName, msg, e)
+fun Activity.errorLog(msg: String, e: Exception? = null) = Log.e(javaClass.simpleName, msg, e)
+fun Fragment.errorLog(msg: String, e: Exception? = null) = Log.e(javaClass.simpleName, msg, e)
 
 fun View.snackBar(msg: String)
 {
