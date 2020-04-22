@@ -61,12 +61,12 @@ class MachineViewModel(private val repository: MachineRepository) : ViewModel()
 
     // --- Events
 
-    fun onClickMachine(machine: Machine)
+    fun onClickSelectMachine(machine: Machine)
     {
         _machineClicked.value = Event(machine)
     }
 
-    fun onLongClickMachine(machineId: Long)
+    fun onClickEditMachine(machineId: Long)
     {
         _machineLongClicked.value = Event(machineId)
     }

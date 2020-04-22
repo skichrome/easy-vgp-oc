@@ -21,7 +21,7 @@
         android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
-            style="@style/EasyVGPTheme.cardStyle"
+            style="@style/EasyVGPTheme.cardStyle.colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardPreventCornerOverlap="true"

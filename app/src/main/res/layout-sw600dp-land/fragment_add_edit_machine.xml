@@ -151,7 +151,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/addEditMachineFragmentImgCard"
-            style="@style/EasyVGPTheme.cardStyle"
+            style="@style/EasyVGPTheme.cardStyle.colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardUseCompatPadding="true"

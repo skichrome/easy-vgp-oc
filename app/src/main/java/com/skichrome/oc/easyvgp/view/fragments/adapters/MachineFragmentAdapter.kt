@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.skichrome.oc.easyvgp.databinding.ItemRvFragmentMachineBinding
 import com.skichrome.oc.easyvgp.model.local.database.Machine
 import com.skichrome.oc.easyvgp.util.setHolderBottomMargin
@@ -31,10 +32,13 @@ class MachineFragmentAdapter(private val viewModel: MachineViewModel) :
         {
             binding.machine = machine
             binding.viewModel = viewModel
-            binding.rvItemMachineCardView.setOnLongClickListener {
-                viewModel.onLongClickMachine(machine.machineId)
-                return@setOnLongClickListener true
+
+            machine.remotePhotoRef?.let { remotePhoto ->
+                Glide.with(binding.root).load(remotePhoto).centerCrop().into(binding.rvItemFragmentMachineImage)
             }
+                ?: machine.localPhotoRef?.let { localPhoto ->
+                    Glide.with(binding.root).load(localPhoto).centerCrop().into(binding.rvItemFragmentMachineImage)
+                }
         }
     }
 

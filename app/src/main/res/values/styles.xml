@@ -22,7 +22,13 @@
     <style name="EasyVGPTheme.buttonStyle" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/secondaryColor</item>
         <item name="android:textColor">@color/secondaryTextColor</item>
-        <item name="fontFamily">@font/roboto</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="EasyVGPTheme.buttonStyle.outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/secondaryColor</item>
+        <item name="android:textColor">@color/secondaryColor</item>
+        <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
     <!-- Floating action button style -->
@@ -48,8 +54,18 @@
     </style>
 
     <!-- CardView style -->
-    <style name="EasyVGPTheme.cardStyle" parent="AppTheme">
+    <style name="EasyVGPTheme.cardStyle.colored" parent="AppTheme">
         <item name="cardBackgroundColor">@color/primaryLightColor</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="cardElevation">2dp</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="cardCornerRadius">6dp</item>
+    </style>
+
+    <!-- CardView style -->
+    <style name="EasyVGPTheme.cardStyle" parent="AppTheme">
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
