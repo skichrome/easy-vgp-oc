@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/secondaryColor</item>
+        <item name="fontFamily">@font/roboto</item>
     </style>
 
     <!-- ToolBar style -->
@@ -21,6 +22,7 @@
     <style name="EasyVGPTheme.buttonStyle" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/secondaryColor</item>
         <item name="android:textColor">@color/secondaryTextColor</item>
+        <item name="fontFamily">@font/roboto</item>
     </style>
 
     <!-- Floating action button style -->
@@ -46,7 +48,7 @@
     </style>
 
     <!-- CardView style -->
-    <style name="EasyVGPTheme.cardStyle" parent="Widget.MaterialComponents.CardView">
+    <style name="EasyVGPTheme.cardStyle" parent="AppTheme">
         <item name="cardBackgroundColor">@color/primaryLightColor</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
         <item name="android:clickable">true</item>
@@ -54,14 +56,6 @@
         <item name="cardElevation">2dp</item>
         <item name="android:layout_margin">8dp</item>
         <item name="cardCornerRadius">6dp</item>
-    </style>
-
-    <!-- EditText style -->
-    <style name="EasyVGPTheme.editTextStyle" parent="Widget.AppCompat.EditText">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">@dimen/tv_input_margin</item>
-        <item name="android:layout_marginStart">@dimen/tv_input_margin</item>
-        <item name="android:drawablePadding">@dimen/edit_text_drawable_padding</item>
     </style>
 
     <!-- EditTextInputLayout style -->
@@ -77,6 +71,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:inputType">text</item>
         <item name="endIconMode">clear_text</item>
+        <item name="fontFamily">@font/roboto</item>
     </style>
 
     <!-- Title TextView style -->
@@ -85,6 +80,7 @@
         <item name="android:drawablePadding">@dimen/edit_text_drawable_padding</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
+        <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
     <!-- Body 1 TextView style -->
@@ -95,6 +91,7 @@
         <item name="android:drawablePadding">@dimen/edit_text_drawable_padding</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
+        <item name="fontFamily">@font/roboto</item>
     </style>
 
     <!-- Body 1 TextView style -->
@@ -103,6 +100,7 @@
         <item name="android:textColor">@color/primaryTextColor</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
+        <item name="fontFamily">@font/roboto</item>
     </style>
 
     <!-- Separator style -->
@@ -130,6 +128,7 @@
         <item name="android:layout_marginTop">@dimen/tv_input_margin</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">0dp</item>
+        <item name="fontFamily">@font/roboto</item>
     </style>
 
     <!-- Sign-in Activity style -->

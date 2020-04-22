@@ -6,8 +6,6 @@ import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputEditText
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
@@ -16,10 +14,7 @@ import com.skichrome.oc.easyvgp.model.local.database.ControlPoint
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
 import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints
 import com.skichrome.oc.easyvgp.model.local.util.MachineTypeCtrlPtMultiChoiceItems
-import com.skichrome.oc.easyvgp.util.AutoClearedValue
-import com.skichrome.oc.easyvgp.util.EventObserver
-import com.skichrome.oc.easyvgp.util.snackBar
-import com.skichrome.oc.easyvgp.util.toast
+import com.skichrome.oc.easyvgp.util.*
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.view.fragments.adapters.ControlPointAdapter
 import com.skichrome.oc.easyvgp.view.fragments.adapters.MachineTypeAdapter
@@ -101,15 +96,11 @@ class AdminFragment : BaseBindingFragment<FragmentAdminBinding>()
 
         binding.adminFragmentMachineTypeRecyclerView.apply {
             adapter = machineTypeAdapter
-            val mLayoutManager = LinearLayoutManager(context)
-            layoutManager = mLayoutManager
-            addItemDecoration(DividerItemDecoration(context, mLayoutManager.orientation))
+            addItemDecorationAndLinearLayoutManager()
         }
         binding.adminFragmentControlPointsRecyclerView.apply {
             adapter = ctrlPointAdapter
-            val mLayoutManager = LinearLayoutManager(context)
-            layoutManager = mLayoutManager
-            addItemDecoration(DividerItemDecoration(context, mLayoutManager.orientation))
+            addItemDecorationAndLinearLayoutManager()
         }
     }
 

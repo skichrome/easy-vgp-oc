@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
@@ -33,6 +35,13 @@ fun RecyclerView.ViewHolder.setHolderBottomMargin(isLastIndex: Boolean)
     // Set a bottom margin for last item in list, without it the FAB will hide last item actions.
     params.bottomMargin = if (isLastIndex) 250 else 0
     itemView.layoutParams = params
+}
+
+fun RecyclerView.addItemDecorationAndLinearLayoutManager()
+{
+    val mLayoutManager = LinearLayoutManager(context)
+    layoutManager = mLayoutManager
+    addItemDecoration(DividerItemDecoration(context, mLayoutManager.orientation))
 }
 
 // --- Use Task with coroutines --- //
