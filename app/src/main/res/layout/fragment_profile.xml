@@ -27,7 +27,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp">
+                android:layout_marginHorizontal="@dimen/form_layout_margin_horizontal">
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/profileFragmentGuideline"

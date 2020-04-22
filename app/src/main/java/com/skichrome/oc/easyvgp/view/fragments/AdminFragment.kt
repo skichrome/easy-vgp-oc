@@ -6,7 +6,8 @@ import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputEditText
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
@@ -24,7 +25,6 @@ import com.skichrome.oc.easyvgp.view.fragments.adapters.ControlPointAdapter
 import com.skichrome.oc.easyvgp.view.fragments.adapters.MachineTypeAdapter
 import com.skichrome.oc.easyvgp.viewmodel.AdminViewModel
 import com.skichrome.oc.easyvgp.viewmodel.vmfactory.AdminViewModelFactory
-import kotlinx.android.synthetic.main.fragment_admin.*
 
 class AdminFragment : BaseBindingFragment<FragmentAdminBinding>()
 {
@@ -85,10 +85,10 @@ class AdminFragment : BaseBindingFragment<FragmentAdminBinding>()
         secondaryFabOpen = AnimationUtils.loadAnimation(context, R.anim.secondary_fab_open)
         secondaryFabClose = AnimationUtils.loadAnimation(context, R.anim.secondary_fab_close)
 
-        adminFragmentFabNewMachineType.setOnClickListener { showNewMachineTypeAlertDialog(R.string.admin_fragment_dialog_layout_title_new_machine_type) }
-        adminFragmentFabNewCtrlPoint.setOnClickListener { showControlPointAlertDialog(R.string.admin_fragment_dialog_layout_title_new_ctrl_point) }
+        binding.adminFragmentFabNewMachineType.setOnClickListener { showNewMachineTypeAlertDialog(R.string.admin_fragment_dialog_layout_title_new_machine_type) }
+        binding.adminFragmentFabNewCtrlPoint.setOnClickListener { showControlPointAlertDialog(R.string.admin_fragment_dialog_layout_title_new_ctrl_point) }
 
-        adminFragmentFabMain.setOnClickListener {
+        binding.adminFragmentFabMain.setOnClickListener {
             isFabOpen = !isFabOpen
             changeFabState(isFabOpen)
         }
@@ -98,13 +98,19 @@ class AdminFragment : BaseBindingFragment<FragmentAdminBinding>()
     {
         machineTypeAdapter = MachineTypeAdapter(viewModel)
         ctrlPointAdapter = ControlPointAdapter(viewModel)
-        val spanCount = if (resources.getBoolean(R.bool.isTablet)) 4 else 3
 
-        binding.adminFragmentMachineTypeRecyclerView.layoutManager = GridLayoutManager(context, spanCount)
-        binding.adminFragmentMachineTypeRecyclerView.adapter = machineTypeAdapter
-
-        binding.adminFragmentControlPointsRecyclerView.layoutManager = GridLayoutManager(context, spanCount)
-        binding.adminFragmentControlPointsRecyclerView.adapter = ctrlPointAdapter
+        binding.adminFragmentMachineTypeRecyclerView.apply {
+            adapter = machineTypeAdapter
+            val mLayoutManager = LinearLayoutManager(context)
+            layoutManager = mLayoutManager
+            addItemDecoration(DividerItemDecoration(context, mLayoutManager.orientation))
+        }
+        binding.adminFragmentControlPointsRecyclerView.apply {
+            adapter = ctrlPointAdapter
+            val mLayoutManager = LinearLayoutManager(context)
+            layoutManager = mLayoutManager
+            addItemDecoration(DividerItemDecoration(context, mLayoutManager.orientation))
+        }
     }
 
     private fun configureUI()
@@ -145,7 +151,8 @@ class AdminFragment : BaseBindingFragment<FragmentAdminBinding>()
                             isFabOpen = !isFabOpen
                             changeFabState(isFabOpen)
                         }
-                    } else
+                    }
+                    else
                         toast(getString(R.string.admin_fragment_dialog_error_required_fields))
                 }
                 setNegativeButton(R.string.admin_fragment_dialog_cancel, null)
@@ -187,7 +194,8 @@ class AdminFragment : BaseBindingFragment<FragmentAdminBinding>()
                             isFabOpen = !isFabOpen
                             changeFabState(isFabOpen)
                         }
-                    } else
+                    }
+                    else
                         toast(getString(R.string.admin_fragment_dialog_error_required_fields))
                 }
                 setNegativeButton(R.string.admin_fragment_dialog_cancel, null)
@@ -233,30 +241,30 @@ class AdminFragment : BaseBindingFragment<FragmentAdminBinding>()
 
     private fun changeFabState(openFab: Boolean)
     {
-        adminFragmentFabNewMachineType.isClickable = openFab
-        adminFragmentFabNewCtrlPoint.isClickable = openFab
+        binding.adminFragmentFabNewMachineType.isClickable = openFab
+        binding.adminFragmentFabNewCtrlPoint.isClickable = openFab
 
         when (openFab)
         {
             true ->
             {
-                adminFragmentFabNewMachineTypeText.visibility = View.VISIBLE
-                adminFragmentFabNewCtrlPointText.visibility = View.VISIBLE
-                adminFragmentFabMain.startAnimation(fabClockwiseAnim)
-                adminFragmentFabNewMachineType.startAnimation(secondaryFabOpen)
-                adminFragmentFabNewCtrlPoint.startAnimation(secondaryFabOpen)
-                adminFragmentFabNewMachineType.show()
-                adminFragmentFabNewCtrlPoint.show()
+                binding.adminFragmentFabNewMachineTypeTextCard.visibility = View.VISIBLE
+                binding.adminFragmentFabNewCtrlPointTextCard.visibility = View.VISIBLE
+                binding.adminFragmentFabMain.startAnimation(fabClockwiseAnim)
+                binding.adminFragmentFabNewMachineType.startAnimation(secondaryFabOpen)
+                binding.adminFragmentFabNewCtrlPoint.startAnimation(secondaryFabOpen)
+                binding.adminFragmentFabNewMachineType.show()
+                binding.adminFragmentFabNewCtrlPoint.show()
             }
             false ->
             {
-                adminFragmentFabNewMachineTypeText.visibility = View.INVISIBLE
-                adminFragmentFabNewCtrlPointText.visibility = View.INVISIBLE
-                adminFragmentFabMain.startAnimation(fabCounterClockwiseAnim)
-                adminFragmentFabNewMachineType.startAnimation(secondaryFabClose)
-                adminFragmentFabNewCtrlPoint.startAnimation(secondaryFabClose)
-                adminFragmentFabNewMachineType.hide()
-                adminFragmentFabNewCtrlPoint.hide()
+                binding.adminFragmentFabNewMachineTypeTextCard.visibility = View.INVISIBLE
+                binding.adminFragmentFabNewCtrlPointTextCard.visibility = View.INVISIBLE
+                binding.adminFragmentFabMain.startAnimation(fabCounterClockwiseAnim)
+                binding.adminFragmentFabNewMachineType.startAnimation(secondaryFabClose)
+                binding.adminFragmentFabNewCtrlPoint.startAnimation(secondaryFabClose)
+                binding.adminFragmentFabNewMachineType.hide()
+                binding.adminFragmentFabNewCtrlPoint.hide()
             }
         }
     }

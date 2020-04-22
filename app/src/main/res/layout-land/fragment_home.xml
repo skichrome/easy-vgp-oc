@@ -42,8 +42,6 @@
         <View
             android:id="@+id/homeFragmentSeparator"
             style="@style/EasyVGPTheme.verticalSeparatorStyle"
-            android:layout_width="1dp"
-            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/homeFragmentGuideline"
             app:layout_constraintTop_toTopOf="parent" />

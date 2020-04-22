@@ -26,7 +26,7 @@ class MachineTypeAdapter(private val viewModel: AdminViewModel) :
         {
             binding.machineType = machineType
             binding.viewModel = viewModel
-            binding.rvItemMachineTypeCardView.setOnLongClickListener {
+            binding.rvItemMachineTypeRootFrameLayout.setOnLongClickListener {
                 viewModel.onLongClickMachineType(machineType)
                 return@setOnLongClickListener true
             }

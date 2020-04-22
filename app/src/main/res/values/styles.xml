@@ -120,8 +120,9 @@
         <item name="android:layout_marginStart">@dimen/divider_top_margin</item>
         <item name="android:layout_marginEnd">@dimen/divider_top_margin</item>
         <item name="android:layout_marginTop">@dimen/divider_horizontal_margin</item>
-        <item name="android:layout_height">1dp</item>
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginBottom">@dimen/divider_horizontal_margin</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">1dp</item>
     </style>
 
     <!-- Switch style -->
