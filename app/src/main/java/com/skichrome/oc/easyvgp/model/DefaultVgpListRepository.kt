@@ -44,4 +44,6 @@ class DefaultVgpListRepository(
         }
         else
             Error(NetworkException("VGP List need network access to work properly"))
+
+    override suspend fun loadCustomerEmail(customerId: Long): Results<String> = localSource.loadCustomerEmail(customerId)
 }

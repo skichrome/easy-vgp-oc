@@ -34,6 +34,7 @@
             style="@style/EasyVGPTheme.tvTitleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/tv_input_margin"
             android:drawableStart="@drawable/ic_gear_24dp"
             android:text="@string/admin_fragment_machine_type_title"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,8 +46,8 @@
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
             app:items_machine_types="@{viewModel.machineTypes}"
-            app:layout_constraintBottom_toTopOf="@+id/adminFragmentGuideline"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/adminFragmentGuideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/adminFragmentFabNewMachineTypeTitle"
             tools:itemCount="5"
@@ -56,35 +57,37 @@
             android:id="@+id/adminFragmentGuideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             app:layout_constraintGuide_percent="0.47" />
 
         <View
             android:id="@+id/adminFragmentSeparator"
-            style="@style/EasyVGPTheme.horizontalSeparatorStyle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/adminFragmentGuideline" />
+            style="@style/EasyVGPTheme.verticalSeparatorStyle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/adminFragmentGuideline"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/adminFragmentFabNewControlPointTitle"
             style="@style/EasyVGPTheme.tvTitleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/form_layout_margin_horizontal"
             android:drawableStart="@drawable/ic_check_box_24dp"
             android:text="@string/admin_fragment_ctrl_points_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/adminFragmentSeparator" />
+            app:layout_constraintStart_toEndOf="@+id/adminFragmentSeparator"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/adminFragmentControlPointsRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="@dimen/form_layout_margin_horizontal"
             android:layout_marginTop="8dp"
             app:items_ctrl_points="@{viewModel.allControlPoints}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/adminFragmentSeparator"
             app:layout_constraintTop_toBottomOf="@+id/adminFragmentFabNewControlPointTitle"
             tools:itemCount="5"
             tools:listitem="@layout/item_rv_ctrl_points" />

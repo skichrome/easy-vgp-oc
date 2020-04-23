@@ -87,7 +87,7 @@ class CustomerViewModel(private val repository: CustomerRepository) : ViewModel(
         _customerClick.value = Event(customerId)
     }
 
-    fun onLongClickCustomer(customerId: Long)
+    fun onClickEditCustomer(customerId: Long)
     {
         _customerLongClick.value = Event(customerId)
     }

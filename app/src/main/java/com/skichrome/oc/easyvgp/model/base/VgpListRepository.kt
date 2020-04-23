@@ -9,4 +9,5 @@ interface VgpListRepository
 {
     fun observeReports(): LiveData<Results<List<VgpListItem>>>
     suspend fun downloadReportFromStorage(extraId: Long, remotePath: String?, destinationFile: File): Results<File>
+    suspend fun loadCustomerEmail(customerId: Long): Results<String>
 }

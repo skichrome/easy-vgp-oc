@@ -21,7 +21,7 @@ class ControlPointAdapter(private val viewModel: AdminViewModel) :
 
     override fun onBindViewHolder(holder: MachineTypeViewHolder, position: Int)
     {
-        holder.setHolderBottomMargin(position == currentList.lastIndex || position == currentList.lastIndex - 1)
+        holder.setHolderBottomMargin(position == currentList.lastIndex)
         holder.bind(controlPoint = getItem(position), viewModel = viewModel)
     }
 

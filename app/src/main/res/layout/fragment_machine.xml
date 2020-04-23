@@ -17,22 +17,21 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:padding="8dp"
             android:id="@+id/fragMachineRecyclerView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:padding="8dp"
             app:items_machines="@{viewModel.machines}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:listitem="@layout/item_rv_fragment_machine"
-            tools:spanCount="2" />
+            tools:listitem="@layout/item_rv_fragment_machine" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fragMachineFab"
-            style="@style/fabStyle"
+            style="@style/EasyVGPTheme.fabStyle"
             android:src="@drawable/ic_add_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

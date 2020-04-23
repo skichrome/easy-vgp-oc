@@ -1,5 +1,6 @@
 package com.skichrome.oc.easyvgp.view.fragments
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Environment
 import androidx.core.content.FileProvider
@@ -8,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.preference.PreferenceManager
 import androidx.work.*
+import com.google.firebase.auth.FirebaseAuth
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentVgpListBinding
@@ -19,6 +21,7 @@ import com.skichrome.oc.easyvgp.view.fragments.adapters.VgpListFragmentAdapter
 import com.skichrome.oc.easyvgp.viewmodel.VgpListViewModel
 import com.skichrome.oc.easyvgp.viewmodel.vmfactory.VgpListViewModelFactory
 import kotlinx.android.synthetic.main.fragment_vgp_list.*
+import java.text.SimpleDateFormat
 
 class VgpListFragment : BaseBindingFragment<FragmentVgpListBinding>()
 {
@@ -31,7 +34,7 @@ class VgpListFragment : BaseBindingFragment<FragmentVgpListBinding>()
         VgpListViewModelFactory((requireActivity().application as EasyVGPApplication).vgpListRepository)
     }
 
-    private var adapter by AutoClearedValue<VgpListFragmentAdapter>()
+    private var vgpListAdapter by AutoClearedValue<VgpListFragmentAdapter>()
 
     // =================================
     //        Superclass Methods
@@ -55,7 +58,8 @@ class VgpListFragment : BaseBindingFragment<FragmentVgpListBinding>()
         message.observe(viewLifecycleOwner, EventObserver { binding.root.snackBar(getString(it)) })
         reportDateEvent.observe(viewLifecycleOwner, EventObserver { navigateToNewVgpSetupFragment(reportDateToEdit = it) })
         pdfClickEvent.observe(viewLifecycleOwner, EventObserver { generateReport(it) })
-        pdfValidClickEvent.observe(viewLifecycleOwner, EventObserver { openPdfViewer(it) })
+        pdfValidClickEvent.observe(viewLifecycleOwner, EventObserver { pdfClickedAlertDialog(it) })
+        customerEmail.observe(viewLifecycleOwner, EventObserver { sendEmailIntent(it.first, it.second) })
         loadAllVgpFromMachine(args.machineId)
     }
 
@@ -66,8 +70,11 @@ class VgpListFragment : BaseBindingFragment<FragmentVgpListBinding>()
 
     private fun configureRecyclerView()
     {
-        adapter = VgpListFragmentAdapter(viewModel)
-        binding.vgpListFragmentRecyclerView.adapter = adapter
+        vgpListAdapter = VgpListFragmentAdapter(viewModel)
+        binding.vgpListFragmentRecyclerView.apply {
+            adapter = vgpListAdapter
+            addItemDecorationAndLinearLayoutManager()
+        }
     }
 
     private fun configureBtn()
@@ -113,6 +120,28 @@ class VgpListFragment : BaseBindingFragment<FragmentVgpListBinding>()
         findNavController().navigate(opt)
     }
 
+    private fun pdfClickedAlertDialog(report: VgpListItem)
+    {
+        activity?.let {
+            AlertDialog.Builder(activity).apply {
+                var selectedItem = 0
+
+                setTitle(getString(R.string.share_report_dialog_title))
+                setSingleChoiceItems(R.array.home_fragment_single_choice_alert_dialog, selectedItem) { _, which -> selectedItem = which }
+                setPositiveButton(getString(R.string.share_report_dialog_positive_btn)) { _, _ ->
+                    when (selectedItem)
+                    {
+                        1 -> viewModel.loadCustomerEmail(args.customerId, report)
+                        else -> openPdfViewer(report)
+                    }
+                }
+                setNegativeButton(getString(R.string.share_report_dialog_negative_btn)) { dialog, _ -> dialog.dismiss() }
+            }
+                .create()
+                .show()
+        }
+    }
+
     private fun openPdfViewer(report: VgpListItem)
     {
         report.reportLocalPath?.let { fileName ->
@@ -137,6 +166,46 @@ class VgpListFragment : BaseBindingFragment<FragmentVgpListBinding>()
                         }
                 }
             }
+        }
+    }
+
+    private fun sendEmailIntent(customerEmail: String, report: VgpListItem)
+    {
+        if (report.reportLocalPath == null)
+        {
+            binding.root.snackBar(getString(R.string.home_fragment_error_download_report_before))
+            return
+        }
+
+        Intent(Intent.ACTION_SEND).apply {
+            val subject = getString(R.string.share_report_email_subject)
+            val userName = FirebaseAuth.getInstance().currentUser?.displayName
+            val reportDate = SimpleDateFormat.getDateInstance().format(report.reportEndDate)
+            val content = getString(R.string.share_report_email_content, reportDate, userName)
+
+            if (canReadExternalStorage())
+            {
+                requireContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)?.createOrGetFile(PDF_FOLDER_NAME, report.reportLocalPath)
+                    ?.let { file ->
+                        if (file.exists())
+                        {
+                            val attachment = FileProvider.getUriForFile(requireContext(), getString(R.string.file_provider_authority), file)
+
+                            putExtra(Intent.EXTRA_EMAIL, arrayOf(customerEmail))
+                            putExtra(Intent.EXTRA_SUBJECT, subject)
+                            putExtra(Intent.EXTRA_TEXT, content)
+                            putExtra(Intent.EXTRA_STREAM, attachment)
+
+                            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                            type = "message/rfc822"
+
+                            resolveActivity(requireActivity().packageManager)?.let {
+                                startActivity(Intent.createChooser(this, getString(R.string.share_report_intent_chooser)))
+                            } ?: binding.root.snackBar(getString(R.string.share_report_no_mail_app_found))
+                        }
+                    }
+            }
+
         }
     }
 }

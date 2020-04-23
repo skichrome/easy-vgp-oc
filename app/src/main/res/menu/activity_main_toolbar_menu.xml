@@ -2,7 +2,8 @@
 
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/ic_account_circle_24dp"
@@ -12,7 +13,9 @@
         android:id="@+id/adminFragment"
         android:icon="@drawable/ic_gear_24dp"
         android:title="@string/menu_admin_title"
-        app:showAsAction="never" />
+        android:visible="false"
+        app:showAsAction="never"
+        tools:visible="true" />
 
     <item
         android:id="@+id/logoutItem"

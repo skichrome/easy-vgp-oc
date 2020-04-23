@@ -30,6 +30,33 @@
     <string name="home_fragment_chart_center_text">Deadlines</string>
     <string name="item_rv_home_frag_machine_image_desc">machine image</string>
     <string name="item_rv_home_frag_machine_remaining_validity">%1$d days</string>
+    <string name="home_fragment_error_download_report_before">Please download report from report list before trying to send it via email.</string>
+
+    <string-array name="home_fragment_single_choice_alert_dialog">
+        <item name="send_report">See the result</item>
+        <item name="send_remind_email">Send an email to customer</item>
+    </string-array>
+
+    <string name="share_report_dialog_title">What you want to do with this report ?</string>
+    <string name="share_report_dialog_positive_btn">OK</string>
+    <string name="share_report_dialog_negative_btn">Cancel</string>
+
+    <string name="share_report_email_subject">Your report is available</string>
+    <string name="share_report_remind_email_subject">End validity date report warn</string>
+    <string name="share_report_intent_chooser">Choose your email app</string>
+    <string name="share_report_no_mail_app_found">No email app found</string>
+    <string name="share_report_email_content">
+        Dear Sir/Madam,\n\n
+        Your report created on %1$s is now available, please find it in attachment.\n\n
+        Your sincerely,\n
+        %2$s
+    </string>
+    <string name="share_report_remind_email_content">
+        Dear Sir/Madam,\n\n
+        Your report created on %1$s will no longer be valid in %2$d days, please plan a new visit to stay.\n\n
+        Your sincerely,\n
+        %3$s
+    </string>
 
     <!-- Home ViewModel -->
     <string name="view_model_home_user_filter_error">An error occurred when trying to get your current user profile</string>
@@ -78,6 +105,9 @@
     <string name="view_model_customer_insert_error">An error occurred when we have tried to save this machine</string>
     <string name="view_model_customer_update_error">An error occurred when we have tried to update this machine</string>
 
+    <!-- Customer RV Item -->
+    <string name="rv_item_fragment_customer_img_edit_content_desc">Edit this customer</string>
+
     <!-- Menu items -->
     <string name="menu_log_out_title">Log out</string>
     <string name="menu_settings_title">settings</string>
@@ -93,6 +123,8 @@
 
     <!-- Machine RecyclerView Item -->
     <string name="rv_item_machines_card_logo">machine card logo</string>
+    <string name="rv_item_machines_btn_select">Select</string>
+    <string name="rv_item_machines_btn_edit">Edit</string>
 
     <!-- Add Edit Machine Fragment -->
     <string name="add_edit_machine_frag_title">Enter the characteristics of the machine</string>
@@ -165,7 +197,7 @@
     <string name="fragment_vgp_list_no_pdf_viewer">No application found to open a PDF document</string>
     <string name="vgp_list_view_model_cannot_edit_validated_report">Error, you can\'t edit an already validated report</string>
     :
-    <!-- Machine RecyclerView Item -->
+    <!-- Control RecyclerView Item -->
     <string name="rv_item_bgp_list_pdf_logo">Generate a Pdf by touching this pdf icon</string>
 
     <!-- Verification types, Control type and Choice Possibilities enumeration -->

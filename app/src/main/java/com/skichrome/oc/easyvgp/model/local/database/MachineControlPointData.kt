@@ -34,6 +34,7 @@ data class MachineControlPointData(
 data class VgpListItem(
     @ColumnInfo(name = "machine_id") val machineId: Long,
     @ColumnInfo(name = "report_date") val reportDate: Long,
+    @ColumnInfo(name = "report_end_validity_date") val reportEndDate: Long,
     @ColumnInfo(name = "is_report_valid") val isValid: Boolean,
     @ColumnInfo(name = "report_path_on_device") val reportLocalPath: String?,
     @ColumnInfo(name = "report_path_on_remote_storage") val reportRemotePath: String?,
@@ -45,10 +46,13 @@ data class HomeEndValidityReportItem(
     @ColumnInfo(name = "machines_control_points_data_extras_id") val id: Long,
     @ColumnInfo(name = "report_end_validity_date") val reportEndDate: Long,
     var reportDeltaDay: Long?,
+    @ColumnInfo(name = "is_report_valid") val isValid: Boolean,
     @ColumnInfo(name = "machine_local_photo_reference") val localPicture: String?,
     @ColumnInfo(name = "machine_remote_photo_reference") val remotePicture: Uri?,
     @ColumnInfo(name = "machine_name") val machineName: String,
-    @ColumnInfo(name = "company_name") val companyName: String
+    @ColumnInfo(name = "company_name") val companyName: String,
+    @ColumnInfo(name = "email") val customerEmail: String,
+    @ColumnInfo(name = "report_path_on_device") val reportLocalPath: String?
 )
 
 data class Report(
@@ -61,12 +65,55 @@ data class Report(
 @Dao
 interface MachineControlPointDataDao : BaseDao<MachineControlPointData>
 {
-    @Query("SELECT MachinesControlPointsDataExtras.report_date, MachinesControlPointsDataExtras.report_path_on_device, MachinesControlPointsDataExtras.report_path_on_remote_storage, MachinesControlPointsDataExtras.machines_control_points_data_extras_id, MachinesControlPointsDataCrossRef.ctrl_point_data_id, MachinesControlPointsDataCrossRef.machine_id, MachinesControlPointsDataExtras.is_report_valid FROM MachinesControlPointsDataCrossRef LEFT JOIN ControlPointsData JOIN MachinesControlPointsDataExtras WHERE MachinesControlPointsDataCrossRef.ctrl_point_data_id == ControlPointsData.ctrl_point_data_id AND MachinesControlPointsDataExtras.machines_control_points_data_extras_id == MachinesControlPointsDataCrossRef.machine_ctrl_point_data_extras_reference")
+    @Query(
+        "SELECT" +
+                " MachinesControlPointsDataExtras.report_date," +
+                " MachinesControlPointsDataExtras.report_end_validity_date," +
+                " MachinesControlPointsDataExtras.report_path_on_device," +
+                " MachinesControlPointsDataExtras.report_path_on_remote_storage," +
+                " MachinesControlPointsDataExtras.machines_control_points_data_extras_id," +
+                " MachinesControlPointsDataCrossRef.ctrl_point_data_id," +
+                " MachinesControlPointsDataCrossRef.machine_id," +
+                " MachinesControlPointsDataExtras.is_report_valid " +
+                "FROM MachinesControlPointsDataCrossRef " +
+                "LEFT JOIN ControlPointsData" +
+                " JOIN MachinesControlPointsDataExtras " +
+                "WHERE MachinesControlPointsDataCrossRef.ctrl_point_data_id == ControlPointsData.ctrl_point_data_id" +
+                " AND MachinesControlPointsDataExtras.machines_control_points_data_extras_id == MachinesControlPointsDataCrossRef.machine_ctrl_point_data_extras_reference"
+    )
     fun observeCtrlPtData(): LiveData<List<VgpListItem>>
 
-    @Query("SELECT MachinesControlPointsDataExtras.machines_control_points_data_extras_id, MachinesControlPointsDataExtras.report_end_validity_date, Machines.machine_name, Machines.machine_local_photo_reference, Machines.machine_remote_photo_reference, Customers.company_name FROM MachinesControlPointsDataCrossRef JOIN MachinesControlPointsDataExtras JOIN Machines JOIN Customers WHERE MachinesControlPointsDataCrossRef.machine_ctrl_point_data_extras_reference == MachinesControlPointsDataExtras.machines_control_points_data_extras_id AND MachinesControlPointsDataCrossRef.machine_id == Machines.machine_id AND Machines.customer_ref == Customers.customer_id")
+    @Query(
+        "SELECT" +
+                " MachinesControlPointsDataExtras.machines_control_points_data_extras_id," +
+                " MachinesControlPointsDataExtras.report_path_on_device," +
+                " MachinesControlPointsDataExtras.is_report_valid," +
+                " MachinesControlPointsDataExtras.report_end_validity_date," +
+                " Machines.machine_name, Machines.machine_local_photo_reference," +
+                " Machines.machine_remote_photo_reference," +
+                " Customers.company_name," +
+                " Customers.email " +
+                "FROM MachinesControlPointsDataCrossRef " +
+                "JOIN" +
+                " MachinesControlPointsDataExtras" +
+                " JOIN Machines" +
+                " JOIN Customers " +
+                "WHERE " +
+                "MachinesControlPointsDataCrossRef.machine_ctrl_point_data_extras_reference == MachinesControlPointsDataExtras.machines_control_points_data_extras_id" +
+                " AND MachinesControlPointsDataCrossRef.machine_id == Machines.machine_id" +
+                " AND Machines.customer_ref == Customers.customer_id"
+    )
     fun observeEndValidityReports(): LiveData<List<HomeEndValidityReportItem>>
 
-    @Query("SELECT * FROM MachinesControlPointsDataCrossRef JOIN ControlPointsData JOIN control_points JOIN MachinesControlPointsDataExtras WHERE MachinesControlPointsDataExtras.report_date == :reportDate AND MachinesControlPointsDataCrossRef.ctrl_point_data_id == ControlPointsData.ctrl_point_data_id AND ControlPointsData.ctrl_point_data_ctrl_point_ref == control_points.control_point_id AND MachinesControlPointsDataExtras.machines_control_points_data_extras_id == MachinesControlPointsDataCrossRef.machine_ctrl_point_data_extras_reference")
+    @Query(
+        "SELECT * FROM MachinesControlPointsDataCrossRef " +
+                "JOIN ControlPointsData" +
+                " JOIN control_points " +
+                "JOIN MachinesControlPointsDataExtras " +
+                "WHERE MachinesControlPointsDataExtras.report_date == :reportDate" +
+                " AND MachinesControlPointsDataCrossRef.ctrl_point_data_id == ControlPointsData.ctrl_point_data_id" +
+                " AND ControlPointsData.ctrl_point_data_ctrl_point_ref == control_points.control_point_id" +
+                " AND MachinesControlPointsDataExtras.machines_control_points_data_extras_id == MachinesControlPointsDataCrossRef.machine_ctrl_point_data_extras_reference"
+    )
     suspend fun getPreviouslyInsertedReport(reportDate: Long): List<Report>
 }

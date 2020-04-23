@@ -2,7 +2,6 @@
 
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -16,39 +15,26 @@
             type="com.skichrome.oc.easyvgp.viewmodel.AdminViewModel" />
     </data>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/rvItemMachineTypeCardView"
-        style="@style/EasyVGPTheme.cardStyle"
+    <FrameLayout
+        android:id="@+id/rvItemMachineTypeRootFrameLayout"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:onClick="@{() -> viewModel.onClickMachineType(machineType)}">
+        android:layout_height="48dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="@{() -> viewModel.onClickMachineType(machineType)}"
+        android:orientation="horizontal">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/rvItemMachineTypeName"
+            style="@style/EasyVGPTheme.tvBody1StyleNoMargin"
+            android:layout_gravity="center_vertical|start"
+            android:text="@{machineType.name}"
+            tools:text="Type name" />
 
-            <TextView
-                android:id="@+id/rvItemMachineTypeLegalName"
-                style="@style/tvBody1Style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{machineType.legalName}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Legal Type name" />
-
-            <TextView
-                android:id="@+id/rvItemMachineTypeName"
-                style="@style/tvBody1Style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{machineType.name}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rvItemMachineTypeLegalName"
-                tools:text="Type name" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/rvItemMachineTypeLegalName"
+            style="@style/EasyVGPTheme.tvBody1StyleNoMargin"
+            android:layout_gravity="center_vertical|end"
+            android:text="@{machineType.legalName}"
+            tools:text="Legal Type name" />
+    </FrameLayout>
 </layout>

@@ -61,12 +61,12 @@ class CustomerFragmentTests
 
         launchFragmentInContainer<CustomerFragment>(null, R.style.AppTheme)
 
-        onView(withId(R.id.rvItemCustomerCardView)).check(matches(isDisplayed()))
-        onView(withId(R.id.rvItemCustomerCardView)).check(matches(isClickable()))
-        onView(withId(R.id.rvItemCustomerCardView)).check(matches(isFocusable()))
+        onView(withId(R.id.rvItemCustomerFrameLayout)).check(matches(isDisplayed()))
+        onView(withId(R.id.rvItemCustomerFrameLayout)).check(matches(isClickable()))
+        onView(withId(R.id.rvItemCustomerFrameLayout)).check(matches(isFocusable()))
 
         onView(withId(R.id.rvItemCustomerFirstLetter)).check(matches(isDisplayed()))
-        onView(withId(R.id.rvItemCustomerName)).check(matches(withText(`is`("${customerToAdd.lastName} ${customerToAdd.firstName}"))))
+        onView(withId(R.id.rvItemCustomerName)).check(matches(withText(`is`(customerToAdd.companyName))))
         onView(withId(R.id.rvItemCustomerCity)).check(matches(withText(`is`(customerToAdd.city))))
     }
 

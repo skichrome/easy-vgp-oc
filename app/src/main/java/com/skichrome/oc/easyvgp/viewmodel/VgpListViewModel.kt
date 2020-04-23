@@ -34,6 +34,9 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
     private val _pdfValidClickEvent = MutableLiveData<Event<VgpListItem>>()
     val pdfValidClickEvent: LiveData<Event<VgpListItem>> = _pdfValidClickEvent
 
+    private val _customerEmail = MutableLiveData<Event<Pair<String, VgpListItem>>>()
+    val customerEmail: LiveData<Event<Pair<String, VgpListItem>>> = _customerEmail
+
     // --- Data
 
     private val _machineId = MutableLiveData<Long>()
@@ -103,6 +106,17 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
             else
                 handleError(result as? Error)
             _isLoading.set(false)
+        }
+    }
+
+    fun loadCustomerEmail(customerId: Long, report: VgpListItem)
+    {
+        viewModelScope.launch {
+            val email = repository.loadCustomerEmail(customerId)
+            if (email is Success)
+                _customerEmail.value = Event(Pair(email.data, report))
+            else
+                handleError(email as? Error)
         }
     }
 }

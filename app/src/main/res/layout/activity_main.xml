@@ -20,7 +20,7 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
-            style="@style/ToolBarStyle"
+            style="@style/EasyVGPTheme.ToolBarStyle"
             app:menu="@menu/activity_main_toolbar_menu"
             tools:title="App bar title" />
     </com.google.android.material.appbar.AppBarLayout>

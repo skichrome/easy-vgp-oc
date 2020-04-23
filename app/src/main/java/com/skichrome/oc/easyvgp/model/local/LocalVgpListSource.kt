@@ -6,10 +6,7 @@ import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.base.VgpListSource
-import com.skichrome.oc.easyvgp.model.local.database.MachineControlPointDataDao
-import com.skichrome.oc.easyvgp.model.local.database.MachineControlPointDataExtra
-import com.skichrome.oc.easyvgp.model.local.database.MachineControlPointDataExtraDao
-import com.skichrome.oc.easyvgp.model.local.database.VgpListItem
+import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.util.NotImplementedException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +16,7 @@ import java.io.File
 class LocalVgpListSource(
     private val machineControlPointDataDao: MachineControlPointDataDao,
     private val machineCtrlPtExtraDao: MachineControlPointDataExtraDao,
+    private val customerDao: CustomerDao,
     private val dispatchers: CoroutineDispatcher = Dispatchers.IO
 ) : VgpListSource
 {
@@ -39,6 +37,17 @@ class LocalVgpListSource(
         return@withContext try
         {
             Success(machineCtrlPtExtraDao.update(extra))
+        }
+        catch (e: Exception)
+        {
+            Error(e)
+        }
+    }
+
+    override suspend fun loadCustomerEmail(customerId: Long): Results<String> = withContext(dispatchers) {
+        return@withContext try
+        {
+            Success(customerDao.getCustomerEmail(customerId))
         }
         catch (e: Exception)
         {
