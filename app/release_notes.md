@@ -1,7 +1,11 @@
 [Features]
-  - UI update. All form screen have been updated with a new theme.
-  - Added a chart on home screen, that show you all reports and their remaining days before being outdated.
-  - Added a list of reports on home screen to see detailed information about next outdated reports.
+  - Added reminder mail send, by clicking on a report listed on home screen.
+  - Added share report by PDF, on report list, access to this feature by clicking on pdf icon, a message will pop up to ask you to choose between viewing the report or share it.
+  - All email are pre filled with default values.
+  - Admin features are now reserved to Admin users.
+  - UI update. All non updated UI has been updated in this release.
+  - UI tweaks (icons color changes and global margin layout changes)
+  - More compatibility with tablets.
  
 [Bug fixes]
-  - UI errors in Report setup screen (before control points list).
+  - Non valid reports will not be listed on home screen.

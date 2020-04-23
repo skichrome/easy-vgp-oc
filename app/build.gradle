@@ -15,7 +15,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         //resConfigs "en, fr"
         multiDexEnabled true
@@ -59,10 +59,12 @@ android {
         dev {
             applicationIdSuffix ".dev"
             versionNameSuffix "-dev"
+            versionName "1.0.2"
         }
         demo {
             applicationIdSuffix ".demo"
             versionNameSuffix "-demo"
+            versionName "1.0.1"
         }
         production {
         }
