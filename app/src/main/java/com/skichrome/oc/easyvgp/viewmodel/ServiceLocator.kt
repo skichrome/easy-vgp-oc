@@ -146,10 +146,12 @@ object ServiceLocator
         val db = getLocalDatabaseInstance(app)
         val machineControlPointDataDao = db.machineControlPointDataDao()
         val machineCtrlPtExtraDao = db.machineControlPointDataExtraDao()
+        val customerDao = db.customersDao()
 
         return LocalVgpListSource(
             machineControlPointDataDao = machineControlPointDataDao,
-            machineCtrlPtExtraDao = machineCtrlPtExtraDao
+            machineCtrlPtExtraDao = machineCtrlPtExtraDao,
+            customerDao = customerDao
         )
     }
 

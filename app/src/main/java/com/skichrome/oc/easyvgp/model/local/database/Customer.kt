@@ -30,4 +30,7 @@ interface CustomerDao : BaseDao<Customer>
 
     @Query("SELECT * FROM Customers WHERE customer_id == :customerId")
     suspend fun getCustomerById(customerId: Long): Customer
+
+    @Query("SELECT Customers.email FROM Customers WHERE Customers.customer_id == :customerId")
+    suspend fun getCustomerEmail(customerId: Long): String
 }

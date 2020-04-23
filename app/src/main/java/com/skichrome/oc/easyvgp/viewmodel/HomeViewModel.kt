@@ -36,6 +36,9 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel()
     private val _onSaveSuccessEvent = MutableLiveData<Event<Boolean>>()
     val onSaveSuccessEvent: LiveData<Event<Boolean>> = _onSaveSuccessEvent
 
+    private val _onEmailClickEvent = MutableLiveData<Event<HomeEndValidityReportItem>>()
+    val onEmailClickEvent: LiveData<Event<HomeEndValidityReportItem>> = _onEmailClickEvent
+
     // --- Data
 
     private val _controlList: LiveData<List<HomeEndValidityReportItem>> = repository.observeReports().switchMap { reports ->
@@ -58,6 +61,11 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel()
     fun onSaveClick(userAndCompany: UserAndCompany)
     {
         _onSaveEvent.value = Event(userAndCompany)
+    }
+
+    fun onEmailClick(report: HomeEndValidityReportItem)
+    {
+        _onEmailClickEvent.value = Event(report)
     }
 
     // --- Data
@@ -139,16 +147,14 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel()
     {
         val result = MutableLiveData<List<HomeEndValidityReportItem>>()
         viewModelScope.launch {
-
             result.value = withContext(Dispatchers.IO) {
                 val reportsFiltered = reports.filter { it.isValid }.groupBy { it.reportEndDate }.map { it.value.first() }
-
                 val dateNow = System.currentTimeMillis()
                 reportsFiltered.forEach { reportFiltered ->
                     val delta = reportFiltered.reportEndDate - dateNow
                     reportFiltered.reportDeltaDay = delta / 1000 / 60 / 60 / 24
                 }
-                return@withContext reportsFiltered
+                return@withContext reportsFiltered.sortedBy { it.reportEndDate }
             }
         }
         return result

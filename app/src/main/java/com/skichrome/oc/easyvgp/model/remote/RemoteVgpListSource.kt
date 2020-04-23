@@ -56,4 +56,7 @@ class RemoteVgpListSource(
 
     override suspend fun updateMachineCtrlPtExtra(extra: MachineControlPointDataExtra): Results<Int> =
         Error(NotImplementedException("Not implemented for remote source"))
+
+    override suspend fun loadCustomerEmail(customerId: Long): Results<String> =
+        Error(NotImplementedException("Not implemented for remote source"))
 }

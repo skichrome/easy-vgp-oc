@@ -14,4 +14,5 @@ interface VgpListSource
     suspend fun updateMachineCtrlPtExtra(extra: MachineControlPointDataExtra): Results<Int>
 
     suspend fun downloadReportFromStorage(remotePath: String?, destinationFile: File): Results<File>
+    suspend fun loadCustomerEmail(customerId: Long): Results<String>
 }
