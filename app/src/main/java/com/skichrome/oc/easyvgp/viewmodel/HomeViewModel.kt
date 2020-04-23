@@ -141,7 +141,7 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel()
         viewModelScope.launch {
 
             result.value = withContext(Dispatchers.IO) {
-                val reportsFiltered = reports.groupBy { it.reportEndDate }.map { it.value.first() }
+                val reportsFiltered = reports.filter { it.isValid }.groupBy { it.reportEndDate }.map { it.value.first() }
 
                 val dateNow = System.currentTimeMillis()
                 reportsFiltered.forEach { reportFiltered ->

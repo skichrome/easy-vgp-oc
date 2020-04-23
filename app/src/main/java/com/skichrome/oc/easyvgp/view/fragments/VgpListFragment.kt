@@ -31,7 +31,7 @@ class VgpListFragment : BaseBindingFragment<FragmentVgpListBinding>()
         VgpListViewModelFactory((requireActivity().application as EasyVGPApplication).vgpListRepository)
     }
 
-    private var adapter by AutoClearedValue<VgpListFragmentAdapter>()
+    private var vgpListAdapter by AutoClearedValue<VgpListFragmentAdapter>()
 
     // =================================
     //        Superclass Methods
@@ -66,8 +66,11 @@ class VgpListFragment : BaseBindingFragment<FragmentVgpListBinding>()
 
     private fun configureRecyclerView()
     {
-        adapter = VgpListFragmentAdapter(viewModel)
-        binding.vgpListFragmentRecyclerView.adapter = adapter
+        vgpListAdapter = VgpListFragmentAdapter(viewModel)
+        binding.vgpListFragmentRecyclerView.apply {
+            adapter = vgpListAdapter
+            addItemDecorationAndLinearLayoutManager()
+        }
     }
 
     private fun configureBtn()

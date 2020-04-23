@@ -24,6 +24,7 @@
             style="@style/EasyVGPTheme.cardStyle.colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="0dp"
             app:cardPreventCornerOverlap="true"
             app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,16 +48,19 @@
 
                 <TextView
                     android:id="@+id/itemRvHomeFragmentCustomerCompanyNameText"
-                    style="@style/EasyVGPTheme.tvBody1StyleNoMargin"
+                    style="@style/EasyVGPTheme.tvTitleStyle"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="0dp"
                     android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
                     android:text="@{report.companyName}"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/itemRvHomeFragmentCustomerMachineNameText"
                     app:layout_constraintEnd_toStartOf="@+id/itemRvHomeFragmentRemainingDayText"
                     app:layout_constraintStart_toEndOf="@+id/itemRvHomeFragmentMachinePicture"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
                     tools:text="SAS TP Test" />
 
                 <TextView
