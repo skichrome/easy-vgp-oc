@@ -78,6 +78,7 @@
                 android:onClick="@{() -> viewModel.onClickEditCustomer(customer.id)}"
                 android:padding="8dp"
                 android:src="@drawable/ic_edit_24dp"
+                android:tint="@color/secondaryColor"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
