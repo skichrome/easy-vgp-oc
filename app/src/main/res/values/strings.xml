@@ -78,6 +78,9 @@
     <string name="view_model_customer_insert_error">An error occurred when we have tried to save this machine</string>
     <string name="view_model_customer_update_error">An error occurred when we have tried to update this machine</string>
 
+    <!-- Customer RV Item -->
+    <string name="rv_item_fragment_customer_img_edit_content_desc">Edit this customer</string>
+
     <!-- Menu items -->
     <string name="menu_log_out_title">Log out</string>
     <string name="menu_settings_title">settings</string>

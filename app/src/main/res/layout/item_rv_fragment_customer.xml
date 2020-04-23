@@ -65,6 +65,22 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/rvItemCustomerFirstLetter"
                 tools:text="customer_city" />
+
+            <ImageView
+                android:id="@+id/rvItemCustomerEditImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:contentDescription="@string/rv_item_fragment_customer_img_edit_content_desc"
+                android:focusable="true"
+                android:onClick="@{() -> viewModel.onClickEditCustomer(customer.id)}"
+                android:padding="8dp"
+                android:src="@drawable/ic_edit_24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>
