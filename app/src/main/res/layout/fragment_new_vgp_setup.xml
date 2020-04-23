@@ -13,7 +13,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/form_layout_margin_horizontal">
 
         <ScrollView
             android:layout_width="0dp"
@@ -25,7 +26,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/margin_do_not_hide_fab">
 
