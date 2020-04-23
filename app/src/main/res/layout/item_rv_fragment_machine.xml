@@ -21,7 +21,9 @@
         style="@style/EasyVGPTheme.cardStyle"
         android:layout_width="344dp"
         android:layout_height="148dp"
-        android:onClick="@{() -> viewModel.onClickSelectMachine(machine)}">
+        android:onClick="@{() -> viewModel.onClickSelectMachine(machine)}"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -31,7 +33,7 @@
                 android:id="@+id/rvItemMachineName"
                 style="@style/EasyVGPTheme.tvTitleStyle"
                 android:layout_width="0dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:ellipsize="end"
@@ -47,7 +49,7 @@
                 android:id="@+id/rvItemMachineBrand"
                 style="@style/EasyVGPTheme.tvBody1StyleNoMargin"
                 android:layout_width="0dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
                 android:ellipsize="end"
@@ -63,7 +65,7 @@
                 android:id="@+id/rvItemMachineSerial"
                 style="@style/EasyVGPTheme.tvBody1StyleNoMargin"
                 android:layout_width="0dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
                 android:ellipsize="end"
@@ -77,13 +79,14 @@
 
             <ImageView
                 android:id="@+id/rvItemFragmentMachineImage"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_margin="16dp"
                 android:contentDescription="@string/rv_item_machines_card_logo"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:src="@drawable/ic_check_circle_24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/easy_vgp_icon" />
@@ -93,7 +96,6 @@
                 style="@style/EasyVGPTheme.buttonStyle.noOutline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
                 android:onClick="@{() -> viewModel.onClickEditMachine(machine.machineId)}"
                 android:text="@string/rv_item_machines_btn_edit"

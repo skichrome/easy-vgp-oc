@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.skichrome.oc.easyvgp.databinding.ItemRvFragmentMachineBinding
 import com.skichrome.oc.easyvgp.model.local.database.Machine
+import com.skichrome.oc.easyvgp.util.loadPhotoWithGlide
 import com.skichrome.oc.easyvgp.util.setHolderBottomMargin
 import com.skichrome.oc.easyvgp.viewmodel.MachineViewModel
 
@@ -22,7 +22,7 @@ class MachineFragmentAdapter(private val viewModel: MachineViewModel) :
 
     override fun onBindViewHolder(holder: CustomersFragmentViewHolder, position: Int)
     {
-        holder.setHolderBottomMargin(position == currentList.lastIndex || position == currentList.lastIndex - 1)
+        holder.setHolderBottomMargin(position == currentList.lastIndex)
         holder.bind(viewModel, getItem(position))
     }
 
@@ -33,12 +33,8 @@ class MachineFragmentAdapter(private val viewModel: MachineViewModel) :
             binding.machine = machine
             binding.viewModel = viewModel
 
-            machine.remotePhotoRef?.let { remotePhoto ->
-                Glide.with(binding.root).load(remotePhoto).centerCrop().into(binding.rvItemFragmentMachineImage)
-            }
-                ?: machine.localPhotoRef?.let { localPhoto ->
-                    Glide.with(binding.root).load(localPhoto).centerCrop().into(binding.rvItemFragmentMachineImage)
-                }
+            machine.remotePhotoRef?.let { binding.rvItemFragmentMachineImage.loadPhotoWithGlide(it) }
+                ?: machine.localPhotoRef?.let { binding.rvItemFragmentMachineImage.loadPhotoWithGlide(it) }
         }
     }
 

@@ -3,13 +3,13 @@ package com.skichrome.oc.easyvgp.view.fragments
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentMachineBinding
 import com.skichrome.oc.easyvgp.model.local.database.Machine
 import com.skichrome.oc.easyvgp.util.AutoClearedValue
 import com.skichrome.oc.easyvgp.util.EventObserver
+import com.skichrome.oc.easyvgp.util.addGridLayoutManager
 import com.skichrome.oc.easyvgp.util.snackBar
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.view.fragments.adapters.MachineFragmentAdapter
@@ -70,7 +70,7 @@ class MachineFragment : BaseBindingFragment<FragmentMachineBinding>()
 
         binding.fragMachineRecyclerView.apply {
             adapter = machineAdapter
-            layoutManager = LinearLayoutManager(context)
+            addGridLayoutManager(resources.getBoolean(R.bool.isTablet))
         }
     }
 

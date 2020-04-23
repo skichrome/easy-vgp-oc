@@ -57,7 +57,7 @@ class ControlPointNewVgpAdapter(private val viewModel: VgpViewModel) :
                     binding.rvItemFragVgpCtrlPointPossibilityGoodState.isChecked = false
                     binding.rvItemFragVgpCtrlPointPossibilityMediumState.isChecked = false
                     binding.rvItemFragVgpCtrlPointPossibilityBadState.isChecked = false
-                    binding.rvItemFragVgpCtrlPointStateViewIndicator.setBackgroundResource(R.color.primaryLightColor)
+                    binding.rvItemFragVgpCtrlPointStateViewIndicator.setBackgroundResource(android.R.color.white)
                 }
             }
             binding.executePendingBindings()

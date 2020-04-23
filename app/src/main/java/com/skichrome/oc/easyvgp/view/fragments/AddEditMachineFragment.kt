@@ -15,7 +15,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
 import com.google.android.material.textfield.TextInputEditText
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
@@ -66,7 +65,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
         {
             machinePhotoPath?.let {
                 val machinePicture = File(it).transformBitmapFile()
-                Glide.with(this).load(machinePicture).centerCrop().into(binding.addEditMachineFragmentImg)
+                binding.addEditMachineFragmentImg.loadPhotoWithGlide(machinePicture)
                 binding.addEditMachineFragmentImg.visibility = View.VISIBLE
             }
         }
@@ -86,12 +85,12 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
         machinePhotoPath = savedInstanceState?.getString(FRAGMENT_STATE_PICTURE_LOCATION)
         machineRemotePhotoPath = savedInstanceState?.getString(FRAGMENT_STATE_REMOTE_PICTURE_LOCATION)?.let { Uri.parse(it) }
 
-        machineRemotePhotoPath?.let { remotePhoto ->
-            Glide.with(this).load(remotePhoto).centerCrop().into(binding.addEditMachineFragmentImg)
+        machineRemotePhotoPath?.let {
+            binding.addEditMachineFragmentImg.loadPhotoWithGlide(it)
             binding.addEditMachineFragmentImg.visibility = View.VISIBLE
         }
-            ?: machinePhotoPath?.let { localPhoto ->
-                Glide.with(this).load(localPhoto).centerCrop().into(binding.addEditMachineFragmentImg)
+            ?: machinePhotoPath?.let {
+                binding.addEditMachineFragmentImg.loadPhotoWithGlide(it)
                 binding.addEditMachineFragmentImg.visibility = View.VISIBLE
             }
             ?: binding.addEditMachineFragmentImg.apply { visibility = View.GONE }
@@ -132,14 +131,12 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
                 {
                     machine.observe(viewLifecycleOwner, Observer { machine ->
 
-                        machine.remotePhotoRef?.let { remotePhoto ->
-                            machineRemotePhotoPath = machine.remotePhotoRef
-                            Glide.with(this@AddEditMachineFragment).load(remotePhoto).centerCrop().into(binding.addEditMachineFragmentImg)
+                        machine.remotePhotoRef?.let {
+                            binding.addEditMachineFragmentImg.loadPhotoWithGlide(it)
                             binding.addEditMachineFragmentImg.visibility = View.VISIBLE
                         }
-                            ?: machine.localPhotoRef?.let { localPhoto ->
-                                machinePhotoPath = localPhoto
-                                Glide.with(this@AddEditMachineFragment).load(File(localPhoto)).centerCrop().into(binding.addEditMachineFragmentImg)
+                            ?: machine.localPhotoRef?.let {
+                                binding.addEditMachineFragmentImg.loadPhotoWithGlide(it)
                                 binding.addEditMachineFragmentImg.visibility = View.VISIBLE
                             }
                             ?: binding.addEditMachineFragmentImg.apply { visibility = View.GONE }

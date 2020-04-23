@@ -67,6 +67,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/form_layout_margin_horizontal"
+            android:layout_marginHorizontal="@dimen/recycler_view_margin_horizontal"
             app:items_home_report="@{viewModel.controlList}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
