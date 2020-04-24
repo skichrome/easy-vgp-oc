@@ -45,7 +45,6 @@ data class VgpListItem(
 data class HomeEndValidityReportItem(
     @ColumnInfo(name = "machines_control_points_data_extras_id") val id: Long,
     @ColumnInfo(name = "report_end_validity_date") val reportEndDate: Long,
-    var reportDeltaDay: Long?,
     @ColumnInfo(name = "is_report_valid") val isValid: Boolean,
     @ColumnInfo(name = "machine_local_photo_reference") val localPicture: String?,
     @ColumnInfo(name = "machine_remote_photo_reference") val remotePicture: Uri?,
@@ -54,6 +53,10 @@ data class HomeEndValidityReportItem(
     @ColumnInfo(name = "email") val customerEmail: String,
     @ColumnInfo(name = "report_path_on_device") val reportLocalPath: String?
 )
+{
+    @Ignore
+    var reportDeltaDay: Long? = null
+}
 
 data class Report(
     @ColumnInfo(name = "machine_id") val machineId: Long,

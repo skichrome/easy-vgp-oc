@@ -37,14 +37,6 @@ fun View.snackBar(msg: String)
     Snackbar.make(this, msg, Snackbar.LENGTH_SHORT).run { show() }
 }
 
-fun RecyclerView.ViewHolder.setHolderBottomMargin(isLastIndex: Boolean)
-{
-    val params = itemView.layoutParams as RecyclerView.LayoutParams
-    // Set a bottom margin for last item in list, without it the FAB will hide last item actions.
-    params.bottomMargin = if (isLastIndex) 250 else 0
-    itemView.layoutParams = params
-}
-
 fun RecyclerView.addItemDecorationAndLinearLayoutManager()
 {
     val mLayoutManager = LinearLayoutManager(context)

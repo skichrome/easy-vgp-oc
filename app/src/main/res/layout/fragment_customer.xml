@@ -14,14 +14,15 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/form_layout_margin_horizontal">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragCustomerRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="@dimen/recycler_view_margin_horizontal"
-            android:padding="8dp"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/margin_do_not_hide_fab"
             app:items_customers="@{viewModel.customers}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
