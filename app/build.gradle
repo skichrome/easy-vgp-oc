@@ -48,7 +48,7 @@ android {
             firebaseAppDistribution {
                 serviceCredentialsFile = System.getenv("FIREBASE_APP_DISTRIBUTION_FILE")
                 releaseNotesFile "app/release_notes.md"
-                testers = "campeoltoni@gmail.com"
+                groups = "demo-beta-test"
                 apkPath "app/build/outputs/apk/demo/release/app-demo-release.apk"
             }
         }
