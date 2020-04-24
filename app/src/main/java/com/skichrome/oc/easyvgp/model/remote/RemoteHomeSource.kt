@@ -112,6 +112,9 @@ class RemoteHomeSource(private val dispatchers: CoroutineDispatcher = Dispatcher
     override suspend fun updateUserAndCompany(userAndCompany: UserAndCompany): Results<Int> =
         Error(NotImplementedException("Not available on remote database for now"))
 
+    override suspend fun updateExtraEmailSentStatus(extraId: Long): Results<Int> =
+        Error(NotImplementedException("Not available on remote database for now"))
+
     override suspend fun insertControlPointsAsync(ctrlPoints: List<ControlPoint>): Deferred<Results<List<Long>>> = withContext(dispatchers) {
         async { Error(NotImplementedException("Not available on remote database for home viewModel")) }
     }

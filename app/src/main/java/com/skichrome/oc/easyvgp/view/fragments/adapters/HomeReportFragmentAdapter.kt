@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.ItemRvHomeFragmentBinding
 import com.skichrome.oc.easyvgp.model.local.database.HomeEndValidityReportItem
-import com.skichrome.oc.easyvgp.util.setHolderBottomMargin
 import com.skichrome.oc.easyvgp.viewmodel.HomeViewModel
 import java.io.File
 
@@ -22,11 +21,8 @@ class HomeReportFragmentAdapter(private val viewModel: HomeViewModel) :
         return HomeReportViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: HomeReportViewHolder, position: Int)
-    {
-        holder.setHolderBottomMargin(position == currentList.lastIndex)
+    override fun onBindViewHolder(holder: HomeReportViewHolder, position: Int) =
         holder.bind(viewModel, getItem(position))
-    }
 
     class HomeReportViewHolder(private val binding: ItemRvHomeFragmentBinding) : RecyclerView.ViewHolder(binding.root)
     {
@@ -49,7 +45,8 @@ class HomeReportFragmentAdapter(private val viewModel: HomeViewModel) :
 
     class CustomerDiffCallback : DiffUtil.ItemCallback<HomeEndValidityReportItem>()
     {
-        override fun areItemsTheSame(oldItem: HomeEndValidityReportItem, newItem: HomeEndValidityReportItem): Boolean = oldItem.id == newItem.id
+        override fun areItemsTheSame(oldItem: HomeEndValidityReportItem, newItem: HomeEndValidityReportItem): Boolean =
+            oldItem.extraId == newItem.extraId
         override fun areContentsTheSame(oldItem: HomeEndValidityReportItem, newItem: HomeEndValidityReportItem): Boolean = oldItem == newItem
     }
 }

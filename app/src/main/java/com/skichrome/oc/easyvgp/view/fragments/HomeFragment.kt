@@ -28,6 +28,8 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>()
     //              Fields
     // =================================
 
+    private var isMailClientOpened = false
+    private var adapterClickedExtraId = -1L
     private var adapter: HomeReportFragmentAdapter by AutoClearedValue()
 
     private val viewModel by viewModels<HomeViewModel> {
@@ -45,6 +47,31 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>()
         configureViewModel()
         configureRecyclerView()
         configureUI()
+    }
+
+    override fun onResume()
+    {
+        super.onResume()
+        isMailClientOpened = false
+    }
+
+    override fun onStop()
+    {
+        isMailClientOpened = true
+        super.onStop()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    {
+        when
+        {
+            requestCode == RC_SEND_EMAIL_INTENT && isMailClientOpened ->
+            {
+                if (adapterClickedExtraId != -1L)
+                    viewModel.updateReportEmailSendStatus(adapterClickedExtraId)
+            }
+            else -> super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     // =================================
@@ -144,7 +171,11 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>()
                             type = "message/rfc822"
 
                             resolveActivity(requireActivity().packageManager)?.let {
-                                startActivity(Intent.createChooser(this, getString(R.string.share_report_intent_chooser)))
+                                adapterClickedExtraId = report.extraId
+                                startActivityForResult(
+                                    Intent.createChooser(this, getString(R.string.share_report_intent_chooser)),
+                                    RC_SEND_EMAIL_INTENT
+                                )
                             } ?: binding.root.snackBar(getString(R.string.share_report_no_mail_app_found))
                         }
                     }

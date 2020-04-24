@@ -58,6 +58,8 @@
             android:id="@+id/fragVGPRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/margin_do_not_hide_fab"
             app:items_ctrl_points_vgp="@{viewModel.machineTypeWithControlPointsData}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

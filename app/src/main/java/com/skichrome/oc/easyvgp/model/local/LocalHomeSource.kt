@@ -20,6 +20,7 @@ class LocalHomeSource(
     private val controlPointDao: ControlPointDao,
     private val machineTypeDao: MachineTypeDao,
     private val machineTypeControlPointCrossRefDao: MachineTypeControlPointCrossRefDao,
+    private val machineCtrlPtDataExtraDao: MachineControlPointDataExtraDao,
     private val machineControlPointDataDao: MachineControlPointDataDao,
     private val dispatchers: CoroutineDispatcher = AppCoroutinesConfiguration.ioDispatchers
 ) : HomeSource
@@ -57,6 +58,17 @@ class LocalHomeSource(
             companyDao.update(userAndCompany.company)
             val result = userDao.update(userAndCompany.user)
             Success(result)
+        }
+        catch (e: Exception)
+        {
+            Error(e)
+        }
+    }
+
+    override suspend fun updateExtraEmailSentStatus(extraId: Long): Results<Int> = withContext(dispatchers) {
+        return@withContext try
+        {
+            Success(machineCtrlPtDataExtraDao.updateExtraEmailStatus(extraId))
         }
         catch (e: Exception)
         {

@@ -83,6 +83,8 @@
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/form_layout_margin_horizontal"
             android:layout_marginTop="8dp"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/margin_do_not_hide_fab"
             app:items_ctrl_points="@{viewModel.allControlPoints}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

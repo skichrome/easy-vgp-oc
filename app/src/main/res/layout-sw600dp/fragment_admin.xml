@@ -81,6 +81,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/adminFragmentControlPointsRecyclerView"
             android:layout_width="0dp"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/margin_do_not_hide_fab"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/form_layout_margin_horizontal"
             android:layout_marginTop="8dp"

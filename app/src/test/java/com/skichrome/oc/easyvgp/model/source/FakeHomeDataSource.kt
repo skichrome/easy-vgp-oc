@@ -54,6 +54,11 @@ class FakeHomeDataSource(
             Error(ItemNotFoundException("Item doesnt' exist in the list"))
     }
 
+    override suspend fun updateExtraEmailSentStatus(extraId: Long): Results<Int>
+    {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getAllControlPointsAsync(): Deferred<Results<List<ControlPoint>>> = withContext(Dispatchers.Unconfined) {
         async { Success(ctrlPointDataService.values.toList().sortedBy { it.id }) }
     }

@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.skichrome.oc.easyvgp.databinding.ItemRvCtrlPointsBinding
 import com.skichrome.oc.easyvgp.model.local.database.ControlPoint
-import com.skichrome.oc.easyvgp.util.setHolderBottomMargin
 import com.skichrome.oc.easyvgp.viewmodel.AdminViewModel
 
 class ControlPointAdapter(private val viewModel: AdminViewModel) :
@@ -19,11 +18,8 @@ class ControlPointAdapter(private val viewModel: AdminViewModel) :
         return MachineTypeViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: MachineTypeViewHolder, position: Int)
-    {
-        holder.setHolderBottomMargin(position == currentList.lastIndex)
+    override fun onBindViewHolder(holder: MachineTypeViewHolder, position: Int) =
         holder.bind(controlPoint = getItem(position), viewModel = viewModel)
-    }
 
     class MachineTypeViewHolder(private val binding: ItemRvCtrlPointsBinding) : RecyclerView.ViewHolder(binding.root)
     {
