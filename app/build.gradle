@@ -64,7 +64,7 @@ android {
         demo {
             applicationIdSuffix ".demo"
             versionNameSuffix "-demo"
-            versionName "1.0.1"
+            versionName "1.0.2"
         }
         production {
         }
