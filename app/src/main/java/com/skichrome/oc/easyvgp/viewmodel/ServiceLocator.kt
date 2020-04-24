@@ -95,8 +95,17 @@ object ServiceLocator
         val ctrlPointDao = db.controlPointDao()
         val machineTypeDao = db.machinesTypeDao()
         val machineTypeCtrlPointDao = db.machineTypeControlPointCrossRefDao()
+        val machineCtrlPtDataExtraDao = db.machineControlPointDataExtraDao()
         val machineCtrlPointDataDao = db.machineControlPointDataDao()
-        return LocalHomeSource(companyDao, userDao, ctrlPointDao, machineTypeDao, machineTypeCtrlPointDao, machineCtrlPointDataDao)
+        return LocalHomeSource(
+            companyDao,
+            userDao,
+            ctrlPointDao,
+            machineTypeDao,
+            machineTypeCtrlPointDao,
+            machineCtrlPtDataExtraDao,
+            machineCtrlPointDataDao
+        )
     }
 
     private fun provideRemoteHomeSource(): HomeSource = RemoteHomeSource()

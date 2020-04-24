@@ -10,7 +10,7 @@ data class Customer(
     @ColumnInfo(name = "last_name") val lastName: String,
     @ColumnInfo(name = "company_name") val companyName: String,
     @ColumnInfo(name = "siret") val siret: String,
-    @ColumnInfo(name = "email") val email: String?,
+    @ColumnInfo(name = "email") val email: String,
     @ColumnInfo(name = "phone") val phone: Int?,
     @ColumnInfo(name = "mobile_phone") val mobilePhone: Int?,
     @ColumnInfo(name = "address") val address: String,

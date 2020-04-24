@@ -42,6 +42,7 @@ class LocalHomeSourceTest
     private lateinit var ctrlPointDao: ControlPointDao
     private lateinit var machineTypeDao: MachineTypeDao
     private lateinit var machineTypeControlPointCrossRefDao: MachineTypeControlPointCrossRefDao
+    private lateinit var machineCtrlPtDataExtraDao: MachineControlPointDataExtraDao
     private lateinit var ctrlPtDataDao: MachineControlPointDataDao
     private lateinit var homeSource: HomeSource
 
@@ -67,6 +68,7 @@ class LocalHomeSourceTest
         machineTypeDao = database.machinesTypeDao()
         machineTypeControlPointCrossRefDao = database.machineTypeControlPointCrossRefDao()
         ctrlPtDataDao = database.machineControlPointDataDao()
+        machineCtrlPtDataExtraDao = database.machineControlPointDataExtraDao()
 
         homeSource = LocalHomeSource(
             companyDao = companyDao,
@@ -74,6 +76,7 @@ class LocalHomeSourceTest
             machineTypeDao = machineTypeDao,
             controlPointDao = ctrlPointDao,
             machineTypeControlPointCrossRefDao = machineTypeControlPointCrossRefDao,
+            machineCtrlPtDataExtraDao = machineCtrlPtDataExtraDao,
             machineControlPointDataDao = ctrlPtDataDao,
             dispatchers = Dispatchers.Main
         )

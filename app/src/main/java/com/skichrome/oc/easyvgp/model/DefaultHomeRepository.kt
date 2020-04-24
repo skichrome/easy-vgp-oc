@@ -19,6 +19,7 @@ class DefaultHomeRepository(private val netManager: NetManager, private val loca
     override suspend fun getAllUserAndCompany(): Results<List<UserAndCompany>> = localSource.getAllUserAndCompany()
     override suspend fun insertNewUserAndCompany(userAndCompany: UserAndCompany): Results<Long> = localSource.insertNewUserAndCompany(userAndCompany)
     override suspend fun updateNewUserAndCompany(userAndCompany: UserAndCompany): Results<Int> = localSource.updateUserAndCompany(userAndCompany)
+    override suspend fun updateExtraEmailSentStatus(extraId: Long): Results<Int> = localSource.updateExtraEmailSentStatus(extraId)
 
     override suspend fun synchronizeDatabase(): Results<Boolean>
     {

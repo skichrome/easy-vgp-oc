@@ -45,7 +45,8 @@ class HomeReportFragmentAdapter(private val viewModel: HomeViewModel) :
 
     class CustomerDiffCallback : DiffUtil.ItemCallback<HomeEndValidityReportItem>()
     {
-        override fun areItemsTheSame(oldItem: HomeEndValidityReportItem, newItem: HomeEndValidityReportItem): Boolean = oldItem.id == newItem.id
+        override fun areItemsTheSame(oldItem: HomeEndValidityReportItem, newItem: HomeEndValidityReportItem): Boolean =
+            oldItem.extraId == newItem.extraId
         override fun areContentsTheSame(oldItem: HomeEndValidityReportItem, newItem: HomeEndValidityReportItem): Boolean = oldItem == newItem
     }
 }

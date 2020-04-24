@@ -5,6 +5,7 @@ import com.skichrome.oc.easyvgp.BuildConfig
 const val RC_IMAGE_CAPTURE_INTENT = 3000
 const val RC_PICK_SIGNATURE_INTENT = 3001
 const val RC_PICK_LOGO_INTENT = 3002
+const val RC_SEND_EMAIL_INTENT = 3003
 
 const val RC_SIGN_IN_CODE = 2000
 const val RC_FCM = 2222

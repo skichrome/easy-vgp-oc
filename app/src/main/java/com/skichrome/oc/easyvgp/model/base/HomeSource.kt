@@ -12,6 +12,7 @@ interface HomeSource
     suspend fun getAllUserAndCompany(): Results<List<UserAndCompany>>
     suspend fun insertNewUserAndCompany(userAndCompany: UserAndCompany): Results<Long>
     suspend fun updateUserAndCompany(userAndCompany: UserAndCompany): Results<Int>
+    suspend fun updateExtraEmailSentStatus(extraId: Long): Results<Int>
 
     suspend fun getAllControlPointsAsync(): Deferred<Results<List<ControlPoint>>>
     suspend fun getAllMachineTypesAsync(): Deferred<Results<List<MachineType>>>

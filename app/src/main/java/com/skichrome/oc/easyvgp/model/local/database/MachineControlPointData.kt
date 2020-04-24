@@ -43,9 +43,10 @@ data class VgpListItem(
 )
 
 data class HomeEndValidityReportItem(
-    @ColumnInfo(name = "machines_control_points_data_extras_id") val id: Long,
+    @ColumnInfo(name = "machines_control_points_data_extras_id") val extraId: Long,
     @ColumnInfo(name = "report_end_validity_date") val reportEndDate: Long,
     @ColumnInfo(name = "is_report_valid") val isValid: Boolean,
+    @ColumnInfo(name = "reminder_email_sent") val isReminderEmailSent: Boolean,
     @ColumnInfo(name = "machine_local_photo_reference") val localPicture: String?,
     @ColumnInfo(name = "machine_remote_photo_reference") val remotePicture: Uri?,
     @ColumnInfo(name = "machine_name") val machineName: String,
@@ -91,6 +92,7 @@ interface MachineControlPointDataDao : BaseDao<MachineControlPointData>
                 " MachinesControlPointsDataExtras.machines_control_points_data_extras_id," +
                 " MachinesControlPointsDataExtras.report_path_on_device," +
                 " MachinesControlPointsDataExtras.is_report_valid," +
+                " MachinesControlPointsDataExtras.reminder_email_sent, " +
                 " MachinesControlPointsDataExtras.report_end_validity_date," +
                 " Machines.machine_name, Machines.machine_local_photo_reference," +
                 " Machines.machine_remote_photo_reference," +

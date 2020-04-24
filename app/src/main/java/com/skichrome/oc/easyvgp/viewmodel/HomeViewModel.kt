@@ -131,6 +131,15 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel()
         }
     }
 
+    fun updateReportEmailSendStatus(extraId: Long)
+    {
+        viewModelScope.launch {
+            val updateResult = repository.updateExtraEmailSentStatus(extraId)
+            if (updateResult is Error)
+                handleError(updateResult)
+        }
+    }
+
     fun synchronizeLocalDatabaseWithRemote()
     {
         viewModelScope.uiJob {

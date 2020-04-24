@@ -12,6 +12,7 @@ interface HomeRepository
     suspend fun getAllUserAndCompany(): Results<List<UserAndCompany>>
     suspend fun insertNewUserAndCompany(userAndCompany: UserAndCompany): Results<Long>
     suspend fun updateNewUserAndCompany(userAndCompany: UserAndCompany): Results<Int>
+    suspend fun updateExtraEmailSentStatus(extraId: Long): Results<Int>
 
     suspend fun synchronizeDatabase(): Results<Boolean>
 }
