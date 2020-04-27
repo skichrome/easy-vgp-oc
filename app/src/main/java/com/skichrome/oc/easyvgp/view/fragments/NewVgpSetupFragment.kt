@@ -206,7 +206,7 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
                 isTestsWithLoad = binding.fragmentNewVgpSetupIsMachineControlWithLoad.isChecked,
                 isTestsWithNominalLoad = binding.fragmentNewVgpSetupIsMachineControlWithNominalLoad.isChecked,
                 loadMass = binding.fragmentNewVgpSetupControlLoadValue.text.toString().toIntOrNull(),
-                loadType = binding.fragmentNewVgpSetupControlLoadType.text.toString(),
+                loadType = if (binding.fragmentNewVgpSetupControlLoadType.text?.toString() == "") null else binding.fragmentNewVgpSetupControlLoadType.text.toString(),
                 testsHasTriggeredSensors = if (binding.fragmentNewVgpSetupIsMachineControlTriggeredSensors.isEnabled) binding.fragmentNewVgpSetupIsMachineControlTriggeredSensors.isChecked else null,
                 controlGlobalResult = ControlResult.RESULT_OK
             )

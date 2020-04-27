@@ -317,7 +317,12 @@ class UploadReportWorker(appContext: Context, params: WorkerParameters) : Corout
                     isMachineClean = reportExtra.isMachineClean,
                     isLiftingEquip = reportExtra.isLiftingEquip,
                     isMachineCE = reportExtra.isMachineCE,
-                    reportDate = reportExtra.reportDate
+                    reportDate = reportExtra.reportDate,
+                    loadType = reportExtra.loadType,
+                    loadMass = reportExtra.loadMass,
+                    loadTests = reportExtra.isTestsWithLoad,
+                    loadTestSuccess = reportExtra.testsHasTriggeredSensors,
+                    nominalLoadTests = reportExtra.isTestsWithNominalLoad
                 )
 
                 val remoteReport = RemoteReportData(
