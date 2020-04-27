@@ -12,6 +12,7 @@ import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentNewVgpSetupBinding
 import com.skichrome.oc.easyvgp.model.local.ControlType
+import com.skichrome.oc.easyvgp.model.local.database.ControlResult
 import com.skichrome.oc.easyvgp.model.local.database.MachineControlPointDataExtra
 import com.skichrome.oc.easyvgp.util.EventObserver
 import com.skichrome.oc.easyvgp.util.snackBar
@@ -33,8 +34,11 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
     }
 
     private lateinit var nonNullableViewContent: List<TextInputEditText>
+    private lateinit var nonNullableViewContentIfLoadEnabled: List<TextInputEditText>
     private lateinit var selectedControlType: ControlType
     private var currentExtraId = -1L
+    private var currentReportDate = -1L
+    private var navigationInstructionFromFab = false
 
     // =================================
     //        Superclass Methods
@@ -44,11 +48,18 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
 
     override fun configureFragment()
     {
-        configureUI()
         configureViewModel()
         configureBinding()
+        configureUI()
         configureFab()
         configureSpinner()
+    }
+
+    override fun onPause()
+    {
+        if (!navigationInstructionFromFab && currentReportDate != -1L)
+            viewModel.deleteVgpExtras(currentReportDate).also { navigationInstructionFromFab = false }
+        super.onPause()
     }
 
     // =================================
@@ -59,12 +70,24 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
     {
         if (args.reportDateToEdit != -1L)
             activity?.apply { toolbar?.title = getString(R.string.title_fragment_vgp_setup_edit) }
+
+        binding.fragmentNewVgpSetupIsMachineControlWithLoad.setOnCheckedChangeListener { _, isChecked ->
+            configureDisabledFieldsStatus(isChecked)
+        }
+        if (!binding.fragmentNewVgpSetupIsMachineControlWithLoad.isChecked)
+        {
+            configureDisabledFieldsStatus(false)
+            nonNullableViewContentIfLoadEnabled.forEach { it.error = null }
+        }
     }
 
     private fun configureViewModel()
     {
         if (args.reportDateToEdit != -1L)
             viewModel.loadPreviousNewVgpExtras(args.reportDateToEdit)
+
+        if (args.reportDateToEdit == -1L && currentReportDate != -1L)
+            viewModel.loadPreviousNewVgpExtras(currentReportDate)
 
         viewModel.success.observe(viewLifecycleOwner, EventObserver { navigateToNewVgpFragment(it) })
         viewModel.machineWithControlPointsDataExtras.observe(viewLifecycleOwner, Observer {
@@ -82,6 +105,10 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
         nonNullableViewContent = listOf(
             binding.fragmentNewVgpSetupMachineHours,
             binding.fragmentNewVgpSetupInterventionPlace
+        )
+        nonNullableViewContentIfLoadEnabled = listOf(
+            binding.fragmentNewVgpSetupControlLoadType,
+            binding.fragmentNewVgpSetupControlLoadValue
         )
     }
 
@@ -107,8 +134,19 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
         }
     }
 
+    private fun configureDisabledFieldsStatus(isEnabled: Boolean)
+    {
+        binding.fragmentNewVgpSetupIsMachineControlWithNominalLoad.isEnabled = isEnabled
+        binding.fragmentNewVgpSetupIsMachineControlTriggeredSensors.isEnabled = isEnabled
+        binding.fragmentNewVgpSetupControlLoadValue.isEnabled = isEnabled
+        binding.fragmentNewVgpSetupControlLoadType.isEnabled = isEnabled
+
+        nonNullableViewContentIfLoadEnabled.forEach { it.error = null }
+    }
+
     private fun getUserData()
     {
+        navigationInstructionFromFab = true
         var canSave = true
         nonNullableViewContent.forEach { editText ->
 
@@ -120,6 +158,17 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
                 return@forEach
             }
         }
+
+        nonNullableViewContentIfLoadEnabled.forEach { editText ->
+            if (binding.fragmentNewVgpSetupIsMachineControlWithLoad.isChecked && (editText.text == null || editText.text.toString() == ""))
+            {
+                canSave = false
+                editText.error = getString(R.string.frag_add_edit_customer_error_input)
+                view?.snackBar(getString(R.string.frag_add_edit_customer_error_input_snack_bar_msg))
+                return@forEach
+            }
+        }
+
         if (args.reportDateToEdit != -1L && currentExtraId == -1L)
             canSave = false
 
@@ -153,11 +202,17 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
                 controlType = selectedControlType,
                 interventionPlace = binding.fragmentNewVgpSetupInterventionPlace.text.toString(),
                 machineHours = binding.fragmentNewVgpSetupMachineHours.text.toString().toInt(),
-                reportEndDate = reportEndDate
+                reportEndDate = reportEndDate,
+                isTestsWithLoad = binding.fragmentNewVgpSetupIsMachineControlWithLoad.isChecked,
+                isTestsWithNominalLoad = binding.fragmentNewVgpSetupIsMachineControlWithNominalLoad.isChecked,
+                loadMass = binding.fragmentNewVgpSetupControlLoadValue.text.toString().toIntOrNull(),
+                loadType = binding.fragmentNewVgpSetupControlLoadType.text.toString(),
+                testsHasTriggeredSensors = if (binding.fragmentNewVgpSetupIsMachineControlTriggeredSensors.isEnabled) binding.fragmentNewVgpSetupIsMachineControlTriggeredSensors.isChecked else null,
+                controlGlobalResult = ControlResult.RESULT_OK
             )
 
             if (args.reportDateToEdit == -1L)
-                viewModel.createNewVgpExtras(extras)
+                viewModel.createNewVgpExtras(extras).also { currentReportDate = reportDateMillis }
             else
                 viewModel.updateNewVgpExtras(extras)
         }

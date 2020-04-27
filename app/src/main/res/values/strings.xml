@@ -200,7 +200,7 @@
     <!-- Control RecyclerView Item -->
     <string name="rv_item_bgp_list_pdf_logo">Generate a Pdf by touching this pdf icon</string>
 
-    <!-- Verification types, Control type and Choice Possibilities enumeration -->
+    <!-- Verification types, Control type, Control result and Choice Possibilities enumeration -->
     <string name="verification_type_visual">Visual</string>
     <string name="verification_type_both_visual_functional">Visual / Functional</string>
     <string name="verification_type_functional">Functional</string>
@@ -212,6 +212,10 @@
     <string name="ctrl_type_one">commissioning</string>
     <string name="ctrl_type_two">periodic general audit</string>
     <string name="ctrl_type_three">put back into service</string>
+
+    <string name="ctrl_result_ok">The examination of the state of conservation and the functional tests under load did not reveal any defects or anomalies.</string>
+    <string name="ctrl_result_ok_but_need_repair">The examination of the state of conservation and the tests of empty and / or loaded operation did not reveal any defects or major anomalies, but an intervention is required</string>
+    <string name="ctrl_result_ko">Major anomalies have been noted, which could compromise safe use of machine.</string>
 
     <!-- Firebase Cloud Messaging -->
     <string name="cloud_msg_notification_success_title">A new report has been generated</string>
@@ -231,8 +235,14 @@
     <string name="fragment_new_vgp_setup_sw_machine_ce">Is the machine marked with CE ?</string>
     <string name="fragment_new_vgp_setup_sw_machine_manual">Is the manual available in the machine ?</string>
     <string name="fragment_new_vgp_setup_sw_machine_lifting">Is machine equipped for lifting ?</string>
+    <string name="fragment_new_vgp_setup_sw_machine_control_with_load">Were the tests carried out with a load ?</string>
+    <string name="fragment_new_vgp_setup_sw_machine_control_with_nominal_load">Were the tests carried out with the nominal load + 10% ?</string>
+    <string name="fragment_new_vgp_setup_sw_machine_control_triggered_sensors">Did the load triggered load limiters or load indicators ?</string>
     <string name="fragment_new_vgp_setup_sw_machine_hours">machine hours</string>
     <string name="fragment_new_vgp_setup_machine_intervention_place">Intervention place</string>
+    <string name="fragment_new_vgp_setup_machine_load_type">Load type</string>
+    <string name="fragment_new_vgp_setup_machine_load_value">Load mass</string>
+    <string name="fragment_new_vgp_setup_machine_load_value_unit" translatable="false">kg</string>
     <string name="fragment_new_vgp_setup_title">Pre control verifications</string>
     <string name="fragment_new_vgp_setup_control_type_title">Select a control type</string>
 </resources>

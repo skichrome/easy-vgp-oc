@@ -58,4 +58,13 @@ class NewVgpSetupViewModel(private val repository: NewVgpSetupRepository) : Base
                 handleError(result as? Error)
         }
     }
+
+    fun deleteVgpExtras(vgpExtraDate: Long)
+    {
+        viewModelScope.launch {
+            val result = repository.deleteMachineCtrlPtDataExtra(vgpExtraDate)
+            if (result !is Success)
+                handleError(result as? Error)
+        }
+    }
 }

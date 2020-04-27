@@ -14,4 +14,6 @@ class DefaultNewVgpSetupRepository(private val localSource: NewVgpSetupSource) :
 
     override suspend fun updateMachineCtrlPtDataExtra(controlPointsDataExtra: MachineControlPointDataExtra): Results<Int> =
         localSource.updateMachineCtrlPtDataExtra(controlPointsDataExtra)
+
+    override suspend fun deleteMachineCtrlPtDataExtra(date: Long): Results<Int> = localSource.deleteMachineCtrlPtDataExtra(date)
 }

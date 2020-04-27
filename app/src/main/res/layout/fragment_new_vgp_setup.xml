@@ -48,7 +48,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/fragmentNewVgpSetupMachineHours"
                         style="@style/EasyVGPTheme.editTextInputStyle"
-                        android:inputType="numberSigned"
+                        android:inputType="number"
                         android:text="@{viewModel.machineWithControlPointsDataExtras.machineHours != 0 ? String.valueOf(viewModel.machineWithControlPointsDataExtras.machineHours) : null}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -103,12 +103,71 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupIsMachineNoticeAvailable" />
 
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/fragmentNewVgpSetupIsMachineControlWithLoad"
+                    style="@style/EasyVGPTheme.switch"
+                    android:checked="@{viewModel.machineWithControlPointsDataExtras.testsWithLoad}"
+                    android:text="@string/fragment_new_vgp_setup_sw_machine_control_with_load"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupIsMachineLiftingEquiped" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/fragmentNewVgpSetupIsMachineControlWithNominalLoad"
+                    style="@style/EasyVGPTheme.switch"
+                    android:checked="@{viewModel.machineWithControlPointsDataExtras.testsWithNominalLoad}"
+                    android:text="@string/fragment_new_vgp_setup_sw_machine_control_with_nominal_load"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupIsMachineControlWithLoad" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/fragmentNewVgpSetupIsMachineControlTriggeredSensors"
+                    style="@style/EasyVGPTheme.switch"
+                    android:checked="@{viewModel.machineWithControlPointsDataExtras.testsHasTriggeredSensors}"
+                    android:text="@string/fragment_new_vgp_setup_sw_machine_control_triggered_sensors"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupIsMachineControlWithNominalLoad" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fragmentNewVgpSetupMachineControlLoadTypeLayout"
+                    style="@style/EasyVGPTheme.editTextInputLayoutStyle"
+                    android:layout_width="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupIsMachineControlTriggeredSensors">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/fragmentNewVgpSetupControlLoadType"
+                        style="@style/EasyVGPTheme.editTextInputStyle"
+                        android:hint="@string/fragment_new_vgp_setup_machine_load_type"
+                        android:text="@{viewModel.machineWithControlPointsDataExtras.loadType}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fragmentNewVgpSetupMachineControlLoadValueLayout"
+                    style="@style/EasyVGPTheme.editTextInputLayoutStyle"
+                    android:layout_width="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupMachineControlLoadTypeLayout"
+                    app:suffixText="@string/fragment_new_vgp_setup_machine_load_value_unit">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/fragmentNewVgpSetupControlLoadValue"
+                        style="@style/EasyVGPTheme.editTextInputStyle"
+                        android:hint="@string/fragment_new_vgp_setup_machine_load_value"
+                        android:inputType="number"
+                        android:text="@{viewModel.machineWithControlPointsDataExtras.loadMass != 0 ? String.valueOf(viewModel.machineWithControlPointsDataExtras.loadMass) : null}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <TextView
                     android:id="@+id/fragmentNewVgpSetupMachineControlTypeTitle"
                     style="@style/EasyVGPTheme.tvTitleStyle"
                     android:text="@string/fragment_new_vgp_setup_control_type_title"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupIsMachineLiftingEquiped" />
+                    app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupMachineControlLoadValueLayout" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/fragmentNewVgpSetupMachineControlType"

@@ -47,4 +47,15 @@ class LocalNewVgpSetupSource(
             Error(e)
         }
     }
+
+    override suspend fun deleteMachineCtrlPtDataExtra(date: Long): Results<Int> = withContext(dispatcher) {
+        return@withContext try
+        {
+            Success(machineCtrlPtExtraDao.deleteExtraFromDate(date))
+        }
+        catch (e: Exception)
+        {
+            Error(e)
+        }
+    }
 }

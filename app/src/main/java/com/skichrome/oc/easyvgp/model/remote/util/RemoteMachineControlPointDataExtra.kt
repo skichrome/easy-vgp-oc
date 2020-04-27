@@ -8,10 +8,10 @@ data class RemoteMachineControlPointDataExtra(
     val isMachineCE: Boolean = false,
     val machineNotice: Boolean = false,
     val isLiftingEquip: Boolean = false,
-    val controlType: Int = -1,
+    val controlType: String = "",
     val machineHours: Int = -1,
     val interventionPlace: String = ""
 )
 {
-    constructor() : this(0L, 0L, 0L, false, false, false, false, -1, -1, "")
+    constructor() : this(0L, 0L, 0L, false, false, false, false, "", -1, "")
 }

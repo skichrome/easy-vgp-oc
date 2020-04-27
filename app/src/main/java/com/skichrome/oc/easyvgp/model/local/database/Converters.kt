@@ -21,4 +21,14 @@ class Converters
             throw IllegalArgumentException("Passed integer not in control type array range !")
         it[int]
     }
+
+    @TypeConverter
+    fun controlResultToInt(ctrlResult: ControlResult): Int = ctrlResult.id
+
+    @TypeConverter
+    fun intToControlResult(int: Int): ControlResult = ControlResult.values().let {
+        if (int > it.size)
+            throw IllegalArgumentException("Passed integer not in control result array range !")
+        it[int]
+    }
 }

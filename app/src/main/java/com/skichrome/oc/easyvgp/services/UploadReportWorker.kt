@@ -25,6 +25,7 @@ import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.local.ChoicePossibility
+import com.skichrome.oc.easyvgp.model.local.ControlType
 import com.skichrome.oc.easyvgp.model.local.VerificationType
 import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.model.remote.util.*
@@ -311,7 +312,7 @@ class UploadReportWorker(appContext: Context, params: WorkerParameters) : Corout
                     reportEndDate = reportExtra.reportEndDate,
                     machineHours = reportExtra.machineHours,
                     interventionPlace = reportExtra.interventionPlace,
-                    controlType = reportExtra.controlType.id,
+                    controlType = applicationContext.getString(ControlType.values()[reportExtra.controlType.id].type),
                     machineNotice = reportExtra.machineNotice,
                     isMachineClean = reportExtra.isMachineClean,
                     isLiftingEquip = reportExtra.isLiftingEquip,

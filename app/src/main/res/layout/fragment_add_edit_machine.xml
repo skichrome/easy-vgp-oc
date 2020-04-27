@@ -120,7 +120,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/addEditMachineFragmentManufacturingYearEditText"
                         style="@style/EasyVGPTheme.editTextInputStyle"
-                        android:inputType="numberSigned"
+                        android:inputType="number"
                         android:text="@{viewModel.machine.manufacturingYear != 0 ? String.valueOf(viewModel.machine.manufacturingYear) : null}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
