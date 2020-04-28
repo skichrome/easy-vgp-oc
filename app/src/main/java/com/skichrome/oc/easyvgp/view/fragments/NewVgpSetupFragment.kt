@@ -204,7 +204,7 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
                 machineHours = binding.fragmentNewVgpSetupMachineHours.text.toString().toInt(),
                 reportEndDate = reportEndDate,
                 isTestsWithLoad = binding.fragmentNewVgpSetupIsMachineControlWithLoad.isChecked,
-                isTestsWithNominalLoad = binding.fragmentNewVgpSetupIsMachineControlWithNominalLoad.isChecked,
+                isTestsWithNominalLoad = if (binding.fragmentNewVgpSetupIsMachineControlWithNominalLoad.isEnabled) binding.fragmentNewVgpSetupIsMachineControlWithNominalLoad.isChecked else null,
                 loadMass = binding.fragmentNewVgpSetupControlLoadValue.text.toString().toIntOrNull(),
                 loadType = if (binding.fragmentNewVgpSetupControlLoadType.text?.toString() == "") null else binding.fragmentNewVgpSetupControlLoadType.text.toString(),
                 testsHasTriggeredSensors = if (binding.fragmentNewVgpSetupIsMachineControlTriggeredSensors.isEnabled) binding.fragmentNewVgpSetupIsMachineControlTriggeredSensors.isChecked else null,
