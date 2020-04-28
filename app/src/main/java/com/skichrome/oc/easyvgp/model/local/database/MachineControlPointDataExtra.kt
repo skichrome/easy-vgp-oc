@@ -20,7 +20,7 @@ data class MachineControlPointDataExtra(
     @ColumnInfo(name = "is_machine_notice_available") val machineNotice: Boolean,
     @ColumnInfo(name = "is_machine_equip_for_lifting") val isLiftingEquip: Boolean,
     @ColumnInfo(name = "is_tests_with_load") val isTestsWithLoad: Boolean,
-    @ColumnInfo(name = "is_tests_with_nominal_load") val isTestsWithNominalLoad: Boolean,
+    @ColumnInfo(name = "is_tests_with_nominal_load") val isTestsWithNominalLoad: Boolean?,
     @ColumnInfo(name = "is_tests_triggered_sensors") val testsHasTriggeredSensors: Boolean?,
     @ColumnInfo(name = "test_load_type") val loadType: String?,
     @ColumnInfo(name = "test_load_mass_in_kilos") val loadMass: Int?,
