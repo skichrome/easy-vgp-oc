@@ -8,9 +8,11 @@ import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.base.NewVgpRepository
 import com.skichrome.oc.easyvgp.model.local.database.ControlPointData
+import com.skichrome.oc.easyvgp.model.local.database.ControlResult
 import com.skichrome.oc.easyvgp.model.local.util.ControlPointDataVgp
 import com.skichrome.oc.easyvgp.util.Event
 import com.skichrome.oc.easyvgp.util.uiJob
+import kotlinx.coroutines.launch
 
 class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
 {
@@ -105,7 +107,7 @@ class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
         }
     }
 
-    fun saveCtrlPointDataList(machineId: Long, controlExtraId: Long)
+    private fun saveCtrlPointDataList(machineId: Long, controlExtraId: Long)
     {
         viewModelScope.uiJob {
             _machineTypeWithControlPointsData.value?.let {
@@ -125,7 +127,21 @@ class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
         }
     }
 
-    fun updatePreviouslyCreatedReport()
+    fun updateControlResult(extraId: Long, machineId: Long, controlResult: ControlResult, isUpdateMode: Boolean)
+    {
+        viewModelScope.launch {
+            val result = repository.updateControlResult(extraId, controlResult)
+            if (result is Success)
+            {
+                if (isUpdateMode)
+                    saveCtrlPointDataList(machineId, extraId)
+                else
+                    updatePreviouslyCreatedReport()
+            }
+        }
+    }
+
+    private fun updatePreviouslyCreatedReport()
     {
         viewModelScope.uiJob {
             _machineTypeWithControlPointsData.value?.let {

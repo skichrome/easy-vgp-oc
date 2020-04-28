@@ -190,6 +190,9 @@
     <string name="frag_vgp_dialog_cancel">Annuler</string>
     <string name="frag_vgp_dialog_title">Définissez votre commentaire</string>
     <string name="dialog_comment_comment_hint">Commentaire</string>
+    <string name="dialog_control_result_title">Quel est le résultat de votre contrôle ?</string>
+    <string name="dialog_control_result_positive_btn">Valider</string>
+    <string name="dialog_control_result_negative_btn">Annuler</string>
 
     <!-- VGP List -->
     <string name="fragment_vgp_list_work_enqueued_info">Nous vous enverrons une notification lorsque votre rapport sera prêt</string>

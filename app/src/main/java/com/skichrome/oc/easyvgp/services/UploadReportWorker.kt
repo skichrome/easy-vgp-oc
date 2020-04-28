@@ -313,6 +313,8 @@ class UploadReportWorker(appContext: Context, params: WorkerParameters) : Corout
                     machineHours = reportExtra.machineHours,
                     interventionPlace = reportExtra.interventionPlace,
                     controlType = applicationContext.getString(ControlType.values()[reportExtra.controlType.id].type),
+                    generalResult = applicationContext.getString(ControlResult.values()[reportExtra.controlGlobalResult.id].result),
+                    generalResultCode = reportExtra.controlGlobalResult.id,
                     machineNotice = reportExtra.machineNotice,
                     isMachineClean = reportExtra.isMachineClean,
                     isLiftingEquip = reportExtra.isLiftingEquip,

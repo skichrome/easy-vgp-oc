@@ -192,6 +192,9 @@
     <string name="frag_vgp_dialog_cancel">Cancel</string>
     <string name="frag_vgp_dialog_title">Set your comment for this control point</string>
     <string name="dialog_comment_comment_hint">Comment</string>
+    <string name="dialog_control_result_title">Which result you give for this control ?</string>
+    <string name="dialog_control_result_positive_btn">OK</string>
+    <string name="dialog_control_result_negative_btn">Cancel</string>
 
     <!-- VGP List -->
     <string name="fragment_vgp_list_work_enqueued_info">You will receive a notification when your report will be ready</string>
