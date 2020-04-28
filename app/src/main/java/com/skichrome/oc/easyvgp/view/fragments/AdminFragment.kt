@@ -204,8 +204,6 @@ class AdminFragment : BaseBindingFragment<FragmentAdminBinding>()
                     controlPoints.map { controlPoint -> controlPoint.ctrlPoint.name }.toTypedArray(),
                     controlPoints.map { ctrlPoint -> ctrlPoint.isChecked }.toBooleanArray()
                 ) { _, which, isChecked ->
-                    val itemClicked = controlPoints[which]
-                    toast("Item checked : $isChecked, $which, ${itemClicked.ctrlPoint.name}")
                     controlPoints[which].isChecked = isChecked
                 }
 

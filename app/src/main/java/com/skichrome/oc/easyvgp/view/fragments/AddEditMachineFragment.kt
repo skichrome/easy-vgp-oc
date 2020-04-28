@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -231,11 +230,10 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
                             ?.createOrGetJpegFile(PICTURES_FOLDER_NAME, "machine")
                     }
                     else null
-
                 }
                 catch (e: IOException)
                 {
-                    Log.e("AddEditMachineFrag", "Error when getting photo file : ${e.message}", e)
+                    errorLog("Error when getting photo file : ${e.message}", e)
                     null
                 }
 
