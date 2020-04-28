@@ -1,20 +1,29 @@
 package com.skichrome.oc.easyvgp.model.remote
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
-import com.skichrome.oc.easyvgp.model.HomeSource
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.local.database.ControlPoint
-import com.skichrome.oc.easyvgp.model.local.database.MachineType
-import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints
-import com.skichrome.oc.easyvgp.model.local.database.UserAndCompany
+import com.skichrome.oc.easyvgp.model.base.HomeSource
+import com.skichrome.oc.easyvgp.model.local.database.*
+import com.skichrome.oc.easyvgp.model.remote.util.RemoteControlPoint
+import com.skichrome.oc.easyvgp.model.remote.util.RemoteMachineType
+import com.skichrome.oc.easyvgp.model.remote.util.RemoteMachineTypeWithControlPoints
 import com.skichrome.oc.easyvgp.util.*
 import kotlinx.coroutines.*
 
-class RemoteHomeSource(private val db: FirebaseFirestore, private val dispatchers: CoroutineDispatcher = Dispatchers.IO) : HomeSource
+class RemoteHomeSource(private val dispatchers: CoroutineDispatcher = Dispatchers.IO) :
+    HomeSource
 {
+    // =================================
+    //              Fields
+    // =================================
+
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+
     // =================================
     //        Superclass Methods
     // =================================
@@ -24,7 +33,7 @@ class RemoteHomeSource(private val db: FirebaseFirestore, private val dispatcher
         {
             async {
                 val results = getControlPointCollection().get()
-                    .awaitQuery()
+                    .await()
                     ?.toObjects(RemoteControlPoint::class.java)?.toList()
                     ?.map { ControlPoint(id = it.id, name = it.name, code = it.code) }
 
@@ -43,7 +52,7 @@ class RemoteHomeSource(private val db: FirebaseFirestore, private val dispatcher
             try
             {
                 val results = getMachineTypesCollection().get()
-                    .awaitQuery()
+                    .await()
                     ?.toObjects(RemoteMachineType::class.java)?.toList()
                     ?.map { MachineType(id = it.id, legalName = it.legalName, name = it.name) }
 
@@ -62,7 +71,7 @@ class RemoteHomeSource(private val db: FirebaseFirestore, private val dispatcher
             try
             {
                 val results = getMachineTypesControlPointCollection().get()
-                    .awaitQuery()
+                    .await()
                     ?.map {
                         it.toObject<RemoteMachineTypeWithControlPoints>().let { remoteMachineTypeWithControlPoints ->
                             MachineTypeWithControlPoints(
@@ -91,6 +100,9 @@ class RemoteHomeSource(private val db: FirebaseFirestore, private val dispatcher
         }
     }
 
+    override fun observeHomeReportsEndValidityDate(): LiveData<Results<List<HomeEndValidityReportItem>>> =
+        MutableLiveData(Error(NotImplementedException("Not available on remote database for now")))
+
     override suspend fun getAllUserAndCompany(): Results<List<UserAndCompany>> =
         Error(NotImplementedException("Not available on remote database for now"))
 
@@ -98,6 +110,9 @@ class RemoteHomeSource(private val db: FirebaseFirestore, private val dispatcher
         Error(NotImplementedException("Not available on remote database for now"))
 
     override suspend fun updateUserAndCompany(userAndCompany: UserAndCompany): Results<Int> =
+        Error(NotImplementedException("Not available on remote database for now"))
+
+    override suspend fun updateExtraEmailSentStatus(extraId: Long): Results<Int> =
         Error(NotImplementedException("Not available on remote database for now"))
 
     override suspend fun insertControlPointsAsync(ctrlPoints: List<ControlPoint>): Deferred<Results<List<Long>>> = withContext(dispatchers) {

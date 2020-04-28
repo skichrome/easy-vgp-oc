@@ -1,2 +1,4 @@
 [Features]
- - Added performance monitoring sdk to the app, when the app crash the developers will be informed about why the crash happened.
+  - Mise à jour de l'écran de configuration avant les points de contrôle, ajout des champs pour la charge utilisée pour le test.
+  - Mise à jour des données envoyées pour la création du rapport.
+  - A la création d'un nouveau rapport, si on reviens en arrière sur l'écran de configuration du rapport les données précédentes sont réaffichées.

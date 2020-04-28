@@ -16,7 +16,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/form_layout_margin_horizontal">
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/adminFragmentProgress"
@@ -30,9 +31,10 @@
 
         <TextView
             android:id="@+id/adminFragmentFabNewMachineTypeTitle"
-            style="@style/tvTitleStyle"
+            style="@style/EasyVGPTheme.tvTitleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_gear_24dp"
             android:text="@string/admin_fragment_machine_type_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -47,69 +49,91 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/adminFragmentFabNewMachineTypeTitle"
-            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:listitem="@layout/item_rv_machine_type"
-            tools:spanCount="3" />
+            tools:itemCount="5"
+            tools:listitem="@layout/item_rv_machine_type" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/adminFragmentGuideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5" />
+            app:layout_constraintGuide_percent="0.47" />
+
+        <View
+            android:id="@+id/adminFragmentSeparator"
+            style="@style/EasyVGPTheme.horizontalSeparatorStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/adminFragmentGuideline" />
 
         <TextView
             android:id="@+id/adminFragmentFabNewControlPointTitle"
-            style="@style/tvTitleStyle"
+            style="@style/EasyVGPTheme.tvTitleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_check_box_24dp"
             android:text="@string/admin_fragment_ctrl_points_title"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/adminFragmentGuideline" />
+            app:layout_constraintTop_toTopOf="@+id/adminFragmentSeparator" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/adminFragmentControlPointsRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/margin_do_not_hide_fab"
             app:items_ctrl_points="@{viewModel.allControlPoints}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/adminFragmentFabNewControlPointTitle"
-            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:listitem="@layout/item_rv_machine_type"
-            tools:spanCount="3" />
+            tools:itemCount="5"
+            tools:listitem="@layout/item_rv_ctrl_points" />
 
-        <TextView
-            android:id="@+id/adminFragmentFabNewMachineTypeText"
-            style="@style/TextAppearance.AppCompat.Body1"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/adminFragmentFabNewMachineTypeTextCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="@string/admin_fragment_new_machine_type_text_fab"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/adminFragmentFabNewMachineType"
             app:layout_constraintEnd_toStartOf="@id/adminFragmentFabNewMachineType"
             app:layout_constraintTop_toTopOf="@id/adminFragmentFabNewMachineType"
-            tools:visibility="visible" />
+            tools:visibility="visible">
 
-        <TextView
-            android:id="@+id/adminFragmentFabNewCtrlPointText"
-            style="@style/TextAppearance.AppCompat.Body1"
+            <TextView
+                android:id="@+id/adminFragmentFabNewMachineTypeText"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/admin_fragment_new_machine_type_text_fab" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/adminFragmentFabNewCtrlPointTextCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="@string/admin_fragment_new_ctrl_point_text_fab"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/adminFragmentFabNewCtrlPoint"
             app:layout_constraintEnd_toStartOf="@id/adminFragmentFabNewCtrlPoint"
             app:layout_constraintTop_toTopOf="@id/adminFragmentFabNewCtrlPoint"
-            tools:visibility="visible" />
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/adminFragmentFabNewCtrlPointText"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/admin_fragment_new_ctrl_point_text_fab" />
+        </androidx.cardview.widget.CardView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/adminFragmentFabNewMachineType"
-            style="@style/secondaryFabStyle"
+            style="@style/EasyVGPTheme.secondaryFabStyle"
             android:src="@drawable/ic_gear_24dp"
             app:layout_constraintBottom_toTopOf="@id/adminFragmentFabNewCtrlPoint"
             app:layout_constraintEnd_toEndOf="@id/adminFragmentFabMain"
@@ -118,7 +142,7 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/adminFragmentFabNewCtrlPoint"
-            style="@style/secondaryFabStyle"
+            style="@style/EasyVGPTheme.secondaryFabStyle"
             android:src="@drawable/ic_check_box_24dp"
             app:layout_constraintBottom_toTopOf="@id/adminFragmentFabMain"
             app:layout_constraintEnd_toEndOf="@id/adminFragmentFabMain"
@@ -127,7 +151,7 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/adminFragmentFabMain"
-            style="@style/fabStyle"
+            style="@style/EasyVGPTheme.fabStyle"
             android:src="@drawable/ic_add_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

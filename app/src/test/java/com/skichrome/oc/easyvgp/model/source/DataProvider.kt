@@ -12,6 +12,7 @@ object DataProvider
     const val customer1Id = 1L
     val customer1 = Customer(
         id = customer1Id,
+        companyName = "company 1",
         firstName = "first name $customer1Id",
         lastName = "last name $customer1Id",
         siret = "12345678910121L",
@@ -25,6 +26,7 @@ object DataProvider
     )
     val customer1Edit = Customer(
         id = customer1Id,
+        companyName = "company 1",
         firstName = "first edited name $customer1Id",
         lastName = "last edited name $customer1Id",
         siret = "12345678910121L",
@@ -40,6 +42,7 @@ object DataProvider
     const val customer2Id = 2L
     val customer2 = Customer(
         id = customer2Id,
+        companyName = "company 2",
         firstName = "first name $customer2Id",
         lastName = "last name $customer2Id",
         siret = "12345678910121L",
@@ -55,6 +58,7 @@ object DataProvider
     const val customer3Id = 3L
     val customer3 = Customer(
         id = customer3Id,
+        companyName = "company 3",
         firstName = "first name $customer3Id",
         lastName = "last name $customer3Id",
         siret = "12345678910121L",
@@ -127,6 +131,9 @@ object DataProvider
         machineId = machine1Id,
         name = "Mach1",
         brand = "brand1",
+        model = "model1",
+        manufacturingYear = 2000,
+        localPhotoRef = null,
         customer = customer1Id,
         serial = "DFG123AER13333",
         type = machineType1Id
@@ -135,6 +142,9 @@ object DataProvider
         machineId = machine1Id,
         name = "Mach1-Edited",
         brand = "brand1-Edited",
+        model = "model1-edited",
+        manufacturingYear = 2000,
+        localPhotoRef = null,
         customer = customer1Id,
         serial = "DFG123AER13333-Edited",
         type = machineType1Id
@@ -145,6 +155,9 @@ object DataProvider
         machineId = machine2Id,
         name = "Mach2",
         brand = "brand2",
+        model = "model2",
+        manufacturingYear = 2001,
+        localPhotoRef = null,
         customer = customer2Id,
         serial = "DFG12ddd3AER13333",
         type = machineType2Id
@@ -155,6 +168,9 @@ object DataProvider
         machineId = machine2Id,
         name = "Mach3",
         brand = "brand3",
+        model = "model3",
+        manufacturingYear = 2002,
+        localPhotoRef = null,
         customer = customer2Id,
         serial = "DFG12dsdz3AER13333",
         type = machineType2Id
@@ -187,7 +203,9 @@ object DataProvider
     val company1 = Company(
         id = company1Id,
         name = "company1",
-        siret = "fdsgerg222"
+        siret = "fdsgerg222",
+        localCompanyLogo = null,
+        remoteCompanyLogo = null
     )
 
     const val user1Id = 1L
@@ -205,7 +223,9 @@ object DataProvider
     val company1Edit = Company(
         id = company1IdEdit,
         name = "company1Edit",
-        siret = "fdsgerg222Edit"
+        siret = "fdsgerg222Edit",
+        localCompanyLogo = null,
+        remoteCompanyLogo = null
     )
 
     const val user1IdEdit = 1L
@@ -223,7 +243,9 @@ object DataProvider
     val companyToInsert = Company(
         id = companyIdToInsert,
         name = "company4 to inset",
-        siret = "fdsgerg2defe22"
+        siret = "fdsgerg2defe22",
+        localCompanyLogo = null,
+        remoteCompanyLogo = null
     )
 
     const val userIdToInsert = 4L
@@ -241,7 +263,9 @@ object DataProvider
     val company2 = Company(
         id = company2Id,
         name = "company2",
-        siret = "fdsgerg2zr22"
+        siret = "fdsgerg2zr22",
+        localCompanyLogo = null,
+        remoteCompanyLogo = null
     )
 
     const val user2Id = 2L
@@ -259,7 +283,9 @@ object DataProvider
     val company3 = Company(
         id = company3Id,
         name = "company3",
-        siret = "fdsgerg222ze"
+        siret = "fdsgerg222ze",
+        localCompanyLogo = null,
+        remoteCompanyLogo = null
     )
 
     const val user3Id = 3L
@@ -275,7 +301,11 @@ object DataProvider
 
     val companyList = listOf(company1, company2, company3)
     val userList = listOf(user1, user2, user3)
-    val userCompanyList = listOf(UserAndCompany(company1, user1), UserAndCompany(company2, user2), UserAndCompany(company3, user3))
+    val userCompanyList = listOf(
+        UserAndCompany(company = company1, user = user1),
+        UserAndCompany(company = company2, user = user2),
+        UserAndCompany(company = company3, user = user3)
+    )
 
     val companyHashMap: LinkedHashMap<Long, Company>
         get()

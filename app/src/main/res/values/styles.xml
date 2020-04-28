@@ -1,29 +1,37 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
 
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="android:colorBackground">@color/primaryColor</item>
         <item name="colorAccent">@color/secondaryColor</item>
+        <item name="fontFamily">@font/roboto</item>
     </style>
 
     <!-- ToolBar style -->
-    <style name="ToolBarStyle" parent="AppTheme">
-        <item name="android:background">@color/primaryLightColor</item>
-        <item name="android:textColorPrimary">@android:color/black</item>
+    <style name="EasyVGPTheme.ToolBarStyle" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">@color/primaryColor</item>
+        <item name="actionMenuTextColor">@android:color/black</item>
         <item name="colorControlNormal">@android:color/white</item>
     </style>
 
     <!-- Material button style -->
-    <style name="buttonStyle" parent="Widget.MaterialComponents.Button">
+    <style name="EasyVGPTheme.buttonStyle" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/secondaryColor</item>
         <item name="android:textColor">@color/secondaryTextColor</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="EasyVGPTheme.buttonStyle.noOutline" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/secondaryColor</item>
+        <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
     <!-- Floating action button style -->
-    <style name="fabStyle" parent="Widget.Design.FloatingActionButton">
+    <style name="EasyVGPTheme.fabStyle" parent="Widget.Design.FloatingActionButton">
         <item name="backgroundTint">@color/secondaryColor</item>
         <item name="android:background">@null</item>
         <item name="android:layout_width">wrap_content</item>
@@ -34,7 +42,7 @@
     </style>
 
     <!-- Secondary Floating action button style -->
-    <style name="secondaryFabStyle" parent="fabStyle">
+    <style name="EasyVGPTheme.secondaryFabStyle" parent="EasyVGPTheme.fabStyle">
         <item name="backgroundTint">@color/secondaryColor</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -45,56 +53,99 @@
     </style>
 
     <!-- CardView style -->
-    <style name="cardStyle" parent="Widget.MaterialComponents.CardView">
+    <style name="EasyVGPTheme.cardStyle.colored" parent="AppTheme">
         <item name="cardBackgroundColor">@color/primaryLightColor</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
-        <item name="cardElevation">1dp</item>
-        <item name="android:layout_margin">8dp</item>
+        <item name="cardElevation">2dp</item>
         <item name="cardCornerRadius">6dp</item>
     </style>
 
-    <!-- EditText style -->
-    <style name="editTextStyle" parent="Widget.AppCompat.EditText">
+    <!-- CardView style -->
+    <style name="EasyVGPTheme.cardStyle" parent="AppTheme">
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="cardElevation">2dp</item>
+        <item name="cardCornerRadius">6dp</item>
+    </style>
+
+    <!-- EditTextInputLayout style -->
+    <style name="EasyVGPTheme.editTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/tv_input_margin</item>
-        <item name="android:layout_marginStart">@dimen/tv_input_margin</item>
-        <item name="android:drawablePadding">@dimen/edit_text_drawable_padding</item>
+        <item name="endIconMode">clear_text</item>
+    </style>
+
+    <!-- EditTextInput style -->
+    <style name="EasyVGPTheme.editTextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:inputType">text</item>
+        <item name="endIconMode">clear_text</item>
+        <item name="fontFamily">@font/roboto</item>
     </style>
 
     <!-- Title TextView style -->
-    <style name="tvTitleStyle" parent="TextAppearance.AppCompat.Title">
+    <style name="EasyVGPTheme.tvTitleStyle" parent="TextAppearance.AppCompat.Title">
+        <item name="android:layout_marginTop">@dimen/tv_input_margin</item>
+        <item name="android:drawablePadding">@dimen/edit_text_drawable_padding</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <!-- Body 1 TextView style -->
+    <style name="EasyVGPTheme.tvBody1Style" parent="TextAppearance.AppCompat.Body1">
         <item name="android:layout_marginTop">@dimen/tv_input_margin</item>
         <item name="android:layout_marginStart">@dimen/tv_input_margin</item>
         <item name="android:layout_marginEnd">@dimen/tv_input_margin</item>
         <item name="android:drawablePadding">@dimen/edit_text_drawable_padding</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
+        <item name="fontFamily">@font/roboto</item>
     </style>
 
-    <!-- Title TextView style -->
-    <style name="tvBody1Style" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:layout_marginTop">@dimen/tv_input_margin</item>
-        <item name="android:layout_marginStart">@dimen/tv_input_margin</item>
-        <item name="android:layout_marginEnd">@dimen/tv_input_margin</item>
+    <!-- Body 1 TextView style -->
+    <style name="EasyVGPTheme.tvBody1StyleNoMargin" parent="TextAppearance.AppCompat.Body1">
         <item name="android:drawablePadding">@dimen/edit_text_drawable_padding</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
+        <item name="fontFamily">@font/roboto</item>
     </style>
 
     <!-- Separator style -->
-    <style name="separatorStyle" parent="AppTheme">
+    <style name="EasyVGPTheme.horizontalSeparatorStyle" parent="AppTheme">
         <item name="android:background">@color/secondaryColor</item>
         <item name="android:layout_marginStart">@dimen/divider_horizontal_margin</item>
         <item name="android:layout_marginEnd">@dimen/divider_horizontal_margin</item>
         <item name="android:layout_marginTop">@dimen/divider_top_margin</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">0dp</item>
+    </style>
+
+    <style name="EasyVGPTheme.verticalSeparatorStyle" parent="AppTheme">
+        <item name="android:background">@color/secondaryColor</item>
+        <item name="android:layout_marginStart">@dimen/divider_top_margin</item>
+        <item name="android:layout_marginEnd">@dimen/divider_top_margin</item>
+        <item name="android:layout_marginTop">@dimen/divider_horizontal_margin</item>
+        <item name="android:layout_marginBottom">@dimen/divider_horizontal_margin</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">1dp</item>
+    </style>
+
+    <!-- Switch style -->
+    <style name="EasyVGPTheme.switch" parent="AppTheme">
+        <item name="android:layout_marginTop">@dimen/tv_input_margin</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="fontFamily">@font/roboto</item>
     </style>
 
     <!-- Sign-in Activity style -->
-    <style name="LoginTheme" parent="AppTheme">
+    <style name="EasyVGPTheme.LoginTheme" parent="AppTheme">
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/secondaryColor</item>

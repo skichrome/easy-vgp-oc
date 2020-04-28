@@ -6,9 +6,9 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.skichrome.oc.easyvgp.getOrAwaitValue
-import com.skichrome.oc.easyvgp.model.HomeSource
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.base.HomeSource
 import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.model.source.DataProvider
 import com.skichrome.oc.easyvgp.util.NotImplementedException
@@ -42,6 +42,8 @@ class LocalHomeSourceTest
     private lateinit var ctrlPointDao: ControlPointDao
     private lateinit var machineTypeDao: MachineTypeDao
     private lateinit var machineTypeControlPointCrossRefDao: MachineTypeControlPointCrossRefDao
+    private lateinit var machineCtrlPtDataExtraDao: MachineControlPointDataExtraDao
+    private lateinit var ctrlPtDataDao: MachineControlPointDataDao
     private lateinit var homeSource: HomeSource
 
     // =================================
@@ -54,9 +56,9 @@ class LocalHomeSourceTest
     fun setUp()
     {
         database = Room.inMemoryDatabaseBuilder(
-                ApplicationProvider.getApplicationContext(),
-                AppDatabase::class.java
-            )
+            ApplicationProvider.getApplicationContext(),
+            AppDatabase::class.java
+        )
             .allowMainThreadQueries()
             .build()
 
@@ -65,6 +67,8 @@ class LocalHomeSourceTest
         ctrlPointDao = database.controlPointDao()
         machineTypeDao = database.machinesTypeDao()
         machineTypeControlPointCrossRefDao = database.machineTypeControlPointCrossRefDao()
+        ctrlPtDataDao = database.machineControlPointDataDao()
+        machineCtrlPtDataExtraDao = database.machineControlPointDataExtraDao()
 
         homeSource = LocalHomeSource(
             companyDao = companyDao,
@@ -72,6 +76,8 @@ class LocalHomeSourceTest
             machineTypeDao = machineTypeDao,
             controlPointDao = ctrlPointDao,
             machineTypeControlPointCrossRefDao = machineTypeControlPointCrossRefDao,
+            machineCtrlPtDataExtraDao = machineCtrlPtDataExtraDao,
+            machineControlPointDataDao = ctrlPtDataDao,
             dispatchers = Dispatchers.Main
         )
     }
@@ -79,7 +85,11 @@ class LocalHomeSourceTest
     @After
     fun tearDown() = database.close()
 
-    // --- Configuration --- //
+    // --- Tests --- //
+
+    @Test
+    fun observeHomeReportsEndValidityDateTest() = runBlocking {
+    }
 
     @Test
     fun getAllUserAndCompany() = runBlocking {
@@ -121,7 +131,7 @@ class LocalHomeSourceTest
         DataProvider.userCompanyList.forEach { homeSource.insertNewUserAndCompany(it) }
 
         // Update data with source
-        val userCompanyToUpdate = UserAndCompany(DataProvider.company1Edit, DataProvider.user1Edit)
+        val userCompanyToUpdate = UserAndCompany(company = DataProvider.company1Edit, user = DataProvider.user1Edit)
         homeSource.updateUserAndCompany(userCompanyToUpdate)
 
         // Get data with database DAO

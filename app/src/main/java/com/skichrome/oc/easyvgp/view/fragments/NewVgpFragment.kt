@@ -1,11 +1,11 @@
 package com.skichrome.oc.easyvgp.view.fragments
 
-import android.text.InputType
-import android.widget.EditText
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.textfield.TextInputEditText
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentNewVgpBinding
@@ -16,6 +16,7 @@ import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.view.fragments.adapters.ControlPointNewVgpAdapter
 import com.skichrome.oc.easyvgp.viewmodel.VgpViewModel
 import com.skichrome.oc.easyvgp.viewmodel.vmfactory.VgpViewModelFactory
+import kotlinx.android.synthetic.main.activity_main.*
 
 class NewVgpFragment : BaseBindingFragment<FragmentNewVgpBinding>()
 {
@@ -38,6 +39,7 @@ class NewVgpFragment : BaseBindingFragment<FragmentNewVgpBinding>()
 
     override fun configureFragment()
     {
+        configureUI()
         configureViewModel()
         configureBinding()
         configureRecyclerView()
@@ -48,11 +50,17 @@ class NewVgpFragment : BaseBindingFragment<FragmentNewVgpBinding>()
     //              Methods
     // =================================
 
+    private fun configureUI()
+    {
+        if (args.reportDateToEdit != -1L)
+            activity?.apply { toolbar?.title = getString(R.string.title_fragment_vgp_edit) }
+    }
+
     private fun configureViewModel()
     {
         viewModel.message.observe(viewLifecycleOwner, EventObserver { binding.root.snackBar(getString(it)) })
         viewModel.onClickCommentEvent.observe(viewLifecycleOwner, EventObserver { showCommentAlertDialog(it) })
-        viewModel.onReportSaved.observe(viewLifecycleOwner, EventObserver { if (it) findNavController().navigateUp() })
+        viewModel.onReportSaved.observe(viewLifecycleOwner, EventObserver { if (it) navigateToVgpList() })
 
         if (args.reportDateToEdit == -1L)
             viewModel.getMachineTypeWithControlPoints(args.machineTypeId)
@@ -76,32 +84,42 @@ class NewVgpFragment : BaseBindingFragment<FragmentNewVgpBinding>()
     {
         binding.fragVGPFab.setOnClickListener {
             if (args.reportDateToEdit == -1L)
-                viewModel.saveCtrlPointDataList(args.machineId)
+                viewModel.saveCtrlPointDataList(args.machineId, args.vgpReportExtra)
             else
                 viewModel.updatePreviouslyCreatedReport()
         }
     }
 
-    private fun showCommentAlertDialog(index: Int)
+    private fun showCommentAlertDialog(indexAndComment: Pair<Int, String?>)
     {
         val dialog = activity?.let {
             val builder = AlertDialog.Builder(it)
 
-            // Set up the input
-            val input = EditText(it)
-            input.inputType = InputType.TYPE_CLASS_TEXT
+            val dialogView = View.inflate(context, R.layout.dialog_comment, null)
+            val commentEditText = dialogView.findViewById<TextInputEditText>(R.id.dialogCommentCommentEditText)
+            indexAndComment.second?.let { comment -> commentEditText.setText(comment) }
 
-            builder.setView(input)
+            builder.setView(dialogView)
 
             builder.apply {
                 setTitle(R.string.frag_vgp_dialog_title)
                 setPositiveButton(R.string.frag_vgp_dialog_ok) { _, _ ->
-                    binding.root.snackBar(input.text.toString())
-                    viewModel.setCommentToCtrlPointData(index, input.text.toString())
+                    viewModel.setCommentToCtrlPointData(indexAndComment.first, commentEditText.text.toString())
+                    adapter.notifyItemChanged(indexAndComment.first)
                 }
                 setNegativeButton(R.string.frag_vgp_dialog_cancel, null)
             }
         }
         dialog?.show()
+    }
+
+    private fun navigateToVgpList()
+    {
+        val opt = NewVgpFragmentDirections.actionNewVgpFragmentToVgpListFragment(
+            machineId = args.machineId,
+            machineTypeId = args.machineTypeId,
+            customerId = args.customerId
+        )
+        findNavController().navigate(opt)
     }
 }

@@ -7,6 +7,7 @@ import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentCustomerBinding
 import com.skichrome.oc.easyvgp.util.AutoClearedValue
 import com.skichrome.oc.easyvgp.util.EventObserver
+import com.skichrome.oc.easyvgp.util.addItemDecorationAndLinearLayoutManager
 import com.skichrome.oc.easyvgp.util.snackBar
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.view.fragments.adapters.CustomerFragmentAdapter
@@ -24,7 +25,7 @@ class CustomerFragment : BaseBindingFragment<FragmentCustomerBinding>()
         CustomerViewModelFactory((requireActivity().application as EasyVGPApplication).customerRepository)
     }
 
-    private var adapter by AutoClearedValue<CustomerFragmentAdapter>()
+    private var customerAdapter by AutoClearedValue<CustomerFragmentAdapter>()
 
     // =================================
     //        Superclass Methods
@@ -45,9 +46,9 @@ class CustomerFragment : BaseBindingFragment<FragmentCustomerBinding>()
     // =================================
 
     private fun configureViewModel() = viewModel.apply {
-        customerLongClick.observe(this@CustomerFragment, EventObserver { navigateToAddEditCustomerFragment(it) })
-        errorMessage.observe(this@CustomerFragment, EventObserver { binding.root.snackBar(getString(it)) })
-        customerClick.observe(this@CustomerFragment, EventObserver { navigateToVgpFragment(it) })
+        customerLongClick.observe(viewLifecycleOwner, EventObserver { navigateToAddEditCustomerFragment(it) })
+        errorMessage.observe(viewLifecycleOwner, EventObserver { binding.root.snackBar(getString(it)) })
+        customerClick.observe(viewLifecycleOwner, EventObserver { navigateToVgpFragment(it) })
     }
 
     private fun configureUI()
@@ -62,8 +63,11 @@ class CustomerFragment : BaseBindingFragment<FragmentCustomerBinding>()
 
     private fun configureRecyclerView()
     {
-        adapter = CustomerFragmentAdapter(viewModel)
-        fragCustomerRecyclerView.adapter = adapter
+        customerAdapter = CustomerFragmentAdapter(viewModel)
+        binding.fragCustomerRecyclerView.apply {
+            adapter = customerAdapter
+            addItemDecorationAndLinearLayoutManager()
+        }
     }
 
     // --- Navigation --- //

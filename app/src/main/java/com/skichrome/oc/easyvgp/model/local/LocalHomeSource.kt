@@ -1,9 +1,11 @@
 package com.skichrome.oc.easyvgp.model.local
 
-import com.skichrome.oc.easyvgp.model.HomeSource
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.base.HomeSource
 import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.util.AppCoroutinesConfiguration
 import com.skichrome.oc.easyvgp.util.NotImplementedException
@@ -18,9 +20,14 @@ class LocalHomeSource(
     private val controlPointDao: ControlPointDao,
     private val machineTypeDao: MachineTypeDao,
     private val machineTypeControlPointCrossRefDao: MachineTypeControlPointCrossRefDao,
+    private val machineCtrlPtDataExtraDao: MachineControlPointDataExtraDao,
+    private val machineControlPointDataDao: MachineControlPointDataDao,
     private val dispatchers: CoroutineDispatcher = AppCoroutinesConfiguration.ioDispatchers
 ) : HomeSource
 {
+    override fun observeHomeReportsEndValidityDate(): LiveData<Results<List<HomeEndValidityReportItem>>> =
+        machineControlPointDataDao.observeEndValidityReports().map { Success(it) }
+
     override suspend fun getAllUserAndCompany(): Results<List<UserAndCompany>> = withContext(dispatchers) {
         return@withContext try
         {
@@ -51,6 +58,17 @@ class LocalHomeSource(
             companyDao.update(userAndCompany.company)
             val result = userDao.update(userAndCompany.user)
             Success(result)
+        }
+        catch (e: Exception)
+        {
+            Error(e)
+        }
+    }
+
+    override suspend fun updateExtraEmailSentStatus(extraId: Long): Results<Int> = withContext(dispatchers) {
+        return@withContext try
+        {
+            Success(machineCtrlPtDataExtraDao.updateExtraEmailStatus(extraId))
         }
         catch (e: Exception)
         {

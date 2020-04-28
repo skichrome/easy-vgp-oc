@@ -189,7 +189,7 @@ pipeline {
                     // Avoid keystore.jks not found, because temp directory has changed at this stage
                     sh '''
                     set +x
-                    ./gradlew assembleRelease appDistributionUploadRelease
+                    ./gradlew assembleDemoRelease appDistributionUploadDemoRelease
                     '''
                 }
             }
@@ -200,7 +200,7 @@ pipeline {
             }
             steps {
                 script {
-                    archiveArtifacts artifacts: 'app/build/outputs/apk/release/*.apk'
+                    archiveArtifacts artifacts: 'app/build/outputs/apk/**/release/*.apk'
                 }
             }
         }

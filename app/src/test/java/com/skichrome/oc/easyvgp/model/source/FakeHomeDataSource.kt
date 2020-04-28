@@ -1,9 +1,12 @@
 package com.skichrome.oc.easyvgp.model.source
 
-import com.skichrome.oc.easyvgp.model.HomeSource
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.base.HomeSource
 import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.util.ItemNotFoundException
 import kotlinx.coroutines.Deferred
@@ -19,8 +22,17 @@ class FakeHomeDataSource(
 ) : HomeSource
 {
     // =================================
+    //              Fields
+    // =================================
+
+    private val observableHomeEndValidityReportItem = MutableLiveData<List<HomeEndValidityReportItem>>()
+
+    // =================================
     //        Superclass Methods
     // =================================
+
+    override fun observeHomeReportsEndValidityDate(): LiveData<Results<List<HomeEndValidityReportItem>>> =
+        observableHomeEndValidityReportItem.map { Success(it) }
 
     override suspend fun getAllUserAndCompany(): Results<List<UserAndCompany>> = Success(userAndCompanyDataService.values.toList())
 
@@ -37,8 +49,14 @@ class FakeHomeDataSource(
         {
             userAndCompanyDataService[userAndCompany.company.id] = userAndCompany
             Success(1)
-        } else
+        }
+        else
             Error(ItemNotFoundException("Item doesnt' exist in the list"))
+    }
+
+    override suspend fun updateExtraEmailSentStatus(extraId: Long): Results<Int>
+    {
+        TODO("Not yet implemented")
     }
 
     override suspend fun getAllControlPointsAsync(): Deferred<Results<List<ControlPoint>>> = withContext(Dispatchers.Unconfined) {
@@ -118,6 +136,11 @@ class FakeHomeDataSource(
     // =================================
     //              Methods
     // =================================
+
+    fun refresh(homeEndValidityReports: List<HomeEndValidityReportItem>)
+    {
+        observableHomeEndValidityReportItem.value = homeEndValidityReports
+    }
 
     fun insertData(
         ctrlPt: LinkedHashMap<Long, ControlPoint>,

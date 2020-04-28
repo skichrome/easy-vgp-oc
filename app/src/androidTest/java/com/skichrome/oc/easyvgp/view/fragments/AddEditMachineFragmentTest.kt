@@ -56,12 +56,12 @@ class AddEditMachineFragmentTest
         ).toBundle()
         launchFragmentInContainer<AddEditMachineFragment>(bundle, R.style.AppTheme)
 
-        onView(withId(R.id.addEditMachineFragmentName)).check(matches(isDisplayed()))
-        onView(withId(R.id.addEditMachineFragmentBrand)).check(matches(isDisplayed()))
-        onView(withId(R.id.addEditMachineFragmentSerial)).check(matches(isDisplayed()))
-        onView(withId(R.id.addEditMachineFragmentName)).check(matches(withText("")))
-        onView(withId(R.id.addEditMachineFragmentBrand)).check(matches(withText("")))
-        onView(withId(R.id.addEditMachineFragmentSerial)).check(matches(withText("")))
+        onView(withId(R.id.addEditMachineFragmentNameEditText)).check(matches(isDisplayed()))
+        onView(withId(R.id.addEditMachineFragmentBrandEditText)).check(matches(isDisplayed()))
+        onView(withId(R.id.addEditMachineFragmentSerialEditText)).check(matches(isDisplayed()))
+        onView(withId(R.id.addEditMachineFragmentNameEditText)).check(matches(withText("")))
+        onView(withId(R.id.addEditMachineFragmentBrandEditText)).check(matches(withText("")))
+        onView(withId(R.id.addEditMachineFragmentSerialEditText)).check(matches(withText("")))
     }
 
     @Test
@@ -80,12 +80,12 @@ class AddEditMachineFragmentTest
         launchFragmentInContainer<AddEditMachineFragment>(bundle, R.style.AppTheme)
 
         // Assert that data is pre filled in all text fields
-        onView(withId(R.id.addEditMachineFragmentName)).check(matches(isDisplayed()))
-        onView(withId(R.id.addEditMachineFragmentBrand)).check(matches(isDisplayed()))
-        onView(withId(R.id.addEditMachineFragmentSerial)).check(matches(isDisplayed()))
-        onView(withId(R.id.addEditMachineFragmentName)).check(matches(withText(AndroidDataProvider.machine1.name)))
-        onView(withId(R.id.addEditMachineFragmentBrand)).check(matches(withText(AndroidDataProvider.machine1.brand)))
-        onView(withId(R.id.addEditMachineFragmentSerial)).check(matches(withText(AndroidDataProvider.machine1.serial)))
+        onView(withId(R.id.addEditMachineFragmentNameEditText)).check(matches(isDisplayed()))
+        onView(withId(R.id.addEditMachineFragmentBrandEditText)).check(matches(isDisplayed()))
+        onView(withId(R.id.addEditMachineFragmentSerialEditText)).check(matches(isDisplayed()))
+        onView(withId(R.id.addEditMachineFragmentNameEditText)).check(matches(withText(AndroidDataProvider.machine1.name)))
+        onView(withId(R.id.addEditMachineFragmentBrandEditText)).check(matches(withText(AndroidDataProvider.machine1.brand)))
+        onView(withId(R.id.addEditMachineFragmentSerialEditText)).check(matches(withText(AndroidDataProvider.machine1.serial)))
     }
 
     @Test

@@ -2,18 +2,21 @@ package com.skichrome.oc.easyvgp.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.skichrome.oc.easyvgp.R
-import com.skichrome.oc.easyvgp.model.HomeRepository
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.base.HomeRepository
+import com.skichrome.oc.easyvgp.model.local.database.HomeEndValidityReportItem
 import com.skichrome.oc.easyvgp.model.local.database.UserAndCompany
 import com.skichrome.oc.easyvgp.util.Event
 import com.skichrome.oc.easyvgp.util.uiJob
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class HomeViewModel(private val repository: HomeRepository) : ViewModel()
+class HomeViewModel(private val repository: HomeRepository) : BaseViewModel()
 {
     // =================================
     //              Fields
@@ -27,16 +30,27 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel()
     private val _currentUserId = MutableLiveData<Event<Long>>()
     val currentUserId: LiveData<Event<Long>> = _currentUserId
 
-    private val _message = MutableLiveData<Event<Int>>()
-    val message: LiveData<Event<Int>> = _message
-
     private val _onSaveEvent = MutableLiveData<Event<UserAndCompany>>()
     val onSaveEvent: LiveData<Event<UserAndCompany>> = _onSaveEvent
 
     private val _onSaveSuccessEvent = MutableLiveData<Event<Boolean>>()
     val onSaveSuccessEvent: LiveData<Event<Boolean>> = _onSaveSuccessEvent
 
+    private val _onEmailClickEvent = MutableLiveData<Event<HomeEndValidityReportItem>>()
+    val onEmailClickEvent: LiveData<Event<HomeEndValidityReportItem>> = _onEmailClickEvent
+
     // --- Data
+
+    private val _controlList: LiveData<List<HomeEndValidityReportItem>> = repository.observeReports().switchMap { reports ->
+        if (reports is Success)
+            filterReportListFromMostRecentDate(reports.data)
+        else
+        {
+            handleError(reports as? Error)
+            MutableLiveData()
+        }
+    }
+    val controlList: LiveData<List<HomeEndValidityReportItem>> = _controlList
 
     // =================================
     //              Methods
@@ -44,14 +58,14 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel()
 
     // --- Events
 
-    private fun showMessage(msgRef: Int)
-    {
-        _message.value = Event(msgRef)
-    }
-
     fun onSaveClick(userAndCompany: UserAndCompany)
     {
         _onSaveEvent.value = Event(userAndCompany)
+    }
+
+    fun onEmailClick(report: HomeEndValidityReportItem)
+    {
+        _onEmailClickEvent.value = Event(report)
     }
 
     // --- Data
@@ -73,8 +87,12 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel()
                     0 -> _currentUserId.value = Event(-1L)
                     else -> showMessage(R.string.view_model_home_user_filter_error)
                 }
-            } else
+            }
+            else
+            {
+                handleError(users as? Error)
                 showMessage(R.string.view_model_home_user_filter_error)
+            }
         }
     }
 
@@ -87,8 +105,12 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel()
                 _currentUserId.value = Event(result.data)
                 _currentUser.value = userAndCompany
                 showMessage(R.string.view_model_home_user_insert)
-            } else
+            }
+            else
+            {
+                handleError(result as? Error)
                 showMessage(R.string.view_model_home_user_insert_error)
+            }
         }
     }
 
@@ -100,8 +122,21 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel()
             {
                 _onSaveSuccessEvent.value = Event(true)
                 showMessage(R.string.view_model_home_user_update)
-            } else
+            }
+            else
+            {
+                handleError(result as? Error)
                 showMessage(R.string.view_model_home_user_update_error)
+            }
+        }
+    }
+
+    fun updateReportEmailSendStatus(extraId: Long)
+    {
+        viewModelScope.launch {
+            val updateResult = repository.updateExtraEmailSentStatus(extraId)
+            if (updateResult is Error)
+                handleError(updateResult)
         }
     }
 
@@ -110,7 +145,27 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel()
         viewModelScope.uiJob {
             val results = repository.synchronizeDatabase()
             if (results is Error)
+            {
+                handleError(results as? Error)
                 showMessage(R.string.view_model_home_update_error)
+            }
         }
+    }
+
+    private fun filterReportListFromMostRecentDate(reports: List<HomeEndValidityReportItem>): LiveData<List<HomeEndValidityReportItem>>
+    {
+        val result = MutableLiveData<List<HomeEndValidityReportItem>>()
+        viewModelScope.launch {
+            result.value = withContext(Dispatchers.IO) {
+                val reportsFiltered = reports.filter { it.isValid }.groupBy { it.reportEndDate }.map { it.value.first() }
+                val dateNow = System.currentTimeMillis()
+                reportsFiltered.forEach { reportFiltered ->
+                    val delta = reportFiltered.reportEndDate - dateNow
+                    reportFiltered.reportDeltaDay = delta / 1000 / 60 / 60 / 24
+                }
+                return@withContext reportsFiltered.sortedBy { it.reportEndDate }
+            }
+        }
+        return result
     }
 }

@@ -2,8 +2,8 @@ package com.skichrome.oc.easyvgp.viewmodel
 
 import androidx.lifecycle.*
 import com.skichrome.oc.easyvgp.R
-import com.skichrome.oc.easyvgp.model.MachineRepository
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.base.MachineRepository
 import com.skichrome.oc.easyvgp.model.local.database.Machine
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
 import com.skichrome.oc.easyvgp.util.Event
@@ -61,12 +61,12 @@ class MachineViewModel(private val repository: MachineRepository) : ViewModel()
 
     // --- Events
 
-    fun onClickMachine(machine: Machine)
+    fun onClickSelectMachine(machine: Machine)
     {
         _machineClicked.value = Event(machine)
     }
 
-    fun onLongClickMachine(machineId: Long)
+    fun onClickEditMachine(machineId: Long)
     {
         _machineLongClicked.value = Event(machineId)
     }

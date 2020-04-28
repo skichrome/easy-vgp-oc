@@ -15,13 +15,63 @@
       },
       "oauth_client": [
         {
-          "client_id": "854847153975-7m55a0u9bi20rbr46h24umkod5j83ddg.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.skichrome.oc.easyvgp",
-            "certificate_hash": "ba95679d42387640a19d82c3bc84cb9ebe29987b"
-          }
-        },
+          "client_id": "854847153975-0pcke0i02e59761kbuspn1e0pn0etb8i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_u3iGU1cf94JFRfnc9Rc3fciKeb-a0-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "854847153975-0pcke0i02e59761kbuspn1e0pn0etb8i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:854847153975:android:9dbb7bc9d268e9047b1cb2",
+        "android_client_info": {
+          "package_name": "com.skichrome.oc.easyvgp.demo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "854847153975-0pcke0i02e59761kbuspn1e0pn0etb8i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_u3iGU1cf94JFRfnc9Rc3fciKeb-a0-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "854847153975-0pcke0i02e59761kbuspn1e0pn0etb8i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:854847153975:android:27bfd39ef420bd497b1cb2",
+        "android_client_info": {
+          "package_name": "com.skichrome.oc.easyvgp.dev"
+        }
+      },
+      "oauth_client": [
         {
           "client_id": "854847153975-0pcke0i02e59761kbuspn1e0pn0etb8i.apps.googleusercontent.com",
           "client_type": 3

@@ -3,20 +3,30 @@ package com.skichrome.oc.easyvgp.model.remote
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
-import com.skichrome.oc.easyvgp.model.AdminSource
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
+import com.skichrome.oc.easyvgp.model.base.AdminSource
 import com.skichrome.oc.easyvgp.model.local.database.ControlPoint
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
 import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints
+import com.skichrome.oc.easyvgp.model.remote.util.RemoteControlPoint
+import com.skichrome.oc.easyvgp.model.remote.util.RemoteMachineType
+import com.skichrome.oc.easyvgp.model.remote.util.RemoteMachineTypeWithControlPoints
 import com.skichrome.oc.easyvgp.util.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatchers: CoroutineDispatcher = Dispatchers.IO) : AdminSource
+class RemoteAdminSource(private val dispatchers: CoroutineDispatcher = Dispatchers.IO) :
+    AdminSource
 {
+    // =================================
+    //              Fields
+    // =================================
+
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+
     // =================================
     //        Superclass Methods
     // =================================
@@ -25,7 +35,7 @@ class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatche
         return@withContext try
         {
             val results = getMachineTypesCollection().get()
-                .awaitQuery()
+                .await()
                 ?.toObjects(RemoteMachineType::class.java)?.toList()
                 ?.map { MachineType(id = it.id, legalName = it.legalName, name = it.name) }
 
@@ -42,7 +52,7 @@ class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatche
         return@withContext try
         {
             val results = getControlPointCollection().get()
-                .awaitQuery()
+                .await()
                 ?.toObjects(RemoteControlPoint::class.java)?.toList()
                 ?.map { ControlPoint(id = it.id, name = it.name, code = it.code) }
 
@@ -61,7 +71,7 @@ class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatche
             getMachineTypesCollection()
                 .document("${machineType.id}")
                 .set(machineType)
-                .awaitUpload()
+                .await()
             Success(machineType.id)
         }
         catch (e: Exception)
@@ -76,7 +86,7 @@ class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatche
             getControlPointCollection()
                 .document("${controlPoint.id}")
                 .set(controlPoint)
-                .awaitUpload()
+                .await()
             Success(controlPoint.id)
         }
         catch (e: Exception)
@@ -91,7 +101,7 @@ class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatche
             val results = getMachineTypesControlPointCollection()
                 .document("$id")
                 .get()
-                .awaitDocument()
+                .await()
                 .toObject<RemoteMachineTypeWithControlPoints>()
                 ?.let {
                     MachineTypeWithControlPoints(
@@ -126,12 +136,12 @@ class RemoteAdminSource(private val db: FirebaseFirestore, private val dispatche
                 getMachineTypesControlPointCollection()
                     .document("${machineTypeWithControlPoints.machineType.id}")
                     .delete()
-                    .awaitUpload()
+                    .await()
 
                 getMachineTypesControlPointCollection()
                     .document("${machineTypeWithControlPoints.machineType.id}")
                     .set(machineTypeWithControlPoints)
-                    .awaitUpload()
+                    .await()
 
                 val idList = machineTypeWithControlPoints.controlPoints.map { it.id }
                 Success(idList)

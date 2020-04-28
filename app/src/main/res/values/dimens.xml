@@ -2,12 +2,21 @@
 
 <resources>
     <dimen name="btn_bottom_margin">24dp</dimen>
+    <dimen name="btn_top_margin">24dp</dimen>
+    <dimen name="btn_end_margin">24dp</dimen>
     <dimen name="tv_top_margin">64dp</dimen>
     <dimen name="fab_margin">24dp</dimen>
+
+    <dimen name="form_layout_margin_horizontal">12dp</dimen>
+    <dimen name="recycler_view_margin_horizontal">4dp</dimen>
 
     <!-- Input fields -->
     <dimen name="tv_input_margin">16dp</dimen>
     <dimen name="edit_text_drawable_padding">16dp</dimen>
     <dimen name="divider_top_margin">16dp</dimen>
     <dimen name="divider_horizontal_margin">64dp</dimen>
+
+    <dimen name="margin_do_not_hide_fab">100dp</dimen>
+
+    <dimen name="glide_img_corner_radius">6dp</dimen>
 </resources>

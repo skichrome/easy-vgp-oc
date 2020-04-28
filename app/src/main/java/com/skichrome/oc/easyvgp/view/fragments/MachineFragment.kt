@@ -3,13 +3,13 @@ package com.skichrome.oc.easyvgp.view.fragments
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.GridLayoutManager
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentMachineBinding
 import com.skichrome.oc.easyvgp.model.local.database.Machine
 import com.skichrome.oc.easyvgp.util.AutoClearedValue
 import com.skichrome.oc.easyvgp.util.EventObserver
+import com.skichrome.oc.easyvgp.util.addGridLayoutManager
 import com.skichrome.oc.easyvgp.util.snackBar
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.view.fragments.adapters.MachineFragmentAdapter
@@ -27,7 +27,7 @@ class MachineFragment : BaseBindingFragment<FragmentMachineBinding>()
         MachineViewModelFactory((requireActivity().application as EasyVGPApplication).machineRepository)
     }
 
-    private var adapter by AutoClearedValue<MachineFragmentAdapter>()
+    private var machineAdapter by AutoClearedValue<MachineFragmentAdapter>()
 
     // =================================
     //        Superclass Methods
@@ -49,9 +49,9 @@ class MachineFragment : BaseBindingFragment<FragmentMachineBinding>()
 
     private fun configureViewModel() = viewModel.apply {
         changeCustomerId(args.customerId)
-        machineLongClicked.observe(this@MachineFragment, EventObserver { goToAddEditMachineFragment(it) })
-        machineClicked.observe(this@MachineFragment, EventObserver { goToVgpFragment(it) })
-        errorMessage.observe(this@MachineFragment, EventObserver { binding.root.snackBar(getString(it)) })
+        machineLongClicked.observe(viewLifecycleOwner, EventObserver { goToAddEditMachineFragment(it) })
+        machineClicked.observe(viewLifecycleOwner, EventObserver { goToVgpFragment(it) })
+        errorMessage.observe(viewLifecycleOwner, EventObserver { binding.root.snackBar(getString(it)) })
     }
 
     private fun configureDataBinding()
@@ -66,11 +66,12 @@ class MachineFragment : BaseBindingFragment<FragmentMachineBinding>()
 
     private fun configureRecyclerView()
     {
-        adapter = MachineFragmentAdapter(viewModel)
-        val spanCount = if (resources.getBoolean(R.bool.isTablet)) 3 else 2
+        machineAdapter = MachineFragmentAdapter(viewModel)
 
-        binding.fragMachineRecyclerView.layoutManager = GridLayoutManager(context, spanCount)
-        binding.fragMachineRecyclerView.adapter = adapter
+        binding.fragMachineRecyclerView.apply {
+            adapter = machineAdapter
+            addGridLayoutManager(resources.getBoolean(R.bool.isTablet))
+        }
     }
 
     private fun goToAddEditMachineFragment(machineId: Long = -1L)

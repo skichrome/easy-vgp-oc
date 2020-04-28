@@ -1,5 +1,6 @@
 package com.skichrome.oc.easyvgp.model.local.database
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
@@ -21,6 +22,10 @@ data class Machine(
     @ColumnInfo(name = "machine_name") val name: String,
     @ColumnInfo(name = "machine_serial") val serial: String,
     @ColumnInfo(name = "machine_brand") val brand: String,
+    @ColumnInfo(name = "machine_model") val model: String,
+    @ColumnInfo(name = "machine_manufacturing_year") val manufacturingYear: Int,
+    @ColumnInfo(name = "machine_local_photo_reference") val localPhotoRef: String?,
+    @ColumnInfo(name = "machine_remote_photo_reference") var remotePhotoRef: Uri? = null,
     @ColumnInfo(name = "customer_ref", index = true) val customer: Long,
     @ColumnInfo(name = "machine_type_ref", index = true) val type: Long
 )
