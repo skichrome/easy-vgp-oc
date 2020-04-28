@@ -186,6 +186,10 @@
             android:name="reportDateToEdit"
             android:defaultValue="-1L"
             app:argType="long" />
+        <argument
+            android:name="reportDateFromDatePicker"
+            android:defaultValue="-1L"
+            app:argType="long" />
         <action
             android:id="@+id/action_newVgpSetupFragment_to_newVgpFragment"
             app:destination="@id/newVgpFragment"
@@ -193,5 +197,34 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_newVgpSetupFragment_to_dateSelectorFragment"
+            app:destination="@id/dateSelectorFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/dateSelectorFragment"
+        android:name="com.skichrome.oc.easyvgp.view.fragments.DatePickerFragment"
+        android:label="DateSelectorFragment">
+        <argument
+            android:name="machineId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <argument
+            android:name="customerId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <argument
+            android:name="machineTypeId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <argument
+            android:name="reportDateToEdit"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_dateSelectorFragment_to_newVgpSetupFragment"
+            app:destination="@id/newVgpSetupFragment"
+            app:popUpTo="@id/newVgpSetupFragment"
+            app:popUpToInclusive="true" />
+    </dialog>
 </navigation>

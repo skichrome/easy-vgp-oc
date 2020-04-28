@@ -43,4 +43,5 @@
     <color name="noDeadlineColor">#64DD17</color>
 
     <color name="darkThemeSeparatorColor">#E15C5C5C</color>
+    <color name="secondaryColorBtnDisabled">#C1C0C0</color>
 </resources>

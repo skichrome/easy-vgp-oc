@@ -20,12 +20,16 @@
 
     <!-- Material button style -->
     <style name="EasyVGPTheme.buttonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundTint">@color/secondaryColor</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="backgroundTint">@color/btn_colors</item>
         <item name="android:textColor">@color/secondaryTextColor</item>
         <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
     <style name="EasyVGPTheme.buttonStyle.noOutline" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:textColor">@color/secondaryColor</item>
         <item name="fontFamily">@font/roboto_medium</item>
     </style>

@@ -37,13 +37,39 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fragmentNewVgpSetupReportDateLayout"
+                    style="@style/EasyVGPTheme.editTextInputLayoutStyle"
+                    android:layout_width="0dp"
+                    android:layout_marginEnd="@dimen/tv_input_margin"
+                    android:hint="@string/fragment_new_vgp_setup_report_date"
+                    app:layout_constraintEnd_toStartOf="@+id/fragmentNewVgpSetupReportDateSetBtn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupTitle">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/fragmentNewVgpSetupReportDate"
+                        style="@style/EasyVGPTheme.editTextInputStyle"
+                        android:focusable="false"
+                        android:inputType="date"
+                        android:text="" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/fragmentNewVgpSetupReportDateSetBtn"
+                    style="@style/EasyVGPTheme.buttonStyle"
+                    android:text="@string/fragment_new_vgp_setup_report_date_btn"
+                    app:layout_constraintBottom_toBottomOf="@+id/fragmentNewVgpSetupReportDateLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/fragmentNewVgpSetupReportDateLayout" />
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/fragmentNewVgpSetupMachineHoursLayout"
                     style="@style/EasyVGPTheme.editTextInputLayoutStyle"
                     android:layout_width="0dp"
-                    android:hint="@string/fragment_new_vgp_setup_sw_machine_hours"
+                    android:hint="@string/fragment_new_vgp_setup_machine_hours"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupTitle">
+                    app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupReportDateLayout">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/fragmentNewVgpSetupMachineHours"

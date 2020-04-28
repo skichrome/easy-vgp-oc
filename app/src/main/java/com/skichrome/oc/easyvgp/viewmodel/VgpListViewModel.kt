@@ -87,6 +87,7 @@ class VgpListViewModel(private val repository: VgpListRepository) : BaseViewMode
             result.value = items
                 .filter { it.machineId == machineId }
                 .groupBy { it.reportDate }.map { it.value.first() }
+                .sortedBy { it.reportDate }
         }
         return result
     }
