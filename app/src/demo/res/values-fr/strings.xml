@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <resources>
     <string name="app_name">[Demo] - Easy VGP</string>
-    <string name="file_provider_authority" translatable="false">com.skichrome.oc.easyvgp.demo.fileprovider</string>
 </resources>

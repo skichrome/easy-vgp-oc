@@ -72,30 +72,17 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
     private fun configureUI()
     {
         val dateFormat = SimpleDateFormat.getDateInstance()
-
         when
         {
             args.reportDateToEdit == -1L ->
             {
-                userSelectedReportDate = args.reportDateFromDatePicker
+                userSelectedReportDate = if (args.reportDateFromDatePicker != -1L) args.reportDateFromDatePicker else System.currentTimeMillis()
 
-                val displayDate = if (userSelectedReportDate != -1L)
-                    dateFormat.format(userSelectedReportDate)
-                else
-                    dateFormat.format(System.currentTimeMillis())
-
-                binding.fragmentNewVgpSetupReportDate.setText(displayDate)
-
+                binding.fragmentNewVgpSetupReportDate.setText(dateFormat.format(userSelectedReportDate))
                 binding.fragmentNewVgpSetupReportDateLayout.endIconMode = TextInputLayout.END_ICON_CLEAR_TEXT
                 binding.fragmentNewVgpSetupReportDateSetBtn.isEnabled = true
                 binding.fragmentNewVgpSetupReportDateSetBtn.setOnClickListener {
-                    val opt = NewVgpSetupFragmentDirections.actionNewVgpSetupFragmentToDateSelectorFragment(
-                        machineId = args.machineId,
-                        machineTypeId = args.machineTypeId,
-                        customerId = args.customerId,
-                        reportDateToEdit = args.reportDateToEdit
-                    )
-                    findNavController().navigate(opt)
+                    navigateToDatePickerFragment()
                 }
             }
             args.reportDateToEdit != -1L ->
@@ -253,6 +240,17 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
             else
                 viewModel.updateNewVgpExtras(extras)
         }
+    }
+
+    private fun navigateToDatePickerFragment()
+    {
+        val opt = NewVgpSetupFragmentDirections.actionNewVgpSetupFragmentToDateSelectorFragment(
+            machineId = args.machineId,
+            machineTypeId = args.machineTypeId,
+            customerId = args.customerId,
+            reportDateToEdit = args.reportDateToEdit
+        )
+        findNavController().navigate(opt)
     }
 
     private fun navigateToNewVgpFragment(vgpExtraId: Long)

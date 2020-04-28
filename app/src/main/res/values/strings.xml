@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Easy VGP</string>
-    <string name="file_provider_authority">com.skichrome.oc.easyvgp.fileprovider</string>
+    <string name="file_provider_authority" translatable="false">com.skichrome.oc.easyvgp.fileprovider</string>
     <string name="title_fragment_home">Summary</string>
     <string name="title_fragment_profile">Profile settings</string>
     <string name="title_fragment_admin">Administration</string>
