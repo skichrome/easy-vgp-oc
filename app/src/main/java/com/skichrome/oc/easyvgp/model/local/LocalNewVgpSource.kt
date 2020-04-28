@@ -15,10 +15,10 @@ class LocalNewVgpSource(
     private val ctrlPointDataDao: ControlPointDataDao,
     private val machineCtrlPtExtraDao: MachineControlPointDataExtraDao,
     private val machineCtrlPointDao: MachineControlPointDataDao,
-    private val dispatchers: CoroutineDispatcher = Dispatchers.IO
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : NewVgpSource
 {
-    override suspend fun getAllControlPointsWithMachineType(machineTypeId: Long): Results<MachineTypeWithControlPoints> = withContext(dispatchers) {
+    override suspend fun getAllControlPointsWithMachineType(machineTypeId: Long): Results<MachineTypeWithControlPoints> = withContext(dispatcher) {
         return@withContext try
         {
             Success(machineTypeDao.getMachineTypeWithControlPointsFromMachineTypeId(machineTypeId))
@@ -29,7 +29,7 @@ class LocalNewVgpSource(
         }
     }
 
-    override suspend fun getReportFromDate(date: Long): Results<List<Report>> = withContext(dispatchers) {
+    override suspend fun getReportFromDate(date: Long): Results<List<Report>> = withContext(dispatcher) {
         return@withContext try
         {
             val result = machineCtrlPointDao.getPreviouslyInsertedReport(date)
@@ -43,7 +43,7 @@ class LocalNewVgpSource(
         }
     }
 
-    override suspend fun insertControlPointData(controlPointsData: ControlPointData): Results<Long> = withContext(dispatchers) {
+    override suspend fun insertControlPointData(controlPointsData: ControlPointData): Results<Long> = withContext(dispatcher) {
         return@withContext try
         {
             val result = ctrlPointDataDao.insertReplace(controlPointsData)
@@ -55,7 +55,7 @@ class LocalNewVgpSource(
         }
     }
 
-    override suspend fun updateControlPointData(controlPointsData: List<ControlPointData>): Results<Int> = withContext(dispatchers) {
+    override suspend fun updateControlPointData(controlPointsData: List<ControlPointData>): Results<Int> = withContext(dispatcher) {
         return@withContext try
         {
             val result = ctrlPointDataDao.update(*controlPointsData.toTypedArray())
@@ -67,8 +67,19 @@ class LocalNewVgpSource(
         }
     }
 
+    override suspend fun updateControlResult(extraId: Long, controlResult: ControlResult): Results<Int> = withContext(dispatcher) {
+        return@withContext try
+        {
+            Success(machineCtrlPtExtraDao.updateControlResult(extraId, controlResult))
+        }
+        catch (e: Exception)
+        {
+            Error(e)
+        }
+    }
+
     override suspend fun insertMachineCtrlPtDataExtra(controlPointsDataExtra: MachineControlPointDataExtra): Results<Long> =
-        withContext(dispatchers) {
+        withContext(dispatcher) {
             return@withContext try
             {
                 Success(machineCtrlPtExtraDao.insertReplace(controlPointsDataExtra))
@@ -80,7 +91,7 @@ class LocalNewVgpSource(
         }
 
     override suspend fun insertMachineCtrlPtDataCrossRef(machineControlPointsData: MachineControlPointData): Results<Long> =
-        withContext(dispatchers) {
+        withContext(dispatcher) {
             return@withContext try
             {
                 val result = machineCtrlPointDao.insertReplace(machineControlPointsData)

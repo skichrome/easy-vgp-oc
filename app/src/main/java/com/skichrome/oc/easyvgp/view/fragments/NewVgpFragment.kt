@@ -9,6 +9,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentNewVgpBinding
+import com.skichrome.oc.easyvgp.model.local.database.ControlResult
 import com.skichrome.oc.easyvgp.util.AutoClearedValue
 import com.skichrome.oc.easyvgp.util.EventObserver
 import com.skichrome.oc.easyvgp.util.snackBar
@@ -83,10 +84,7 @@ class NewVgpFragment : BaseBindingFragment<FragmentNewVgpBinding>()
     private fun configureBtn()
     {
         binding.fragVGPFab.setOnClickListener {
-            if (args.reportDateToEdit == -1L)
-                viewModel.saveCtrlPointDataList(args.machineId, args.vgpReportExtra)
-            else
-                viewModel.updatePreviouslyCreatedReport()
+            showControlResultAlertDialog()
         }
     }
 
@@ -111,6 +109,33 @@ class NewVgpFragment : BaseBindingFragment<FragmentNewVgpBinding>()
             }
         }
         dialog?.show()
+    }
+
+    private fun showControlResultAlertDialog()
+    {
+        activity?.let {
+            AlertDialog.Builder(it).apply {
+                setTitle(R.string.dialog_control_result_title)
+                var selectedItem = 0
+
+                val choicesArray = ControlResult.values()
+                setSingleChoiceItems(
+                    choicesArray.map { resultRes -> getString(resultRes.result) }.toTypedArray(),
+                    selectedItem
+                ) { _, position -> selectedItem = position }
+                setPositiveButton(R.string.dialog_control_result_positive_btn) { _, _ ->
+                    viewModel.updateControlResult(
+                        extraId = args.vgpReportExtra,
+                        machineId = args.machineId,
+                        isUpdateMode = args.reportDateToEdit == -1L,
+                        controlResult = choicesArray[selectedItem]
+                    )
+                }
+                setNegativeButton(R.string.dialog_control_result_negative_btn, null)
+            }
+                .create()
+                .show()
+        }
     }
 
     private fun navigateToVgpList()

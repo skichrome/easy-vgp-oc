@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -180,23 +179,22 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
 
     private fun getUserEnteredValues()
     {
-        var canRegisterCustomer = true
+        var canRegisterAMachine = true
 
         inputList.forEach { textView ->
 
             if (textView.text.toString() == "")
             {
-                canRegisterCustomer = false
+                canRegisterAMachine = false
                 textView.error = getString(R.string.frag_add_edit_customer_error_input)
-                view?.snackBar(getString(R.string.frag_add_edit_customer_error_input_snack_bar_msg))
                 return@forEach
             }
         }
 
         if (machineType == null || machinePhotoPath == null)
-            canRegisterCustomer = false
+            canRegisterAMachine = false
 
-        if (canRegisterCustomer)
+        if (canRegisterAMachine)
         {
             val machine = Machine(
                 machineId = if (args.machineId != -1L) args.machineId else 0,
@@ -216,6 +214,8 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
             else
                 viewModel.saveMachine(machine)
         }
+        else
+            binding.root.snackBar(getString(R.string.frag_add_edit_machine_error_input_snack_bar_msg))
     }
 
     private fun launchCamera()
@@ -230,11 +230,10 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
                             ?.createOrGetJpegFile(PICTURES_FOLDER_NAME, "machine")
                     }
                     else null
-
                 }
                 catch (e: IOException)
                 {
-                    Log.e("AddEditMachineFrag", "Error when getting photo file : ${e.message}", e)
+                    errorLog("Error when getting photo file : ${e.message}", e)
                     null
                 }
 

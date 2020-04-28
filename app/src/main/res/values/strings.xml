@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Easy VGP</string>
-    <string name="file_provider_authority">com.skichrome.oc.easyvgp.fileprovider</string>
+    <string name="file_provider_authority" translatable="false">com.skichrome.oc.easyvgp.fileprovider</string>
     <string name="title_fragment_home">Summary</string>
     <string name="title_fragment_profile">Profile settings</string>
     <string name="title_fragment_admin">Administration</string>
@@ -138,6 +138,7 @@
     <string name="profile_fragment_company_name_hint">Your company name</string>
     <string name="profile_fragment_company_siret_hint">Your company Siret</string>
     <string name="add_edit_machine_frag_img_machine_content_desc">Add a picture for this machine</string>
+    <string name="frag_add_edit_machine_error_input_snack_bar_msg">You must enter all required fields and take a picture for this machine</string>
 
     <!-- Admin ViewModel -->
     <string name="admin_view_model_machine_type_insert_success">Successfully saved new machine type</string>
@@ -191,6 +192,9 @@
     <string name="frag_vgp_dialog_cancel">Cancel</string>
     <string name="frag_vgp_dialog_title">Set your comment for this control point</string>
     <string name="dialog_comment_comment_hint">Comment</string>
+    <string name="dialog_control_result_title">Which result you give for this control ?</string>
+    <string name="dialog_control_result_positive_btn">OK</string>
+    <string name="dialog_control_result_negative_btn">Cancel</string>
 
     <!-- VGP List -->
     <string name="fragment_vgp_list_work_enqueued_info">You will receive a notification when your report will be ready</string>
@@ -238,7 +242,9 @@
     <string name="fragment_new_vgp_setup_sw_machine_control_with_load">Were the tests carried out with a load ?</string>
     <string name="fragment_new_vgp_setup_sw_machine_control_with_nominal_load">Were the tests carried out with the nominal load + 10% ?</string>
     <string name="fragment_new_vgp_setup_sw_machine_control_triggered_sensors">Did the load triggered load limiters or load indicators ?</string>
-    <string name="fragment_new_vgp_setup_sw_machine_hours">machine hours</string>
+    <string name="fragment_new_vgp_setup_report_date">creation date</string>
+    <string name="fragment_new_vgp_setup_report_date_btn">Set</string>
+    <string name="fragment_new_vgp_setup_machine_hours">machine hours</string>
     <string name="fragment_new_vgp_setup_machine_intervention_place">Intervention place</string>
     <string name="fragment_new_vgp_setup_machine_load_type">Load type</string>
     <string name="fragment_new_vgp_setup_machine_load_value">Load mass</string>

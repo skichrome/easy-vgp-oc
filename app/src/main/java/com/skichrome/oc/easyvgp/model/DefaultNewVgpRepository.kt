@@ -4,10 +4,7 @@ import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.base.NewVgpRepository
 import com.skichrome.oc.easyvgp.model.base.NewVgpSource
-import com.skichrome.oc.easyvgp.model.local.database.ControlPointData
-import com.skichrome.oc.easyvgp.model.local.database.MachineControlPointData
-import com.skichrome.oc.easyvgp.model.local.database.MachineTypeWithControlPoints
-import com.skichrome.oc.easyvgp.model.local.database.Report
+import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.model.local.util.ControlPointDataVgp
 
 class DefaultNewVgpRepository(private val localSource: NewVgpSource) : NewVgpRepository
@@ -56,4 +53,7 @@ class DefaultNewVgpRepository(private val localSource: NewVgpSource) : NewVgpRep
 
     override suspend fun updateControlPointData(ctrlPointData: List<ControlPointData>): Results<Int> =
         localSource.updateControlPointData(ctrlPointData)
+
+    override suspend fun updateControlResult(extraId: Long, controlResult: ControlResult): Results<Int> =
+        localSource.updateControlResult(extraId, controlResult)
 }

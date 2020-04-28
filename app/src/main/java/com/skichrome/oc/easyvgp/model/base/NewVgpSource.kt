@@ -10,6 +10,7 @@ interface NewVgpSource
 
     suspend fun insertControlPointData(controlPointsData: ControlPointData): Results<Long>
     suspend fun updateControlPointData(controlPointsData: List<ControlPointData>): Results<Int>
+    suspend fun updateControlResult(extraId: Long, controlResult: ControlResult): Results<Int>
     suspend fun insertMachineCtrlPtDataExtra(controlPointsDataExtra: MachineControlPointDataExtra): Results<Long>
     suspend fun insertMachineCtrlPtDataCrossRef(machineControlPointsData: MachineControlPointData): Results<Long>
 }

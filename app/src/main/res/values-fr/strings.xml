@@ -1,0 +1,250 @@
+<resources>
+    <string name="app_name">Easy VGP</string>
+    <string name="title_fragment_home">Résumé</string>
+    <string name="title_fragment_profile">Paramètres du profil</string>
+    <string name="title_fragment_admin">Administration</string>
+    <string name="title_fragment_customer">Sélectionnez un client</string>
+    <string name="title_fragment_machine">Selectionnez une machine</string>
+    <string name="title_fragment_add_customer">Créez un client</string>
+    <string name="title_fragment_edit_customer">Editez ce client</string>
+    <string name="title_fragment_add_machine">Créez une machine</string>
+    <string name="title_fragment_edit_machine">Editez cette machine</string>
+    <string name="title_fragment_vgp_list">Liste des rapports</string>
+    <string name="title_fragment_vgp_setup_new">Créer un rapport</string>
+    <string name="title_fragment_vgp_setup_edit">Editer ce rapport</string>
+    <string name="title_fragment_vgp_new">Remplissez les points de contrôle</string>
+    <string name="title_fragment_vgp_edit">Editez les points de contrôle</string>
+
+    <!-- MainActivity -->
+    <string name="frag_login_success">Connexion réussie</string>
+    <string name="frag_login_error">Nous n\'avons pas réussi à vous identifier, si le problème persiste contactez nous</string>
+
+    <!-- Home Fragment -->
+    <string name="frag_home_btn_new_vgp">Nouveau contrôle</string>
+    <string name="frag_home_no_report_approach_deadline">Aucun contrôle n\'approche sa date de fin de validité, bravo !</string>
+    <string name="home_fragment_chart_deadline_over">Date de fin de validité dépassée</string>
+    <string name="home_fragment_chart_deadline_five_days">5 jours</string>
+    <string name="home_fragment_chart_deadline_fithteen_days">15 jours</string>
+    <string name="home_fragment_chart_no_close_deadline">Pas de date de fin de validité proche</string>
+    <string name="home_fragment_chart_center_text">Dates de fin de validité</string>
+    <string name="item_rv_home_frag_machine_image_desc">image de la machine</string>
+    <string name="item_rv_home_frag_machine_remaining_validity">%1$d jours</string>
+    <string name="home_fragment_error_download_report_before">Veuillez télécharger le rapport avant de l\'envoyer par mail</string>
+
+    <string-array name="home_fragment_single_choice_alert_dialog">
+        <item name="send_report">Voir le résultat</item>
+        <item name="send_remind_email">Envoyer un email avec le rapport au client</item>
+    </string-array>
+
+    <string name="share_report_dialog_title">Que voulez-vous faire avec ce rapport ?</string>
+    <string name="share_report_dialog_positive_btn">OK</string>
+    <string name="share_report_dialog_negative_btn">Annuler</string>
+
+    <string name="share_report_email_subject">Votre rapport est disponible</string>
+    <string name="share_report_remind_email_subject">Alerte : rapport en fin de validité</string>
+    <string name="share_report_intent_chooser">Sélectionnez votre application de mail</string>
+    <string name="share_report_no_mail_app_found">nous n\'avons pas d\'application permettant l\'envoi de mail sur votre appareil</string>
+    <string name="share_report_email_content">
+        Madame, Monsieur,\n\n
+        Votre rapport créé le %1$s est disponible, vous le trouverez en pièce jointe.\n\n
+        Cordialement,\n
+        %2$s
+    </string>
+    <string name="share_report_remind_email_content">
+        Madame, Monsieur,\n\n
+        Votre rapport créé le %1$s ne sera plus valide dans %2$d jours, une nouvelle visite est à prévoir pour le renouveler.\n\n
+        Cordialement,\n
+        %3$s
+    </string>
+
+    <!-- Home ViewModel -->
+    <string name="view_model_home_user_filter_error">Nous avons rencontré une erreur en essayant de vous identifier</string>
+    <string name="view_model_home_user_insert">Votre profil à été créé avec succès</string>
+    <string name="view_model_home_user_insert_error">Nous avons détecté une erreur nous empêchant de créer votre profil</string>
+    <string name="view_model_home_user_update">Votre profil à été mis à jour avec succès</string>
+    <string name="view_model_home_user_update_error">Nous avons détecté une erreur nous empêchant de mettre à jour votre profil</string>
+    <string name="view_model_home_update_error">Nous avons détecté une erreur en mettant à jour la base de données locale</string>
+
+    <!-- Profile Fragment -->
+    <string name="setting_fragment_account_img_content_desc">Image de profil du compte</string>
+    <string name="profile_fragment_approval_hint">Numéro d\'agrément</string>
+    <string name="profile_fragment_vat_hint">Numéro de TVA</string>
+    <string name="profile_fragment_company_title">Votre entreprise</string>
+    <string name="profile_fragment_no_app_take_picture_intent">Nous n\'avons pas trouver d\'explorateurs de fichiers installé sur votre appareil</string>
+    <string name="profile_fragment_signature_title">Paramètre de la signature</string>
+    <string name="profile_fragment_import_btn_text">Importer</string>
+    <string name="profile_fragment_signature_enable_switch_text">Activer la signature sur les rapports</string>
+    <string name="profile_fragment_company_logo_title">Logo de votre entreprise</string>
+    <string name="profile_fragment_no_logo_default_text">Pas d\'image sélectionnée</string>
+    <string name="profile_fragment_company_name_hint">Nom de votre entreprise</string>
+    <string name="profile_fragment_company_siret_hint">SIRET de votre entreprise</string>
+
+    <!-- Add Edit Customer Fragment -->
+    <string name="frag_add_edit_customer_name_title">Référent</string>
+    <string name="frag_add_edit_customer_siret_title">SIRET</string>
+    <string name="frag_add_edit_customer_contact_title">Informations de contact</string>
+    <string name="frag_add_edit_customer_location_title">Adresse du client</string>
+    <string name="frag_add_edit_customer_notes_title">Notes</string>
+
+    <string name="frag_add_edit_customer_company_name_hint">Entreprise</string>
+    <string name="frag_add_edit_customer_city_hint">Ville</string>
+    <string name="frag_add_edit_customer_first_name_hint">Nom</string>
+    <string name="frag_add_edit_customer_last_name_hint">Prénom</string>
+    <string name="frag_add_edit_customer_siret_hint">SIRET</string>
+    <string name="frag_add_edit_customer_email_hint">Adresse mail</string>
+    <string name="frag_add_edit_customer_phone_hint">téléphone</string>
+    <string name="frag_add_edit_customer_mobile_phone_hint">Portable</string>
+    <string name="frag_add_edit_customer_address_hint">adresse postale</string>
+    <string name="frag_add_edit_customer_post_code_hint">Code postal</string>
+    <string name="frag_add_edit_customer_notes_hint">Notes diverses à propos de votre client</string>
+
+    <string name="frag_add_edit_customer_error_input_snack_bar_msg">Vous devez compléter tous les champs</string>
+    <string name="frag_add_edit_customer_error_input">Champ requis</string>
+
+    <!-- Customer ViewModel -->
+    <string name="view_model_customer_get_by_id">Nous avons détecté une erreur en essayant de charger ce client</string>
+    <string name="view_model_customer_insert_error">Nous avons détecté une erreur en essayant de sauvegarder ce client</string>
+    <string name="view_model_customer_update_error">Nous avons détecté une erreur en essayant de mettre à jour ce client</string>
+
+    <!-- Customer RV Item -->
+    <string name="rv_item_fragment_customer_img_edit_content_desc">Image d\'édition du client correspondant</string>
+
+    <!-- Menu items -->
+    <string name="menu_log_out_title">Déconnexion</string>
+    <string name="menu_settings_title">Paramètres</string>
+    <string name="menu_settings_profile">Profil</string>
+    <string name="menu_admin_title">Administration</string>
+
+    <!-- Machine ViewModel -->
+    <string name="view_model_machine_machines_list">Nous avons détecté une erreur en essayant de récupérer la liste des machines</string>
+    <string name="view_model_machine_machines_type_list">Nous avons détecté une erreur en essayant de récupérer la liste des types de machines</string>
+    <string name="view_model_machine_machine_by_id_error">Nous avons détecté une erreur en essayant de charger cette machine</string>
+    <string name="view_model_machine_insert_error">Nous avons détecté une erreur en essayant de sauvegarder cette machine</string>
+    <string name="view_model_machine_update_error">Nous avons détecté une erreur en essayant de mettre à jour cette machine</string>
+
+    <!-- Machine RecyclerView Item -->
+    <string name="rv_item_machines_card_logo">Image de la machine</string>
+    <string name="rv_item_machines_btn_edit">Editer</string>
+
+    <!-- Add Edit Machine Fragment -->
+    <string name="add_edit_machine_frag_title">Caractéristiques de la machine</string>
+    <string name="add_edit_machine_frag_machine_type_title">Type de machine</string>
+    <string name="add_edit_machine_frag_machine_picture_title">Photo de la machine</string>
+    <string name="add_edit_machine_frag_hint_name">Nom de la machine</string>
+    <string name="add_edit_machine_frag_hint_brand">Marque de la machine</string>
+    <string name="add_edit_machine_frag_hint_model">Modèle de la machine</string>
+    <string name="add_edit_machine_frag_hint_serial">Numéro de série de la machine</string>
+    <string name="add_edit_machine_frag_hint_year">Année de première mise en service</string>
+    <string name="add_edit_machine_frag_img_machine_content_desc">Ajouter une image pour cette machine</string>
+    <string name="frag_add_edit_machine_error_input_snack_bar_msg">Vous devez compléter tous les champs et ajouter une photo pour créer une machine</string>
+
+    <!-- Admin ViewModel -->
+    <string name="admin_view_model_machine_type_insert_success">Le nouveau type de machine a été créé avec succès</string>
+    <string name="admin_view_model_machine_type_update_success">Le nouveau type de machine a été mis à jour avec succès</string>
+    <string name="admin_view_model_machine_type_list_error">Nous avons rencontré une erreur en récupérant la liste des types de machine</string>
+    <string name="admin_view_model_machine_type_list_refresh_error">Nous avons rencontré une erreur pendant la synchronisation avec le serveur distant</string>
+    <string name="admin_view_model_network_error">Une connexion internet est requise pour certaines fonctionnalités, veuillez vérifier que vous êtes bien connecté</string>
+    <string name="admin_view_model_remote_repo_error">Malgré votre connexion internet, vous avons rencontré une erreur pendant la communication avec le serveur distant</string>
+    <string name="admin_view_model_machine_type_insert_error">Nous avons rencontré une erreur nous empêchant de créer ce type de machine</string>
+    <string name="admin_view_model_machine_type_update_error">Nous avons rencontré une erreur nous empêchant de mettre à jour ce type de machine</string>
+    <string name="admin_view_model_ctrl_point_list_refresh_error">Nous avons rencontré une erreur en récupérant la liste des points de contrôle</string>
+    <string name="admin_view_model_ctrl_point_insert_success">Le nouveau point de contrôle a été créé avec succès</string>
+    <string name="admin_view_model_ctrl_point_update_success">Le nouveau point de contrôle a été mis à jour avec succès</string>
+    <string name="admin_view_model_ctrl_point_insert_error">Nous avons rencontré une erreur nous empêchant de créer ce point de contrôle</string>
+    <string name="admin_view_model_ctrl_point_update_error">Nous avons rencontré une erreur nous empêchant de mettre à jour ce point de contrôle</string>
+    <string name="admin_view_model_machine_ctrl_point_insert_error">Nous avons rencontré une erreur en mettant à jour vos changements</string>
+
+    <!-- Admin Fragment -->
+    <string name="admin_fragment_machine_type_title">Tous les types de machine</string>
+    <string name="admin_fragment_ctrl_points_title">Tous les points de contrôle</string>
+    <string name="admin_fragment_new_machine_type_text_fab">Nouveau type de machine</string>
+    <string name="admin_fragment_new_ctrl_point_text_fab">Nouveau point de contrôle</string>
+
+    <!-- Admin Fragment Dialogs -->
+    <string name="admin_fragment_dialog_ok">Souvegarder</string>
+    <string name="admin_fragment_dialog_cancel">Annuler</string>
+    <string name="admin_fragment_dialog_input_name_hint">Nom commun</string>
+    <string name="admin_fragment_dialog_input_legal_name_hint">Nom légal</string>
+    <string name="admin_fragment_dialog_layout_title_new_machine_type">Nouveau type de machine</string>
+    <string name="admin_fragment_dialog_layout_title_new_ctrl_point">Nouveau point de contrôle</string>
+    <string name="admin_fragment_dialog_layout_title_update_machine_type">Editer ce type de machine</string>
+    <string name="admin_fragment_dialog_layout_title_update_ctrl_point">Editer ce point de contrôle</string>
+    <string name="admin_fragment_dialog_layout_title_machine_type_ctrl_point_list">Sélectionnez tous les points de contrôle liés à ce type de machine</string>
+    <string name="admin_fragment_dialog_error_required_fields">Veuillez compléter tous les champs</string>
+    <string name="dialog_ctrl_point_code">Code du point de contrôle</string>
+    <string name="dialog_ctrl_point_name">Nom du point de contrôle</string>
+
+    <!-- New VGP ViewModel -->
+    <string name="vgp_view_model_machine_type_with_ctrl_points_error">Nous avons rencontré une erreur en récupérant la liste des points de contrôle pour cette machine</string>
+    <string name="vgp_view_model_cannot_save_all_points_not_provided">Veuillez compléter tous les points de contrôle</string>
+    <string name="vgp_view_model_cannot_update">Nous avons rencontré une erreur en mettant à jour ce rapport</string>
+
+    <!-- New VGP Fragment -->
+    <string name="frag_vgp_item_title_ctrl_point">Point de contrôle</string>
+    <string name="frag_vgp_item_title_state_be">BE</string>
+    <string name="frag_vgp_item_title_state_em">EM</string>
+    <string name="frag_vgp_item_title_state_me">ME</string>
+    <string name="frag_vgp_item_title_notes">Notes</string>
+    <string name="frag_vgp_item_comment_img_content_desc">Ajouter un commentaire en touchant cette icône</string>
+    <string name="frag_vgp_dialog_ok">Sauvegarder</string>
+    <string name="frag_vgp_dialog_cancel">Annuler</string>
+    <string name="frag_vgp_dialog_title">Définissez votre commentaire</string>
+    <string name="dialog_comment_comment_hint">Commentaire</string>
+    <string name="dialog_control_result_title">Quel est le résultat de votre contrôle ?</string>
+    <string name="dialog_control_result_positive_btn">Valider</string>
+    <string name="dialog_control_result_negative_btn">Annuler</string>
+
+    <!-- VGP List -->
+    <string name="fragment_vgp_list_work_enqueued_info">Nous vous enverrons une notification lorsque votre rapport sera prêt</string>
+    <string name="fragment_vgp_list_no_pdf_viewer">Nous n\'avons pas trouvé d\'applications permettant d\'ouvrir les documents PDF sur votre appareil</string>
+    <string name="vgp_list_view_model_cannot_edit_validated_report">Attention, vous ne pouvez pas éditer un rapport déjà validé</string>
+    :
+    <!-- Control RecyclerView Item -->
+    <string name="rv_item_bgp_list_pdf_logo">Générer un rapport à partir du brouillon créé</string>
+
+    <!-- Verification types, Control type, Control result and Choice Possibilities enumeration -->
+    <string name="verification_type_visual">Visuel</string>
+    <string name="verification_type_both_visual_functional">Visuel / Fonctionnel</string>
+    <string name="verification_type_functional">Fonctionnel</string>
+
+    <string name="choice_possibilities_good">Bon état</string>
+    <string name="choice_possibilities_medium">Moyen état</string>
+    <string name="choice_possibilities_bad">Mauvais état</string>
+
+    <string name="ctrl_type_one">Mise en service</string>
+    <string name="ctrl_type_two">Vérification générale périodique</string>
+    <string name="ctrl_type_three">Remise en service</string>
+
+    <string name="ctrl_result_ok">L\'examen de l\'état de conservation et les essais de fonctionnement en charge n\'ont pas fait apparaître de défectuosités ni d\'anomalies</string>
+    <string name="ctrl_result_ok_but_need_repair">L\'examen de l\'état de conservation et les essais de fonctionnement à vide et / ou en charge n\'ont pas fait apparaître de défectuosités ni d\'anomalies majeures, mais une intervention est nécessaire</string>
+    <string name="ctrl_result_ko">Des anomalies majeures ont été constatées, pouvant compromettre l\'utilisation de la machine en sécurité</string>
+
+    <!-- Firebase Cloud Messaging -->
+    <string name="cloud_msg_notification_success_title">Un nouveau rapport viens d\'être généré</string>
+    <string name="cloud_msg_notification_error_title">Nous avons rencontré une erreur en générant ce rapport</string>
+    <string name="cloud_msg_notification_success_content">Votre rapport du %1$s pour le modèle de machine %2$s est prêt</string>
+    <string name="cloud_msg_notification_error_content">Nous avons rencontré une erreur en générant votre rapport du %1$s pour le modèle de machine %2$s</string>
+    <string name="cloud_msg_notification_channel">Notifications lorsqu\'un nouveau rapport est disponible</string>
+
+    <!-- Upload Worker -->
+    <string name="upload_report_worker_notification_content">Nous avons rencontré une erreur en mettant en ligne votre rapport généré le %1$s, veuillez réessayer plus tard</string>
+    <string name="upload_report_worker_notification_channel">Notification d\'erreur de mise en ligne d\'un rapport</string>
+
+    <!-- New VGP Setup Fragment -->
+    <string name="fragment_new_vgp_setup_sw_machine_clean">L\'état de propreté permet-il la vérification ?</string>
+    <string name="fragment_new_vgp_setup_sw_machine_ce">Le marquage CE est-il présent ?</string>
+    <string name="fragment_new_vgp_setup_sw_machine_manual">Est-ce que la notice n\'utilisation est présente ?</string>
+    <string name="fragment_new_vgp_setup_sw_machine_lifting">La machine est-elle équipée pour le levage ?</string>
+    <string name="fragment_new_vgp_setup_sw_machine_control_with_load">Les essais ont-ils été effectués avec une charge ?</string>
+    <string name="fragment_new_vgp_setup_sw_machine_control_with_nominal_load">Les essais ont-ils été effectués avec la charge nominale majorée de 10% ?</string>
+    <string name="fragment_new_vgp_setup_sw_machine_control_triggered_sensors">Les essais ont-ils déclenchés les indicateurs ou limiteur de surcharge ?</string>
+    <string name="fragment_new_vgp_setup_report_date">Date de création</string>
+    <string name="fragment_new_vgp_setup_report_date_btn">Définir</string>
+    <string name="fragment_new_vgp_setup_machine_hours">Horamètre</string>
+    <string name="fragment_new_vgp_setup_machine_intervention_place">Lieu d\'intervention</string>
+    <string name="fragment_new_vgp_setup_machine_load_type">Type de charge</string>
+    <string name="fragment_new_vgp_setup_machine_load_value">Masse de la charge</string>
+    <string name="fragment_new_vgp_setup_title">Vérification avant le contrôle</string>
+    <string name="fragment_new_vgp_setup_control_type_title">Sélectionnez un type de contrôle</string>
+    <string name="rv_item_machines_btn_select">Sélectionner</string>
+</resources>

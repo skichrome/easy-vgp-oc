@@ -88,7 +88,6 @@ class AddEditCustomerFragment : BaseBindingFragment<FragmentAddEditCustomerBindi
             {
                 canRegisterCustomer = false
                 editText.error = getString(R.string.frag_add_edit_customer_error_input)
-                view?.snackBar(getString(R.string.frag_add_edit_customer_error_input_snack_bar_msg))
                 return@forEach
             }
         }
@@ -115,5 +114,7 @@ class AddEditCustomerFragment : BaseBindingFragment<FragmentAddEditCustomerBindi
             else
                 viewModel.saveCustomer(customer)
         }
+        else
+            binding.root.snackBar(getString(R.string.frag_add_edit_customer_error_input_snack_bar_msg))
     }
 }

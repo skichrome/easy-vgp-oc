@@ -14,9 +14,11 @@ data class RemoteMachineControlPointDataExtra(
     val loadType: String? = null,
     val loadMass: Int? = null,
     val controlType: String = "",
+    val generalResult: String = "",
+    val generalResultCode: Int = 0,
     val machineHours: Int = -1,
     val interventionPlace: String = ""
 )
 {
-    constructor() : this(0L, 0L, 0L, false, false, false, false, false, null, null, null, null, "", -1, "")
+    constructor() : this(0L, 0L, 0L, false, false, false, false, false, null, null, null, null, "", "", 0, -1, "")
 }

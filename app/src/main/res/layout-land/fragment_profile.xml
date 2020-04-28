@@ -176,8 +176,6 @@
                 <Button
                     android:id="@+id/profileFragmentCompanyLogoBtn"
                     style="@style/EasyVGPTheme.buttonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/divider_top_margin"
                     android:layout_marginEnd="@dimen/btn_end_margin"
                     android:text="@string/profile_fragment_import_btn_text"
@@ -214,8 +212,6 @@
                 <Button
                     android:id="@+id/profileFragmentSignatureBtn"
                     style="@style/EasyVGPTheme.buttonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/divider_top_margin"
                     android:layout_marginEnd="@dimen/btn_end_margin"
                     android:text="@string/profile_fragment_import_btn_text"

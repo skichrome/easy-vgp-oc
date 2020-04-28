@@ -42,6 +42,9 @@ interface MachineControlPointDataExtraDao : BaseDao<MachineControlPointDataExtra
     @Query("UPDATE MachinesControlPointsDataExtras SET reminder_email_sent = 1 WHERE MachinesControlPointsDataExtras.machines_control_points_data_extras_id == :extraId")
     suspend fun updateExtraEmailStatus(extraId: Long): Int
 
+    @Query("UPDATE MachinesControlPointsDataExtras SET control_general_result = :controlResult WHERE MachinesControlPointsDataExtras.machines_control_points_data_extras_id == :extraId")
+    suspend fun updateControlResult(extraId: Long, controlResult: ControlResult): Int
+
     @Query("DELETE FROM MachinesControlPointsDataExtras WHERE MachinesControlPointsDataExtras.report_date == :date")
     suspend fun deleteExtraFromDate(date: Long): Int
 }

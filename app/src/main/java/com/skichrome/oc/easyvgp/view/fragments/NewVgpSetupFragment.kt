@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentNewVgpSetupBinding
@@ -20,6 +21,7 @@ import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.viewmodel.NewVgpSetupViewModel
 import com.skichrome.oc.easyvgp.viewmodel.vmfactory.NewVgpSetupViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
+import java.text.SimpleDateFormat
 
 class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
 {
@@ -38,6 +40,7 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
     private lateinit var selectedControlType: ControlType
     private var currentExtraId = -1L
     private var currentReportDate = -1L
+    private var userSelectedReportDate = System.currentTimeMillis()
     private var navigationInstructionFromFab = false
 
     // =================================
@@ -68,8 +71,28 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
 
     private fun configureUI()
     {
-        if (args.reportDateToEdit != -1L)
-            activity?.apply { toolbar?.title = getString(R.string.title_fragment_vgp_setup_edit) }
+        val dateFormat = SimpleDateFormat.getDateInstance()
+        when
+        {
+            args.reportDateToEdit == -1L ->
+            {
+                userSelectedReportDate = if (args.reportDateFromDatePicker != -1L) args.reportDateFromDatePicker else System.currentTimeMillis()
+
+                binding.fragmentNewVgpSetupReportDate.setText(dateFormat.format(userSelectedReportDate))
+                binding.fragmentNewVgpSetupReportDateLayout.endIconMode = TextInputLayout.END_ICON_CLEAR_TEXT
+                binding.fragmentNewVgpSetupReportDateSetBtn.isEnabled = true
+                binding.fragmentNewVgpSetupReportDateSetBtn.setOnClickListener {
+                    navigateToDatePickerFragment()
+                }
+            }
+            args.reportDateToEdit != -1L ->
+            {
+                activity?.apply { toolbar?.title = getString(R.string.title_fragment_vgp_setup_edit) }
+                binding.fragmentNewVgpSetupReportDate.setText(dateFormat.format(args.reportDateToEdit))
+                binding.fragmentNewVgpSetupReportDateLayout.endIconMode = TextInputLayout.END_ICON_NONE
+                binding.fragmentNewVgpSetupReportDateSetBtn.isEnabled = false
+            }
+        }
 
         binding.fragmentNewVgpSetupIsMachineControlWithLoad.setOnCheckedChangeListener { _, isChecked ->
             configureDisabledFieldsStatus(isChecked)
@@ -104,7 +127,8 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
         binding.viewModel = viewModel
         nonNullableViewContent = listOf(
             binding.fragmentNewVgpSetupMachineHours,
-            binding.fragmentNewVgpSetupInterventionPlace
+            binding.fragmentNewVgpSetupInterventionPlace,
+            binding.fragmentNewVgpSetupReportDate
         )
         nonNullableViewContentIfLoadEnabled = listOf(
             binding.fragmentNewVgpSetupControlLoadType,
@@ -174,7 +198,7 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
 
         if (canSave)
         {
-            val reportDateMillis = if (args.reportDateToEdit == -1L) System.currentTimeMillis() else args.reportDateToEdit
+            val reportDateMillis = if (args.reportDateToEdit == -1L) userSelectedReportDate else args.reportDateToEdit
             val reportEndDate = when (selectedControlType)
             {
                 ControlType.PUT_INTO_SERVICE ->
@@ -216,6 +240,17 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
             else
                 viewModel.updateNewVgpExtras(extras)
         }
+    }
+
+    private fun navigateToDatePickerFragment()
+    {
+        val opt = NewVgpSetupFragmentDirections.actionNewVgpSetupFragmentToDateSelectorFragment(
+            machineId = args.machineId,
+            machineTypeId = args.machineTypeId,
+            customerId = args.customerId,
+            reportDateToEdit = args.reportDateToEdit
+        )
+        findNavController().navigate(opt)
     }
 
     private fun navigateToNewVgpFragment(vgpExtraId: Long)
