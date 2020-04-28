@@ -50,8 +50,7 @@
                         android:id="@+id/fragmentNewVgpSetupReportDate"
                         style="@style/EasyVGPTheme.editTextInputStyle"
                         android:focusable="false"
-                        android:inputType="date"
-                        android:text="" />
+                        android:inputType="date" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button

@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.FragmentNewVgpSetupBinding
@@ -74,15 +75,19 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
 
         when
         {
-            args.reportDateToEdit == -1L && args.reportDateFromDatePicker != -1L ->
-            {
-                binding.fragmentNewVgpSetupReportDate.setText(dateFormat.format(args.reportDateFromDatePicker))
-                userSelectedReportDate = args.reportDateFromDatePicker
-            }
             args.reportDateToEdit == -1L ->
             {
+                userSelectedReportDate = args.reportDateFromDatePicker
+
+                val displayDate = if (userSelectedReportDate != -1L)
+                    dateFormat.format(userSelectedReportDate)
+                else
+                    dateFormat.format(System.currentTimeMillis())
+
+                binding.fragmentNewVgpSetupReportDate.setText(displayDate)
+
+                binding.fragmentNewVgpSetupReportDateLayout.endIconMode = TextInputLayout.END_ICON_CLEAR_TEXT
                 binding.fragmentNewVgpSetupReportDateSetBtn.isEnabled = true
-                binding.fragmentNewVgpSetupReportDate.setText(dateFormat.format(userSelectedReportDate))
                 binding.fragmentNewVgpSetupReportDateSetBtn.setOnClickListener {
                     val opt = NewVgpSetupFragmentDirections.actionNewVgpSetupFragmentToDateSelectorFragment(
                         machineId = args.machineId,
@@ -97,6 +102,7 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
             {
                 activity?.apply { toolbar?.title = getString(R.string.title_fragment_vgp_setup_edit) }
                 binding.fragmentNewVgpSetupReportDate.setText(dateFormat.format(args.reportDateToEdit))
+                binding.fragmentNewVgpSetupReportDateLayout.endIconMode = TextInputLayout.END_ICON_NONE
                 binding.fragmentNewVgpSetupReportDateSetBtn.isEnabled = false
             }
         }
@@ -134,7 +140,8 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
         binding.viewModel = viewModel
         nonNullableViewContent = listOf(
             binding.fragmentNewVgpSetupMachineHours,
-            binding.fragmentNewVgpSetupInterventionPlace
+            binding.fragmentNewVgpSetupInterventionPlace,
+            binding.fragmentNewVgpSetupReportDate
         )
         nonNullableViewContentIfLoadEnabled = listOf(
             binding.fragmentNewVgpSetupControlLoadType,

@@ -44,8 +44,6 @@ fun setHomeItems(listView: RecyclerView, reports: List<HomeEndValidityReportItem
 }
 
 @BindingAdapter(value = ["bind_date"])
-fun getDateFormatted(textView: TextView, dateMillis: Long)
-{
-    val date = SimpleDateFormat.getDateInstance()
-    textView.text = date.format(dateMillis)
+fun setDateFormatted(textView: TextView, dateMillis: Long) = textView.apply {
+    text = SimpleDateFormat.getDateInstance().format(dateMillis)
 }
