@@ -112,6 +112,7 @@ object AndroidDataProvider
     val machine1 = Machine(
         machineId = machine1Id,
         name = "Mach1",
+        parkNumber = "park 1",
         brand = "brand1",
         model = "model1",
         manufacturingYear = 2000,
@@ -123,6 +124,7 @@ object AndroidDataProvider
     val machine1Edit = Machine(
         machineId = machine1Id,
         name = "Mach1-Edited",
+        parkNumber = "park Edited",
         brand = "brand1-Edited",
         model = "model1-edited",
         manufacturingYear = 2000,
@@ -136,6 +138,7 @@ object AndroidDataProvider
     val machine2 = Machine(
         machineId = machine2Id,
         name = "Mach2",
+        parkNumber = "park 2",
         brand = "brand2",
         model = "model2",
         manufacturingYear = 2001,
@@ -147,8 +150,9 @@ object AndroidDataProvider
 
     const val machineToInsertId = 3L
     val machineToInsert = Machine(
-        machineId = machine2Id,
+        machineId = machineToInsertId,
         name = "Mach3",
+        parkNumber = "park 3",
         brand = "brand3",
         model = "model3",
         manufacturingYear = 2002,
