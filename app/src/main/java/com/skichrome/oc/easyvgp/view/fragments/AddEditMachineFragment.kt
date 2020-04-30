@@ -103,6 +103,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
     {
         inputList = listOf(
             binding.addEditMachineFragmentNameEditText,
+            binding.addEditMachineFragmentParkNumberEditText,
             binding.addEditMachineFragmentBrandEditText,
             binding.addEditMachineFragmentModelEditText,
             binding.addEditMachineFragmentSerialEditText,
@@ -203,6 +204,7 @@ class AddEditMachineFragment : BaseBindingFragment<FragmentAddEditMachineBinding
                 customer = args.customerId,
                 brand = binding.addEditMachineFragmentBrandEditText.text.toString(),
                 name = binding.addEditMachineFragmentNameEditText.text.toString(),
+                parkNumber = binding.addEditMachineFragmentParkNumberEditText.text.toString(),
                 model = binding.addEditMachineFragmentModelEditText.text.toString(),
                 manufacturingYear = binding.addEditMachineFragmentManufacturingYearEditText.text.toString().toInt(),
                 localPhotoRef = machinePhotoPath,

@@ -131,6 +131,7 @@
     <string name="add_edit_machine_frag_machine_type_title">Define the type of machine</string>
     <string name="add_edit_machine_frag_machine_picture_title">Machine photo</string>
     <string name="add_edit_machine_frag_hint_name">machine name</string>
+    <string name="add_edit_machine_frag_hint_park_number">machine park number</string>
     <string name="add_edit_machine_frag_hint_brand">machine brand</string>
     <string name="add_edit_machine_frag_hint_model">machine model</string>
     <string name="add_edit_machine_frag_hint_serial">machine serial</string>
@@ -139,6 +140,9 @@
     <string name="profile_fragment_company_siret_hint">Your company Siret</string>
     <string name="add_edit_machine_frag_img_machine_content_desc">Add a picture for this machine</string>
     <string name="frag_add_edit_machine_error_input_snack_bar_msg">You must enter all required fields and take a picture for this machine</string>
+
+    <!-- Text input EditTextLayout -->
+    <string name="text_input_edit_text_required_help">* Required</string>
 
     <!-- Admin ViewModel -->
     <string name="admin_view_model_machine_type_insert_success">Successfully saved new machine type</string>

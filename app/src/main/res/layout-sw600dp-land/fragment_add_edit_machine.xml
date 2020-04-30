@@ -30,7 +30,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/tv_input_margin"
-            android:hint="@string/add_edit_machine_frag_hint_name"
+            app:hint_and_asterisk="@{@string/add_edit_machine_frag_hint_name}"
+            tools:hint="@string/add_edit_machine_frag_hint_name"
             app:layout_constraintEnd_toStartOf="@+id/addEditMachineFragmentVerticalGuideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentNameTitle">
@@ -42,16 +43,34 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addEditMachineFragmentParkNumberEditTextLayout"
+            style="@style/EasyVGPTheme.editTextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:hint_and_asterisk="@{@string/add_edit_machine_frag_hint_park_number}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentNameEditTextLayout"
+            tools:hint="@string/add_edit_machine_frag_hint_park_number">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addEditMachineFragmentParkNumberEditText"
+                style="@style/EasyVGPTheme.editTextInputStyle"
+                android:text="@{viewModel.machine.name}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/addEditMachineFragmentBrandEditTextLayout"
             style="@style/EasyVGPTheme.editTextInputLayoutStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:hint="@string/add_edit_machine_frag_hint_brand"
+            app:hint_and_asterisk="@{@string/add_edit_machine_frag_hint_brand}"
+            app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentParkNumberEditTextLayout"
             app:layout_constraintEnd_toStartOf="@+id/addEditMachineFragmentModelEditTextLayout"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentNameEditTextLayout">
+            tools:hint="@string/add_edit_machine_frag_hint_brand">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/addEditMachineFragmentBrandEditText"
@@ -67,11 +86,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="@dimen/tv_input_margin"
-            android:hint="@string/add_edit_machine_frag_hint_model"
+            app:hint_and_asterisk="@{@string/add_edit_machine_frag_hint_model}"
+            app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentParkNumberEditTextLayout"
             app:layout_constraintEnd_toStartOf="@+id/addEditMachineFragmentVerticalGuideline"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/addEditMachineFragmentBrandEditTextLayout"
-            app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentNameEditTextLayout">
+            tools:hint="@string/add_edit_machine_frag_hint_model">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/addEditMachineFragmentModelEditText"
@@ -86,7 +106,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/tv_input_margin"
-            android:hint="@string/add_edit_machine_frag_hint_serial"
+            app:hint_and_asterisk="@{@string/add_edit_machine_frag_hint_serial}"
+            tools:hint="@string/add_edit_machine_frag_hint_serial"
             app:layout_constraintEnd_toStartOf="@+id/addEditMachineFragmentVerticalGuideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentBrandEditTextLayout">
@@ -103,7 +124,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/tv_input_margin"
-            android:hint="@string/add_edit_machine_frag_hint_year"
+            app:hint_and_asterisk="@{@string/add_edit_machine_frag_hint_year}"
+            tools:hint="@string/add_edit_machine_frag_hint_year"
             app:layout_constraintEnd_toStartOf="@+id/addEditMachineFragmentVerticalGuideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addEditMachineFragmentSerialEditTextLayout">

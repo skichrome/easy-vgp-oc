@@ -20,6 +20,7 @@ import androidx.room.*
 data class Machine(
     @ColumnInfo(name = "machine_id") @PrimaryKey(autoGenerate = true) val machineId: Long,
     @ColumnInfo(name = "machine_name") val name: String,
+    @ColumnInfo(name = "machine_park_number") val parkNumber: String,
     @ColumnInfo(name = "machine_serial") val serial: String,
     @ColumnInfo(name = "machine_brand") val brand: String,
     @ColumnInfo(name = "machine_model") val model: String,

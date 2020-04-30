@@ -12,7 +12,7 @@ import com.skichrome.oc.easyvgp.model.*
 import com.skichrome.oc.easyvgp.model.base.*
 import com.skichrome.oc.easyvgp.model.local.*
 import com.skichrome.oc.easyvgp.model.local.database.AppDatabase
-import com.skichrome.oc.easyvgp.model.local.database.MIGRATION_1_2
+import com.skichrome.oc.easyvgp.model.local.database.addMigrationsObjects
 import com.skichrome.oc.easyvgp.model.remote.CustomerRemoteRepository
 import com.skichrome.oc.easyvgp.model.remote.RemoteAdminSource
 import com.skichrome.oc.easyvgp.model.remote.RemoteHomeSource
@@ -82,7 +82,7 @@ object ServiceLocator
                     DatabaseDataDebug.prePopulateDatabase(db)
                 }
             })
-            .addMigrations(MIGRATION_1_2)
+            .addMigrationsObjects()
             .build()
 
     // --- Data Source --- //

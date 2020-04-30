@@ -21,7 +21,7 @@ import androidx.room.TypeConverters
         MachineControlPointData::class
     ],
     exportSchema = false,
-    version = 2
+    version = CURRENT_DATABASE_VERSION
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase()
