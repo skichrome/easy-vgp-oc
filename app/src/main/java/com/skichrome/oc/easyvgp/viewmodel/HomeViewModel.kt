@@ -163,7 +163,13 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel()
                     val delta = reportFiltered.reportEndDate - dateNow
                     reportFiltered.reportDeltaDay = delta / 1000 / 60 / 60 / 24
                 }
-                return@withContext reportsFiltered.sortedBy { it.reportEndDate }
+
+                return@withContext reportsFiltered.filter { report ->
+                    report.reportDeltaDay?.let { delta ->
+                        (delta >= -20) || (delta <= -20 && !report.isReminderEmailSent && delta >= -100)
+                    } ?: false
+                }
+                    .sortedBy { it.reportEndDate }
             }
         }
         return result
