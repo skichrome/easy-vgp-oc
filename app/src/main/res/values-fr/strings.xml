@@ -114,6 +114,8 @@
     <string name="menu_settings_title">Paramètres</string>
     <string name="menu_settings_profile">Profil</string>
     <string name="menu_admin_title">Administration</string>
+    <string name="menu_home_title">Accueil</string>
+    <string name="menu_search_title">Recherche</string>
 
     <!-- Machine ViewModel -->
     <string name="view_model_machine_machines_list">Nous avons détecté une erreur en essayant de récupérer la liste des machines</string>

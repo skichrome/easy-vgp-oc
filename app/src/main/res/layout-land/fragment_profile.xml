@@ -44,12 +44,12 @@
                     app:layout_constraintGuide_percent="0.35" />
 
                 <ImageView
+                    android:id="@+id/profileFragmentProfilePicture"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginBottom="8dp"
                     android:contentDescription="@string/setting_fragment_account_img_content_desc"
                     android:src="@drawable/ic_account_circle_24dp"
-                    android:tint="@color/secondaryColor"
                     app:layout_constraintBottom_toTopOf="@id/profileFragmentGuideline"
                     app:layout_constraintEnd_toStartOf="@+id/profileFragmentVerticalGuideline"
                     app:layout_constraintStart_toStartOf="parent" />
