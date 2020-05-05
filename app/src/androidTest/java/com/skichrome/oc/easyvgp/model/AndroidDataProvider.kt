@@ -74,6 +74,7 @@ object AndroidDataProvider
     val remoteCustomers = listOf(customer1, customer2).sortedBy { it.id }
     val localCustomers = listOf(customer1, customer3).sortedBy { it.id }
     val customerList = listOf(customer1, customer2, customer3).sortedBy { it.id }
+    val customerListEdit = listOf(customer1Edit, customer2, customer3).sortedBy { it.id }
 
     val remoteCustomerMap: LinkedHashMap<Long, Customer>
         get()
