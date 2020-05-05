@@ -330,4 +330,35 @@ object AndroidDataProvider
     val ctrlPt3 = ControlPoint(id = ctrlPt3Id, name = "ctrl pt 1", code = "code")
 
     val ctrlPtList = listOf(ctrlPt1, ctrlPt2, ctrlPt3)
+
+    // --- ControlPointData --- //
+
+    const val ctrlPointData1Id = 1L
+    val ctrlPointData1 = ControlPointData(
+        id = ctrlPointData1Id,
+        ctrlPointPossibility = 1,
+        ctrlPointRef = ctrlPt1Id,
+        ctrlPointVerificationType = 1,
+        comment = "lorem ipsum"
+    )
+
+    const val ctrlPointData2Id = 2L
+    val ctrlPointData2 = ControlPointData(
+        id = ctrlPointData2Id,
+        ctrlPointPossibility = 1,
+        ctrlPointRef = ctrlPt1Id,
+        ctrlPointVerificationType = 1,
+        comment = "lorem ipsum"
+    )
+
+    const val ctrlPointData3Id = 3L
+    val ctrlPointData3 = ControlPointData(
+        id = ctrlPointData3Id,
+        ctrlPointPossibility = 1,
+        ctrlPointRef = ctrlPt2Id,
+        ctrlPointVerificationType = 1,
+        comment = "lorem ipsum"
+    )
+
+    val ctrlPointDataList = listOf(ctrlPointData1, ctrlPointData2, ctrlPointData3)
 }

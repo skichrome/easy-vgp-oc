@@ -15,6 +15,8 @@ import com.skichrome.oc.easyvgp.model.FakeAndroidTestCustomerRepository
 import com.skichrome.oc.easyvgp.model.FakeAndroidTestNetManager
 import com.skichrome.oc.easyvgp.viewmodel.ServiceLocator
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.not
 import org.junit.After
@@ -58,7 +60,7 @@ class AddEditCustomerFragmentTest
     // --- Tests --- //
 
     @Test
-    fun customerEdit_dataDisplayedInUI() = runBlockingTest {
+    fun customerEdit_dataDisplayedInUI() = runBlocking {
         val customerToAdd = AndroidDataProvider.customer2
         customerRepo.saveCustomers(customerToAdd)
 
@@ -71,14 +73,14 @@ class AddEditCustomerFragmentTest
         onView(withId(R.id.addEditCustomerFragmentLastNameEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentLastNameEditText)).check(matches(withText(customerToAdd.lastName)))
 
+        onView(withId(R.id.addEditCustomerFragmentCompanyNameEditText)).check(matches(isDisplayed()))
+        onView(withId(R.id.addEditCustomerFragmentCompanyNameEditText)).check(matches(withText(customerToAdd.companyName)))
+
         onView(withId(R.id.addEditCustomerFragmentSiretEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentSiretEditText)).check(matches(withText(customerToAdd.siret)))
 
         onView(withId(R.id.addEditCustomerFragmentEmailEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentEmailEditText)).check(matches(withText(customerToAdd.email)))
-
-        // Scroll up to display bottom fields
-        onView(withId(R.id.addEditCustomerFragmentNotesEditText)).perform(scrollTo())
 
         onView(withId(R.id.addEditCustomerFragmentPhoneEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentPhoneEditText)).check(matches(withText(customerToAdd.phone.toString())))
@@ -86,8 +88,16 @@ class AddEditCustomerFragmentTest
         onView(withId(R.id.addEditCustomerFragmentMobilePhoneEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentMobilePhoneEditText)).check(matches(withText(customerToAdd.mobilePhone.toString())))
 
+        // Scroll up to display bottom fields
+        onView(withId(R.id.addEditCustomerFragmentAddressEditText)).perform(scrollTo())
+        delay(3000)
+
         onView(withId(R.id.addEditCustomerFragmentAddressEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentAddressEditText)).check(matches(withText(customerToAdd.address)))
+
+        // Scroll up to display bottom fields
+        onView(withId(R.id.addEditCustomerFragmentNotesEditText)).perform(scrollTo())
+        delay(3000)
 
         onView(withId(R.id.addEditCustomerFragmentPostCodeEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentPostCodeEditText)).check(matches(withText(customerToAdd.postCode.toString())))
@@ -97,6 +107,7 @@ class AddEditCustomerFragmentTest
 
         onView(withId(R.id.addEditCustomerFragmentNotesEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentNotesEditText)).check(matches(withText(customerToAdd.notes)))
+        return@runBlocking Unit
     }
 
     @Test
@@ -110,14 +121,14 @@ class AddEditCustomerFragmentTest
         onView(withId(R.id.addEditCustomerFragmentLastNameEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentLastNameEditText)).check(matches(withText("")))
 
+        onView(withId(R.id.addEditCustomerFragmentCompanyNameEditText)).check(matches(isDisplayed()))
+        onView(withId(R.id.addEditCustomerFragmentCompanyNameEditText)).check(matches(withText("")))
+
         onView(withId(R.id.addEditCustomerFragmentSiretEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentSiretEditText)).check(matches(withText("")))
 
         onView(withId(R.id.addEditCustomerFragmentEmailEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentEmailEditText)).check(matches(withText("")))
-
-        // Scroll up to display bottom fields
-        onView(withId(R.id.addEditCustomerFragmentNotesEditText)).perform(scrollTo())
 
         onView(withId(R.id.addEditCustomerFragmentPhoneEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentPhoneEditText)).check(matches(withText("")))
@@ -125,8 +136,15 @@ class AddEditCustomerFragmentTest
         onView(withId(R.id.addEditCustomerFragmentMobilePhoneEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentMobilePhoneEditText)).check(matches(withText("")))
 
+        // Scroll up to display bottom fields
+        onView(withId(R.id.addEditCustomerFragmentAddressEditText)).perform(scrollTo())
+        delay(3000)
+
         onView(withId(R.id.addEditCustomerFragmentAddressEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentAddressEditText)).check(matches(withText("")))
+
+        // Scroll up to display bottom fields
+        onView(withId(R.id.addEditCustomerFragmentNotesEditText)).perform(scrollTo())
 
         onView(withId(R.id.addEditCustomerFragmentPostCodeEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentPostCodeEditText)).check(matches(withText("")))

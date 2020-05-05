@@ -1,35 +1,29 @@
 package com.skichrome.oc.easyvgp.model.local.database
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.skichrome.oc.easyvgp.getOrAwaitValueFromAndroidTests
 import com.skichrome.oc.easyvgp.model.AndroidDataProvider
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.core.IsEqual
 import org.hamcrest.core.IsNot
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class ControlPointDaoTest
+class ControlPointDataDaoTest
 {
     // =================================
     //              Fields
     // =================================
 
-    @get:Rule
-    var instantExecutorRule = InstantTaskExecutorRule()
-
     private lateinit var db: AppDatabase
     private lateinit var controlPointDao: ControlPointDao
+    private lateinit var controlPointDataDao: ControlPointDataDao
 
     // =================================
     //              Methods
@@ -42,43 +36,24 @@ class ControlPointDaoTest
     {
         db = Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), AppDatabase::class.java).build()
         controlPointDao = db.controlPointDao()
+        controlPointDataDao = db.controlPointDataDao()
     }
 
     @After
     @Throws(Exception::class)
     fun closeDatabase() = db.close()
 
-    // --- Tests --- //
-
     @Test
     @Throws(Exception::class)
-    fun insertControlPt_controlPointDaoShouldInheritFromBaseDao() = runBlocking {
-        val controlPoint = AndroidDataProvider.ctrlPt1
-        val result = controlPointDao.insertReplace(controlPoint)
+    fun insertControlPointData_ControlPointDataDaoShouldInheritFromBaseDao() = runBlocking {
+        val ctrlPtData = AndroidDataProvider.ctrlPointData2
+        val ctrlPt = AndroidDataProvider.ctrlPtList.find { ctrlPtData.ctrlPointRef == it.id }
+
+        assertThat(ctrlPt, IsNot(nullValue()))
+        controlPointDao.insertReplace(ctrlPt!!)
+        val result = controlPointDataDao.insertReplace(ctrlPtData)
 
         assertThat(result, IsNot(nullValue()))
-        assertThat(result, `is`(controlPoint.id))
-    }
-
-    @Test
-    @Throws(Exception::class)
-    fun observeControlPoints_shouldReturnEmptyList() = runBlocking {
-        val result = controlPointDao.observeControlPoints().getOrAwaitValueFromAndroidTests()
-
-        assertThat(result, IsNot(nullValue()))
-        assertThat(result, IsEqual(listOf()))
-    }
-
-    @Test
-    @Throws(Exception::class)
-    fun observeControlPoints_shouldReturnCtrlPointList() = runBlocking {
-        val ctrlPoints = AndroidDataProvider.ctrlPtList
-
-        controlPointDao.insertReplace(*ctrlPoints.toTypedArray())
-
-        val result = controlPointDao.observeControlPoints().getOrAwaitValueFromAndroidTests()
-
-        assertThat(result, IsNot(nullValue()))
-        assertThat(result, IsEqual(ctrlPoints))
+        assertThat(result, `is`(ctrlPtData.id))
     }
 }

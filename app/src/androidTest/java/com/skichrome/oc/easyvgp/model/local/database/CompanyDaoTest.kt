@@ -41,6 +41,8 @@ class CompanyDaoTest
     @Throws(Exception::class)
     fun closeDatabase() = db.close()
 
+    // --- Tests --- //
+
     @Test
     @Throws(Exception::class)
     fun insertCompany_companyDaoShouldInheritFromBaseDao() = runBlocking {
