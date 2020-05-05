@@ -1,17 +1,21 @@
 package com.skichrome.oc.easyvgp.model.local.database
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.skichrome.oc.easyvgp.getOrAwaitValueFromAndroidTests
 import com.skichrome.oc.easyvgp.model.AndroidDataProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.core.IsEqual
 import org.hamcrest.core.IsNot
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -22,6 +26,9 @@ class CustomerDaoTest
     // =================================
     //              Fields
     // =================================
+
+    @get:Rule
+    var instantExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var db: AppDatabase
     private lateinit var customerDao: CustomerDao
@@ -130,6 +137,27 @@ class CustomerDaoTest
     }
 
     // --- QUERY Tests --- //
+
+    @Test
+    @Throws(Exception::class)
+    fun observeCustomers_shouldReturnEmptyList() = runBlocking {
+        val result = customerDao.observeCustomers().getOrAwaitValueFromAndroidTests()
+
+        assertThat(result, IsNot(nullValue()))
+        assertThat(result, IsEqual(listOf()))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun observeCustomers_shouldReturnCustomersList() = runBlocking {
+        val customers = AndroidDataProvider.customerList
+        customerDao.insertReplace(*customers.toTypedArray())
+
+        val customerResult = customerDao.observeCustomers().getOrAwaitValueFromAndroidTests()
+
+        assertThat(customerResult, IsNot(nullValue()))
+        assertThat(customerResult, IsEqual(customers))
+    }
 
     @Test
     @Throws(Exception::class)

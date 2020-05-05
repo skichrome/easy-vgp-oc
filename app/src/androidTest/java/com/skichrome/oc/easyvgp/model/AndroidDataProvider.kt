@@ -317,4 +317,17 @@ object AndroidDataProvider
             userCompanyList.forEach { tempHashMap[it.company.id] = it }
             return tempHashMap
         }
+
+    // --- Controls Points --- //
+
+    const val ctrlPt1Id = 1L
+    val ctrlPt1 = ControlPoint(id = ctrlPt1Id, name = "ctrl pt 1", code = "code")
+
+    const val ctrlPt2Id = 2L
+    val ctrlPt2 = ControlPoint(id = ctrlPt2Id, name = "ctrl pt 1", code = "code")
+
+    const val ctrlPt3Id = 3L
+    val ctrlPt3 = ControlPoint(id = ctrlPt3Id, name = "ctrl pt 1", code = "code")
+
+    val ctrlPtList = listOf(ctrlPt1, ctrlPt2, ctrlPt3)
 }
