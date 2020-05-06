@@ -15,7 +15,6 @@ import com.skichrome.oc.easyvgp.model.FakeAndroidTestCustomerRepository
 import com.skichrome.oc.easyvgp.model.FakeAndroidTestNetManager
 import com.skichrome.oc.easyvgp.viewmodel.ServiceLocator
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.not
@@ -79,6 +78,9 @@ class AddEditCustomerFragmentTest
         onView(withId(R.id.addEditCustomerFragmentSiretEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentSiretEditText)).check(matches(withText(customerToAdd.siret)))
 
+        // Scroll up to display bottom fields
+        onView(withId(R.id.addEditCustomerFragmentEmailEditText)).perform(scrollTo())
+
         onView(withId(R.id.addEditCustomerFragmentEmailEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentEmailEditText)).check(matches(withText(customerToAdd.email)))
 
@@ -90,14 +92,12 @@ class AddEditCustomerFragmentTest
 
         // Scroll up to display bottom fields
         onView(withId(R.id.addEditCustomerFragmentAddressEditText)).perform(scrollTo())
-        delay(3000)
 
         onView(withId(R.id.addEditCustomerFragmentAddressEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentAddressEditText)).check(matches(withText(customerToAdd.address)))
 
         // Scroll up to display bottom fields
         onView(withId(R.id.addEditCustomerFragmentNotesEditText)).perform(scrollTo())
-        delay(3000)
 
         onView(withId(R.id.addEditCustomerFragmentPostCodeEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentPostCodeEditText)).check(matches(withText(customerToAdd.postCode.toString())))
@@ -127,6 +127,9 @@ class AddEditCustomerFragmentTest
         onView(withId(R.id.addEditCustomerFragmentSiretEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentSiretEditText)).check(matches(withText("")))
 
+        // Scroll up to display bottom fields
+        onView(withId(R.id.addEditCustomerFragmentEmailEditText)).perform(scrollTo())
+
         onView(withId(R.id.addEditCustomerFragmentEmailEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentEmailEditText)).check(matches(withText("")))
 
@@ -138,7 +141,6 @@ class AddEditCustomerFragmentTest
 
         // Scroll up to display bottom fields
         onView(withId(R.id.addEditCustomerFragmentAddressEditText)).perform(scrollTo())
-        delay(3000)
 
         onView(withId(R.id.addEditCustomerFragmentAddressEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentAddressEditText)).check(matches(withText("")))
