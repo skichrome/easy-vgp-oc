@@ -93,9 +93,9 @@ class MachineTypeDaoTest
     @Throws(Exception::class)
     fun getMachineTypeWithControlPointsFromMachineTypeId_insertMachineTypeAndCtrlPoints_insertCrossRef_returnOnlyTypeFromCtrlPoint() = runBlocking {
         val machineTypes = AndroidDataProvider.machineTypeList
-        val ctrlPoints = AndroidDataProvider.ctrlPtList
-        val machineTypeWithCtrlPoints = AndroidDataProvider.machineTypeWithCtrlPointList
-        val machineTypeWithCtrlPoint = AndroidDataProvider.machineTypeWithCtrlPoint1
+        val ctrlPoints = AndroidDataProvider.ctrlPointList
+        val machineTypeWithCtrlPoints = AndroidDataProvider.machineTypeUpdateWithControlPointList
+        val machineTypeWithCtrlPoint = AndroidDataProvider.machineTypeWithControlPoint1
 
         machineTypeDao.insertReplace(*machineTypes.toTypedArray())
         controlPointDao.insertReplace(*ctrlPoints.toTypedArray())

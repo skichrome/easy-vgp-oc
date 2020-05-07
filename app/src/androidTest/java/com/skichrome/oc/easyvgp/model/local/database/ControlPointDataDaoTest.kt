@@ -47,7 +47,7 @@ class ControlPointDataDaoTest
     @Throws(Exception::class)
     fun insertControlPointData_ControlPointDataDaoShouldInheritFromBaseDao() = runBlocking {
         val ctrlPtData = AndroidDataProvider.ctrlPointData2
-        val ctrlPt = AndroidDataProvider.ctrlPtList.find { ctrlPtData.ctrlPointRef == it.id }
+        val ctrlPt = AndroidDataProvider.ctrlPointList.find { ctrlPtData.ctrlPointRef == it.id }
 
         assertThat(ctrlPt, IsNot(nullValue()))
         controlPointDao.insertReplace(ctrlPt!!)

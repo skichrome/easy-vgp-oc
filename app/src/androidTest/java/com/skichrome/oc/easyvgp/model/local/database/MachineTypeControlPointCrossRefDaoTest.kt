@@ -48,7 +48,7 @@ class MachineTypeControlPointCrossRefDaoTest
     @Test
     @Throws(Exception::class)
     fun insertMachineTypeControlPointCrossRef_machineTypeControlPointCrossRefDaoShouldInheritFromBaseDao() = runBlocking {
-        val machineTypeWithCtrlPoints = AndroidDataProvider.machineTypeWithCtrlPointList
+        val machineTypeWithCtrlPoints = AndroidDataProvider.machineTypeUpdateWithControlPointList
 
         val resultIds = mutableListOf<Long>()
         val expectedResults = mutableListOf<Long>()
@@ -74,7 +74,7 @@ class MachineTypeControlPointCrossRefDaoTest
     @Test
     @Throws(Exception::class)
     fun deleteAll_insertItemsAndDeleteAll_shouldReturnEmptyList() = runBlocking {
-        val machineTypeWithCtrlPoints = AndroidDataProvider.machineTypeWithCtrlPointList
+        val machineTypeWithCtrlPoints = AndroidDataProvider.machineTypeUpdateWithControlPointList
 
         val insertResults = mutableListOf<Long>()
         machineTypeWithCtrlPoints.forEach {
@@ -96,8 +96,8 @@ class MachineTypeControlPointCrossRefDaoTest
     @Test
     @Throws(Exception::class)
     fun deleteMatchMachineTypeId_insertItemsAndDeleteById_shouldReturnOnlyOneTypeWithCtrlPt() = runBlocking {
-        val machineTypeWithCtrlPoints = AndroidDataProvider.machineTypeWithCtrlPointList
-        val machineTypeWithCtrlPoint1 = AndroidDataProvider.machineTypeWithCtrlPoint1
+        val machineTypeWithCtrlPoints = AndroidDataProvider.machineTypeUpdateWithControlPointList
+        val machineTypeWithCtrlPoint1 = AndroidDataProvider.machineTypeWithControlPoint1
 
         machineTypeWithCtrlPoints.forEach {
             it.controlPoints.forEach { ctrlPt ->

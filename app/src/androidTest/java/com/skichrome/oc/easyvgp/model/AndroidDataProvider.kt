@@ -102,12 +102,30 @@ object AndroidDataProvider
         legalName = "testy name 1",
         name = "type1"
     )
+    val machineType1Edit = MachineType(
+        id = machineType1Id,
+        legalName = "testy name 1 edited",
+        name = "type1 edited"
+    )
+    const val machineTypeInsertId = 400L
+    val machineTypeInsert = MachineType(
+        id = machineTypeInsertId,
+        legalName = "test name 400L to insert",
+        name = "type 400L to insert"
+    )
 
-    const val machineType2Id = 2L
+    const val machineType2Id = machineType1Id + 1L
     val machineType2 = MachineType(
         id = machineType2Id,
         legalName = "testy name 2",
-        name = "type1"
+        name = "type2"
+    )
+
+    const val machineType3Id = machineType2Id + 1L
+    val machineType3 = MachineType(
+        id = machineType3Id,
+        legalName = "testy name 3",
+        name = "type3"
     )
 
     const val machine1Id = 1L
@@ -319,32 +337,106 @@ object AndroidDataProvider
             return tempHashMap
         }
 
-    // --- Controls Points --- //
+    // --- Control Points --- //
 
-    const val ctrlPt1Id = 1L
-    val ctrlPt1 = ControlPoint(id = ctrlPt1Id, name = "ctrl pt 1", code = "code")
+    const val ctrlPoint1Id = 1L
+    val ctrlPoint1 = ControlPoint(
+        id = ctrlPoint1Id,
+        name = "ctrl pt 1",
+        code = "c1"
+    )
 
-    const val ctrlPt2Id = 2L
-    val ctrlPt2 = ControlPoint(id = ctrlPt2Id, name = "ctrl pt 1", code = "code")
+    val ctrlPoint1Edit = ControlPoint(
+        id = ctrlPoint1Id,
+        name = "ctrl pt 1 edited",
+        code = "c1 edited"
+    )
 
-    const val ctrlPt3Id = 3L
-    val ctrlPt3 = ControlPoint(id = ctrlPt3Id, name = "ctrl pt 1", code = "code")
+    const val ctrlPointInsertId = 400L
+    val ctrlPointInsert = ControlPoint(
+        id = ctrlPointInsertId,
+        name = "ctrl pt 1 to insert in database",
+        code = "c1 to insert"
+    )
 
-    val ctrlPtList = listOf(ctrlPt1, ctrlPt2, ctrlPt3)
+    const val ctrlPoint2Id = ctrlPoint1Id + 1L
+    val ctrlPoint2 = ControlPoint(
+        id = ctrlPoint2Id,
+        name = "ctrl pt 2",
+        code = "c2"
+    )
 
-    // --- MachineTypeWithControlPoints --- //
+    const val ctrlPoint3Id = ctrlPoint2Id + 1L
+    val ctrlPoint3 = ControlPoint(
+        id = ctrlPoint3Id,
+        name = "ctrl pt 3",
+        code = "c3"
+    )
 
-    val machineTypeWithCtrlPoint1 = MachineTypeWithControlPoints(
+    val ctrlPointList = listOf(ctrlPoint1, ctrlPoint2, ctrlPoint3)
+    val ctrlPointHashMap: LinkedHashMap<Long, ControlPoint>
+        get()
+        {
+            val tempHashMap = LinkedHashMap<Long, ControlPoint>()
+            ctrlPointList.forEach { tempHashMap[it.id] = it }
+            return tempHashMap
+        }
+
+    // --- MachineType and Control Point cross ref --- //
+
+    val machineTypeCtrlPointCrossRef1 = MachineTypeControlPointCrossRef(
+        machineTypeId = machineType1Id,
+        ctrlPointId = ctrlPoint1Id
+    )
+
+    val machineTypeCtrlPointCrossRef2 = MachineTypeControlPointCrossRef(
+        machineTypeId = machineType1Id,
+        ctrlPointId = ctrlPoint2Id
+    )
+
+    val machineTypeCtrlPointCrossRef3 = MachineTypeControlPointCrossRef(
+        machineTypeId = machineType2Id,
+        ctrlPointId = ctrlPoint1Id
+    )
+
+    val machineTypeCtrlPointCrossRef4 = MachineTypeControlPointCrossRef(
+        machineTypeId = machineType2Id,
+        ctrlPointId = ctrlPoint3Id
+    )
+
+    val machineTypeCtrlPointCrossRefList =
+        listOf(machineTypeCtrlPointCrossRef1, machineTypeCtrlPointCrossRef2, machineTypeCtrlPointCrossRef3, machineTypeCtrlPointCrossRef4)
+
+    val machineTypeWithControlPoint1 = MachineTypeWithControlPoints(
         machineType = machineType1,
-        controlPoints = listOf(ctrlPt1, ctrlPt3)
+        controlPoints = listOf(ctrlPoint1, ctrlPoint2)
     )
 
-    val machineTypeWithCtrlPoint2 = MachineTypeWithControlPoints(
+    val machineTypeWithControlPointEdit = MachineTypeWithControlPoints(
+        machineType = machineType1,
+        controlPoints = listOf(ctrlPoint1, ctrlPoint3)
+    )
+
+    val machineTypeWithControlPointInsert = MachineTypeWithControlPoints(
+        machineType = machineType3,
+        controlPoints = listOf(ctrlPoint2, ctrlPoint3)
+    )
+
+    val machineTypeWithControlPoint2 = MachineTypeWithControlPoints(
         machineType = machineType2,
-        controlPoints = listOf(ctrlPt2, ctrlPt3)
+        controlPoints = listOf(ctrlPoint1, ctrlPoint2)
     )
 
-    val machineTypeWithCtrlPointList = listOf(machineTypeWithCtrlPoint1, machineTypeWithCtrlPoint2)
+    val machineTypeUpdateWithControlPointList = listOf(machineTypeWithControlPoint1, machineTypeWithControlPoint2)
+    val machineTypeUpdateWithControlPointMap: LinkedHashMap<Long, MachineTypeWithControlPoints>
+        get()
+        {
+            val tempMap = LinkedHashMap<Long, MachineTypeWithControlPoints>()
+            tempMap[machineTypeWithControlPoint1.machineType.id] = machineTypeWithControlPoint1
+            tempMap[machineTypeWithControlPoint2.machineType.id] = machineTypeWithControlPoint2
+            return tempMap
+        }
+
 
     // --- ControlPointData --- //
 
@@ -352,7 +444,7 @@ object AndroidDataProvider
     val ctrlPointData1 = ControlPointData(
         id = ctrlPointData1Id,
         ctrlPointPossibility = 1,
-        ctrlPointRef = ctrlPt1Id,
+        ctrlPointRef = ctrlPoint1Id,
         ctrlPointVerificationType = 1,
         comment = "lorem ipsum"
     )
@@ -361,7 +453,7 @@ object AndroidDataProvider
     val ctrlPointData2 = ControlPointData(
         id = ctrlPointData2Id,
         ctrlPointPossibility = 1,
-        ctrlPointRef = ctrlPt1Id,
+        ctrlPointRef = ctrlPoint2Id,
         ctrlPointVerificationType = 1,
         comment = "lorem ipsum"
     )
@@ -370,7 +462,7 @@ object AndroidDataProvider
     val ctrlPointData3 = ControlPointData(
         id = ctrlPointData3Id,
         ctrlPointPossibility = 1,
-        ctrlPointRef = ctrlPt2Id,
+        ctrlPointRef = ctrlPoint2Id,
         ctrlPointVerificationType = 1,
         comment = "lorem ipsum"
     )
@@ -562,21 +654,21 @@ object AndroidDataProvider
 
     val report1 = Report(
         machineId = machCtrlPtData1.machineId,
-        ctrlPoint = ctrlPtList[ctrlPointDataList[machCtrlPtData1.ctrlPointDataId.toInt() - 1].ctrlPointRef.toInt() - 1],
+        ctrlPoint = ctrlPointList[ctrlPointDataList[machCtrlPtData1.ctrlPointDataId.toInt() - 1].ctrlPointRef.toInt() - 1],
         ctrlPointData = ctrlPointDataList[ctrlPointDataList[machCtrlPtData1.ctrlPointDataId.toInt() - 1].id.toInt() - 1],
         ctrlPointDataExtra = extraList[machCtrlPtData1.machineCtrlPointDataExtra.toInt() - 1]
     )
 
     val report2 = Report(
         machineId = machCtrlPtData2.machineId,
-        ctrlPoint = ctrlPtList[ctrlPointDataList[machCtrlPtData2.ctrlPointDataId.toInt() - 1].ctrlPointRef.toInt() - 1],
+        ctrlPoint = ctrlPointList[ctrlPointDataList[machCtrlPtData2.ctrlPointDataId.toInt() - 1].ctrlPointRef.toInt() - 1],
         ctrlPointData = ctrlPointDataList[ctrlPointDataList[machCtrlPtData2.ctrlPointDataId.toInt() - 1].id.toInt() - 1],
         ctrlPointDataExtra = extraList[machCtrlPtData2.machineCtrlPointDataExtra.toInt() - 1]
     )
 
     val report3 = Report(
         machineId = machCtrlPtData3.machineId,
-        ctrlPoint = ctrlPtList[ctrlPointDataList[machCtrlPtData3.ctrlPointDataId.toInt() - 1].ctrlPointRef.toInt() - 1],
+        ctrlPoint = ctrlPointList[ctrlPointDataList[machCtrlPtData3.ctrlPointDataId.toInt() - 1].ctrlPointRef.toInt() - 1],
         ctrlPointData = ctrlPointDataList[ctrlPointDataList[machCtrlPtData3.ctrlPointDataId.toInt() - 1].id.toInt() - 1],
         ctrlPointDataExtra = extraList[machCtrlPtData3.machineCtrlPointDataExtra.toInt() - 1]
     )

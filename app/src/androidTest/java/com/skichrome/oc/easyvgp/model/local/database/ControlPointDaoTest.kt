@@ -53,7 +53,7 @@ class ControlPointDaoTest
     @Test
     @Throws(Exception::class)
     fun insertControlPt_controlPointDaoShouldInheritFromBaseDao() = runBlocking {
-        val controlPoint = AndroidDataProvider.ctrlPt1
+        val controlPoint = AndroidDataProvider.ctrlPoint1
         val result = controlPointDao.insertReplace(controlPoint)
 
         assertThat(result, IsNot(nullValue()))
@@ -72,7 +72,7 @@ class ControlPointDaoTest
     @Test
     @Throws(Exception::class)
     fun observeControlPoints_shouldReturnCtrlPointList() = runBlocking {
-        val ctrlPoints = AndroidDataProvider.ctrlPtList
+        val ctrlPoints = AndroidDataProvider.ctrlPointList
 
         controlPointDao.insertReplace(*ctrlPoints.toTypedArray())
 

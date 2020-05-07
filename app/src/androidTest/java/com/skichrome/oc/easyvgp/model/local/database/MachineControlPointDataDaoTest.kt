@@ -89,7 +89,7 @@ class MachineControlPointDataDaoTest
     fun observeControlPointsData_insertCtrlPtDataList_shouldReturnVgpListItemList() = runBlocking {
         val userAndCompany = AndroidDataProvider.userCompanyList
         val ctrlPtDataList = AndroidDataProvider.machCtrlPtDataList
-        val ctrlPtList = AndroidDataProvider.ctrlPtList
+        val ctrlPtList = AndroidDataProvider.ctrlPointList
         val customerList = AndroidDataProvider.customerList
         val machineList = AndroidDataProvider.machineList
         val machineTypeList = AndroidDataProvider.machineTypeList
@@ -118,7 +118,7 @@ class MachineControlPointDataDaoTest
     fun observeEndValidityReport_insertCtrlPtDataList_shouldReturnHomeEndValidityReportItemList() = runBlocking {
         val userAndCompany = AndroidDataProvider.userCompanyList
         val ctrlPtDataList = AndroidDataProvider.machCtrlPtDataList
-        val ctrlPtList = AndroidDataProvider.ctrlPtList
+        val ctrlPtList = AndroidDataProvider.ctrlPointList
         val customerList = AndroidDataProvider.customerList
         val machineList = AndroidDataProvider.machineList
         val machineTypeList = AndroidDataProvider.machineTypeList
@@ -149,7 +149,7 @@ class MachineControlPointDataDaoTest
 
         val userAndCompany = AndroidDataProvider.userCompanyList
         val ctrlPtDataList = AndroidDataProvider.machCtrlPtDataList
-        val ctrlPtList = AndroidDataProvider.ctrlPtList
+        val ctrlPtList = AndroidDataProvider.ctrlPointList
         val customerList = AndroidDataProvider.customerList
         val machineList = AndroidDataProvider.machineList
         val machineTypeList = AndroidDataProvider.machineTypeList

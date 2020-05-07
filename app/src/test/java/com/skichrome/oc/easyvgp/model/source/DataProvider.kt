@@ -1,6 +1,7 @@
 package com.skichrome.oc.easyvgp.model.source
 
 import androidx.annotation.VisibleForTesting
+import com.skichrome.oc.easyvgp.model.local.ControlType
 import com.skichrome.oc.easyvgp.model.local.database.*
 
 @Suppress("MemberVisibilityCanBePrivate")
@@ -74,6 +75,7 @@ object DataProvider
     val remoteCustomers = listOf(customer1, customer2).sortedBy { it.id }
     val localCustomers = listOf(customer1, customer3).sortedBy { it.id }
     val customerList = listOf(customer1, customer2, customer3).sortedBy { it.id }
+    val customerListEdit = listOf(customer1Edit, customer2, customer3).sortedBy { it.id }
 
     val remoteCustomerMap: LinkedHashMap<Long, Customer>
         get()
@@ -142,7 +144,7 @@ object DataProvider
     val machine1Edit = Machine(
         machineId = machine1Id,
         name = "Mach1-Edited",
-        parkNumber = "park 1 edited",
+        parkNumber = "park Edited",
         brand = "brand1-Edited",
         model = "model1-edited",
         manufacturingYear = 2000,
@@ -168,7 +170,7 @@ object DataProvider
 
     const val machineToInsertId = 3L
     val machineToInsert = Machine(
-        machineId = machine2Id,
+        machineId = machineToInsertId,
         name = "Mach3",
         parkNumber = "park 3",
         brand = "brand3",
@@ -434,4 +436,241 @@ object DataProvider
             tempMap[machineTypeWithControlPoint2.machineType.id] = machineTypeWithControlPoint2
             return tempMap
         }
+
+
+    // --- ControlPointData --- //
+
+    const val ctrlPointData1Id = 1L
+    val ctrlPointData1 = ControlPointData(
+        id = ctrlPointData1Id,
+        ctrlPointPossibility = 1,
+        ctrlPointRef = ctrlPoint1Id,
+        ctrlPointVerificationType = 1,
+        comment = "lorem ipsum"
+    )
+
+    const val ctrlPointData2Id = 2L
+    val ctrlPointData2 = ControlPointData(
+        id = ctrlPointData2Id,
+        ctrlPointPossibility = 1,
+        ctrlPointRef = ctrlPoint2Id,
+        ctrlPointVerificationType = 1,
+        comment = "lorem ipsum"
+    )
+
+    const val ctrlPointData3Id = 3L
+    val ctrlPointData3 = ControlPointData(
+        id = ctrlPointData3Id,
+        ctrlPointPossibility = 1,
+        ctrlPointRef = ctrlPoint2Id,
+        ctrlPointVerificationType = 1,
+        comment = "lorem ipsum"
+    )
+
+    val ctrlPointDataList = listOf(ctrlPointData1, ctrlPointData2, ctrlPointData3)
+
+    // --- CtrlPointDataExtras --- //
+
+    const val extra1Id = 1L
+    val extra1 = MachineControlPointDataExtra(
+        id = extra1Id,
+        loadMass = 2012,
+        loadType = "peson 1",
+        controlGlobalResult = ControlResult.RESULT_OK,
+        testsHasTriggeredSensors = true,
+        isTestsWithNominalLoad = true,
+        isTestsWithLoad = true,
+        reportDate = 30_000_000,
+        isMachineCE = true,
+        isLiftingEquip = true,
+        isMachineClean = true,
+        machineNotice = true,
+        isValid = true,
+        controlType = ControlType.VGP,
+        interventionPlace = "Place 1",
+        machineHours = 201,
+        reportEndDate = 30_100_000,
+        isReminderEmailSent = true,
+        isReportValidEmailSent = true,
+        reportLocalPath = null,
+        reportRemotePath = null
+    )
+
+    const val extra2Id = 2L
+    val extra2 = MachineControlPointDataExtra(
+        id = extra2Id,
+        loadMass = 20102,
+        loadType = "peson 2",
+        controlGlobalResult = ControlResult.RESULT_OK,
+        testsHasTriggeredSensors = true,
+        isTestsWithNominalLoad = false,
+        isTestsWithLoad = true,
+        reportDate = 40_000_000,
+        isMachineCE = true,
+        isLiftingEquip = true,
+        isMachineClean = true,
+        machineNotice = true,
+        isValid = false,
+        controlType = ControlType.VGP,
+        interventionPlace = "Place 2",
+        machineHours = 2010,
+        reportEndDate = 40_100_000,
+        isReminderEmailSent = false,
+        isReportValidEmailSent = true,
+        reportLocalPath = null,
+        reportRemotePath = null
+    )
+
+    const val extra3Id = 3L
+    val extra3 = MachineControlPointDataExtra(
+        id = extra3Id,
+        loadMass = 20150,
+        loadType = "peson 3",
+        controlGlobalResult = ControlResult.RESULT_OK_WITH_INTERVENTION_NEEDED,
+        testsHasTriggeredSensors = null,
+        isTestsWithNominalLoad = null,
+        isTestsWithLoad = false,
+        reportDate = 80_000_000,
+        isMachineCE = true,
+        isLiftingEquip = false,
+        isMachineClean = true,
+        machineNotice = true,
+        isValid = true,
+        controlType = ControlType.VGP,
+        interventionPlace = "Place 3",
+        machineHours = 2018,
+        reportEndDate = 80_100_000,
+        isReminderEmailSent = true,
+        isReportValidEmailSent = false,
+        reportLocalPath = null,
+        reportRemotePath = null
+    )
+
+    val extraList = listOf(extra1, extra2, extra3)
+
+    // --- MachineControlPointData --- //
+
+    val machCtrlPtData1 = MachineControlPointData(
+        machineId = machine1Id,
+        machineCtrlPointDataExtra = extra1Id,
+        ctrlPointDataId = ctrlPointData1Id
+    )
+
+    val machCtrlPtData2 = MachineControlPointData(
+        machineId = machine2Id,
+        machineCtrlPointDataExtra = extra2Id,
+        ctrlPointDataId = ctrlPointData2Id
+    )
+
+    val machCtrlPtData3 = MachineControlPointData(
+        machineId = machine2Id,
+        machineCtrlPointDataExtra = extra3Id,
+        ctrlPointDataId = ctrlPointData3Id
+    )
+
+    val machCtrlPtDataList = listOf(machCtrlPtData1, machCtrlPtData2, machCtrlPtData3)
+
+    // --- VgpListItems --- //
+
+    val vgpListItem1 = VgpListItem(
+        machineId = machCtrlPtData1.machineId,
+        reportRemotePath = extraList[machCtrlPtData1.machineCtrlPointDataExtra.toInt() - 1].reportRemotePath,
+        reportLocalPath = extraList[machCtrlPtData1.machineCtrlPointDataExtra.toInt() - 1].reportLocalPath,
+        reportEndDate = extraList[machCtrlPtData1.machineCtrlPointDataExtra.toInt() - 1].reportEndDate,
+        isValid = extraList[machCtrlPtData1.machineCtrlPointDataExtra.toInt() - 1].isValid,
+        reportDate = extraList[machCtrlPtData1.machineCtrlPointDataExtra.toInt() - 1].reportDate,
+        controlPointDataId = machCtrlPtData1.ctrlPointDataId,
+        extrasReference = extraList[machCtrlPtData1.machineCtrlPointDataExtra.toInt() - 1].id
+    )
+
+    val vgpListItem2 = VgpListItem(
+        machineId = machCtrlPtData2.machineId,
+        reportRemotePath = extraList[machCtrlPtData2.machineCtrlPointDataExtra.toInt() - 1].reportRemotePath,
+        reportLocalPath = extraList[machCtrlPtData2.machineCtrlPointDataExtra.toInt() - 1].reportLocalPath,
+        reportEndDate = extraList[machCtrlPtData2.machineCtrlPointDataExtra.toInt() - 1].reportEndDate,
+        isValid = extraList[machCtrlPtData2.machineCtrlPointDataExtra.toInt() - 1].isValid,
+        reportDate = extraList[machCtrlPtData2.machineCtrlPointDataExtra.toInt() - 1].reportDate,
+        controlPointDataId = machCtrlPtData2.ctrlPointDataId,
+        extrasReference = extraList[machCtrlPtData2.machineCtrlPointDataExtra.toInt() - 1].id
+    )
+
+    val vgpListItem3 = VgpListItem(
+        machineId = machCtrlPtData3.machineId,
+        reportRemotePath = extraList[machCtrlPtData3.machineCtrlPointDataExtra.toInt() - 1].reportRemotePath,
+        reportLocalPath = extraList[machCtrlPtData3.machineCtrlPointDataExtra.toInt() - 1].reportLocalPath,
+        reportEndDate = extraList[machCtrlPtData3.machineCtrlPointDataExtra.toInt() - 1].reportEndDate,
+        isValid = extraList[machCtrlPtData3.machineCtrlPointDataExtra.toInt() - 1].isValid,
+        reportDate = extraList[machCtrlPtData3.machineCtrlPointDataExtra.toInt() - 1].reportDate,
+        controlPointDataId = machCtrlPtData3.ctrlPointDataId,
+        extrasReference = extraList[machCtrlPtData3.machineCtrlPointDataExtra.toInt() - 1].id
+    )
+
+    val vgpListItemList = listOf(vgpListItem1, vgpListItem2, vgpListItem3)
+
+    // --- HomeEndValidityReportItem --- //
+
+    val homeEndValidityReportItem1 = HomeEndValidityReportItem(
+        extraId = vgpListItem1.extrasReference,
+        isValid = vgpListItem1.isValid,
+        reportEndDate = vgpListItem1.reportEndDate,
+        reportLocalPath = vgpListItem1.reportLocalPath,
+        isReminderEmailSent = extraList[machCtrlPtData1.machineCtrlPointDataExtra.toInt() - 1].isReminderEmailSent,
+        companyName = customerList[machineList[machCtrlPtData1.machineId.toInt() - 1].customer.toInt() - 1].companyName,
+        customerEmail = customerList[machineList[machCtrlPtData1.machineId.toInt() - 1].customer.toInt() - 1].email,
+        localPicture = machineList[machCtrlPtData1.machineId.toInt() - 1].localPhotoRef,
+        machineName = machineList[machCtrlPtData1.machineId.toInt() - 1].name,
+        remotePicture = machineList[machCtrlPtData1.machineId.toInt() - 1].remotePhotoRef
+    )
+
+    val homeEndValidityReportItem2 = HomeEndValidityReportItem(
+        extraId = vgpListItem2.extrasReference,
+        isValid = vgpListItem2.isValid,
+        reportEndDate = vgpListItem2.reportEndDate,
+        reportLocalPath = vgpListItem2.reportLocalPath,
+        isReminderEmailSent = extraList[machCtrlPtData2.machineCtrlPointDataExtra.toInt() - 1].isReminderEmailSent,
+        companyName = customerList[machineList[machCtrlPtData2.machineId.toInt() - 1].customer.toInt() - 1].companyName,
+        customerEmail = customerList[machineList[machCtrlPtData2.machineId.toInt() - 1].customer.toInt() - 1].email,
+        localPicture = machineList[machCtrlPtData2.machineId.toInt() - 1].localPhotoRef,
+        machineName = machineList[machCtrlPtData2.machineId.toInt() - 1].name,
+        remotePicture = machineList[machCtrlPtData2.machineId.toInt() - 1].remotePhotoRef
+    )
+
+    val homeEndValidityReportItem3 = HomeEndValidityReportItem(
+        extraId = vgpListItem3.extrasReference,
+        isValid = vgpListItem3.isValid,
+        reportEndDate = vgpListItem3.reportEndDate,
+        reportLocalPath = vgpListItem3.reportLocalPath,
+        isReminderEmailSent = extraList[machCtrlPtData3.machineCtrlPointDataExtra.toInt() - 1].isReminderEmailSent,
+        companyName = customerList[machineList[machCtrlPtData3.machineId.toInt() - 1].customer.toInt() - 1].companyName,
+        customerEmail = customerList[machineList[machCtrlPtData3.machineId.toInt() - 1].customer.toInt() - 1].email,
+        localPicture = machineList[machCtrlPtData3.machineId.toInt() - 1].localPhotoRef,
+        machineName = machineList[machCtrlPtData3.machineId.toInt() - 1].name,
+        remotePicture = machineList[machCtrlPtData3.machineId.toInt() - 1].remotePhotoRef
+    )
+
+    val homeEndValidityReportItemList = listOf(homeEndValidityReportItem1, homeEndValidityReportItem2, homeEndValidityReportItem3)
+
+    // --- Report --- //
+
+    val report1 = Report(
+        machineId = machCtrlPtData1.machineId,
+        ctrlPoint = ctrlPointList[ctrlPointDataList[machCtrlPtData1.ctrlPointDataId.toInt() - 1].ctrlPointRef.toInt() - 1],
+        ctrlPointData = ctrlPointDataList[ctrlPointDataList[machCtrlPtData1.ctrlPointDataId.toInt() - 1].id.toInt() - 1],
+        ctrlPointDataExtra = extraList[machCtrlPtData1.machineCtrlPointDataExtra.toInt() - 1]
+    )
+
+    val report2 = Report(
+        machineId = machCtrlPtData2.machineId,
+        ctrlPoint = ctrlPointList[ctrlPointDataList[machCtrlPtData2.ctrlPointDataId.toInt() - 1].ctrlPointRef.toInt() - 1],
+        ctrlPointData = ctrlPointDataList[ctrlPointDataList[machCtrlPtData2.ctrlPointDataId.toInt() - 1].id.toInt() - 1],
+        ctrlPointDataExtra = extraList[machCtrlPtData2.machineCtrlPointDataExtra.toInt() - 1]
+    )
+
+    val report3 = Report(
+        machineId = machCtrlPtData3.machineId,
+        ctrlPoint = ctrlPointList[ctrlPointDataList[machCtrlPtData3.ctrlPointDataId.toInt() - 1].ctrlPointRef.toInt() - 1],
+        ctrlPointData = ctrlPointDataList[ctrlPointDataList[machCtrlPtData3.ctrlPointDataId.toInt() - 1].id.toInt() - 1],
+        ctrlPointDataExtra = extraList[machCtrlPtData3.machineCtrlPointDataExtra.toInt() - 1]
+    )
+    val reportList = listOf(report1, report2, report3)
 }
