@@ -38,7 +38,7 @@ class LocalAdminSourceTest
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var database: AppDatabase
+    private lateinit var db: AppDatabase
     private lateinit var machineTypeDao: MachineTypeDao
     private lateinit var ctrlPointDao: ControlPointDao
     private lateinit var machineTypeCtrlPointDao: MachineTypeControlPointCrossRefDao
@@ -54,16 +54,16 @@ class LocalAdminSourceTest
     @Before
     fun setUp()
     {
-        database = Room.inMemoryDatabaseBuilder(
+        db = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
             AppDatabase::class.java
         )
             .allowMainThreadQueries()
             .build()
 
-        machineTypeDao = database.machinesTypeDao()
-        ctrlPointDao = database.controlPointDao()
-        machineTypeCtrlPointDao = database.machineTypeControlPointCrossRefDao()
+        machineTypeDao = db.machinesTypeDao()
+        ctrlPointDao = db.controlPointDao()
+        machineTypeCtrlPointDao = db.machineTypeControlPointCrossRefDao()
 
         adminSource = LocalAdminSource(
             controlPointDao = ctrlPointDao,
@@ -74,7 +74,7 @@ class LocalAdminSourceTest
     }
 
     @After
-    fun tearDown() = database.close()
+    fun tearDown() = db.close()
 
     // --- Tests --- //
 

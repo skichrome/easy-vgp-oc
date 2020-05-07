@@ -192,7 +192,7 @@ object ServiceLocator
         return LocalNewVgpSource(
             machineTypeDao = machineTypeDao,
             ctrlPointDataDao = ctrlPointDataDao,
-            machineCtrlPointDao = machineCtrlPointDao,
+            machineCtrlPointDataDao = machineCtrlPointDao,
             machineCtrlPtExtraDao = machineCtrlPtExtraDao
         )
     }

@@ -37,7 +37,7 @@ class LocalMachineSourceTest
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var database: AppDatabase
+    private lateinit var db: AppDatabase
     private lateinit var customerDao: CustomerDao
     private lateinit var machineDao: MachineDao
     private lateinit var machineTypeDao: MachineTypeDao
@@ -53,16 +53,16 @@ class LocalMachineSourceTest
     @Before
     fun setUp()
     {
-        database = Room.inMemoryDatabaseBuilder(
+        db = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
             AppDatabase::class.java
         )
             .allowMainThreadQueries()
             .build()
 
-        customerDao = database.customersDao()
-        machineDao = database.machinesDao()
-        machineTypeDao = database.machinesTypeDao()
+        customerDao = db.customersDao()
+        machineDao = db.machinesDao()
+        machineTypeDao = db.machinesTypeDao()
 
         customerSource = LocalMachineSource(
             machineDao = machineDao,
@@ -72,9 +72,9 @@ class LocalMachineSourceTest
     }
 
     @After
-    fun tearDown() = database.close()
+    fun tearDown() = db.close()
 
-    // --- Configuration --- //
+    // --- Tests --- //
 
     @Test
     fun observeMachines() = runBlocking {

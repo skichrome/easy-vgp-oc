@@ -36,7 +36,7 @@ class LocalCustomerSourceTest
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var database: AppDatabase
+    private lateinit var db: AppDatabase
     private lateinit var customerDao: CustomerDao
     private lateinit var customerSource: CustomerSource
 
@@ -49,19 +49,19 @@ class LocalCustomerSourceTest
     @Before
     fun setUp()
     {
-        database = Room.inMemoryDatabaseBuilder(
+        db = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
             AppDatabase::class.java
         )
             .allowMainThreadQueries()
             .build()
 
-        customerDao = database.customersDao()
+        customerDao = db.customersDao()
         customerSource = LocalCustomerSource(customerDao = customerDao, dispatchers = Dispatchers.Main)
     }
 
     @After
-    fun tearDown() = database.close()
+    fun tearDown() = db.close()
 
     // --- Tests --- //
 

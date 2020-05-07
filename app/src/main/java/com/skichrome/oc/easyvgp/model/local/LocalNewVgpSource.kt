@@ -14,7 +14,7 @@ class LocalNewVgpSource(
     private val machineTypeDao: MachineTypeDao,
     private val ctrlPointDataDao: ControlPointDataDao,
     private val machineCtrlPtExtraDao: MachineControlPointDataExtraDao,
-    private val machineCtrlPointDao: MachineControlPointDataDao,
+    private val machineCtrlPointDataDao: MachineControlPointDataDao,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : NewVgpSource
 {
@@ -32,10 +32,11 @@ class LocalNewVgpSource(
     override suspend fun getReportFromDate(date: Long): Results<List<Report>> = withContext(dispatcher) {
         return@withContext try
         {
-            val result = machineCtrlPointDao.getPreviouslyInsertedReport(date)
+            val result = machineCtrlPointDataDao.getPreviouslyInsertedReport(date)
             if (result.isEmpty())
                 Error(ItemNotFoundException("This report was not found"))
-            Success(result)
+            else
+                Success(result)
         }
         catch (e: Exception)
         {
@@ -94,7 +95,7 @@ class LocalNewVgpSource(
         withContext(dispatcher) {
             return@withContext try
             {
-                val result = machineCtrlPointDao.insertReplace(machineControlPointsData)
+                val result = machineCtrlPointDataDao.insertReplace(machineControlPointsData)
                 Success(result)
             }
             catch (e: Exception)

@@ -84,6 +84,9 @@ class AddEditCustomerFragmentTest
         onView(withId(R.id.addEditCustomerFragmentEmailEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentEmailEditText)).check(matches(withText(customerToAdd.email)))
 
+        // Scroll up to display bottom fields
+        onView(withId(R.id.addEditCustomerFragmentPhoneEditText)).perform(scrollTo())
+
         onView(withId(R.id.addEditCustomerFragmentPhoneEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentPhoneEditText)).check(matches(withText(customerToAdd.phone.toString())))
 
@@ -132,6 +135,9 @@ class AddEditCustomerFragmentTest
 
         onView(withId(R.id.addEditCustomerFragmentEmailEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentEmailEditText)).check(matches(withText("")))
+
+        // Scroll up to display bottom fields
+        onView(withId(R.id.addEditCustomerFragmentPhoneEditText)).perform(scrollTo())
 
         onView(withId(R.id.addEditCustomerFragmentPhoneEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentPhoneEditText)).check(matches(withText("")))

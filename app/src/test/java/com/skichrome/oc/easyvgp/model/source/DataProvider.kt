@@ -424,7 +424,7 @@ object DataProvider
 
     val machineTypeWithControlPoint2 = MachineTypeWithControlPoints(
         machineType = machineType2,
-        controlPoints = listOf(ctrlPoint1, ctrlPoint2)
+        controlPoints = listOf(ctrlPoint1, ctrlPoint3)
     )
 
     val machineTypeUpdateWithControlPointList = listOf(machineTypeWithControlPoint1, machineTypeWithControlPoint2)
@@ -447,6 +447,14 @@ object DataProvider
         ctrlPointRef = ctrlPoint1Id,
         ctrlPointVerificationType = 1,
         comment = "lorem ipsum"
+    )
+
+    val ctrlPointData1Edit = ControlPointData(
+        id = ctrlPointData1Id,
+        ctrlPointPossibility = 1,
+        ctrlPointRef = ctrlPoint1Id,
+        ctrlPointVerificationType = 3,
+        comment = "lorem ipsum EDITED"
     )
 
     const val ctrlPointData2Id = 2L
@@ -492,6 +500,29 @@ object DataProvider
         reportEndDate = 30_100_000,
         isReminderEmailSent = true,
         isReportValidEmailSent = true,
+        reportLocalPath = null,
+        reportRemotePath = null
+    )
+    val extra1Edit = MachineControlPointDataExtra(
+        id = extra1Id,
+        loadMass = 2012,
+        loadType = "peson 1 update",
+        controlGlobalResult = ControlResult.RESULT_OK,
+        testsHasTriggeredSensors = true,
+        isTestsWithNominalLoad = false,
+        isTestsWithLoad = true,
+        reportDate = 30_000_000,
+        isMachineCE = true,
+        isLiftingEquip = true,
+        isMachineClean = true,
+        machineNotice = true,
+        isValid = true,
+        controlType = ControlType.VGP,
+        interventionPlace = "Place 1",
+        machineHours = 2010,
+        reportEndDate = 30_100_000,
+        isReminderEmailSent = true,
+        isReportValidEmailSent = false,
         reportLocalPath = null,
         reportRemotePath = null
     )
@@ -655,21 +686,21 @@ object DataProvider
     val report1 = Report(
         machineId = machCtrlPtData1.machineId,
         ctrlPoint = ctrlPointList[ctrlPointDataList[machCtrlPtData1.ctrlPointDataId.toInt() - 1].ctrlPointRef.toInt() - 1],
-        ctrlPointData = ctrlPointDataList[ctrlPointDataList[machCtrlPtData1.ctrlPointDataId.toInt() - 1].id.toInt() - 1],
+        ctrlPointData = ctrlPointDataList[machCtrlPtData1.ctrlPointDataId.toInt() - 1],
         ctrlPointDataExtra = extraList[machCtrlPtData1.machineCtrlPointDataExtra.toInt() - 1]
     )
 
     val report2 = Report(
         machineId = machCtrlPtData2.machineId,
         ctrlPoint = ctrlPointList[ctrlPointDataList[machCtrlPtData2.ctrlPointDataId.toInt() - 1].ctrlPointRef.toInt() - 1],
-        ctrlPointData = ctrlPointDataList[ctrlPointDataList[machCtrlPtData2.ctrlPointDataId.toInt() - 1].id.toInt() - 1],
+        ctrlPointData = ctrlPointDataList[machCtrlPtData2.ctrlPointDataId.toInt() - 1],
         ctrlPointDataExtra = extraList[machCtrlPtData2.machineCtrlPointDataExtra.toInt() - 1]
     )
 
     val report3 = Report(
         machineId = machCtrlPtData3.machineId,
         ctrlPoint = ctrlPointList[ctrlPointDataList[machCtrlPtData3.ctrlPointDataId.toInt() - 1].ctrlPointRef.toInt() - 1],
-        ctrlPointData = ctrlPointDataList[ctrlPointDataList[machCtrlPtData3.ctrlPointDataId.toInt() - 1].id.toInt() - 1],
+        ctrlPointData = ctrlPointDataList[machCtrlPtData3.ctrlPointDataId.toInt() - 1],
         ctrlPointDataExtra = extraList[machCtrlPtData3.machineCtrlPointDataExtra.toInt() - 1]
     )
     val reportList = listOf(report1, report2, report3)
