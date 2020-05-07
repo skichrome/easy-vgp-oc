@@ -15,7 +15,6 @@ import com.skichrome.oc.easyvgp.model.FakeAndroidTestCustomerRepository
 import com.skichrome.oc.easyvgp.model.FakeAndroidTestNetManager
 import com.skichrome.oc.easyvgp.viewmodel.ServiceLocator
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.not
 import org.junit.After
@@ -59,7 +58,7 @@ class AddEditCustomerFragmentTest
     // --- Tests --- //
 
     @Test
-    fun customerEdit_dataDisplayedInUI() = runBlocking {
+    fun customerEdit_dataDisplayedInUI() = runBlockingTest {
         val customerToAdd = AndroidDataProvider.customer2
         customerRepo.saveCustomers(customerToAdd)
 
@@ -85,7 +84,7 @@ class AddEditCustomerFragmentTest
         onView(withId(R.id.addEditCustomerFragmentEmailEditText)).check(matches(withText(customerToAdd.email)))
 
         // Scroll up to display bottom fields
-        onView(withId(R.id.addEditCustomerFragmentPhoneEditText)).perform(scrollTo())
+        onView(withId(R.id.addEditCustomerFragmentMobilePhoneEditText)).perform(scrollTo())
 
         onView(withId(R.id.addEditCustomerFragmentPhoneEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentPhoneEditText)).check(matches(withText(customerToAdd.phone.toString())))
@@ -110,7 +109,6 @@ class AddEditCustomerFragmentTest
 
         onView(withId(R.id.addEditCustomerFragmentNotesEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentNotesEditText)).check(matches(withText(customerToAdd.notes)))
-        return@runBlocking Unit
     }
 
     @Test
@@ -137,7 +135,7 @@ class AddEditCustomerFragmentTest
         onView(withId(R.id.addEditCustomerFragmentEmailEditText)).check(matches(withText("")))
 
         // Scroll up to display bottom fields
-        onView(withId(R.id.addEditCustomerFragmentPhoneEditText)).perform(scrollTo())
+        onView(withId(R.id.addEditCustomerFragmentMobilePhoneEditText)).perform(scrollTo())
 
         onView(withId(R.id.addEditCustomerFragmentPhoneEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditCustomerFragmentPhoneEditText)).check(matches(withText("")))
