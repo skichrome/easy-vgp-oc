@@ -56,7 +56,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/addEditMachineFragmentParkNumberEditText"
                 style="@style/EasyVGPTheme.editTextInputStyle"
-                android:text="@{viewModel.machine.name}" />
+                android:text="@{viewModel.machine.parkNumber}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

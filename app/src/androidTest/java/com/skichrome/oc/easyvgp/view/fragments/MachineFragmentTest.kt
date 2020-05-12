@@ -5,6 +5,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.MediumTest
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.AndroidDataProvider
 import com.skichrome.oc.easyvgp.model.FakeAndroidTestMachineRepository
@@ -18,6 +19,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @ExperimentalCoroutinesApi
+@MediumTest
 @RunWith(AndroidJUnit4::class)
 class MachineFragmentTest
 {
@@ -64,12 +66,17 @@ class MachineFragmentTest
         onView(withId(R.id.rvItemMachineCardView)).check(matches(isClickable()))
         onView(withId(R.id.rvItemMachineCardView)).check(matches(isFocusable()))
 
+        onView(withId(R.id.rvItemFragmentMachineEditBtn)).check(matches(isDisplayed()))
+        onView(withId(R.id.rvItemFragmentMachineEditBtn)).check(matches(isClickable()))
+        onView(withId(R.id.rvItemFragmentMachineEditBtn)).check(matches(isFocusable()))
+
         onView(withId(R.id.rvItemMachineName)).check(matches(isDisplayed()))
         onView(withId(R.id.rvItemMachineName)).check(matches(withText(AndroidDataProvider.machine1.name)))
         onView(withId(R.id.rvItemMachineBrand)).check(matches(isDisplayed()))
         onView(withId(R.id.rvItemMachineBrand)).check(matches(withText(AndroidDataProvider.machine1.brand)))
         onView(withId(R.id.rvItemMachineSerial)).check(matches(isDisplayed()))
         onView(withId(R.id.rvItemMachineSerial)).check(matches(withText(AndroidDataProvider.machine1.serial)))
+        onView(withId(R.id.rvItemFragmentMachineImage)).check(matches(isDisplayed()))
 
         onView(withId(R.id.rvItemMachineName)).check(matches(isDisplayed()))
         onView(withId(R.id.rvItemMachineName)).check(matches(not(withText(AndroidDataProvider.machine2.name))))

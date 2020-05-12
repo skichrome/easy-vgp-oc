@@ -11,16 +11,16 @@ import com.skichrome.oc.easyvgp.model.local.database.MachineType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 
-class FakeAndroidTestMachineRepository : MachineRepository
+class FakeAndroidTestMachineRepository(
+    private val machineDataService: LinkedHashMap<Long, Machine> = LinkedHashMap(),
+    private val machineTypeDataService: LinkedHashMap<Long, MachineType> = LinkedHashMap()
+) : MachineRepository
 {
     // =================================
     //              Fields
     // =================================
 
-    private val machineServiceData: LinkedHashMap<Long, Machine> = LinkedHashMap()
     private val observableMachinesData = MutableLiveData<List<Machine>>()
-
-    private val machineTypeServiceData: LinkedHashMap<Long, MachineType> = LinkedHashMap()
     private val observableMachineTypeData = MutableLiveData<List<MachineType>>()
 
     // =================================
@@ -33,7 +33,7 @@ class FakeAndroidTestMachineRepository : MachineRepository
 
     override suspend fun getMachineById(machineId: Long): Results<Machine>
     {
-        val result = machineServiceData[machineId]
+        val result = machineDataService[machineId]
         return if (result == null)
             Error(Exception("Not found"))
         else
@@ -42,15 +42,15 @@ class FakeAndroidTestMachineRepository : MachineRepository
 
     override suspend fun insertNewMachine(machine: Machine): Results<Long>
     {
-        machineServiceData[machine.machineId] = machine
+        machineDataService[machine.machineId] = machine
         return Success(machine.machineId)
     }
 
     override suspend fun updateMachine(machine: Machine): Results<Int>
     {
-        val machineToUpdate = machineServiceData[machine.machineId]
+        val machineToUpdate = machineDataService[machine.machineId]
         return machineToUpdate?.let {
-            machineServiceData[machine.machineId] = machine
+            machineDataService[machine.machineId] = machine
             Success(1)
         } ?: Error(Exception("Machine not found"))
     }
@@ -59,10 +59,10 @@ class FakeAndroidTestMachineRepository : MachineRepository
     //              Methods
     // =================================
 
-    fun insertMachineTypes(machineTypes: List<MachineType>) = machineTypes.forEach { machineTypeServiceData[it.id] = it }
+    fun insertMachineTypes(machineTypes: List<MachineType>) = machineTypes.forEach { machineTypeDataService[it.id] = it }
 
     fun refresh() = runBlocking(Dispatchers.Main) {
-        observableMachinesData.value = machineServiceData.values.toList().sortedBy { it.machineId }
-        observableMachineTypeData.value = machineTypeServiceData.values.toList().sortedBy { it.id }
+        observableMachinesData.value = machineDataService.values.toList().sortedBy { it.machineId }
+        observableMachineTypeData.value = machineTypeDataService.values.toList().sortedBy { it.id }
     }
 }
