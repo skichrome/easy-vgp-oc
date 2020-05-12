@@ -477,6 +477,14 @@ object DataProvider
 
     val ctrlPointDataList = listOf(ctrlPointData1, ctrlPointData2, ctrlPointData3)
 
+    val ctrlPointDataMap: LinkedHashMap<Long, ControlPointData>
+        get()
+        {
+            val tmp = LinkedHashMap<Long, ControlPointData>()
+            ctrlPointDataList.forEach { tmp[it.id] = it }
+            return tmp
+        }
+
     // --- CtrlPointDataExtras --- //
 
     const val extra1Id = 1L
@@ -578,6 +586,22 @@ object DataProvider
     )
 
     val extraList = listOf(extra1, extra2, extra3)
+
+    val extraMap: LinkedHashMap<Long, MachineControlPointDataExtra>
+        get()
+        {
+            val tmp = LinkedHashMap<Long, MachineControlPointDataExtra>()
+            extraList.forEach { tmp[it.id] = it }
+            return tmp
+        }
+
+    val extraByDateMap: LinkedHashMap<Long, MachineControlPointDataExtra>
+        get()
+        {
+            val tmp = LinkedHashMap<Long, MachineControlPointDataExtra>()
+            extraList.forEach { tmp[it.reportDate] = it }
+            return tmp
+        }
 
     // --- MachineControlPointData --- //
 

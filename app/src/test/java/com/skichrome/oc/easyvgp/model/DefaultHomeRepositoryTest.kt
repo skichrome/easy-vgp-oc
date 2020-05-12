@@ -79,6 +79,23 @@ class DefaultHomeRepositoryTest
     }
 
     @Test
+    fun updateExtraEmailSentStatusTest() = runBlockingTest {
+        val extras = DataProvider.extraList
+        val extraToUpdate = DataProvider.extra2
+        homeLocalSource.insertExtras(extras)
+
+        val result = repository.updateExtraEmailSentStatus(extraToUpdate.id)
+
+        assertThat(result, instanceOf(Success::class.java))
+        assertThat((result as Success).data, `is`(1))
+
+        val sourceResult = homeLocalSource.getExtra(extraToUpdate.id)
+
+        assertThat(sourceResult, instanceOf(Success::class.java))
+        assertThat((sourceResult as Success).data.isReminderEmailSent, `is`(true))
+    }
+
+    @Test
     fun synchronizeDatabase_offlineMode_shouldThrowAnError_InternetAccessMustBeAvailable() = runBlockingTest {
         val result = repository.synchronizeDatabase()
         assertThat(result, instanceOf(Results.Error::class.java))

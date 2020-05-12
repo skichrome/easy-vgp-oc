@@ -18,7 +18,8 @@ class FakeHomeDataSource(
     private val userAndCompanyDataService: LinkedHashMap<Long, UserAndCompany> = LinkedHashMap(),
     private val ctrlPointDataService: LinkedHashMap<Long, ControlPoint> = LinkedHashMap(),
     private val machineTypeDataService: LinkedHashMap<Long, MachineType> = LinkedHashMap(),
-    private val machineTypeCtrlPointDataService: LinkedHashMap<Long, MachineTypeControlPointCrossRef> = LinkedHashMap()
+    private val machineTypeCtrlPointDataService: LinkedHashMap<Long, MachineTypeControlPointCrossRef> = LinkedHashMap(),
+    private val extraDataService: LinkedHashMap<Long, MachineControlPointDataExtra> = LinkedHashMap()
 ) : HomeSource
 {
     // =================================
@@ -42,21 +43,48 @@ class FakeHomeDataSource(
         return Success(userAndCompany.company.id)
     }
 
-    override suspend fun updateUserAndCompany(userAndCompany: UserAndCompany): Results<Int>
-    {
-        val userExist = userAndCompanyDataService[userAndCompany.company.id]
-        return if (userExist != null)
+    override suspend fun updateUserAndCompany(userAndCompany: UserAndCompany): Results<Int> =
+        when (userAndCompanyDataService[userAndCompany.company.id])
         {
-            userAndCompanyDataService[userAndCompany.company.id] = userAndCompany
+            null -> Error(ItemNotFoundException("Item doesnt' exist in the list"))
+            else ->
+            {
+                userAndCompanyDataService[userAndCompany.company.id] = userAndCompany
+                Success(1)
+            }
+        }
+
+    override suspend fun updateExtraEmailSentStatus(extraId: Long): Results<Int> = when (val extra = extraDataService[extraId])
+    {
+        null -> Error(ItemNotFoundException("Item doesn't exist in the list"))
+        else ->
+        {
+            val newExtra = MachineControlPointDataExtra(
+                id = extra.id,
+                isReminderEmailSent = true,
+                reportLocalPath = extra.reportLocalPath,
+                reportEndDate = extra.reportEndDate,
+                isValid = extra.isValid,
+                reportDate = extra.reportDate,
+                reportRemotePath = extra.reportRemotePath,
+                isReportValidEmailSent = extra.isReportValidEmailSent,
+                machineHours = extra.machineHours,
+                interventionPlace = extra.interventionPlace,
+                controlType = extra.controlType,
+                machineNotice = extra.machineNotice,
+                isMachineClean = extra.isMachineClean,
+                isLiftingEquip = extra.isLiftingEquip,
+                isMachineCE = extra.isMachineCE,
+                isTestsWithLoad = extra.isTestsWithLoad,
+                isTestsWithNominalLoad = extra.isTestsWithNominalLoad,
+                testsHasTriggeredSensors = extra.testsHasTriggeredSensors,
+                controlGlobalResult = extra.controlGlobalResult,
+                loadType = extra.loadType,
+                loadMass = extra.loadMass
+            )
+            extraDataService[extraId] = newExtra
             Success(1)
         }
-        else
-            Error(ItemNotFoundException("Item doesnt' exist in the list"))
-    }
-
-    override suspend fun updateExtraEmailSentStatus(extraId: Long): Results<Int>
-    {
-        TODO("Not yet implemented")
     }
 
     override suspend fun getAllControlPointsAsync(): Deferred<Results<List<ControlPoint>>> = withContext(Dispatchers.Unconfined) {
@@ -153,5 +181,13 @@ class FakeHomeDataSource(
         machTypesCtrlPt.forEachIndexed { index, machineTypeControlPointCrossRef ->
             machineTypeCtrlPointDataService[index.toLong()] = machineTypeControlPointCrossRef
         }
+    }
+
+    fun insertExtras(extras: List<MachineControlPointDataExtra>) = extras.forEach { extraDataService[it.id] = it }
+
+    fun getExtra(id: Long) = when (val extra = extraDataService[id])
+    {
+        null -> Error(ItemNotFoundException("Item doesn't exist in the list !"))
+        else -> Success(extra)
     }
 }

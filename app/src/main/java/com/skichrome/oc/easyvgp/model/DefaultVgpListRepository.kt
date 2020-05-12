@@ -40,7 +40,7 @@ class DefaultVgpListRepository(
                     extras as? Error ?: Error(LocalRepositoryException("Something went wrong with local VGP List source"))
             }
             else
-                result as? Error ?: Error(RemoteRepositoryException("Somthing went wrong with remote VGP List source"))
+                result as? Error ?: Error(RemoteRepositoryException("Something went wrong with remote VGP List source"))
         }
         else
             Error(NetworkException("VGP List need network access to work properly"))
