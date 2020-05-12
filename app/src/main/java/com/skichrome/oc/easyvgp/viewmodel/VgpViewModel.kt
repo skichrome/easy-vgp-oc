@@ -13,7 +13,6 @@ import com.skichrome.oc.easyvgp.model.local.database.ControlPointData
 import com.skichrome.oc.easyvgp.model.local.database.ControlResult
 import com.skichrome.oc.easyvgp.model.local.util.ControlPointDataVgp
 import com.skichrome.oc.easyvgp.util.Event
-import com.skichrome.oc.easyvgp.util.uiJob
 import kotlinx.coroutines.launch
 
 class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
@@ -48,7 +47,7 @@ class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
 
     fun onClickRadioBtnEvent(index: Int, state: ChoicePossibility)
     {
-        viewModelScope.uiJob {
+        viewModelScope.launch {
             _machineTypeWithControlPointsData.value?.get(index)?.choicePossibility = state
         }
     }
@@ -57,14 +56,14 @@ class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
 
     fun setCommentToCtrlPointData(index: Int, comment: String)
     {
-        viewModelScope.uiJob {
+        viewModelScope.launch {
             _machineTypeWithControlPointsData.value?.get(index)?.comment = comment
         }
     }
 
     fun getMachineTypeWithControlPoints(machineTypeId: Long)
     {
-        viewModelScope.uiJob {
+        viewModelScope.launch {
             val result = repository.getAllControlPointsWithMachineType(machineTypeId)
             if (result is Success)
             {
@@ -88,7 +87,7 @@ class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
 
     fun loadPreviouslyCreatedReport(reportDate: Long)
     {
-        viewModelScope.uiJob {
+        viewModelScope.launch {
             val result = repository.getReportFromDate(reportDate)
             if (result is Success)
             {
@@ -111,7 +110,7 @@ class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
 
     private fun saveCtrlPointDataList(machineId: Long, controlExtraId: Long)
     {
-        viewModelScope.uiJob {
+        viewModelScope.launch {
             _machineTypeWithControlPointsData.value?.let {
                 val canSave = it.firstOrNull { ctrlPtDataVgp -> ctrlPtDataVgp.choicePossibility == ChoicePossibility.UNKNOWN }
                 if (canSave != null)
@@ -145,7 +144,7 @@ class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
 
     private fun updatePreviouslyCreatedReport()
     {
-        viewModelScope.uiJob {
+        viewModelScope.launch {
             _machineTypeWithControlPointsData.value?.let {
                 val ctrlPointDataList = it.map { ctrlPointDataVgp ->
                     ControlPointData(

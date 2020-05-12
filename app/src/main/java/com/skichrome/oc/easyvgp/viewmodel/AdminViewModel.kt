@@ -14,7 +14,6 @@ import com.skichrome.oc.easyvgp.model.local.util.MachineTypeCtrlPtMultiChoiceIte
 import com.skichrome.oc.easyvgp.util.Event
 import com.skichrome.oc.easyvgp.util.NetworkException
 import com.skichrome.oc.easyvgp.util.RemoteRepositoryException
-import com.skichrome.oc.easyvgp.util.uiJob
 import kotlinx.coroutines.launch
 
 class AdminViewModel(private val repository: AdminRepository) : ViewModel()
@@ -43,7 +42,7 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel()
     private val _machineTypes: LiveData<List<MachineType>> = _forceRefresh.switchMap { refresh ->
         isLoading.set(true)
         if (refresh)
-            viewModelScope.uiJob {
+            viewModelScope.launch {
                 val result = repository.getAllMachineType()
                 if (result !is Success)
                     showMessage(R.string.admin_view_model_machine_type_list_refresh_error)
@@ -124,7 +123,7 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel()
 
     fun insertMachineType(machineType: MachineType)
     {
-        viewModelScope.uiJob {
+        viewModelScope.launch {
             val result = repository.insertNewMachineType(machineType)
 
             if (result is Success)
@@ -141,7 +140,7 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel()
 
     fun updateMachineType(machineType: MachineType)
     {
-        viewModelScope.uiJob {
+        viewModelScope.launch {
             val result = repository.updateMachineType(machineType)
             if (result is Success)
                 showMessage(R.string.admin_view_model_machine_type_update_success)
@@ -157,7 +156,7 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel()
 
     fun insertControlPoint(controlPoint: ControlPoint)
     {
-        viewModelScope.uiJob {
+        viewModelScope.launch {
             val result = repository.insertNewControlPoint(controlPoint)
             if (result is Success)
                 showMessage(R.string.admin_view_model_ctrl_point_insert_success)
@@ -173,7 +172,7 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel()
 
     fun updateControlPoint(controlPoint: ControlPoint)
     {
-        viewModelScope.uiJob {
+        viewModelScope.launch {
             val result = repository.updateControlPoint(controlPoint)
             if (result is Success)
                 showMessage(R.string.admin_view_model_ctrl_point_update_success)
@@ -189,7 +188,7 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel()
 
     private fun loadControlPointsByMachineType(machineType: MachineType)
     {
-        viewModelScope.uiJob {
+        viewModelScope.launch {
             isLoading.set(true)
 
             val resultList = LinkedHashMap<Long, MachineTypeCtrlPtMultiChoiceItems>()
@@ -223,7 +222,7 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel()
 
     fun insertOrUpdateMachineTypeWithControlPoints(machineTypeWithControlPoints: MachineTypeWithControlPoints)
     {
-        viewModelScope.uiJob {
+        viewModelScope.launch {
             val result = repository.insertNewMachineTypeControlPoint(machineTypeWithControlPoints)
             if (result is Success)
                 showMessage(R.string.admin_view_model_machine_type_with_ctrl_pt_updated)
