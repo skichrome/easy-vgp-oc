@@ -4,6 +4,8 @@ import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.base.NewVgpSource
+import com.skichrome.oc.easyvgp.model.local.ChoicePossibility
+import com.skichrome.oc.easyvgp.model.local.VerificationType
 import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.util.ItemNotFoundException
 
@@ -113,7 +115,13 @@ class FakeNewVgpSource(
         Report(
             machineId = 0L,
             ctrlPointDataExtra = extras.value,
-            ctrlPointData = ControlPointData(ctrlPointRef = 0L, comment = null, ctrlPointVerificationType = 0, ctrlPointPossibility = 0, id = 0L),
+            ctrlPointData = ControlPointData(
+                ctrlPointRef = 0L,
+                comment = null,
+                ctrlPointVerificationType = VerificationType.VISUAL,
+                ctrlPointPossibility = ChoicePossibility.UNKNOWN,
+                id = 0L
+            ),
             ctrlPoint = ControlPoint(id = 0L, code = "", name = "")
         )
     }

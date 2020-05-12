@@ -231,7 +231,7 @@ class LocalHomeSourceTest
     fun insertMachineTypesWithCtrlPoints() = runBlocking {
         val ctrlPts = DataProvider.ctrlPointList
         val machTypes = DataProvider.machineTypeList
-        val machTypeCtrlPt = DataProvider.machineTypeUpdateWithControlPointList
+        val machTypeCtrlPt = DataProvider.machineTypeWithControlPointList
 
         ctrlPointDao.insertReplace(*ctrlPts.toTypedArray())
         machineTypeDao.insertReplace(*machTypes.toTypedArray())
@@ -241,7 +241,7 @@ class LocalHomeSourceTest
         val result = machineTypeDao.getMachineTypeWithControlPointsFromMachineTypeId(machTypes.first().id)
         assertThat(result, IsNot(nullValue()))
         assertThat(result.machineType, IsEqual(machTypes.first()))
-        assertThat(result.controlPoints, IsEqual(listOf(DataProvider.ctrlPoint1, DataProvider.ctrlPoint2)))
+        assertThat(result.controlPoints, IsEqual(machTypeCtrlPt.first().controlPoints))
     }
 
     @Test

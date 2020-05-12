@@ -35,7 +35,7 @@ class DefaultNewVgpRepositoryTest
     {
         localNewVgpSource = FakeNewVgpSource(
             extraDataService = DataProvider.extraMap,
-            machineTypeWithCtrlPtDataService = DataProvider.machineTypeUpdateWithControlPointMap,
+            machineTypeWithCtrlPtDataService = DataProvider.machineTypeWithControlPointMap,
             ctrlPointsData = DataProvider.ctrlPointDataMap
         )
 
@@ -73,8 +73,8 @@ class DefaultNewVgpRepositoryTest
             ControlPointDataVgp(
                 comment = it.comment,
                 ctrlPointDataId = it.id,
-                verificationTypeId = it.ctrlPointVerificationType,
-                choicePossibilityId = it.ctrlPointPossibility,
+                verificationType = it.ctrlPointVerificationType,
+                choicePossibility = it.ctrlPointPossibility,
                 controlPoint = DataProvider.ctrlPointList[it.ctrlPointRef.toInt() - 1]
             )
         }

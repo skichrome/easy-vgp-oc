@@ -56,7 +56,7 @@ class DefaultAdminRepositoryTest
         localSource = FakeAdminSource(
             machineTypeDataService = DataProvider.machineTypeHashMap,
             ctrlPointDataService = DataProvider.ctrlPointHashMap,
-            machineTypeControlPointDataService = DataProvider.machineTypeUpdateWithControlPointMap
+            machineTypeControlPointDataService = DataProvider.machineTypeWithControlPointMap
         )
         remoteSource = FakeAdminSource()
 

@@ -1,7 +1,9 @@
 package com.skichrome.oc.easyvgp.model
 
 import androidx.annotation.VisibleForTesting
+import com.skichrome.oc.easyvgp.model.local.ChoicePossibility
 import com.skichrome.oc.easyvgp.model.local.ControlType
+import com.skichrome.oc.easyvgp.model.local.VerificationType
 import com.skichrome.oc.easyvgp.model.local.database.*
 
 @Suppress("MemberVisibilityCanBePrivate")
@@ -90,6 +92,14 @@ object AndroidDataProvider
         {
             val tempHashMap = LinkedHashMap<Long, Customer>()
             localCustomers.forEach { tempHashMap[it.id] = it }
+            return tempHashMap
+        }
+
+    val customersMap: LinkedHashMap<Long, Customer>
+        get()
+        {
+            val tempHashMap = LinkedHashMap<Long, Customer>()
+            customerList.forEach { tempHashMap[it.id] = it }
             return tempHashMap
         }
 
@@ -391,30 +401,25 @@ object AndroidDataProvider
 
     val machineTypeCtrlPointCrossRef2 = MachineTypeControlPointCrossRef(
         machineTypeId = machineType1Id,
-        ctrlPointId = ctrlPoint2Id
-    )
-
-    val machineTypeCtrlPointCrossRef3 = MachineTypeControlPointCrossRef(
-        machineTypeId = machineType2Id,
-        ctrlPointId = ctrlPoint1Id
+        ctrlPointId = ctrlPoint3Id
     )
 
     val machineTypeCtrlPointCrossRef4 = MachineTypeControlPointCrossRef(
         machineTypeId = machineType2Id,
-        ctrlPointId = ctrlPoint3Id
+        ctrlPointId = ctrlPoint2Id
     )
 
     val machineTypeCtrlPointCrossRefList =
-        listOf(machineTypeCtrlPointCrossRef1, machineTypeCtrlPointCrossRef2, machineTypeCtrlPointCrossRef3, machineTypeCtrlPointCrossRef4)
+        listOf(machineTypeCtrlPointCrossRef1, machineTypeCtrlPointCrossRef2, machineTypeCtrlPointCrossRef4)
 
     val machineTypeWithControlPoint1 = MachineTypeWithControlPoints(
         machineType = machineType1,
-        controlPoints = listOf(ctrlPoint1, ctrlPoint2)
+        controlPoints = listOf(ctrlPoint1, ctrlPoint3)
     )
 
     val machineTypeWithControlPointEdit = MachineTypeWithControlPoints(
         machineType = machineType1,
-        controlPoints = listOf(ctrlPoint1, ctrlPoint3)
+        controlPoints = listOf(ctrlPoint1, ctrlPoint2)
     )
 
     val machineTypeWithControlPointInsert = MachineTypeWithControlPoints(
@@ -424,11 +429,11 @@ object AndroidDataProvider
 
     val machineTypeWithControlPoint2 = MachineTypeWithControlPoints(
         machineType = machineType2,
-        controlPoints = listOf(ctrlPoint1, ctrlPoint3)
+        controlPoints = listOf(ctrlPoint2)
     )
 
-    val machineTypeUpdateWithControlPointList = listOf(machineTypeWithControlPoint1, machineTypeWithControlPoint2)
-    val machineTypeUpdateWithControlPointMap: LinkedHashMap<Long, MachineTypeWithControlPoints>
+    val machineTypeWithControlPointList = listOf(machineTypeWithControlPoint1, machineTypeWithControlPoint2)
+    val machineTypeWithControlPointMap: LinkedHashMap<Long, MachineTypeWithControlPoints>
         get()
         {
             val tempMap = LinkedHashMap<Long, MachineTypeWithControlPoints>()
@@ -443,39 +448,56 @@ object AndroidDataProvider
     const val ctrlPointData1Id = 1L
     val ctrlPointData1 = ControlPointData(
         id = ctrlPointData1Id,
-        ctrlPointPossibility = 1,
+        ctrlPointPossibility = ChoicePossibility.GOOD,
         ctrlPointRef = ctrlPoint1Id,
-        ctrlPointVerificationType = 1,
+        ctrlPointVerificationType = VerificationType.VISUAL,
         comment = "lorem ipsum"
     )
 
     val ctrlPointData1Edit = ControlPointData(
         id = ctrlPointData1Id,
-        ctrlPointPossibility = 1,
+        ctrlPointPossibility = ChoicePossibility.GOOD,
         ctrlPointRef = ctrlPoint1Id,
-        ctrlPointVerificationType = 3,
+        ctrlPointVerificationType = VerificationType.FUNCTIONAL,
         comment = "lorem ipsum EDITED"
     )
 
     const val ctrlPointData2Id = 2L
     val ctrlPointData2 = ControlPointData(
         id = ctrlPointData2Id,
-        ctrlPointPossibility = 1,
-        ctrlPointRef = ctrlPoint2Id,
-        ctrlPointVerificationType = 1,
-        comment = "lorem ipsum"
+        ctrlPointPossibility = ChoicePossibility.GOOD,
+        ctrlPointRef = ctrlPoint1Id,
+        ctrlPointVerificationType = VerificationType.VISUAL,
+        comment = "lorem ipsum 2"
     )
 
     const val ctrlPointData3Id = 3L
     val ctrlPointData3 = ControlPointData(
         id = ctrlPointData3Id,
-        ctrlPointPossibility = 1,
+        ctrlPointPossibility = ChoicePossibility.MEDIUM,
         ctrlPointRef = ctrlPoint2Id,
-        ctrlPointVerificationType = 1,
-        comment = "lorem ipsum"
+        ctrlPointVerificationType = VerificationType.VISUAL,
+        comment = "lorem ipsum 3"
     )
 
-    val ctrlPointDataList = listOf(ctrlPointData1, ctrlPointData2, ctrlPointData3)
+    const val ctrlPointData4Id = 4L
+    val ctrlPointData4 = ControlPointData(
+        id = ctrlPointData4Id,
+        ctrlPointPossibility = ChoicePossibility.MEDIUM,
+        ctrlPointRef = ctrlPoint3Id,
+        ctrlPointVerificationType = VerificationType.VISUAL,
+        comment = "lorem ipsum 4"
+    )
+
+    val ctrlPointDataList = listOf(ctrlPointData1, ctrlPointData2, ctrlPointData3, ctrlPointData4)
+
+    val ctrlPointDataMap: LinkedHashMap<Long, ControlPointData>
+        get()
+        {
+            val tmp = LinkedHashMap<Long, ControlPointData>()
+            ctrlPointDataList.forEach { tmp[it.id] = it }
+            return tmp
+        }
 
     // --- CtrlPointDataExtras --- //
 
@@ -579,6 +601,22 @@ object AndroidDataProvider
 
     val extraList = listOf(extra1, extra2, extra3)
 
+    val extraMap: LinkedHashMap<Long, MachineControlPointDataExtra>
+        get()
+        {
+            val tmp = LinkedHashMap<Long, MachineControlPointDataExtra>()
+            extraList.forEach { tmp[it.id] = it }
+            return tmp
+        }
+
+    val extraByDateMap: LinkedHashMap<Long, MachineControlPointDataExtra>
+        get()
+        {
+            val tmp = LinkedHashMap<Long, MachineControlPointDataExtra>()
+            extraList.forEach { tmp[it.reportDate] = it }
+            return tmp
+        }
+
     // --- MachineControlPointData --- //
 
     val machCtrlPtData1 = MachineControlPointData(
@@ -588,7 +626,7 @@ object AndroidDataProvider
     )
 
     val machCtrlPtData2 = MachineControlPointData(
-        machineId = machine2Id,
+        machineId = machine1Id,
         machineCtrlPointDataExtra = extra2Id,
         ctrlPointDataId = ctrlPointData2Id
     )
@@ -599,7 +637,21 @@ object AndroidDataProvider
         ctrlPointDataId = ctrlPointData3Id
     )
 
-    val machCtrlPtDataList = listOf(machCtrlPtData1, machCtrlPtData2, machCtrlPtData3)
+    val machCtrlPtData4 = MachineControlPointData(
+        machineId = machine1Id,
+        machineCtrlPointDataExtra = extra1Id,
+        ctrlPointDataId = ctrlPointData4Id
+    )
+
+    val machCtrlPtDataList = listOf(machCtrlPtData1, machCtrlPtData2, machCtrlPtData3, machCtrlPtData4)
+
+    val machCtrlPtDataMap: LinkedHashMap<Long, MachineControlPointData>
+        get()
+        {
+            val tmp = LinkedHashMap<Long, MachineControlPointData>()
+            machCtrlPtDataList.forEach { tmp[it.ctrlPointDataId] = it }
+            return tmp
+        }
 
     // --- VgpListItems --- //
 
@@ -636,7 +688,26 @@ object AndroidDataProvider
         extrasReference = extraList[machCtrlPtData3.machineCtrlPointDataExtra.toInt() - 1].id
     )
 
-    val vgpListItemList = listOf(vgpListItem1, vgpListItem2, vgpListItem3)
+    val vgpListItem4 = VgpListItem(
+        machineId = machCtrlPtData4.machineId,
+        reportRemotePath = extraList[machCtrlPtData4.machineCtrlPointDataExtra.toInt() - 1].reportRemotePath,
+        reportLocalPath = extraList[machCtrlPtData4.machineCtrlPointDataExtra.toInt() - 1].reportLocalPath,
+        reportEndDate = extraList[machCtrlPtData4.machineCtrlPointDataExtra.toInt() - 1].reportEndDate,
+        isValid = extraList[machCtrlPtData4.machineCtrlPointDataExtra.toInt() - 1].isValid,
+        reportDate = extraList[machCtrlPtData4.machineCtrlPointDataExtra.toInt() - 1].reportDate,
+        controlPointDataId = machCtrlPtData4.ctrlPointDataId,
+        extrasReference = extraList[machCtrlPtData4.machineCtrlPointDataExtra.toInt() - 1].id
+    )
+
+    val vgpListItemList = listOf(vgpListItem1, vgpListItem2, vgpListItem3, vgpListItem4)
+
+    val vgpListItemMap: LinkedHashMap<Long, VgpListItem>
+        get()
+        {
+            val tmp = LinkedHashMap<Long, VgpListItem>()
+            vgpListItemList.forEachIndexed { index, vgpListItem -> tmp[index.toLong()] = vgpListItem }
+            return tmp
+        }
 
     // --- HomeEndValidityReportItem --- //
 
@@ -679,7 +750,21 @@ object AndroidDataProvider
         remotePicture = machineList[machCtrlPtData3.machineId.toInt() - 1].remotePhotoRef
     )
 
-    val homeEndValidityReportItemList = listOf(homeEndValidityReportItem1, homeEndValidityReportItem2, homeEndValidityReportItem3)
+    val homeEndValidityReportItem4 = HomeEndValidityReportItem(
+        extraId = vgpListItem4.extrasReference,
+        isValid = vgpListItem4.isValid,
+        reportEndDate = vgpListItem4.reportEndDate,
+        reportLocalPath = vgpListItem4.reportLocalPath,
+        isReminderEmailSent = extraList[machCtrlPtData4.machineCtrlPointDataExtra.toInt() - 1].isReminderEmailSent,
+        companyName = customerList[machineList[machCtrlPtData4.machineId.toInt() - 1].customer.toInt() - 1].companyName,
+        customerEmail = customerList[machineList[machCtrlPtData4.machineId.toInt() - 1].customer.toInt() - 1].email,
+        localPicture = machineList[machCtrlPtData4.machineId.toInt() - 1].localPhotoRef,
+        machineName = machineList[machCtrlPtData4.machineId.toInt() - 1].name,
+        remotePicture = machineList[machCtrlPtData4.machineId.toInt() - 1].remotePhotoRef
+    )
+
+    val homeEndValidityReportItemList =
+        listOf(homeEndValidityReportItem1, homeEndValidityReportItem2, homeEndValidityReportItem3, homeEndValidityReportItem4)
 
     // --- Report --- //
 
@@ -703,5 +788,20 @@ object AndroidDataProvider
         ctrlPointData = ctrlPointDataList[machCtrlPtData3.ctrlPointDataId.toInt() - 1],
         ctrlPointDataExtra = extraList[machCtrlPtData3.machineCtrlPointDataExtra.toInt() - 1]
     )
-    val reportList = listOf(report1, report2, report3)
+
+    val report4 = Report(
+        machineId = machCtrlPtData4.machineId,
+        ctrlPoint = ctrlPointList[ctrlPointDataList[machCtrlPtData4.ctrlPointDataId.toInt() - 1].ctrlPointRef.toInt() - 1],
+        ctrlPointData = ctrlPointDataList[machCtrlPtData4.ctrlPointDataId.toInt() - 1],
+        ctrlPointDataExtra = extraList[machCtrlPtData4.machineCtrlPointDataExtra.toInt() - 1]
+    )
+    val reportList = listOf(report1, report2, report3, report4)
+
+    val reportMap: LinkedHashMap<Long, Report>
+        get()
+        {
+            val tmp = LinkedHashMap<Long, Report>()
+            reportList.forEachIndexed { index, report -> tmp[index.toLong()] = report }
+            return tmp
+        }
 }

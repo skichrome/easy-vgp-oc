@@ -118,10 +118,7 @@ class LocalNewVgpSourceTest
         machineCtrlPtDataExtraDao.insertReplace(*ctrlPtsDataExtra.toTypedArray())
         machineCtrlPtDataDao.insertReplace(*machCtrlPointDataCrossRef.toTypedArray())
 
-        val test = machineCtrlPtDataExtraDao.getPreviouslyCreatedExtras(expectedReport.ctrlPointDataExtra.reportDate)
         val result = localSource.getReportFromDate(expectedReport.ctrlPointDataExtra.reportDate)
-
-        assertThat(test, IsEqual(ctrlPtsDataExtra.find { it.id == expectedReport.ctrlPointDataExtra.id }))
 
         assertThat(result, instanceOf(Success::class.java))
         assertThat((result as Success).data, IsEqual(listOf(expectedReport)))

@@ -54,7 +54,8 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel()
             if (it is Success)
             {
                 return@map it.data
-            } else
+            }
+            else
             {
                 showMessage(R.string.admin_view_model_machine_type_list_error)
                 return@map emptyList<MachineType>()
@@ -224,7 +225,9 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel()
     {
         viewModelScope.uiJob {
             val result = repository.insertNewMachineTypeControlPoint(machineTypeWithControlPoints)
-            if (result !is Success)
+            if (result is Success)
+                showMessage(R.string.admin_view_model_machine_type_with_ctrl_pt_updated)
+            else
                 when ((result as? Error)?.exception)
                 {
                     is NetworkException -> showMessage(R.string.admin_view_model_network_error)
