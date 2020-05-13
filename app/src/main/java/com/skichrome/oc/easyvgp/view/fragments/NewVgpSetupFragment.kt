@@ -16,6 +16,8 @@ import com.skichrome.oc.easyvgp.model.local.ControlType
 import com.skichrome.oc.easyvgp.model.local.database.ControlResult
 import com.skichrome.oc.easyvgp.model.local.database.MachineControlPointDataExtra
 import com.skichrome.oc.easyvgp.util.EventObserver
+import com.skichrome.oc.easyvgp.util.ONE_YEAR_TIME
+import com.skichrome.oc.easyvgp.util.SIX_MONTHS_TIME
 import com.skichrome.oc.easyvgp.util.snackBar
 import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
 import com.skichrome.oc.easyvgp.viewmodel.NewVgpSetupViewModel
@@ -199,20 +201,10 @@ class NewVgpSetupFragment : BaseBindingFragment<FragmentNewVgpSetupBinding>()
         if (canSave)
         {
             val reportDateMillis = if (args.reportDateToEdit == -1L) userSelectedReportDate else args.reportDateToEdit
-            val reportEndDate = when (selectedControlType)
+            val reportEndDate = when (binding.fragmentNewVgpSetupIsMachineLiftingEquiped.isChecked)
             {
-                ControlType.PUT_INTO_SERVICE ->
-                {
-                    reportDateMillis + 7889399962  // + 3 months
-                }
-                ControlType.PUT_BACK_INTO_SERVICE ->
-                {
-                    reportDateMillis + 7889399962  // + 3 months
-                }
-                ControlType.VGP ->
-                {
-                    reportDateMillis + 7889399962  // + 3 months
-                }
+                true -> reportDateMillis + SIX_MONTHS_TIME
+                false -> reportDateMillis + ONE_YEAR_TIME
             }
 
             val extras = MachineControlPointDataExtra(

@@ -113,7 +113,6 @@ class VgpListFragmentTest
             }
         }
 
-
         onView(withId(R.id.vgpListFragmentFab)).apply {
             check(matches(isDisplayed()))
             check(matches(isClickable()))
