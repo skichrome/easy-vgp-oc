@@ -5,6 +5,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.MediumTest
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.AndroidDataProvider
 import com.skichrome.oc.easyvgp.model.FakeAndroidTestMachineRepository
@@ -17,8 +18,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-
 @ExperimentalCoroutinesApi
+@MediumTest
 @RunWith(AndroidJUnit4::class)
 class AddEditMachineFragmentTest
 {
@@ -57,10 +58,14 @@ class AddEditMachineFragmentTest
         launchFragmentInContainer<AddEditMachineFragment>(bundle, R.style.AppTheme)
 
         onView(withId(R.id.addEditMachineFragmentNameEditText)).check(matches(isDisplayed()))
+        onView(withId(R.id.addEditMachineFragmentParkNumberEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditMachineFragmentBrandEditText)).check(matches(isDisplayed()))
+        onView(withId(R.id.addEditMachineFragmentModelEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditMachineFragmentSerialEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditMachineFragmentNameEditText)).check(matches(withText("")))
+        onView(withId(R.id.addEditMachineFragmentParkNumberEditText)).check(matches(withText("")))
         onView(withId(R.id.addEditMachineFragmentBrandEditText)).check(matches(withText("")))
+        onView(withId(R.id.addEditMachineFragmentModelEditText)).check(matches(withText("")))
         onView(withId(R.id.addEditMachineFragmentSerialEditText)).check(matches(withText("")))
     }
 
@@ -81,10 +86,14 @@ class AddEditMachineFragmentTest
 
         // Assert that data is pre filled in all text fields
         onView(withId(R.id.addEditMachineFragmentNameEditText)).check(matches(isDisplayed()))
+        onView(withId(R.id.addEditMachineFragmentParkNumberEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditMachineFragmentBrandEditText)).check(matches(isDisplayed()))
+        onView(withId(R.id.addEditMachineFragmentModelEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditMachineFragmentSerialEditText)).check(matches(isDisplayed()))
         onView(withId(R.id.addEditMachineFragmentNameEditText)).check(matches(withText(AndroidDataProvider.machine1.name)))
+        onView(withId(R.id.addEditMachineFragmentParkNumberEditText)).check(matches(withText(AndroidDataProvider.machine1.parkNumber)))
         onView(withId(R.id.addEditMachineFragmentBrandEditText)).check(matches(withText(AndroidDataProvider.machine1.brand)))
+        onView(withId(R.id.addEditMachineFragmentModelEditText)).check(matches(withText(AndroidDataProvider.machine1.model)))
         onView(withId(R.id.addEditMachineFragmentSerialEditText)).check(matches(withText(AndroidDataProvider.machine1.serial)))
     }
 

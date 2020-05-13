@@ -7,12 +7,8 @@ import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.base.HomeSource
 import com.skichrome.oc.easyvgp.model.local.database.*
-import com.skichrome.oc.easyvgp.util.AppCoroutinesConfiguration
 import com.skichrome.oc.easyvgp.util.NotImplementedException
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class LocalHomeSource(
     private val companyDao: CompanyDao,
@@ -22,7 +18,7 @@ class LocalHomeSource(
     private val machineTypeControlPointCrossRefDao: MachineTypeControlPointCrossRefDao,
     private val machineCtrlPtDataExtraDao: MachineControlPointDataExtraDao,
     private val machineControlPointDataDao: MachineControlPointDataDao,
-    private val dispatchers: CoroutineDispatcher = AppCoroutinesConfiguration.ioDispatchers
+    private val dispatchers: CoroutineDispatcher = Dispatchers.IO
 ) : HomeSource
 {
     override fun observeHomeReportsEndValidityDate(): LiveData<Results<List<HomeEndValidityReportItem>>> =

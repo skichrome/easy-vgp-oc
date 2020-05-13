@@ -7,11 +7,12 @@ import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.Results.Error
 import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.base.NewVgpRepository
+import com.skichrome.oc.easyvgp.model.local.ChoicePossibility
+import com.skichrome.oc.easyvgp.model.local.VerificationType
 import com.skichrome.oc.easyvgp.model.local.database.ControlPointData
 import com.skichrome.oc.easyvgp.model.local.database.ControlResult
 import com.skichrome.oc.easyvgp.model.local.util.ControlPointDataVgp
 import com.skichrome.oc.easyvgp.util.Event
-import com.skichrome.oc.easyvgp.util.uiJob
 import kotlinx.coroutines.launch
 
 class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
@@ -44,10 +45,10 @@ class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
         _onClickCommentEvent.value = Event(Pair(index, comment))
     }
 
-    fun onClickRadioBtnEvent(index: Int, state: Int)
+    fun onClickRadioBtnEvent(index: Int, state: ChoicePossibility)
     {
-        viewModelScope.uiJob {
-            _machineTypeWithControlPointsData.value?.get(index)?.choicePossibilityId = state
+        viewModelScope.launch {
+            _machineTypeWithControlPointsData.value?.get(index)?.choicePossibility = state
         }
     }
 
@@ -55,14 +56,14 @@ class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
 
     fun setCommentToCtrlPointData(index: Int, comment: String)
     {
-        viewModelScope.uiJob {
+        viewModelScope.launch {
             _machineTypeWithControlPointsData.value?.get(index)?.comment = comment
         }
     }
 
     fun getMachineTypeWithControlPoints(machineTypeId: Long)
     {
-        viewModelScope.uiJob {
+        viewModelScope.launch {
             val result = repository.getAllControlPointsWithMachineType(machineTypeId)
             if (result is Success)
             {
@@ -71,8 +72,8 @@ class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
                     newList.add(
                         ControlPointDataVgp(
                             controlPoint = it,
-                            choicePossibilityId = -1,
-                            verificationTypeId = 1,
+                            choicePossibility = ChoicePossibility.UNKNOWN,
+                            verificationType = VerificationType.VISUAL,
                             ctrlPointDataId = 0L
                         )
                     )
@@ -86,7 +87,7 @@ class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
 
     fun loadPreviouslyCreatedReport(reportDate: Long)
     {
-        viewModelScope.uiJob {
+        viewModelScope.launch {
             val result = repository.getReportFromDate(reportDate)
             if (result is Success)
             {
@@ -95,8 +96,8 @@ class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
                     newList.add(
                         ControlPointDataVgp(
                             controlPoint = it.ctrlPoint,
-                            choicePossibilityId = it.ctrlPointData.ctrlPointPossibility,
-                            verificationTypeId = it.ctrlPointData.ctrlPointVerificationType,
+                            choicePossibility = it.ctrlPointData.ctrlPointPossibility,
+                            verificationType = it.ctrlPointData.ctrlPointVerificationType,
                             ctrlPointDataId = it.ctrlPointData.id,
                             comment = it.ctrlPointData.comment
                         )
@@ -109,9 +110,9 @@ class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
 
     private fun saveCtrlPointDataList(machineId: Long, controlExtraId: Long)
     {
-        viewModelScope.uiJob {
+        viewModelScope.launch {
             _machineTypeWithControlPointsData.value?.let {
-                val canSave = it.firstOrNull { ctrlPtDataVgp -> ctrlPtDataVgp.choicePossibilityId == -1 }
+                val canSave = it.firstOrNull { ctrlPtDataVgp -> ctrlPtDataVgp.choicePossibility == ChoicePossibility.UNKNOWN }
                 if (canSave != null)
                 {
                     showMessage(R.string.vgp_view_model_cannot_save_all_points_not_provided)
@@ -134,24 +135,24 @@ class VgpViewModel(private val repository: NewVgpRepository) : BaseViewModel()
             if (result is Success)
             {
                 if (isUpdateMode)
-                    saveCtrlPointDataList(machineId, extraId)
-                else
                     updatePreviouslyCreatedReport()
+                else
+                    saveCtrlPointDataList(machineId, extraId)
             }
         }
     }
 
     private fun updatePreviouslyCreatedReport()
     {
-        viewModelScope.uiJob {
+        viewModelScope.launch {
             _machineTypeWithControlPointsData.value?.let {
                 val ctrlPointDataList = it.map { ctrlPointDataVgp ->
                     ControlPointData(
                         id = ctrlPointDataVgp.ctrlPointDataId,
-                        ctrlPointPossibility = ctrlPointDataVgp.choicePossibilityId,
+                        ctrlPointPossibility = ctrlPointDataVgp.choicePossibility,
                         comment = ctrlPointDataVgp.comment,
                         ctrlPointRef = ctrlPointDataVgp.controlPoint.id,
-                        ctrlPointVerificationType = ctrlPointDataVgp.verificationTypeId
+                        ctrlPointVerificationType = ctrlPointDataVgp.verificationType
                     )
                 }
                 val result = repository.updateControlPointData(ctrlPointDataList)

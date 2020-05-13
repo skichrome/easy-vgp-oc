@@ -106,6 +106,9 @@ class ProfileFragment : BaseBindingFragment<FragmentProfileBinding>()
                     ?.let { signature -> binding.profileFragmentSignatureLocationTextView.text = signature }
                 user.company.localCompanyLogo?.path?.split("/")?.last()
                     ?.let { signature -> binding.profileFragmentCompanyLogoLocationTextView.text = signature }
+                FirebaseAuth.getInstance().currentUser?.photoUrl?.let { uri ->
+                    binding.profileFragmentProfilePicture.loadPhotoWithGlide(uri)
+                }
             }
         })
     }

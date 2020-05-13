@@ -127,7 +127,7 @@ class NewVgpFragment : BaseBindingFragment<FragmentNewVgpBinding>()
                     viewModel.updateControlResult(
                         extraId = args.vgpReportExtra,
                         machineId = args.machineId,
-                        isUpdateMode = args.reportDateToEdit == -1L,
+                        isUpdateMode = args.reportDateToEdit != -1L,
                         controlResult = choicesArray[selectedItem]
                     )
                 }

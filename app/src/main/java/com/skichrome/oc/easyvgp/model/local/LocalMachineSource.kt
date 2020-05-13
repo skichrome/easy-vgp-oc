@@ -10,14 +10,14 @@ import com.skichrome.oc.easyvgp.model.local.database.Machine
 import com.skichrome.oc.easyvgp.model.local.database.MachineDao
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
 import com.skichrome.oc.easyvgp.model.local.database.MachineTypeDao
-import com.skichrome.oc.easyvgp.util.AppCoroutinesConfiguration
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class LocalMachineSource(
     private val machineDao: MachineDao,
     private val machineTypeDao: MachineTypeDao,
-    private val dispatcher: CoroutineDispatcher = AppCoroutinesConfiguration.ioDispatchers
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : MachineSource
 {
     override fun observeMachines(): LiveData<Results<List<Machine>>> = machineDao.observeMachines().map { Success(it) }

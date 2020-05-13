@@ -3,6 +3,8 @@ package com.skichrome.oc.easyvgp.util
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputLayout
+import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.model.local.util.ControlPointDataVgp
 import com.skichrome.oc.easyvgp.view.fragments.adapters.*
@@ -45,5 +47,13 @@ fun setHomeItems(listView: RecyclerView, reports: List<HomeEndValidityReportItem
 
 @BindingAdapter(value = ["bind_date"])
 fun setDateFormatted(textView: TextView, dateMillis: Long) = textView.apply {
-    text = SimpleDateFormat.getDateInstance().format(dateMillis)
+    text = getDateFormatted(dateMillis)
+}
+
+fun getDateFormatted(dateMillis: Long): String = SimpleDateFormat.getDateInstance().format(dateMillis)
+
+@BindingAdapter(value = ["hint_and_asterisk"])
+fun setHintWithAsterisk(textInputLayout: TextInputLayout, hintResource: String?) = textInputLayout.apply {
+    hint = "$hintResource *"
+    helperText = resources.getString(R.string.text_input_edit_text_required_help)
 }

@@ -5,6 +5,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.MediumTest
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.AndroidDataProvider
 import com.skichrome.oc.easyvgp.model.FakeAndroidTestCustomerRepository
@@ -19,8 +20,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @ExperimentalCoroutinesApi
+@MediumTest
 @RunWith(AndroidJUnit4::class)
-class CustomerFragmentTests
+class CustomerFragmentTest
 {
     // =================================
     //              Fields
@@ -64,6 +66,10 @@ class CustomerFragmentTests
         onView(withId(R.id.rvItemCustomerFrameLayout)).check(matches(isDisplayed()))
         onView(withId(R.id.rvItemCustomerFrameLayout)).check(matches(isClickable()))
         onView(withId(R.id.rvItemCustomerFrameLayout)).check(matches(isFocusable()))
+
+        onView(withId(R.id.rvItemCustomerEditImg)).check(matches(isDisplayed()))
+        onView(withId(R.id.rvItemCustomerEditImg)).check(matches(isClickable()))
+        onView(withId(R.id.rvItemCustomerEditImg)).check(matches(isFocusable()))
 
         onView(withId(R.id.rvItemCustomerFirstLetter)).check(matches(isDisplayed()))
         onView(withId(R.id.rvItemCustomerName)).check(matches(withText(`is`(customerToAdd.companyName))))

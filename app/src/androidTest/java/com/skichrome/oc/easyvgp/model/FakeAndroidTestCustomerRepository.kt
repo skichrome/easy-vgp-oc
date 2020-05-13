@@ -8,15 +8,13 @@ import com.skichrome.oc.easyvgp.model.local.database.Customer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 
-class FakeAndroidTestCustomerRepository : CustomerRepository
+class FakeAndroidTestCustomerRepository(private val customerDataService: LinkedHashMap<Long, Customer> = LinkedHashMap()) : CustomerRepository
 {
     // =================================
     //              Fields
     // =================================
 
-    private var customerServiceData: LinkedHashMap<Long, Customer> = LinkedHashMap()
-
-    private var observableData = MutableLiveData<List<Customer>>()
+    private val observableData = MutableLiveData<List<Customer>>()
 
     // =================================
     //        Superclass Methods
@@ -25,28 +23,29 @@ class FakeAndroidTestCustomerRepository : CustomerRepository
     override fun getAllCustomers(): LiveData<List<Customer>> = observableData
 
     override suspend fun getCustomerById(id: Long): Results<Customer> =
-        customerServiceData[id]?.let { Success(it) } ?: Results.Error(Exception("Customer not found"))
+        customerDataService[id]?.let { Success(it) } ?: Results.Error(Exception("Customer not found"))
 
     override suspend fun saveCustomers(customers: Array<Customer>): Results<List<Long>>
     {
-        customers.forEach { customerServiceData[it.id] = it }
-        return Success(listOf(customerServiceData.size.toLong()))
+        customers.forEach { customerDataService[it.id] = it }
+        return Success(listOf(customerDataService.size.toLong()))
     }
 
     override suspend fun saveCustomers(customer: Customer): Results<Long>
     {
-        customerServiceData[customer.id] = customer
+        customerDataService[customer.id] = customer
         return Success(customer.id)
     }
 
     override suspend fun updateCustomers(customer: Customer): Results<Int>
     {
-        val customerToUpdate = customerServiceData[customer.id]
+        val customerToUpdate = customerDataService[customer.id]
         return if (customerToUpdate != null)
         {
-            customerServiceData[customer.id] = customer
+            customerDataService[customer.id] = customer
             Success(1)
-        } else
+        }
+        else
             Results.Error(java.lang.Exception("Customer to update not found"))
     }
 
@@ -55,6 +54,6 @@ class FakeAndroidTestCustomerRepository : CustomerRepository
     // =================================
 
     fun refreshLiveData() = runBlocking(Dispatchers.Main) {
-        observableData.value = customerServiceData.values.toList().sortedBy { it.id }
+        observableData.value = customerDataService.values.toList().sortedBy { it.id }
     }
 }

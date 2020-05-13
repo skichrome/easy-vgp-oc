@@ -2,11 +2,14 @@ package com.skichrome.oc.easyvgp.util
 
 import android.app.Activity
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -25,6 +28,8 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
+// --- Toasts and logs --- //
+
 fun Activity.toast(msg: String) = Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 fun Fragment.toast(msg: String) = Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
 
@@ -32,10 +37,14 @@ fun Activity.debugLog(msg: String, e: Exception? = null) = Log.d(javaClass.simpl
 fun Activity.errorLog(msg: String, e: Exception? = null) = Log.e(javaClass.simpleName, msg, e)
 fun Fragment.errorLog(msg: String, e: Exception? = null) = Log.e(javaClass.simpleName, msg, e)
 
+// --- Snackbar messages --- //
+
 fun View.snackBar(msg: String)
 {
     Snackbar.make(this, msg, Snackbar.LENGTH_SHORT).run { show() }
 }
+
+// --- RecyclerView Methods --- //
 
 fun RecyclerView.addItemDecorationAndLinearLayoutManager()
 {
@@ -49,6 +58,8 @@ fun RecyclerView.addGridLayoutManager(isTablet: Boolean = false, spanCount: Int 
     val mLayoutManager = GridLayoutManager(context, spanCount)
     layoutManager = mLayoutManager
 }
+
+// --- ImageView Methods --- //
 
 fun ImageView.loadPhotoWithGlide(photoReference: String)
 {
@@ -84,6 +95,11 @@ fun ImageView.loadPhotoWithGlide(photoReference: Uri)
         .apply(requestOptions)
         .into(this)
 }
+
+// --- View methods --- //
+
+fun View.getColorCompat(@ColorRes color: Int): Int = ContextCompat.getColor(context, color)
+fun View.getDrawableCompat(@DrawableRes drawable: Int): Drawable? = ContextCompat.getDrawable(context, drawable)
 
 // --- Use Task with coroutines --- //
 

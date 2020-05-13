@@ -11,7 +11,6 @@ import com.skichrome.oc.easyvgp.model.base.HomeRepository
 import com.skichrome.oc.easyvgp.model.local.database.HomeEndValidityReportItem
 import com.skichrome.oc.easyvgp.model.local.database.UserAndCompany
 import com.skichrome.oc.easyvgp.util.Event
-import com.skichrome.oc.easyvgp.util.uiJob
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -142,7 +141,7 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel()
 
     fun synchronizeLocalDatabaseWithRemote()
     {
-        viewModelScope.uiJob {
+        viewModelScope.launch {
             val results = repository.synchronizeDatabase()
             if (results is Error)
             {
@@ -163,7 +162,13 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel()
                     val delta = reportFiltered.reportEndDate - dateNow
                     reportFiltered.reportDeltaDay = delta / 1000 / 60 / 60 / 24
                 }
-                return@withContext reportsFiltered.sortedBy { it.reportEndDate }
+
+                return@withContext reportsFiltered.filter { report ->
+                    report.reportDeltaDay?.let { delta ->
+                        (delta >= -20) || (delta <= -20 && !report.isReminderEmailSent && delta >= -100)
+                    } ?: false
+                }
+                    .sortedBy { it.reportEndDate }
             }
         }
         return result

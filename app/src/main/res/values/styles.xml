@@ -100,6 +100,14 @@
         <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
+    <!-- Title TextView style -->
+    <style name="EasyVGPTheme.tvTitleStyleNoMargin" parent="TextAppearance.AppCompat.Title">
+        <item name="android:drawablePadding">@dimen/edit_text_drawable_padding</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+    </style>
+
     <!-- Body 1 TextView style -->
     <style name="EasyVGPTheme.tvBody1Style" parent="TextAppearance.AppCompat.Body1">
         <item name="android:layout_marginTop">@dimen/tv_input_margin</item>

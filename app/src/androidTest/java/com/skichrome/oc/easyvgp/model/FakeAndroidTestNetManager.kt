@@ -3,7 +3,7 @@ package com.skichrome.oc.easyvgp.model
 import android.net.ConnectivityManager
 import com.skichrome.oc.easyvgp.androidmanagers.NetManager
 
-class FakeAndroidTestNetManager(var isFakeConnected: Boolean) : NetManager
+class FakeAndroidTestNetManager(private var isFakeConnected: Boolean) : NetManager
 {
     override val connManager: ConnectivityManager
         get() = throw NotImplementedError("Not implemented in tests")

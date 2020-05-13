@@ -2,7 +2,8 @@
 
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -41,7 +42,8 @@
                     style="@style/EasyVGPTheme.editTextInputLayoutStyle"
                     android:layout_width="0dp"
                     android:layout_marginEnd="@dimen/tv_input_margin"
-                    android:hint="@string/fragment_new_vgp_setup_report_date"
+                    app:hint_and_asterisk="@{@string/fragment_new_vgp_setup_report_date}"
+                    tools:hint="@string/fragment_new_vgp_setup_report_date"
                     app:layout_constraintEnd_toStartOf="@+id/fragmentNewVgpSetupReportDateSetBtn"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupTitle">
@@ -65,7 +67,8 @@
                     android:id="@+id/fragmentNewVgpSetupMachineHoursLayout"
                     style="@style/EasyVGPTheme.editTextInputLayoutStyle"
                     android:layout_width="0dp"
-                    android:hint="@string/fragment_new_vgp_setup_machine_hours"
+                    app:hint_and_asterisk="@{@string/fragment_new_vgp_setup_machine_hours}"
+                    tools:hint="@string/fragment_new_vgp_setup_machine_hours"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupReportDateLayout">
@@ -82,13 +85,14 @@
                     style="@style/EasyVGPTheme.editTextInputLayoutStyle"
                     android:layout_width="0dp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:hint_and_asterisk="@{@string/fragment_new_vgp_setup_machine_intervention_place}"
+                    tools:hint="@string/fragment_new_vgp_setup_machine_intervention_place"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/fragmentNewVgpSetupMachineHoursLayout">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/fragmentNewVgpSetupInterventionPlace"
                         style="@style/EasyVGPTheme.editTextInputStyle"
-                        android:hint="@string/fragment_new_vgp_setup_machine_intervention_place"
                         android:text="@{viewModel.machineWithControlPointsDataExtras.interventionPlace}" />
                 </com.google.android.material.textfield.TextInputLayout>
 

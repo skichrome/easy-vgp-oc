@@ -24,9 +24,9 @@ class DefaultNewVgpRepository(private val localSource: NewVgpSource) : NewVgpRep
         ctrlPointDataVgp.map {
             ControlPointData(
                 id = 0L,
-                ctrlPointPossibility = it.choicePossibilityId,
+                ctrlPointPossibility = it.choicePossibility,
                 ctrlPointRef = it.controlPoint.id,
-                ctrlPointVerificationType = it.verificationTypeId,
+                ctrlPointVerificationType = it.verificationType,
                 comment = it.comment
             )
         }.forEach {

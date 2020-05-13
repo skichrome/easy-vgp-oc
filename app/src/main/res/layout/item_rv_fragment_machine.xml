@@ -94,7 +94,10 @@
             <Button
                 android:id="@+id/rvItemFragmentMachineEditBtn"
                 style="@style/EasyVGPTheme.buttonStyle.noOutline"
+                android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
                 android:onClick="@{() -> viewModel.onClickEditMachine(machine.machineId)}"
                 android:text="@string/rv_item_machines_btn_edit"
                 app:layout_constraintBottom_toBottomOf="parent"

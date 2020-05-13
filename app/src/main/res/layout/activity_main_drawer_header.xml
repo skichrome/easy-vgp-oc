@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="170dp"
+    android:background="@drawable/nav_drawer_easyvgp"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <ImageView
+        android:id="@+id/activityMainDrawerHeaderProfileImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:contentDescription="@string/setting_fragment_account_img_content_desc"
+        android:src="@drawable/ic_account_circle_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/activityMainDrawerHeaderProfileName"
+        style="@style/EasyVGPTheme.tvTitleStyleNoMargin"
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/secondaryTextColor"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/activityMainDrawerHeaderProfileEmail"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="John Doe" />
+
+    <TextView
+        android:id="@+id/activityMainDrawerHeaderProfileEmail"
+        style="@style/EasyVGPTheme.tvBody1StyleNoMargin"
+        android:layout_gravity="center"
+        android:layout_marginBottom="12dp"
+        android:textColor="@color/secondaryTextColor"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="john.doe@fakemail.com" />
+</LinearLayout>

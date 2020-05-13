@@ -113,6 +113,8 @@
     <string name="menu_settings_title">settings</string>
     <string name="menu_settings_profile">Profile</string>
     <string name="menu_admin_title">Administration</string>
+    <string name="menu_home_title">Home</string>
+    <string name="menu_search_title">Search</string>
 
     <!-- Machine ViewModel -->
     <string name="view_model_machine_machines_list">An error occurred when fetching all machines</string>
@@ -131,6 +133,7 @@
     <string name="add_edit_machine_frag_machine_type_title">Define the type of machine</string>
     <string name="add_edit_machine_frag_machine_picture_title">Machine photo</string>
     <string name="add_edit_machine_frag_hint_name">machine name</string>
+    <string name="add_edit_machine_frag_hint_park_number">machine park number</string>
     <string name="add_edit_machine_frag_hint_brand">machine brand</string>
     <string name="add_edit_machine_frag_hint_model">machine model</string>
     <string name="add_edit_machine_frag_hint_serial">machine serial</string>
@@ -140,11 +143,15 @@
     <string name="add_edit_machine_frag_img_machine_content_desc">Add a picture for this machine</string>
     <string name="frag_add_edit_machine_error_input_snack_bar_msg">You must enter all required fields and take a picture for this machine</string>
 
+    <!-- Text input EditTextLayout -->
+    <string name="text_input_edit_text_required_help">* Required</string>
+
     <!-- Admin ViewModel -->
     <string name="admin_view_model_machine_type_insert_success">Successfully saved new machine type</string>
     <string name="admin_view_model_machine_type_update_success">Successfully updated new machine type</string>
     <string name="admin_view_model_machine_type_list_error">An error occurred when fetching all types</string>
     <string name="admin_view_model_machine_type_list_refresh_error">Error when updating with remote server</string>
+    <string name="admin_view_model_machine_type_with_ctrl_pt_updated">Successfully updated your changes</string>
     <string name="admin_view_model_network_error">An internet connexion is required. Please check it</string>
     <string name="admin_view_model_remote_repo_error">An error occurred with remote database</string>
     <string name="admin_view_model_machine_type_insert_error">An error occurred when inserting new machine type</string>
@@ -200,7 +207,7 @@
     <string name="fragment_vgp_list_work_enqueued_info">You will receive a notification when your report will be ready</string>
     <string name="fragment_vgp_list_no_pdf_viewer">No application found to open a PDF document</string>
     <string name="vgp_list_view_model_cannot_edit_validated_report">Error, you can\'t edit an already validated report</string>
-    :
+
     <!-- Control RecyclerView Item -->
     <string name="rv_item_bgp_list_pdf_logo">Generate a Pdf by touching this pdf icon</string>
 

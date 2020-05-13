@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -30,6 +31,7 @@ import com.skichrome.oc.easyvgp.viewmodel.vmfactory.HomeViewModelFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main_drawer_header.view.*
 
 class MainActivity : AppCompatActivity()
 {
@@ -54,6 +56,8 @@ class MainActivity : AppCompatActivity()
         getRemoteConfigParams()
         val navController = getNavController()
         configureToolbar(navController)
+        configureNavigationDrawer(navController)
+        configureUI()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
@@ -63,7 +67,11 @@ class MainActivity : AppCompatActivity()
         if (requestCode == RC_SIGN_IN_CODE)
         {
             if (resultCode == Activity.RESULT_OK)
+            {
                 checkIfUserIsAlreadyLoggedIn()
+                configureUI()
+                getRemoteConfigParams()
+            }
             else
             {
                 val response = IdpResponse.fromResultIntent(data)
@@ -82,11 +90,15 @@ class MainActivity : AppCompatActivity()
     // --- UI --- //
 
     private fun configureToolbar(navController: NavController) = toolbar?.apply {
+        AppBarConfiguration.Builder(R.id.homeFragment, R.id.customerFragment, R.id.machineFragment, R.id.vgpListFragment)
+            .setDrawerLayout(activityMainDrawerLayout)
+            .build()
+            .let { appBarConfiguration -> setupWithNavController(navController, appBarConfiguration) }
+    }
 
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment))
-        setupWithNavController(navController, appBarConfiguration)
-
-        setOnMenuItemClickListener { menuItem ->
+    private fun configureNavigationDrawer(navController: NavController) = activityMainNavigationView?.let { navView ->
+        navView.setupWithNavController(navController)
+        navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId)
             {
                 R.id.logoutItem ->
@@ -94,11 +106,15 @@ class MainActivity : AppCompatActivity()
                     AuthUI.getInstance().signOut(this@MainActivity)
                     finish()
                 }
-                else -> return@setOnMenuItemClickListener menuItem.onNavDestinationSelected(navController) || super.onOptionsItemSelected(menuItem)
+                else ->
+                {
+                    activityMainDrawerLayout?.closeDrawer(GravityCompat.START)
+                    return@setNavigationItemSelectedListener menuItem.onNavDestinationSelected(navController) || super.onOptionsItemSelected(menuItem)
+                }
             }
-            return@setOnMenuItemClickListener true
+            return@setNavigationItemSelectedListener true
         }
-    } ?: Unit
+    }
 
     // --- Login configuration --- //
 
@@ -183,12 +199,25 @@ class MainActivity : AppCompatActivity()
                             .build()
                         val adapter = moshi.adapter(RemoteConfigAdminData::class.java)
                         adapter.fromJson(remoteConfig.getString(KEY_ADMIN_USERS_MAP))?.let { adminData ->
-                            toolbar?.menu?.findItem(R.id.adminFragment)?.isVisible = adminData.users.contains(email)
+                            activityMainNavigationView?.menu?.findItem(R.id.adminFragment)?.isVisible = adminData.users.contains(email)
                         }
                     }
                 }
                 else
                     errorLog("Something went wrong with remote config", it.exception)
             }
+    }
+
+    private fun configureUI()
+    {
+        activityMainNavigationView?.getHeaderView(0)?.let { header ->
+            FirebaseAuth.getInstance().currentUser?.apply {
+                header.activityMainDrawerHeaderProfileName.text = displayName
+                header.activityMainDrawerHeaderProfileEmail.text = email
+                photoUrl?.let { uri ->
+                    header.activityMainDrawerHeaderProfileImage.loadPhotoWithGlide(uri)
+                }
+            }
+        }
     }
 }

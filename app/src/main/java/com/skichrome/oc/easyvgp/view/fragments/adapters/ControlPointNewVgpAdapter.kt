@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.databinding.ItemRvFragmentVgpBinding
+import com.skichrome.oc.easyvgp.model.local.ChoicePossibility
 import com.skichrome.oc.easyvgp.model.local.util.ControlPointDataVgp
 import com.skichrome.oc.easyvgp.viewmodel.VgpViewModel
 
@@ -31,19 +32,19 @@ class ControlPointNewVgpAdapter(private val viewModel: VgpViewModel) :
 
             binding.rvItemFragVgpCtrlPointPossibilityGroup.clearCheck()
 
-            when (controlPoint.choicePossibilityId)
+            when (controlPoint.choicePossibility)
             {
-                1 ->
+                ChoicePossibility.GOOD ->
                 {
                     binding.rvItemFragVgpCtrlPointPossibilityGoodState.isChecked = true
                     binding.rvItemFragVgpCtrlPointStateViewIndicator.setBackgroundResource(R.color.ctrlPointChoiceBE)
                 }
-                2 ->
+                ChoicePossibility.MEDIUM ->
                 {
                     binding.rvItemFragVgpCtrlPointPossibilityMediumState.isChecked = true
                     binding.rvItemFragVgpCtrlPointStateViewIndicator.setBackgroundResource(R.color.ctrlPointChoiceEM)
                 }
-                3 ->
+                ChoicePossibility.BAD ->
                 {
                     binding.rvItemFragVgpCtrlPointPossibilityBadState.isChecked = true
                     binding.rvItemFragVgpCtrlPointStateViewIndicator.setBackgroundResource(R.color.ctrlPointChoiceME)
@@ -63,17 +64,17 @@ class ControlPointNewVgpAdapter(private val viewModel: VgpViewModel) :
             }
 
             binding.rvItemFragVgpCtrlPointPossibilityGoodState.setOnClickListener {
-                viewModel.onClickRadioBtnEvent(adapterPosition, 1)
+                viewModel.onClickRadioBtnEvent(adapterPosition, ChoicePossibility.GOOD)
                 binding.rvItemFragVgpCtrlPointStateViewIndicator.setBackgroundResource(R.color.ctrlPointChoiceBE)
             }
 
             binding.rvItemFragVgpCtrlPointPossibilityMediumState.setOnClickListener {
-                viewModel.onClickRadioBtnEvent(adapterPosition, 2)
+                viewModel.onClickRadioBtnEvent(adapterPosition, ChoicePossibility.MEDIUM)
                 binding.rvItemFragVgpCtrlPointStateViewIndicator.setBackgroundResource(R.color.ctrlPointChoiceEM)
             }
 
             binding.rvItemFragVgpCtrlPointPossibilityBadState.setOnClickListener {
-                viewModel.onClickRadioBtnEvent(adapterPosition, 3)
+                viewModel.onClickRadioBtnEvent(adapterPosition, ChoicePossibility.BAD)
                 binding.rvItemFragVgpCtrlPointStateViewIndicator.setBackgroundResource(R.color.ctrlPointChoiceME)
             }
         }

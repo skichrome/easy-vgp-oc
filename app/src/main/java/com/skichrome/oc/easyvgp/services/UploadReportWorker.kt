@@ -24,9 +24,7 @@ import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
 import com.skichrome.oc.easyvgp.model.Results
 import com.skichrome.oc.easyvgp.model.Results.Success
-import com.skichrome.oc.easyvgp.model.local.ChoicePossibility
 import com.skichrome.oc.easyvgp.model.local.ControlType
-import com.skichrome.oc.easyvgp.model.local.VerificationType
 import com.skichrome.oc.easyvgp.model.local.database.*
 import com.skichrome.oc.easyvgp.model.remote.util.*
 import com.skichrome.oc.easyvgp.util.*
@@ -288,8 +286,8 @@ class UploadReportWorker(appContext: Context, params: WorkerParameters) : Corout
 
                 reports.forEach {
                     val verificationType =
-                        applicationContext.getString(VerificationType.values()[it.ctrlPointData.ctrlPointVerificationType - 1].verification)
-                    val possibility = applicationContext.getString(ChoicePossibility.values()[it.ctrlPointData.ctrlPointPossibility - 1].choice)
+                        applicationContext.getString(it.ctrlPointData.ctrlPointVerificationType.verification)
+                    val possibility = applicationContext.getString(it.ctrlPointData.ctrlPointPossibility.choice)
 
                     remoteReportCtrlPointData["${it.ctrlPoint.id}"] = RemoteControlPointData(
                         id = it.ctrlPointData.id,

@@ -1,11 +1,13 @@
 package com.skichrome.oc.easyvgp
 
-import android.app.Application
+import android.content.Context
+import androidx.multidex.MultiDex
+import androidx.multidex.MultiDexApplication
 import com.skichrome.oc.easyvgp.model.base.*
 import com.skichrome.oc.easyvgp.model.local.database.AppDatabase
 import com.skichrome.oc.easyvgp.viewmodel.ServiceLocator
 
-class EasyVGPApplication : Application()
+class EasyVGPApplication : MultiDexApplication()
 {
     val database: AppDatabase
         get() = ServiceLocator.getLocalDatabaseInstance(this)
@@ -30,4 +32,10 @@ class EasyVGPApplication : Application()
 
     val newVgpRepository: NewVgpRepository
         get() = ServiceLocator.provideVgpRepository(this)
+
+    override fun attachBaseContext(base: Context?)
+    {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
+    }
 }

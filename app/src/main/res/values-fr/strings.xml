@@ -114,6 +114,8 @@
     <string name="menu_settings_title">Paramètres</string>
     <string name="menu_settings_profile">Profil</string>
     <string name="menu_admin_title">Administration</string>
+    <string name="menu_home_title">Accueil</string>
+    <string name="menu_search_title">Recherche</string>
 
     <!-- Machine ViewModel -->
     <string name="view_model_machine_machines_list">Nous avons détecté une erreur en essayant de récupérer la liste des machines</string>
@@ -130,6 +132,7 @@
     <string name="add_edit_machine_frag_title">Caractéristiques de la machine</string>
     <string name="add_edit_machine_frag_machine_type_title">Type de machine</string>
     <string name="add_edit_machine_frag_machine_picture_title">Photo de la machine</string>
+    <string name="add_edit_machine_frag_hint_park_number">Numéro de parc</string>
     <string name="add_edit_machine_frag_hint_name">Nom de la machine</string>
     <string name="add_edit_machine_frag_hint_brand">Marque de la machine</string>
     <string name="add_edit_machine_frag_hint_model">Modèle de la machine</string>
@@ -138,11 +141,15 @@
     <string name="add_edit_machine_frag_img_machine_content_desc">Ajouter une image pour cette machine</string>
     <string name="frag_add_edit_machine_error_input_snack_bar_msg">Vous devez compléter tous les champs et ajouter une photo pour créer une machine</string>
 
+    <!-- Text input EditTextLayout -->
+    <string name="text_input_edit_text_required_help">* Requis</string>
+
     <!-- Admin ViewModel -->
     <string name="admin_view_model_machine_type_insert_success">Le nouveau type de machine a été créé avec succès</string>
     <string name="admin_view_model_machine_type_update_success">Le nouveau type de machine a été mis à jour avec succès</string>
     <string name="admin_view_model_machine_type_list_error">Nous avons rencontré une erreur en récupérant la liste des types de machine</string>
     <string name="admin_view_model_machine_type_list_refresh_error">Nous avons rencontré une erreur pendant la synchronisation avec le serveur distant</string>
+    <string name="admin_view_model_machine_type_with_ctrl_pt_updated">Nous avons bien mis à jour vos changements</string>
     <string name="admin_view_model_network_error">Une connexion internet est requise pour certaines fonctionnalités, veuillez vérifier que vous êtes bien connecté</string>
     <string name="admin_view_model_remote_repo_error">Malgré votre connexion internet, vous avons rencontré une erreur pendant la communication avec le serveur distant</string>
     <string name="admin_view_model_machine_type_insert_error">Nous avons rencontré une erreur nous empêchant de créer ce type de machine</string>
@@ -198,7 +205,7 @@
     <string name="fragment_vgp_list_work_enqueued_info">Nous vous enverrons une notification lorsque votre rapport sera prêt</string>
     <string name="fragment_vgp_list_no_pdf_viewer">Nous n\'avons pas trouvé d\'applications permettant d\'ouvrir les documents PDF sur votre appareil</string>
     <string name="vgp_list_view_model_cannot_edit_validated_report">Attention, vous ne pouvez pas éditer un rapport déjà validé</string>
-    :
+
     <!-- Control RecyclerView Item -->
     <string name="rv_item_bgp_list_pdf_logo">Générer un rapport à partir du brouillon créé</string>
 

@@ -59,3 +59,8 @@ val REMOTE_USER_STORAGE = if (BuildConfig.DEBUG) "users_data_${BuildConfig.FLAVO
 
 // Remote config
 const val KEY_ADMIN_USERS_MAP = "admin_users_email"
+
+// Reports validity
+
+const val SIX_MONTHS_TIME = 15_778_800_000
+const val ONE_YEAR_TIME = 31_557_600_000

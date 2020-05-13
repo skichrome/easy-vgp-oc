@@ -9,7 +9,7 @@ import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.base.CustomerRepository
 import com.skichrome.oc.easyvgp.model.local.database.Customer
 import com.skichrome.oc.easyvgp.util.Event
-import com.skichrome.oc.easyvgp.util.uiJob
+import kotlinx.coroutines.launch
 
 class CustomerViewModel(private val repository: CustomerRepository) : ViewModel()
 {
@@ -48,7 +48,7 @@ class CustomerViewModel(private val repository: CustomerRepository) : ViewModel(
 
     fun loadCustomerById(customerId: Long)
     {
-        viewModelScope.uiJob {
+        viewModelScope.launch {
             repository.getCustomerById(customerId).let { results ->
                 if (results is Success)
                     _customer.value = results.data
@@ -60,7 +60,7 @@ class CustomerViewModel(private val repository: CustomerRepository) : ViewModel(
 
     fun saveCustomer(customer: Customer)
     {
-        viewModelScope.uiJob {
+        viewModelScope.launch {
             val result = repository.saveCustomers(customer)
             if (result is Success)
                 _customersSaved.value = Event(true)
@@ -71,7 +71,7 @@ class CustomerViewModel(private val repository: CustomerRepository) : ViewModel(
 
     fun updateCustomer(customer: Customer)
     {
-        viewModelScope.uiJob {
+        viewModelScope.launch {
             val result = repository.updateCustomers(customer)
             if (result is Success)
                 _customersSaved.value = Event(true)
