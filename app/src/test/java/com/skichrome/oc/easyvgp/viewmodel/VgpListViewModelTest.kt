@@ -117,6 +117,9 @@ class VgpListViewModelTest
     fun loadAllVgpFromMachine() = runBlockingTest {
         val machine = DataProvider.machine2
         val vgpListItems = DataProvider.vgpListItemList.filter { it.machineId == machine.machineId }
+            .groupBy { it.reportDate }
+            .map { it.value.first() }
+            .sortedBy { it.reportDate }
         viewModel.loadAllVgpFromMachine(machine.machineId)
 
         val result = viewModel.vgpList.getOrAwaitValue()

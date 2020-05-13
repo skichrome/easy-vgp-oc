@@ -47,8 +47,10 @@ fun setHomeItems(listView: RecyclerView, reports: List<HomeEndValidityReportItem
 
 @BindingAdapter(value = ["bind_date"])
 fun setDateFormatted(textView: TextView, dateMillis: Long) = textView.apply {
-    text = SimpleDateFormat.getDateInstance().format(dateMillis)
+    text = getDateFormatted(dateMillis)
 }
+
+fun getDateFormatted(dateMillis: Long): String = SimpleDateFormat.getDateInstance().format(dateMillis)
 
 @BindingAdapter(value = ["hint_and_asterisk"])
 fun setHintWithAsterisk(textInputLayout: TextInputLayout, hintResource: String?) = textInputLayout.apply {
