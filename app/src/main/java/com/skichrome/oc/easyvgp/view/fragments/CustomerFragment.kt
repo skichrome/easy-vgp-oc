@@ -1,31 +1,86 @@
 package com.skichrome.oc.easyvgp.view.fragments
 
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.skichrome.oc.easyvgp.EasyVGPApplication
 import com.skichrome.oc.easyvgp.R
-import com.skichrome.oc.easyvgp.util.toast
-import com.skichrome.oc.easyvgp.view.base.BaseViewModelFragment
+import com.skichrome.oc.easyvgp.databinding.FragmentCustomerBinding
+import com.skichrome.oc.easyvgp.util.AutoClearedValue
+import com.skichrome.oc.easyvgp.util.EventObserver
+import com.skichrome.oc.easyvgp.util.addItemDecorationAndLinearLayoutManager
+import com.skichrome.oc.easyvgp.util.snackBar
+import com.skichrome.oc.easyvgp.view.base.BaseBindingFragment
+import com.skichrome.oc.easyvgp.view.fragments.adapters.CustomerFragmentAdapter
 import com.skichrome.oc.easyvgp.viewmodel.CustomerViewModel
+import com.skichrome.oc.easyvgp.viewmodel.vmfactory.CustomerViewModelFactory
+import kotlinx.android.synthetic.main.fragment_customer.*
 
-class CustomerFragment : BaseViewModelFragment<CustomerViewModel>()
+class CustomerFragment : BaseBindingFragment<FragmentCustomerBinding>()
 {
     // =================================
     //              Fields
     // =================================
 
-    companion object
-    {
-        @JvmStatic
-        fun newInstance(): CustomerFragment = CustomerFragment()
+    private val viewModel by viewModels<CustomerViewModel> {
+        CustomerViewModelFactory((requireActivity().application as EasyVGPApplication).customerRepository)
     }
+
+    private var customerAdapter by AutoClearedValue<CustomerFragmentAdapter>()
 
     // =================================
     //        Superclass Methods
     // =================================
 
     override fun getFragmentLayout(): Int = R.layout.fragment_customer
-    override fun getViewModelClass(): Class<CustomerViewModel> = CustomerViewModel::class.java
 
-    override fun configureViewModelFragment()
+    override fun configureFragment()
     {
-        toast("You are in CustomerFragment !")
+        configureViewModel()
+        configureUI()
+        configureFab()
+        configureRecyclerView()
+    }
+
+    // =================================
+    //              Methods
+    // =================================
+
+    private fun configureViewModel() = viewModel.apply {
+        customerLongClick.observe(viewLifecycleOwner, EventObserver { navigateToAddEditCustomerFragment(it) })
+        errorMessage.observe(viewLifecycleOwner, EventObserver { binding.root.snackBar(getString(it)) })
+        customerClick.observe(viewLifecycleOwner, EventObserver { navigateToVgpFragment(it) })
+    }
+
+    private fun configureUI()
+    {
+        binding.viewModel = viewModel
+    }
+
+    private fun configureFab()
+    {
+        fragCustomerFab?.setOnClickListener { navigateToAddEditCustomerFragment() }
+    }
+
+    private fun configureRecyclerView()
+    {
+        customerAdapter = CustomerFragmentAdapter(viewModel)
+        binding.fragCustomerRecyclerView.apply {
+            adapter = customerAdapter
+            addItemDecorationAndLinearLayoutManager()
+        }
+    }
+
+    // --- Navigation --- //
+
+    private fun navigateToAddEditCustomerFragment(customerId: Long = -1L)
+    {
+        val opt = CustomerFragmentDirections.actionCustomerFragmentToAddEditCustomerFragment(customerId)
+        findNavController().navigate(opt)
+    }
+
+    private fun navigateToVgpFragment(customerId: Long)
+    {
+        val opt = CustomerFragmentDirections.actionCustomerFragmentToMachineFragment(customerId)
+        findNavController().navigate(opt)
     }
 }

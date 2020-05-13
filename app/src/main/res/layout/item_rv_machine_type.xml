@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="machineType"
+            type="com.skichrome.oc.easyvgp.model.local.database.MachineType" />
+
+        <variable
+            name="viewModel"
+            type="com.skichrome.oc.easyvgp.viewmodel.AdminViewModel" />
+    </data>
+
+    <FrameLayout
+        android:id="@+id/rvItemMachineTypeRootFrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="@{() -> viewModel.onClickMachineType(machineType)}"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/rvItemMachineTypeName"
+            style="@style/EasyVGPTheme.tvBody1StyleNoMargin"
+            android:layout_gravity="center_vertical|start"
+            android:text="@{machineType.name}"
+            tools:text="Type name" />
+
+        <TextView
+            android:id="@+id/rvItemMachineTypeLegalName"
+            style="@style/EasyVGPTheme.tvBody1StyleNoMargin"
+            android:layout_gravity="center_vertical|end"
+            android:text="@{machineType.legalName}"
+            tools:text="Legal Type name" />
+    </FrameLayout>
+</layout>

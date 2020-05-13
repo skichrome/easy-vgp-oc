@@ -8,5 +8,40 @@
     <color name="secondaryLightColor">#67daff</color>
     <color name="secondaryDarkColor">#007ac1</color>
     <color name="primaryTextColor">#000000</color>
-    <color name="secondaryTextColor">#000000</color>
+    <color name="secondaryTextColor">#E1FFFFFF</color>
+
+    <!-- Dark theme test -->
+    <!--    <color name="primaryColor">#121212</color>-->
+    <!--    <color name="primaryLightColor">#383838</color>-->
+    <!--    <color name="primaryDarkColor">#000000</color>-->
+    <!--    <color name="secondaryColor">#a34002</color>-->
+    <!--    <color name="secondaryLightColor">#da6e33</color>-->
+    <!--    <color name="secondaryDarkColor">#6e1000</color>-->
+    <!--    <color name="primaryTextColor">#ffffff</color>-->
+    <!--    <color name="secondaryTextColor">#ffffff</color>-->
+
+    <!--    <color name="primaryColor">#121212</color>-->
+    <!--    <color name="primaryLightColor">#383838</color>-->
+    <!--    <color name="primaryDarkColor">#000000</color>-->
+    <!--    <color name="secondaryColor">#0165ef</color>-->
+    <!--    <color name="secondaryLightColor">#6692ff</color>-->
+    <!--    <color name="secondaryDarkColor">#003cbb</color>-->
+    <!--    <color name="primaryTextColor">#ffffff</color>-->
+    <!--    <color name="secondaryTextColor">#ffffff</color>-->
+
+    <color name="ctrlPointChoiceBE">#64DD17</color>
+    <color name="ctrlPointChoiceEM">#FF6D00</color>
+    <color name="ctrlPointChoiceME">#DD2C00</color>
+
+    <color name="reportFinal">#64DD17</color>
+    <color name="reportDraft">#2962FF</color>
+
+    <!-- Chart colors -->
+    <color name="deadlineOverColor">#DD2C00</color>
+    <color name="deadline5DaysColor">#FFAB00</color>
+    <color name="deadline15DaysColor">#FFD600</color>
+    <color name="noDeadlineColor">#64DD17</color>
+
+    <color name="darkThemeSeparatorColor">#E15C5C5C</color>
+    <color name="secondaryColorBtnDisabled">#C1C0C0</color>
 </resources>

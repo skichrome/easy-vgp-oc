@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<paths>
+    <!-- Contain the pictures for each machines -->
+    <external-files-path
+        name="medias"
+        path="Pictures/user_medias/" />
+    <!-- Contain the Pdf reports -->
+    <external-files-path
+        name="reports"
+        path="Documents/user_reports/" />
+</paths>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="machine"
+            type="com.skichrome.oc.easyvgp.model.local.database.Machine" />
+
+        <variable
+            name="viewModel"
+            type="com.skichrome.oc.easyvgp.viewmodel.MachineViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/rvItemMachineCardView"
+        style="@style/EasyVGPTheme.cardStyle"
+        android:layout_width="344dp"
+        android:layout_height="148dp"
+        android:onClick="@{() -> viewModel.onClickSelectMachine(machine)}"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/rvItemMachineName"
+                style="@style/EasyVGPTheme.tvTitleStyle"
+                android:layout_width="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{machine.name}"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@+id/rvItemFragmentMachineImage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="lorem ipsum dolor sit amet" />
+
+            <TextView
+                android:id="@+id/rvItemMachineBrand"
+                style="@style/EasyVGPTheme.tvBody1StyleNoMargin"
+                android:layout_width="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{machine.brand}"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@+id/rvItemFragmentMachineImage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvItemMachineName"
+                tools:text="Brand" />
+
+            <TextView
+                android:id="@+id/rvItemMachineSerial"
+                style="@style/EasyVGPTheme.tvBody1StyleNoMargin"
+                android:layout_width="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{machine.serial}"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@+id/rvItemFragmentMachineImage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvItemMachineBrand"
+                tools:text="123456789" />
+
+            <ImageView
+                android:id="@+id/rvItemFragmentMachineImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="16dp"
+                android:contentDescription="@string/rv_item_machines_card_logo"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:src="@drawable/ic_check_circle_24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/easy_vgp_icon" />
+
+            <Button
+                android:id="@+id/rvItemFragmentMachineEditBtn"
+                style="@style/EasyVGPTheme.buttonStyle.noOutline"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:onClick="@{() -> viewModel.onClickEditMachine(machine.machineId)}"
+                android:text="@string/rv_item_machines_btn_edit"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

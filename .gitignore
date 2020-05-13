@@ -12,3 +12,6 @@
 /captures
 .externalNativeBuild
 .cxx
+/keystore.properties
+/app/src/main/res/values-sw600dp/.idea/workspace.xml
+/app/src/main/res/values-sw600dp/.idea/vcs.xml

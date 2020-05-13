@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.skichrome.oc.easyvgp.viewmodel.CustomerViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/form_layout_margin_horizontal">
+
+        <TextView
+            android:id="@+id/addEditCustomerFragNameTitle"
+            style="@style/EasyVGPTheme.tvTitleStyle"
+            android:text="@string/frag_add_edit_customer_name_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addEditCustomerFragmentFirstNameEditTextLayout"
+            style="@style/EasyVGPTheme.editTextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:hint_and_asterisk="@{@string/frag_add_edit_customer_first_name_hint}"
+            tools:hint="@string/frag_add_edit_customer_first_name_hint"
+            app:layout_constraintEnd_toStartOf="@+id/addEditCustomerFragmentLastNameEditTextLayout"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragNameTitle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addEditCustomerFragmentFirstNameEditText"
+                style="@style/EasyVGPTheme.editTextInputStyle"
+                android:inputType="textPersonName"
+                android:text="@{viewModel.customer.firstName}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addEditCustomerFragmentLastNameEditTextLayout"
+            style="@style/EasyVGPTheme.editTextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="@dimen/tv_input_margin"
+            app:hint_and_asterisk="@{@string/frag_add_edit_customer_last_name_hint}"
+            tools:hint="@string/frag_add_edit_customer_last_name_hint"
+            app:layout_constraintEnd_toStartOf="@+id/addEditCustomerFragmentVerticalGuideline"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/addEditCustomerFragmentFirstNameEditTextLayout"
+            app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragNameTitle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addEditCustomerFragmentLastNameEditText"
+                style="@style/EasyVGPTheme.editTextInputStyle"
+                android:inputType="textPersonName"
+                android:text="@{viewModel.customer.lastName}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addEditCustomerFragmentCompanyNameEditTextLayout"
+            style="@style/EasyVGPTheme.editTextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/tv_input_margin"
+            app:hint_and_asterisk="@{@string/frag_add_edit_customer_company_name_hint}"
+            tools:hint="@string/frag_add_edit_customer_company_name_hint"
+            app:layout_constraintEnd_toStartOf="@+id/addEditCustomerFragmentVerticalGuideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragmentLastNameEditTextLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addEditCustomerFragmentCompanyNameEditText"
+                style="@style/EasyVGPTheme.editTextInputStyle"
+                android:text="@{viewModel.customer.companyName}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/addEditCustomerFragSiretTitle"
+            style="@style/EasyVGPTheme.tvTitleStyle"
+            android:text="@string/frag_add_edit_customer_siret_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragmentCompanyNameEditTextLayout" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addEditCustomerFragmentSiretEditTextLayout"
+            style="@style/EasyVGPTheme.editTextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/tv_input_margin"
+            app:hint_and_asterisk="@{@string/frag_add_edit_customer_siret_hint}"
+            tools:hint="@string/frag_add_edit_customer_siret_hint"
+            app:layout_constraintEnd_toStartOf="@+id/addEditCustomerFragmentVerticalGuideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragSiretTitle"
+            app:startIconDrawable="@drawable/ic_work_24dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addEditCustomerFragmentSiretEditText"
+                style="@style/EasyVGPTheme.editTextInputStyle"
+                android:text="@{viewModel.customer.siret}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/addEditCustomerFragDivider1"
+            style="@style/EasyVGPTheme.horizontalSeparatorStyle"
+            app:layout_constraintEnd_toStartOf="@+id/addEditCustomerFragmentVerticalGuideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addEditCustomerFragmentSiretEditTextLayout" />
+
+        <TextView
+            android:id="@+id/addEditCustomerFragContactTitle"
+            style="@style/EasyVGPTheme.tvTitleStyle"
+            android:text="@string/frag_add_edit_customer_contact_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragDivider1" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addEditCustomerFragmentEmailEditTextLayout"
+            style="@style/EasyVGPTheme.editTextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/tv_input_margin"
+            app:hint_and_asterisk="@{@string/frag_add_edit_customer_email_hint}"
+            tools:hint="@string/frag_add_edit_customer_email_hint"
+            app:layout_constraintEnd_toStartOf="@+id/addEditCustomerFragmentVerticalGuideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragContactTitle"
+            app:startIconDrawable="@drawable/ic_email_24dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addEditCustomerFragmentEmailEditText"
+                style="@style/EasyVGPTheme.editTextInputStyle"
+                android:inputType="textEmailAddress"
+                android:text="@{viewModel.customer.email}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addEditCustomerFragmentPhoneEditTextLayout"
+            style="@style/EasyVGPTheme.editTextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_marginEnd="8dp"
+            android:hint="@string/frag_add_edit_customer_phone_hint"
+            app:layout_constraintEnd_toStartOf="@+id/addEditCustomerFragmentMobilePhoneEditTextLayout"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragmentEmailEditTextLayout"
+            app:startIconDrawable="@drawable/ic_call_24dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addEditCustomerFragmentPhoneEditText"
+                style="@style/EasyVGPTheme.editTextInputStyle"
+                android:inputType="phone|number"
+                android:text="@{viewModel.customer.phone != 0 ? String.valueOf(viewModel.customer.phone) : null}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addEditCustomerFragmentMobilePhoneEditTextLayout"
+            style="@style/EasyVGPTheme.editTextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="@dimen/tv_input_margin"
+            android:hint="@string/frag_add_edit_customer_mobile_phone_hint"
+            app:layout_constraintEnd_toEndOf="@+id/addEditCustomerFragmentVerticalGuideline"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/addEditCustomerFragmentPhoneEditTextLayout"
+            app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragmentEmailEditTextLayout"
+            app:startIconDrawable="@drawable/ic_smartphone_24dp"
+            tools:layout_editor_absoluteY="438dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addEditCustomerFragmentMobilePhoneEditText"
+                style="@style/EasyVGPTheme.editTextInputStyle"
+                android:inputType="phone|number"
+                android:text="@{viewModel.customer.mobilePhone != 0 ? String.valueOf(viewModel.customer.mobilePhone) : null}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/addEditCustomerFragmentVerticalGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <TextView
+            android:id="@+id/addEditCustomerFragLocationTitle"
+            style="@style/EasyVGPTheme.tvTitleStyle"
+            android:layout_marginStart="@dimen/tv_input_margin"
+            android:text="@string/frag_add_edit_customer_location_title"
+            app:layout_constraintStart_toEndOf="@+id/addEditCustomerFragmentVerticalGuideline"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addEditCustomerFragmentAddressEditTextLayout"
+            style="@style/EasyVGPTheme.editTextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_marginStart="@dimen/tv_input_margin"
+            app:hint_and_asterisk="@{@string/frag_add_edit_customer_address_hint}"
+            tools:hint="@string/frag_add_edit_customer_address_hint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/addEditCustomerFragmentVerticalGuideline"
+            app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragLocationTitle"
+            app:startIconDrawable="@drawable/ic_location_on_24dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addEditCustomerFragmentAddressEditText"
+                style="@style/EasyVGPTheme.editTextInputStyle"
+                android:inputType="textPostalAddress"
+                android:text="@{viewModel.customer.address}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addEditCustomerFragmentPostCodeEditTextLayout"
+            style="@style/EasyVGPTheme.editTextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_marginStart="@dimen/tv_input_margin"
+            android:layout_marginEnd="8dp"
+            app:hint_and_asterisk="@{@string/frag_add_edit_customer_post_code_hint}"
+            tools:hint="@string/frag_add_edit_customer_post_code_hint"
+            app:layout_constraintEnd_toStartOf="@+id/addEditCustomerFragmentCityEditTextLayout"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/addEditCustomerFragmentVerticalGuideline"
+            app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragmentAddressEditTextLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addEditCustomerFragmentPostCodeEditText"
+                style="@style/EasyVGPTheme.editTextInputStyle"
+                android:inputType="number"
+                android:text="@{viewModel.customer.postCode != 0 ? String.valueOf(viewModel.customer.postCode) : null}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addEditCustomerFragmentCityEditTextLayout"
+            style="@style/EasyVGPTheme.editTextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_marginStart="8dp"
+            app:hint_and_asterisk="@{@string/frag_add_edit_customer_city_hint}"
+            tools:hint="@string/frag_add_edit_customer_city_hint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/addEditCustomerFragmentPostCodeEditTextLayout"
+            app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragmentAddressEditTextLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addEditCustomerFragmentCityEditText"
+                style="@style/EasyVGPTheme.editTextInputStyle"
+                android:text="@{viewModel.customer.city}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/addEditCustomerFragDivider3"
+            style="@style/EasyVGPTheme.horizontalSeparatorStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/addEditCustomerFragmentVerticalGuideline"
+            app:layout_constraintTop_toBottomOf="@id/addEditCustomerFragmentCityEditTextLayout" />
+
+        <TextView
+            android:id="@+id/addEditCustomerFragOtherTitle"
+            style="@style/EasyVGPTheme.tvTitleStyle"
+            android:layout_marginStart="@dimen/tv_input_margin"
+            android:text="@string/frag_add_edit_customer_notes_title"
+            app:layout_constraintStart_toEndOf="@+id/addEditCustomerFragmentVerticalGuideline"
+            app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragDivider3" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addEditCustomerFragmentNotesEditTextLayout"
+            style="@style/EasyVGPTheme.editTextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_marginStart="@dimen/tv_input_margin"
+            android:hint="@string/frag_add_edit_customer_notes_hint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/addEditCustomerFragmentVerticalGuideline"
+            app:layout_constraintTop_toBottomOf="@+id/addEditCustomerFragOtherTitle"
+            app:startIconDrawable="@drawable/ic_note_24dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addEditCustomerFragmentNotesEditText"
+                style="@style/EasyVGPTheme.editTextInputStyle"
+                android:inputType="textMultiLine"
+                android:text="@{viewModel.customer.notes}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addEditCustomerFragFab"
+            style="@style/EasyVGPTheme.fabStyle"
+            android:src="@drawable/ic_save_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

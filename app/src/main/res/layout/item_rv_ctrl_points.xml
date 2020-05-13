@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="controlPoint"
+            type="com.skichrome.oc.easyvgp.model.local.database.ControlPoint" />
+
+        <variable
+            name="viewModel"
+            type="com.skichrome.oc.easyvgp.viewmodel.AdminViewModel" />
+    </data>
+
+    <FrameLayout
+        android:id="@+id/rvItemCtrlPtRootFrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="@{() -> viewModel.onClickControlPoint(controlPoint)}">
+
+        <TextView
+            android:id="@+id/rvItemCtrlPointName"
+            style="@style/EasyVGPTheme.tvBody1StyleNoMargin"
+            android:layout_gravity="center_vertical|start"
+            android:text="@{controlPoint.name}"
+            tools:text="control point name" />
+
+        <TextView
+            android:id="@+id/rvItemCtrlPointCode"
+            style="@style/EasyVGPTheme.tvBody1StyleNoMargin"
+            android:layout_gravity="center_vertical|end"
+            android:text="@{controlPoint.code}"
+            tools:text="Control point code" />
+    </FrameLayout>
+</layout>
