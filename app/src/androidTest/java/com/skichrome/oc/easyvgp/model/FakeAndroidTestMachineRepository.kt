@@ -3,56 +3,52 @@ package com.skichrome.oc.easyvgp.model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
-import com.skichrome.oc.easyvgp.model.Results.Error
-import com.skichrome.oc.easyvgp.model.Results.Success
 import com.skichrome.oc.easyvgp.model.base.MachineRepository
 import com.skichrome.oc.easyvgp.model.local.database.Machine
 import com.skichrome.oc.easyvgp.model.local.database.MachineType
+import com.skichrome.oc.easyvgp.util.ItemNotFoundException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 
 class FakeAndroidTestMachineRepository(
-    private val machineDataService: LinkedHashMap<Long, Machine> = LinkedHashMap(),
-    private val machineTypeDataService: LinkedHashMap<Long, MachineType> = LinkedHashMap()
+    private val machineTypeDataService: LinkedHashMap<Long, MachineType> = LinkedHashMap(),
+    private val machinesDataService: LinkedHashMap<Long, Machine> = LinkedHashMap()
 ) : MachineRepository
 {
     // =================================
     //              Fields
     // =================================
 
-    private val observableMachinesData = MutableLiveData<List<Machine>>()
-    private val observableMachineTypeData = MutableLiveData<List<MachineType>>()
+    private val observableMachineTypes = MutableLiveData<List<MachineType>>()
+    private val observableMachines = MutableLiveData<List<Machine>>()
 
     // =================================
     //        Superclass Methods
     // =================================
 
-    override fun observeMachines(): LiveData<Results<List<Machine>>> = observableMachinesData.map { Success(it) }
+    override fun observeMachines(): LiveData<Results<List<Machine>>> = observableMachines.map { Results.Success(it) }
+    override fun observeMachineTypes(): LiveData<Results<List<MachineType>>> = observableMachineTypes.map { Results.Success(it) }
 
-    override fun observeMachineTypes(): LiveData<Results<List<MachineType>>> = observableMachineTypeData.map { Success(it) }
-
-    override suspend fun getMachineById(machineId: Long): Results<Machine>
+    override suspend fun getMachineById(machineId: Long): Results<Machine> = when (val machine = machinesDataService[machineId])
     {
-        val result = machineDataService[machineId]
-        return if (result == null)
-            Error(Exception("Not found"))
-        else
-            Success(result)
+        null -> Results.Error(ItemNotFoundException("This item doesn't exist in the list"))
+        else -> Results.Success(machine)
     }
 
     override suspend fun insertNewMachine(machine: Machine): Results<Long>
     {
-        machineDataService[machine.machineId] = machine
-        return Success(machine.machineId)
+        machinesDataService[machine.machineId] = machine
+        return Results.Success(machine.machineId)
     }
 
-    override suspend fun updateMachine(machine: Machine): Results<Int>
+    override suspend fun updateMachine(machine: Machine): Results<Int> = when (machinesDataService[machine.machineId])
     {
-        val machineToUpdate = machineDataService[machine.machineId]
-        return machineToUpdate?.let {
-            machineDataService[machine.machineId] = machine
-            Success(1)
-        } ?: Error(Exception("Machine not found"))
+        null -> Results.Error(ItemNotFoundException("This item doesn't exist in the list"))
+        else ->
+        {
+            machinesDataService[machine.machineId] = machine
+            Results.Success(1)
+        }
     }
 
     // =================================
@@ -62,7 +58,7 @@ class FakeAndroidTestMachineRepository(
     fun insertMachineTypes(machineTypes: List<MachineType>) = machineTypes.forEach { machineTypeDataService[it.id] = it }
 
     fun refresh() = runBlocking(Dispatchers.Main) {
-        observableMachinesData.value = machineDataService.values.toList().sortedBy { it.machineId }
-        observableMachineTypeData.value = machineTypeDataService.values.toList().sortedBy { it.id }
+        observableMachineTypes.value = machineTypeDataService.values.toList().sortedBy { it.id }
+        observableMachines.value = machinesDataService.values.toList().sortedBy { it.machineId }
     }
 }

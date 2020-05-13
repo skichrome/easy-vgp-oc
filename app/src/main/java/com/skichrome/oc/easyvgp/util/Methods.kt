@@ -2,11 +2,14 @@ package com.skichrome.oc.easyvgp.util
 
 import android.app.Activity
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -92,6 +95,11 @@ fun ImageView.loadPhotoWithGlide(photoReference: Uri)
         .apply(requestOptions)
         .into(this)
 }
+
+// --- View methods --- //
+
+fun View.getColorCompat(@ColorRes color: Int): Int = ContextCompat.getColor(context, color)
+fun View.getDrawableCompat(@DrawableRes drawable: Int): Drawable? = ContextCompat.getDrawable(context, drawable)
 
 // --- Use Task with coroutines --- //
 

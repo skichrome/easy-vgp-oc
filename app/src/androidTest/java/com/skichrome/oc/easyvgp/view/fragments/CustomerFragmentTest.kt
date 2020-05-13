@@ -22,7 +22,7 @@ import org.junit.runner.RunWith
 @ExperimentalCoroutinesApi
 @MediumTest
 @RunWith(AndroidJUnit4::class)
-class CustomerFragmentTests
+class CustomerFragmentTest
 {
     // =================================
     //              Fields
